@@ -4,6 +4,7 @@ import com.eastTrip.backendSpringBoot.dto.UserRegisterDTO;
 import com.eastTrip.backendSpringBoot.model.User;
 import com.eastTrip.backendSpringBoot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,10 +14,12 @@ import java.util.Optional;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public String registerUser(UserRegisterDTO userRegisterDTO) {
@@ -36,7 +39,7 @@ public class AuthService {
         User user = new User();
         user.setEmail(userRegisterDTO.getEmail());
         user.setFullName(userRegisterDTO.getFullName());
-        user.setPassword(userRegisterDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
         userRepository.save(user);
 
         return "User Registered Successfully";
@@ -46,7 +49,7 @@ public class AuthService {
 
             User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!password.equals(user.getPassword())) {
+        if (passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
