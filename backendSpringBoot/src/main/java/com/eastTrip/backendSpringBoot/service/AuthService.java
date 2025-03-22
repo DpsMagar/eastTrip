@@ -1,8 +1,11 @@
 package com.eastTrip.backendSpringBoot.service;
 
+import com.eastTrip.backendSpringBoot.dto.AuthResponseDTO;
 import com.eastTrip.backendSpringBoot.dto.UserRegisterDTO;
+import com.eastTrip.backendSpringBoot.model.Role;
 import com.eastTrip.backendSpringBoot.model.User;
 import com.eastTrip.backendSpringBoot.repository.UserRepository;
+import com.eastTrip.backendSpringBoot.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,11 +18,13 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtils jwtUtils;
 
     @Autowired
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtils = jwtUtils;
     }
 
     public String registerUser(UserRegisterDTO userRegisterDTO) {
@@ -37,23 +42,18 @@ public class AuthService {
         }
 
         User user = new User();
+        user.setRole(Role.USER);
         user.setEmail(userRegisterDTO.getEmail());
         user.setFullName(userRegisterDTO.getFullName());
         user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
         userRepository.save(user);
 
-        return "User Registered Successfully";
+        return jwtUtils.generateToken( user);
     }
 
-    public String loginUser(String email, String password) {
-
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
-
-        return "Successfully logged in";
-
+    public Optional<AuthResponseDTO> authenticate(User user) {
+        return userRepository.findByEmail(user.getEmail())
+                .filter(authUser -> passwordEncoder.matches(user.getPassword(), authUser.getPassword()))
+                .map(authUser -> new AuthResponseDTO(jwtUtils.generateToken(user), authUser.getId()));  // return JWT token and useID
     }
 }

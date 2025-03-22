@@ -1,6 +1,8 @@
 package com.eastTrip.backendSpringBoot.controller;
 
+import com.eastTrip.backendSpringBoot.dto.AuthResponseDTO;
 import com.eastTrip.backendSpringBoot.dto.UserRegisterDTO;
+import com.eastTrip.backendSpringBoot.model.User;
 import com.eastTrip.backendSpringBoot.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +22,22 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserRegisterDTO userRegisterDTO){
-        return ResponseEntity.ok(authService.registerUser( userRegisterDTO));
+        String token = authService.registerUser(userRegisterDTO);
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody Map<String, String> requestBody ){
-        return ResponseEntity.ok(authService.loginUser(requestBody.get("email"), requestBody.get("password")));
+//    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<?> login(@RequestBody User user) {
+//        AuthResponseDTO authResponse = authService.authenticate(credentials.get("email"), credentials.get("password"))
+        AuthResponseDTO authResponse = authService.authenticate(user)
+                .orElse(null);
+
+        if (authResponse != null) {
+            return ResponseEntity.ok(authResponse);
+        } else {
+            return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
+        }
     }
 
 }
