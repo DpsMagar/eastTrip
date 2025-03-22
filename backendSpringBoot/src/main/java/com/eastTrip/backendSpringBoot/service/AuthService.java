@@ -6,14 +6,16 @@ import com.eastTrip.backendSpringBoot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 
-public class UserService {
+public class AuthService {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -38,8 +40,17 @@ public class UserService {
         userRepository.save(user);
 
         return "User Registered Successfully";
+    }
 
+    public String loginUser(String email, String password) {
 
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!password.equals(user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        return "Successfully logged in";
 
     }
 }
