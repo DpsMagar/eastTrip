@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom"
 import LandingPage from "./pages/LandingPage"
-import Login from "./auth/Login"
 import Register from "./auth/Register"
 import Logout from "./auth/Logout"
+import { Login } from "./auth/Login"
 
 
 

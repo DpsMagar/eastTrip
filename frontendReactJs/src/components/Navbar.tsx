@@ -1,17 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import logo from "../assets/primaryLogo.png"
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="bg-gray-800 border-gray-700">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav className="bg-[#FFF7D3] border-gray-700">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto ">
         <a href="#" className="flex items-center space-x-3">
-          <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Logo" />
-          <span className="self-center text-2xl font-semibold text-white">Flowbite</span>
+          <img src={logo} className="h-20 " alt="Logo" />
         </a>
         <button
           data-collapse-toggle="navbar-default"
           type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-white rounded-lg md:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600"
+          className="inline-flex items-center p-2 w-10 h-10 justify-center text-black rounded-lg md:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600"
           aria-controls="navbar-default"
           aria-expanded="false"
         >
@@ -21,30 +22,30 @@ const Navbar: React.FC = () => {
           </svg>
         </button>
         <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-700 rounded-lg bg-gray-900 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-gray-800">
+          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-700 rounded-lg bg-[#FFF7D3] md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-[#FFF7D3]">
             <li>
-              <a href="#" className="block py-2 px-3 text-white hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-300">
+              <a href="#" className="block py-2 px-3 text-black hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-500">
                 Home
               </a>
             </li>
             <li>
-              <a href="#" className="block py-2 px-3 text-white hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-300">
+              <a href="#" className="block py-2 px-3 text-black hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-500">
                 About
               </a>
             </li>
             <li>
-              <a href="#" className="block py-2 px-3 text-white hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-300">
+              <a href="#" className="block py-2 px-3 text-black hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-500">
                 Services
               </a>
             </li>
             <li>
-              <a href="#" className="block py-2 px-3 text-white hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-300">
-                Pricing
-              </a>
+              <Link to="/user/login" className="block py-2 px-3 text-black hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-500">
+                Login
+              </Link>
             </li>
             <li>
-              <a href="#" className="block py-2 px-3 text-white hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-300">
-                Contact
+              <a href="#" className="block py-2 px-3 text-black hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-500">
+                Register
               </a>
             </li>
           </ul>
