@@ -13,13 +13,13 @@ const CategoryBar: React.FC = () =>{
         { label: "Activities", icon: "🎉" },
     ];
     return (
-        <div className="w-2/3 flex justify-center gap-6 p-4 bg-gray-100">
+        <div className="w-2/3 flex justify-center gap-6 p-4 bg-gray-100    ">
         {categories.map(({ label, icon }) => (
           <div
             key={label}
-            className="flex flex-col items-center cursor-pointer hover:text-blue-600">
-            <div className="text-2xl">{icon}</div>
-            <span className="mt-1 text-sm text-black">{label}</span>
+            className="flex flex-col items-center cursor-pointer hover:text-blue-600 ">
+            <div className="text-2xl ">{icon}</div>
+            <span className="mt-1 text-sm text-black  ">{label}</span>
           </div>
         ))}
       </div>

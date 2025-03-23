@@ -1,8 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from "../assets/primaryLogo.png"
+import { RootState, AppDispatch } from '../redux/Store';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleLoginButton } from '../redux/slices/ToggleSlice';
+
 
 const Navbar: React.FC = () => {
+
+  const dispatch: AppDispatch= useDispatch();
+
+  const isToggled = useSelector((state: RootState) => state.toggleLogin.isLoginToggled)
+
+
   return (
     <nav className="bg-[#FFF7D3] border-gray-700">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto ">
@@ -39,7 +49,8 @@ const Navbar: React.FC = () => {
               </a>
             </li>
             <li>
-              <Link to="/user/login" className="block py-2 px-3 text-black hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-500">
+              <Link  className="block py-2 px-3 text-black hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-500" 
+              onClick={() => dispatch(toggleLoginButton())}>
                 Login
               </Link>
             </li>
