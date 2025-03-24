@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import logo from "../assets/primaryLogo.png"
 import { RootState, AppDispatch } from '../redux/Store';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleLoginButton } from '../redux/slices/ToggleSlice';
+import { toggleLoginButton } from '../redux/slices/ToggleLoginSlice';
+import { toggleRegisterButton } from '../redux/slices/ToggleRegisterSlice';
 
 
 const Navbar: React.FC = () => {
 
-  const dispatch: AppDispatch= useDispatch();
-
-  const isToggled = useSelector((state: RootState) => state.toggleLogin.isLoginToggled)
+  const dispatchLogin: AppDispatch= useDispatch();
+  const dispatchRegister: AppDispatch= useDispatch();
 
 
   return (
@@ -50,14 +50,15 @@ const Navbar: React.FC = () => {
             </li>
             <li>
               <Link  className="block py-2 px-3 text-black hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-500" 
-              onClick={() => dispatch(toggleLoginButton())}>
+              onClick={() => dispatchLogin(toggleLoginButton())}>
                 Login
               </Link>
             </li>
             <li>
-              <a href="#" className="block py-2 px-3 text-black hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-500">
+              <Link  className="block py-2 px-3 text-black hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-500" 
+              onClick={() => dispatchRegister(toggleRegisterButton())}>
                 Register
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
