@@ -16,7 +16,7 @@ export const apiSlice = createApi({
         body: credentials,
       }),
     }),
-    register: builder.mutation<string, {
+    register: builder.mutation<AuthResponse, {
         fullName:string;
         email: string;
         password: string;

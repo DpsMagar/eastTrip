@@ -21,9 +21,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserRegisterDTO userRegisterDTO){
-        String token = authService.registerUser(userRegisterDTO);
-        return ResponseEntity.ok(token);
+    public ResponseEntity<?> registerUser(@RequestBody UserRegisterDTO userRegisterDTO){
+//        String token = authService.registerUser(userRegisterDTO);
+//        return ResponseEntity.ok(token);
+        ResponseEntity<?> authResponse = authService.registerUser(userRegisterDTO);
+
+        if (authResponse != null) {
+            return ResponseEntity.ok(authResponse).getBody();
+        } else {
+            return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
+        }
     }
 
     @PostMapping("/login")
