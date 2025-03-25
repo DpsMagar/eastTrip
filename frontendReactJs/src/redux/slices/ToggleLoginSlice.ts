@@ -15,9 +15,12 @@ const ToggleSlice= createSlice({
         toggleLoginButton: (state)=>{
             state.isLoginToggled= !state.isLoginToggled;
         },
+        offLoginButton: (state)=>{
+            state.isLoginToggled= false;
+        }
     }
 
 });
 
-export const {toggleLoginButton} =ToggleSlice.actions;
+export const {toggleLoginButton, offLoginButton} =ToggleSlice.actions;
 export default ToggleSlice.reducer;

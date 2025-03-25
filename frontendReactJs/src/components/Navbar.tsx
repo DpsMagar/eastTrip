@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from "../assets/primaryLogo.png"
-import { RootState, AppDispatch } from '../redux/Store';
-import { useDispatch, useSelector } from 'react-redux';
-import { toggleLoginButton } from '../redux/slices/ToggleLoginSlice';
-import { toggleRegisterButton } from '../redux/slices/ToggleRegisterSlice';
+import { AppDispatch } from '../redux/Store';
+import { useDispatch } from 'react-redux';
+import { offLoginButton, toggleLoginButton } from '../redux/slices/ToggleLoginSlice';
+import { offRegisterButton, toggleRegisterButton } from '../redux/slices/ToggleRegisterSlice';
 
 
 const Navbar: React.FC = () => {
@@ -50,13 +50,13 @@ const Navbar: React.FC = () => {
             </li>
             <li>
               <Link  className="block py-2 px-3 text-black hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-500" 
-              onClick={() => dispatchLogin(toggleLoginButton())}>
+              onClick={() => {dispatchLogin(toggleLoginButton()), dispatchLogin(offRegisterButton())}}>
                 Login
               </Link>
             </li>
             <li>
               <Link  className="block py-2 px-3 text-black hover:bg-gray-700 rounded-sm md:hover:bg-transparent md:hover:text-gray-500" 
-              onClick={() => dispatchRegister(toggleRegisterButton())}>
+              onClick={() => {dispatchRegister(toggleRegisterButton()), dispatchRegister(offLoginButton())}}>
                 Register
               </Link>
             </li>

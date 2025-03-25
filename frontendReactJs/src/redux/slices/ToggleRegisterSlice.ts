@@ -14,9 +14,12 @@ const ToggleSlice= createSlice({
     reducers:{
         toggleRegisterButton: (state)=> {
             state.isRegisterToggled= !state.isRegisterToggled;
+        },
+        offRegisterButton: (state) => {
+            state.isRegisterToggled= false;
         }
     }
 });
 
-export const {toggleRegisterButton} = ToggleSlice.actions;
+export const {toggleRegisterButton, offRegisterButton} = ToggleSlice.actions;
 export default ToggleSlice.reducer
