@@ -35,6 +35,11 @@ const handleLogin = async (e: React.FormEvent) => {
     }
 }
 
+const handleGoogleLogin= ()=>{
+  window.location.href='http://localhost:8080/login/oauth2/code/google'
+
+}
+
   return (
     <div className={`z-10 absolute transition-all duration-300 ease-in-out border-2  min-h-screen flex justify-center items-center ${isLoginToggled ? 'block opacity-100' : 'hidden opacity-0'} mx-auto w-full overflow-hidden`}>
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-left">
@@ -63,7 +68,7 @@ const handleLogin = async (e: React.FormEvent) => {
           </button>
         </form>
         <div className="text-center my-4 text-gray-500">Or Log in with</div>
-        <button className="w-full bg-white border border-gray-300 text-black p-2 rounded-md hover:bg-gray-100 flex items-center justify-center" >
+        <button className="w-full bg-white border border-gray-300 text-black p-2 rounded-md hover:bg-gray-100 flex items-center justify-center" onClick={handleGoogleLogin} >
           <FaGoogle className="mr-2 text-red-500" /> Continue With Google
         </button>
         {isError&&

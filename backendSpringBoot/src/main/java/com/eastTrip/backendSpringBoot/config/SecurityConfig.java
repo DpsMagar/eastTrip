@@ -1,5 +1,6 @@
 package com.eastTrip.backendSpringBoot.config;
 
+import com.eastTrip.backendSpringBoot.service.CustomOAuth2UserService;
 import com.eastTrip.backendSpringBoot.service.CustomUserDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -7,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,11 +20,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.util.List;
 
 @Configuration
-@RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final CustomOAuth2UserService customOAuth2UserService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomUserDetailService userDetailsService;
+
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, JwtAuthenticationFilter jwtAuthenticationFilter, CustomUserDetailService userDetailsService) {
+        this.customOAuth2UserService = customOAuth2UserService;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.userDetailsService = userDetailsService;
+    }
 
     //    Define security filter chain
     @Bean
@@ -43,6 +51,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/**").permitAll()
                                 .anyRequest().authenticated()
                 )
+                .oauth2Login(oauth2 -> oauth2.userInfoEndpoint(userInfo-> userInfo.userService(customOAuth2UserService)))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter
 

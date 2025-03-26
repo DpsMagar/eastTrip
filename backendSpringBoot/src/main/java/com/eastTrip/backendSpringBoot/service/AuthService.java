@@ -56,6 +56,7 @@ public class AuthService {
         user.setRole(Role.USER);
         user.setEmail(userRegisterDTO.getEmail());
         user.setFullName(userRegisterDTO.getFullName());
+        user.setProvider("Manual");
         user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
          User x = userRepository.save(user);
 
