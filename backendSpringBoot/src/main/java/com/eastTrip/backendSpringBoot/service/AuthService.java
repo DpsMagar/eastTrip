@@ -61,12 +61,12 @@ public class AuthService {
          User x = userRepository.save(user);
 
 //        return jwtUtils.generateToken( user);
-        return ResponseEntity.ok(new AuthResponseDTO(jwtUtils.generateToken(user), x.getId()));
+        return ResponseEntity.ok(new AuthResponseDTO(jwtUtils.generateToken(userRegisterDTO.getEmail()), x.getId()));
     }
 
     public Optional<AuthResponseDTO> authenticate(User user) {
         return userRepository.findByEmail(user.getEmail())
                 .filter(authUser -> passwordEncoder.matches(user.getPassword(), authUser.getPassword()))
-                .map(authUser -> new AuthResponseDTO(jwtUtils.generateToken(user), authUser.getId()));  // return JWT token and useID
+                .map(authUser -> new AuthResponseDTO(jwtUtils.generateToken(user.getEmail()), authUser.getId()));  // return JWT token and useID
     }
 }

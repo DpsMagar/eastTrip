@@ -1,66 +1,43 @@
 package com.eastTrip.backendSpringBoot.config;
 
+import com.eastTrip.backendSpringBoot.model.User;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class CustomOAuth2User implements OAuth2User, UserDetails {
+public class CustomOAuth2User implements OAuth2User {
+    private final User user;
+    private final String token;
 
-    private OAuth2User oauth2User;
-
-    public CustomOAuth2User(OAuth2User oauth2User) {
-        this.oauth2User = oauth2User;
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return oauth2User.getAttributes();
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return oauth2User.getAuthorities();
+    public CustomOAuth2User(User user, String token) {
+        this.user = user;
+        this.token = token;
     }
 
     @Override
     public String getName() {
-        return oauth2User.getAttribute("name");
-    }
-
-    public String getEmail() {
-        return oauth2User.getAttribute("email");
+        return user.getEmail();
     }
 
     @Override
-    public String getPassword() {
-        return null;
+    public Map<String, Object> getAttributes() {
+        // Return attributes for OAuth2User
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("email", user.getEmail());
+        attributes.put("provider", user.getProvider());
+        return attributes;
     }
 
     @Override
-    public String getUsername() {
-        return getEmail();
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public String getToken() {
+        return token;
     }
 }

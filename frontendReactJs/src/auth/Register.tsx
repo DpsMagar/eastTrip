@@ -31,6 +31,10 @@ const Register: React.FC = () => {
     }
   }
 
+  const registerByGoogle= () =>{
+    window.location.href="http://localhost:8080/login/oauth2/code/google";
+  }
+
 
 
   return (
@@ -80,7 +84,7 @@ const Register: React.FC = () => {
           <p>Error: {error && 'status' in error ? `Status ${error.status}` : error?.message}</p>}
         </form>
         <div className="text-center my-4 text-gray-500">Or Log in with</div>
-        <button className="w-full bg-white border border-gray-300 text-black p-2 rounded-md hover:bg-gray-100 flex items-center justify-center">
+        <button className="w-full bg-white border border-gray-300 text-black p-2 rounded-md hover:bg-gray-100 flex items-center justify-center" onClick={registerByGoogle}>
           <FaGoogle className="mr-2 text-red-500" /> Continue With Google
         </button>
         <div className="mt-4 text-sm text-gray-600 text-center">

@@ -67,11 +67,11 @@ public class JwtUtils {
     }
 
     // Generate a JWT token for a given user email
-    public String generateToken(User user) {
-        Optional<User> currentUser= userRepo.findByEmail(user.getEmail());
+    public String generateToken(String email) {
+        Optional<User> currentUser= userRepo.findByEmail(email);
 //        System.out.println(user);
         return Jwts.builder()
-                .setSubject(user.getEmail())
+                .setSubject(email)
                 .claim("id", currentUser.get().getId())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours expiration
