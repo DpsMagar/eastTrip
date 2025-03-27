@@ -51,8 +51,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             User newUser = new User();
             newUser.setFullName(name);
             newUser.setEmail(email);
-            newUser.setProvider("google"); // Set the provider to "google"
-            newUser.setRole(Role.USER); // Set a default role, like USER
+            newUser.setProvider("google");
+            newUser.setRole(Role.USER);
             userRepository.save(newUser);
             System.out.println("User saved to the database: " + newUser);
         } else {
