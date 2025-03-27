@@ -57,6 +57,7 @@ public class SecurityConfig {
 //                        .failureUrl("http://localhost:5173")
 //                        .userInfoEndpoint(userInfo-> userInfo.userService(customOAuth2UserService)))
                 .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl("http://localhost:5173", true)
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService)))
                 .authenticationProvider(authenticationProvider())

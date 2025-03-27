@@ -32,7 +32,7 @@ const Register: React.FC = () => {
   }
 
   const registerByGoogle= () =>{
-    window.location.href="http://localhost:8080/login/oauth2/code/google";
+    window.location.href="http://localhost:8080/login/oauth2/authorization/google";
   }
 
 

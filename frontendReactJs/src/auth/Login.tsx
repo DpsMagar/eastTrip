@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/Store";
 import { useLoginMutation } from "../redux/api/apiSlice";
 import { offLoginButton } from "../redux/slices/ToggleLoginSlice";
+import { setCurrentUrl } from "../redux/slices/CurrentUrlSlice";
 
 const Login: React.FC = () => {
   const isLoginToggled = useSelector((state: RootState) => state.toggleLogin.isLoginToggled);
@@ -12,7 +13,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const dispatchLogin: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [login, { isLoading, error, isError }] = useLoginMutation();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -20,14 +21,19 @@ const Login: React.FC = () => {
     try {
       const result = await login({ email, password }).unwrap();
       console.log("Login Successful:", result);
-      dispatchLogin(offLoginButton());
+      dispatch(offLoginButton());
     } catch (err) {
       console.log("Error logging in:", err);
     }
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    // dispatch(setCurrentUrl(window.location.href))
+
+    // const currentUrl= useSelector((state: RootState)=> state.currentUrl.currentUrl);
+    const currentUrl= window.location.href;
+    
+    window.location.href = `http://localhost:8080/oauth2/authorization/google?redirectUrl=${currentUrl}`;
   };
 
   return (
