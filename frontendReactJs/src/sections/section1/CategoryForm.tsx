@@ -1,7 +1,7 @@
 // CategoryForm.tsx
 import {FlightForm} from "./forms/FlightForm";
+import { HomestayForm } from "./forms/HomeStayForm";
 import {HotelForm} from "./forms/HotelForm";
-import { HomestayForm } from "./HomestayForm";
 
 
 interface CategoryFormProps {

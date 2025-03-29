@@ -1,5 +1,17 @@
+import React, { ButtonHTMLAttributes } from "react";
 
-export const  HomeStayForm = () => {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const Button = ({ children, className, ...props }: ButtonProps) => (
+  <button className={`px-4 py-2 rounded ${className}`} {...props}>
+    {children}
+  </button>
+);
+
+export const HomestayForm = () => {
   return (
     <div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -53,10 +65,10 @@ export const  HomeStayForm = () => {
       <div className="mt-4">
         <p className="text-sm font-medium mb-2">Property type</p>
         <div className="flex space-x-2">
-          <button className="px-4 py-2 border rounded-full text-sm">Apartment</button>
-          <button className="px-4 py-2 border rounded-full text-sm">Villa</button>
-          <button className="px-4 py-2 border rounded-full text-sm">Cottage</button>
-          <button className="px-4 py-2 border rounded-full text-sm">Bungalow</button>
+          <Button className="rounded-full">Apartment</Button>
+          <Button className="rounded-full">Villa</Button>
+          <Button className="rounded-full">Cottage</Button>
+          <Button className="rounded-full">Bungalow</Button>
         </div>
       </div>
     </div>
