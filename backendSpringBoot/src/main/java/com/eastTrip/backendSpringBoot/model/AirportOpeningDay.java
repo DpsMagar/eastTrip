@@ -3,7 +3,6 @@ package com.eastTrip.backendSpringBoot.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.DayOfWeek;
 
 @Entity
 @Data
@@ -20,4 +19,6 @@ public class AirportOpeningDay {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private DayOfWeek dayOfWeek;
+
+
 }

@@ -16,7 +16,7 @@ const Section1ASS = () => {
             </div>
 
             <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-5 rounded-lg shadow-md transition-all">
-            View Prices
+            Details
             </button>
         </div>
 
