@@ -16,9 +16,13 @@ public class FlightDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int flightId;
 
-    private String fromAirport;
+    @ManyToOne
+    @JoinColumn(name = "from_airport_id", nullable = false)
+    private Airport fromAirport;
 
-    private String toAirport;
+    @ManyToOne
+    @JoinColumn(name = "to_airport_id", nullable = false)
+    private Airport toAirport;
 
     private LocalDate departureDate;
     private LocalDate returnDate;
@@ -28,10 +32,12 @@ public class FlightDetails {
     private String travelClass;
     private String fareType;
 
+    private int availableSeats;
+
     private BigDecimal price;
 
-    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Bookings> bookings;
+//    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Bookings> bookings;
 
 
 
