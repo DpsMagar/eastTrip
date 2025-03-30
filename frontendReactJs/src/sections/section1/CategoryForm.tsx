@@ -1,6 +1,8 @@
 // CategoryForm.tsx
-import {FlightForm} from "./forms/FlightForm";
-import { HomestayForm } from "./forms/HomeStayForm";
+// import FlightForm from "./forms/FlightForm";
+import { FlightForm } from "./forms/FlightForm";
+import { HomestayForm } from "./forms/HomestayForm";
+// import { HomestayForm } from "./forms/HomeStayForm";
 import {HotelForm} from "./forms/HotelForm";
 
 

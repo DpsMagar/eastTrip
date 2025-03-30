@@ -46,6 +46,84 @@ const Label: React.FC<LabelProps> = ({ children, htmlFor, className, ...props })
   </label>
 );
 
+interface Location {
+  city: string;
+  code: string;
+  airport: string;
+}
+
+interface LocationInputProps {
+  label: string;
+  locations: Location[];
+  selectedLocation: Location;
+  onSelect: (location: Location) => void;
+}
+
+const LocationInput: React.FC<LocationInputProps> = ({
+  label,
+  locations,
+  selectedLocation,
+  onSelect,
+}) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredLocations = locations.filter((location) =>
+    `${location.city} ${location.code} ${location.airport}`
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <div className="bg-gray-50 p-3 rounded-lg relative transition duration-200 ease-in-out hover:bg-gray-100">
+      <label className="text-xs text-gray-500">{label}</label>
+      <div
+        className="cursor-pointer"
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-lg font-bold">{selectedLocation.city}</h3>
+            <p className="text-xs text-gray-500">
+              {selectedLocation.code}, {selectedLocation.airport}
+            </p>
+          </div>
+          <span className="text-gray-500">▼</span>
+        </div>
+      </div>
+
+      {isDropdownOpen && (
+        <div className="absolute left-0 right-0 mt-2 bg-white border rounded-lg shadow-lg z-20 max-h-60 overflow-y-auto">
+          <div className="p-2">
+            <input
+              type="text"
+              placeholder="Search city or airport"
+              className="w-full p-2 mb-2 border rounded-md"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {filteredLocations.map((location) => (
+              <div
+                key={location.code}
+                className="p-2 hover:bg-gray-100 cursor-pointer rounded-md"
+                onClick={() => {
+                  onSelect(location);
+                  setIsDropdownOpen(false);
+                }}
+              >
+                <div className="font-medium">{location.city}</div>
+                <div className="text-xs text-gray-500">
+                  {location.code} - {location.airport}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const FlightForm: React.FC = () => {
   const fareTypes = [
     { id: "regular", label: "Regular" },
@@ -54,6 +132,39 @@ export const FlightForm: React.FC = () => {
     { id: "senior", label: "Senior Citizen" },
     { id: "doctor", label: "Doctors & Nurses" },
     { id: "double", label: "Double Seat" },
+  ];
+
+  const locations: Location[] = [
+    {
+      city: "Delhi",
+      code: "DEL",
+      airport: "Indira Gandhi International Airport",
+    },
+    {
+      city: "Mumbai",
+      code: "BOM",
+      airport: "Chhatrapati Shivaji Maharaj International Airport",
+    },
+    {
+      city: "Bangalore",
+      code: "BLR",
+      airport: "Kempegowda International Airport",
+    },
+    {
+      city: "Chennai",
+      code: "MAA",
+      airport: "Chennai International Airport",
+    },
+    {
+      city: "Kolkata",
+      code: "CCU",
+      airport: "Netaji Subhas Chandra Bose International Airport",
+    },
+    {
+      city: "Hyderabad",
+      code: "HYD",
+      airport: "Rajiv Gandhi International Airport",
+    },
   ];
 
   const [selectedFareType, setSelectedFareType] = useState<string>("");
@@ -66,26 +177,17 @@ export const FlightForm: React.FC = () => {
     infants: 0,
   });
   const [cabinClass, setCabinClass] = useState<string>("economy");
-
-  const [fromLocation, setFromLocation] = useState({
-    city: "Delhi",
-    code: "DEL",
-    airport: "Indira Airport India",
-  });
-
-  const [toLocation, setToLocation] = useState({
-    city: "Mumbai",
-    code: "BOM",
-    airport: "Chhatrapati Shivaji International",
-  });
+  const [fromLocation, setFromLocation] = useState<Location>(locations[0]);
+  const [toLocation, setToLocation] = useState<Location>(locations[1]);
 
   const handleTripTypeChange = (type: string) => {
     setSelectedTripType(type);
   };
 
   const swapLocations = () => {
+    const temp = fromLocation;
     setFromLocation(toLocation);
-    setToLocation(fromLocation);
+    setToLocation(temp);
   };
 
   const totalTravellers = travellers.adults + travellers.children + travellers.infants;
@@ -110,46 +212,36 @@ export const FlightForm: React.FC = () => {
         >
           Round Trip
         </Button>
-        {/* <Button
-          className={`rounded-full ${
-            selectedTripType === "multi-city" ? "bg-gray-300 text-indigo-600" : "bg-indigo-50"
-          }`}
-          onClick={() => handleTripTypeChange("multi-city")}
-        >
-          Multi City
-        </Button> */}
       </div>
 
       {/* Search form */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-        {/* From */}
-        <div className="bg-gray-50 p-3 rounded-lg relative transition duration-200 ease-in-out hover:bg-gray-100">
-          <label className="text-xs text-gray-500">From</label>
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-lg font-bold">{fromLocation.city}</h3>
-              <p className="text-xs text-gray-500">
-                {fromLocation.code}, {fromLocation.airport}
-              </p>
-            </div>
-            <Button
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1/2 rounded-full bg-white shadow-md z-10 p-1 transition duration-200 ease-in-out hover:bg-gray-200"
-              onClick={swapLocations}
-            >
-              ⇄
-            </Button>
+        {/* From/To container */}
+        <div className="col-span-2 relative">
+          <div className="grid grid-cols-2 gap-2">
+            <LocationInput
+              label="From"
+              locations={locations}
+              selectedLocation={fromLocation}
+              onSelect={setFromLocation}
+            />
+            <LocationInput
+              label="To"
+              locations={locations}
+              selectedLocation={toLocation}
+              onSelect={setToLocation}
+            />
           </div>
-        </div>
-
-        {/* To */}
-        <div className="bg-gray-50 p-3 rounded-lg transition duration-200 ease-in-out hover:bg-gray-100">
-          <label className="text-xs text-gray-500">To</label>
-          <div>
-            <h3 className="text-lg font-bold">{toLocation.city}</h3>
-            <p className="text-xs text-gray-500">
-              {toLocation.code}, {toLocation.airport}
-            </p>
-          </div>
+          
+          {/* Swap button positioned correctly */}
+          <button
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+                      rounded-full bg-white shadow-md z-10 p-2 transition duration-200
+                      ease-in-out hover:bg-gray-200 hover:scale-105"
+            onClick={swapLocations}
+          >
+            ⇄
+          </button>
         </div>
 
         {/* Departure */}
@@ -201,6 +293,7 @@ export const FlightForm: React.FC = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="mb-4 space-y-3">
+                {/* Travellers counter controls */}
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="font-medium">Adults</div>
