@@ -12,7 +12,7 @@ interface CategoryFormProps {
 
 const CategoryForm: React.FC<CategoryFormProps> = ({ selectedCategory }) => {
   return (
-    <div className="border-2 h-96 w-3/4 p-4 bg-white shadow-lg rounded-md">
+    <div className=" h-96 w-3/4 p-4 bg-[#FFF7D3] shadow-lg rounded-md">
       {selectedCategory === "Flights" && <FlightForm />}
       {selectedCategory === "Hotel" && <HotelForm />}
       {selectedCategory === "Homestays" && <HomestayForm />}

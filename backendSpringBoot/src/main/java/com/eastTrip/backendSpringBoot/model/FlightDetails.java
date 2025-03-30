@@ -32,6 +32,8 @@ public class FlightDetails {
     private String travelClass;
     private String fareType;
 
+    private String flightDuration;
+
     private int availableSeats;
 
     private BigDecimal price;
