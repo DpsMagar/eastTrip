@@ -45,24 +45,29 @@ public class FlightSearchResultsService {
         List<FlightSearchResultsDTO> flightSearchResultsDTOList = new ArrayList<>();
 
         for (FlightDetails flightDetails : flightDetailsList) {
-            boolean isFlightAvailable = checkIfFlightAvailableOnDay(fromAirport, dayOfWeek);
+//            boolean isFlightAvailable = checkIfFlightAvailableOnDay(fromAirport, dayOfWeek);
 
             FlightSearchResultsDTO dto = new FlightSearchResultsDTO();
-//            dto.setFrom(from);
-//            dto.setTo(to);
-//            dto.setDepartureDate(flightDetails.getDepartureDate());
-//            dto.setFlightAvailable(isFlightAvailable);
+            dto.setToName(toAirport.getName());
+            dto.setFromName(fromAirport.getName());
+            dto.setToCode(to);
+            dto.setFromCode(from);
+            dto.setToCity(toAirport.getCity());
+            dto.setFromCity(fromAirport.getCity());
+            dto.setFlightDuration(flightDetails.getFlightDuration());
+            dto.setAvailableSeats(flightDetails.getAvailableSeats());
+            dto.setPrice(flightDetails.getPrice());
 
             flightSearchResultsDTOList.add(dto);
         }
         return flightSearchResultsDTOList;
     }
 
-        private boolean checkIfFlightAvailableOnDay(Airport airport, DayOfWeek dayOfWeek){
-
-            AirportOpeningDay openingDay= airportOpeningDayRepository.findByAirportAndDayOfWeek(airport, dayOfWeek);
-            return openingDay != null ;
-        }
+//        private boolean checkIfFlightAvailableOnDay(Airport airport, DayOfWeek dayOfWeek){
+//
+//            AirportOpeningDay openingDay= airportOpeningDayRepository.findByAirportAndDayOfWeek(airport, dayOfWeek);
+//            return openingDay != null ;
+//        }
 
 
 
