@@ -3,8 +3,9 @@ import LandingPage from "./pages/LandingPage"
 import Logout from "./auth/Logout"
 import { Login } from "./auth/Login"
 import { Register } from "./auth/Register"
-import Section1ASS from "./sections/afterSearchSection/section1ASS"
+// import Section1ASS from "./sections/afterSearchSection/section1ASS"
 import MainLayout from "./components/MainLayout"
+import Section1ASS from "./sections/afterSearchSection/Section1ASS"
 
 
 

@@ -31,10 +31,11 @@ public class FlightSearchResultsService {
         this.airportOpeningDayRepository = airportOpeningDayRepository;
     }
 
-    public List<FlightSearchResultsDTO> getAllFlightInfo(String to, String from, DayOfWeek dayOfWeek) {
+    public List<FlightSearchResultsDTO> getAllFlightInfo(String to, String from, String dayOfWeek) {
 
         Airport fromAirport = airportRepository.findByCode(from);
         Airport toAirport = airportRepository.findByCode(to);
+        DayOfWeek dayOfWeekEnum = DayOfWeek.valueOf(dayOfWeek);
 
         if (fromAirport == null || toAirport == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid airport codes");
@@ -45,23 +46,27 @@ public class FlightSearchResultsService {
         List<FlightSearchResultsDTO> flightSearchResultsDTOList = new ArrayList<>();
 
         for (FlightDetails flightDetails : flightDetailsList) {
-            boolean isFlightAvailable = checkIfFlightAvailableOnDay(fromAirport, dayOfWeek);
+            List<AirportOpeningDay> flights = flightsAvailableOnThatDay(fromAirport, dayOfWeekEnum);
 
             FlightSearchResultsDTO dto = new FlightSearchResultsDTO();
-//            dto.setFrom(from);
-//            dto.setTo(to);
-//            dto.setDepartureDate(flightDetails.getDepartureDate());
-//            dto.setFlightAvailable(isFlightAvailable);
+            dto.setToName(toAirport.getName());
+            dto.setFromName(fromAirport.getName());
+            dto.setToCode(to);
+            dto.setFromCode(from);
+            dto.setToCity(toAirport.getCity());
+            dto.setFromCity(fromAirport.getCity());
+            dto.setFlightDuration(flightDetails.getFlightDuration());
+            dto.setAvailableSeats(flightDetails.getAvailableSeats());
+            dto.setPrice(flightDetails.getPrice());
 
             flightSearchResultsDTOList.add(dto);
         }
         return flightSearchResultsDTOList;
     }
 
-        private boolean checkIfFlightAvailableOnDay(Airport airport, DayOfWeek dayOfWeek){
+        private List<AirportOpeningDay> flightsAvailableOnThatDay(Airport airport, DayOfWeek dayOfWeek){
 
-            AirportOpeningDay openingDay= airportOpeningDayRepository.findByAirportAndDayOfWeek(airport, dayOfWeek);
-            return openingDay != null ;
+            return airportOpeningDayRepository.findByAirportAndDayOfWeek(airport, dayOfWeek);
         }
 
 

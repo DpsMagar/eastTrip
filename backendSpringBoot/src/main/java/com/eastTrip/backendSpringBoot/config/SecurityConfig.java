@@ -48,18 +48,14 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // No session (JWT is stateless)
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/api/**", "/oauth2/**","/login/oauth2/**").permitAll()
+                                .requestMatchers("/api/**", "/oauth2/**","/login/oauth2/**", "/results/**").permitAll()
                                 .anyRequest().authenticated()
                 )
+
 //                .oauth2Login(oauth2 -> oauth2
-//                        .loginPage("/oauth2/authorization/google")
 //                        .defaultSuccessUrl("http://localhost:5173", true)
-//                        .failureUrl("http://localhost:5173")
-//                        .userInfoEndpoint(userInfo-> userInfo.userService(customOAuth2UserService)))
-                .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("http://localhost:5173", true)
-                        .userInfoEndpoint(userInfo -> userInfo
-                                .userService(customOAuth2UserService)))
+//                        .userInfoEndpoint(userInfo -> userInfo
+//                                .userService(customOAuth2UserService)))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter
 
