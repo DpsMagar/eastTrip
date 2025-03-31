@@ -20,12 +20,14 @@ public class Hotel {
     private String location;
     private String attraction;
     private int price;
+    private String rating;
+    private int numberOfSeats;
 
     @Column(columnDefinition="TEXT")
     private String description;
 
     @ManyToMany
-    private Set<Hotel_Rooms> RoomFeatures= new HashSet<>();
+    private Set<HotelRooms> RoomFeatures= new HashSet<>();
 
     @ManyToMany
     private Set<HotelFeatures> featuresOfHotel= new HashSet<>();

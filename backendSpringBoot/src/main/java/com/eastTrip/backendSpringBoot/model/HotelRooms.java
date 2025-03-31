@@ -13,13 +13,13 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Hotel_Rooms {
+public class HotelRooms {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private boolean room_feature;
+    private String room_feature;
 
     @ManyToMany(mappedBy = "RoomFeatures")
     private Set<Hotel> hotels=new HashSet<>();
