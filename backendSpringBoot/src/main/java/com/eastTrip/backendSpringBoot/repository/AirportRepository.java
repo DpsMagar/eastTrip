@@ -10,5 +10,7 @@ import java.util.List;
 @Repository
 public interface AirportRepository extends JpaRepository<Airport, Long> {
     Airport findByCode(String to);
+
+    List<Airport> findAllByCode(String code);
 //    Airport findByCode(String to);
 }
