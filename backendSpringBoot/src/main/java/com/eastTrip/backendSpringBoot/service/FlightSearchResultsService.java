@@ -1,3 +1,4 @@
+
 package com.eastTrip.backendSpringBoot.service;
 
 import com.eastTrip.backendSpringBoot.dto.FlightSearchResultsDTO;
@@ -46,11 +47,7 @@ public class FlightSearchResultsService {
         List<FlightSearchResultsDTO> flightSearchResultsDTOList = new ArrayList<>();
 
         for (FlightDetails flightDetails : flightDetailsList) {
-<<<<<<< HEAD
             List<AirportOpeningDay> flights = flightsAvailableOnThatDay(fromAirport, dayOfWeekEnum);
-=======
-//            boolean isFlightAvailable = checkIfFlightAvailableOnDay(fromAirport, dayOfWeek);
->>>>>>> 4dc8bce213b513f2e60f3e328c863a19c175704b
 
             FlightSearchResultsDTO dto = new FlightSearchResultsDTO();
             dto.setToName(toAirport.getName());
@@ -68,18 +65,10 @@ public class FlightSearchResultsService {
         return flightSearchResultsDTOList;
     }
 
-<<<<<<< HEAD
-        private List<AirportOpeningDay> flightsAvailableOnThatDay(Airport airport, DayOfWeek dayOfWeek){
+    private List<AirportOpeningDay> flightsAvailableOnThatDay(Airport airport, DayOfWeek dayOfWeek){
 
-            return airportOpeningDayRepository.findByAirportAndDayOfWeek(airport, dayOfWeek);
-        }
-=======
-//        private boolean checkIfFlightAvailableOnDay(Airport airport, DayOfWeek dayOfWeek){
-//
-//            AirportOpeningDay openingDay= airportOpeningDayRepository.findByAirportAndDayOfWeek(airport, dayOfWeek);
-//            return openingDay != null ;
-//        }
->>>>>>> 4dc8bce213b513f2e60f3e328c863a19c175704b
+        return airportOpeningDayRepository.findByAirportAndDayOfWeek(airport, dayOfWeek);
+    }
 
 
 
