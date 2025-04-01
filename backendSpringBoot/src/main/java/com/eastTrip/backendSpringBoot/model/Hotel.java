@@ -21,10 +21,11 @@ public class Hotel {
     private String attraction;
     private int price;
     private String rating;
-    private int numberOfSeats;
+//    private int numberOfSeats;
+
 
     @Column(columnDefinition="TEXT")
-    private String description;
+    private String extraInfo;
 
     @ManyToMany
     private Set<HotelRooms> RoomFeatures= new HashSet<>();

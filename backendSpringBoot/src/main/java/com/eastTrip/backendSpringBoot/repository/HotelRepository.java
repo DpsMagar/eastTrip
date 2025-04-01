@@ -11,7 +11,9 @@ import java.util.Set;
 
 @Repository
 public interface HotelRepository extends JpaRepository<Hotel, Integer> {
-    Set<HotelSearchResultsDTO> findAllByName(String name);
+//    Set<Hotel> findAllByName(String name);
 
-    Arrays findByCity(String cityName);
+    Set<Hotel> findAllByLocation(String location);
+
+//    Arrays findByCity(String cityName);
 }

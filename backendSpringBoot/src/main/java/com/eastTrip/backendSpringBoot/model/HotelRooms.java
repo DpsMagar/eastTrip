@@ -19,9 +19,10 @@ public class HotelRooms {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String room_feature;
+    private String roomFeatures;
 
     @ManyToMany(mappedBy = "RoomFeatures")
     private Set<Hotel> hotels=new HashSet<>();
+
 
 }

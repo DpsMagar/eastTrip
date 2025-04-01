@@ -16,14 +16,14 @@ import java.util.Set;
 @RequestMapping("/results/hotels")
 public class HotelSearchResultsController {
 
-    private HotelSearchResultsService hotelSearchResultsService;
+    private final HotelSearchResultsService hotelSearchResultsService;
 
     public HotelSearchResultsController(HotelSearchResultsService hotelSearchResultsService) {
         this.hotelSearchResultsService = hotelSearchResultsService;
     }
 
     @GetMapping
-    public ResponseEntity<Set<HotelSearchResultsDTO>> getHotelSearchResults(@RequestParam String cityName) {
-            return ResponseEntity.ok(hotelSearchResultsService.getAllHotelSearchList(cityName));
+    public ResponseEntity<Set<HotelSearchResultsDTO>> getHotelSearchResults(@RequestParam String location) {
+            return ResponseEntity.ok(hotelSearchResultsService.getAllHotelSearchList(location));
     }
 }

@@ -19,7 +19,7 @@ public class HotelFeatures {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String hasHotelFeature;
+    private String hotelFeatures;
 
     @ManyToMany(mappedBy = "featuresOfHotel")
     private Set<Hotel> hotels= new HashSet<>();
