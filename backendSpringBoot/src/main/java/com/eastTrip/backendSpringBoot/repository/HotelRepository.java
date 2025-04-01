@@ -7,13 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 @Repository
 public interface HotelRepository extends JpaRepository<Hotel, Integer> {
 //    Set<Hotel> findAllByName(String name);
 
-    Set<Hotel> findAllByLocation(String location);
+    List<Hotel> findAllByLocation(String location);
 
 //    Arrays findByCity(String cityName);
 }

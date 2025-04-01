@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,7 +17,7 @@ import java.util.Set;
 public class Hotel {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String name;
     private String location;
     private String attraction;
@@ -28,8 +30,8 @@ public class Hotel {
     private String extraInfo;
 
     @ManyToMany
-    private Set<HotelRooms> RoomFeatures= new HashSet<>();
+    private List<HotelRooms> roomFeatures= new ArrayList<>();
 
     @ManyToMany
-    private Set<HotelFeatures> featuresOfHotel= new HashSet<>();
+    private List<HotelFeatures> featuresOfHotel= new ArrayList<>();
 }

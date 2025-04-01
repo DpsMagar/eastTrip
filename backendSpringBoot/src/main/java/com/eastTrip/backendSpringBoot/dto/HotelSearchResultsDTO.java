@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -15,11 +16,10 @@ public class HotelSearchResultsDTO {
     private String hotelLocation;
     private String attraction;
     private int rating;
-    private Set<String> roomFeatures;
-    private Set<String> hotelFeatures;
+    private List<String> roomFeatures;
+    private List<String> hotelFeatures;
     private int price;
     private String extraInfo;
 
-    public HotelSearchResultsDTO(String name, String location, String rating, int price, int numberOfSeats, Object o) {
-    }
+
 }

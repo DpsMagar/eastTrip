@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -23,7 +24,7 @@ public class HotelSearchResultsController {
     }
 
     @GetMapping
-    public ResponseEntity<Set<HotelSearchResultsDTO>> getHotelSearchResults(@RequestParam String location) {
+    public ResponseEntity<List<HotelSearchResultsDTO>> getHotelSearchResults(@RequestParam String location) {
             return ResponseEntity.ok(hotelSearchResultsService.getAllHotelSearchList(location));
     }
 }

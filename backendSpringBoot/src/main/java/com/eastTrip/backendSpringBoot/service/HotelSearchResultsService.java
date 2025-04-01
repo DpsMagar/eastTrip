@@ -7,9 +7,10 @@ import com.eastTrip.backendSpringBoot.model.HotelRooms;
 import com.eastTrip.backendSpringBoot.repository.HotelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,11 +19,12 @@ public class HotelSearchResultsService {
 
     private final HotelRepository hotelRepository;
 
-    public Set<HotelSearchResultsDTO> getAllHotelSearchList(String location) {
+    @Transactional
+    public List<HotelSearchResultsDTO> getAllHotelSearchList(String location) {
 
-       Set<Hotel> hotels = hotelRepository.findAllByLocation(location);
+        List<Hotel> hotels = hotelRepository.findAllByLocation(location);
 
-        Set<HotelSearchResultsDTO> hotelSearchResultsDTOList = new HashSet<>();
+        List<HotelSearchResultsDTO> hotelSearchResultsDTOList = new ArrayList<>();
         for (Hotel hotel : hotels) {
             HotelSearchResultsDTO dto = new HotelSearchResultsDTO();
             dto.setHotelName(hotel.getName());
@@ -40,15 +42,15 @@ public class HotelSearchResultsService {
         return hotelSearchResultsDTOList;
     }
 
-    private Set<String> mapRoomFeatures(Set<HotelRooms> roomFeatures) {
+    private List<String> mapRoomFeatures(List<HotelRooms> roomFeatures) {
         return roomFeatures.stream()
                 .map(HotelRooms::getRoomFeatures)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
-    private Set<String> mapHotelFeatures(Set<HotelFeatures> hotelFeatures) {
+    private List<String> mapHotelFeatures(List<HotelFeatures> hotelFeatures) {
         return hotelFeatures.stream()
                 .map(HotelFeatures::getHotelFeatures)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 }

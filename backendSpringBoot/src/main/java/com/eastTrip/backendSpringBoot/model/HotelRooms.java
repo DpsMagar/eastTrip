@@ -1,28 +1,30 @@
-package com.eastTrip.backendSpringBoot.model;
+    package com.eastTrip.backendSpringBoot.model;
 
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+    import jakarta.persistence.*;
+    import lombok.AllArgsConstructor;
+    import lombok.Data;
+    import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
+    import java.util.ArrayList;
+    import java.util.HashSet;
+    import java.util.List;
+    import java.util.Set;
 
-@Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class HotelRooms {
+    @Entity
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public class HotelRooms {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    private String roomFeatures;
+        private String roomFeatures;
 
-    @ManyToMany(mappedBy = "RoomFeatures")
-    private Set<Hotel> hotels=new HashSet<>();
+        @ManyToMany(mappedBy = "roomFeatures")
+        private List<Hotel> hotels=new ArrayList<>();
 
 
-}
+    }

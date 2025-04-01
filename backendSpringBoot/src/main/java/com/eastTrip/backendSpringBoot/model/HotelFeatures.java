@@ -6,7 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,6 +24,6 @@ public class HotelFeatures {
     private String hotelFeatures;
 
     @ManyToMany(mappedBy = "featuresOfHotel")
-    private Set<Hotel> hotels= new HashSet<>();
+    private List<Hotel> hotels= new ArrayList<>();
 
 }
