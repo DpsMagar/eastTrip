@@ -17,7 +17,7 @@ public class HomeStayRooms {
 
     private String roomFeature;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "roomFeatures")
     private List<HomeStay> homeStays= new ArrayList<>();
 
 
