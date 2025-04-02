@@ -17,7 +17,7 @@ public class HomeStayResultsDTO {
     private String attraction;
     private int rating;
     private List<String> roomFeatures;
-    private List<String> hotelFeatures;
+    private List<String> HomeStayFeatures;
     private int price;
     private String extraInfo;
 }

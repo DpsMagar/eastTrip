@@ -3,7 +3,6 @@ package com.eastTrip.backendSpringBoot.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,7 @@ public class HomeStay {
     private int id;
     private String name;
     private String location;
+    private String attraction;
     private int price;
     private String rating;
 
@@ -27,6 +27,6 @@ public class HomeStay {
     private List<HomeStayRooms> roomFeatures= new ArrayList<>();
 
     @ManyToMany
-    private List<HomeStayServices> services = new ArrayList<>();
+    private List<HomeStayFeatures> services = new ArrayList<>();
 
 }
