@@ -8,7 +8,6 @@ RUN mvn package -DskipTests
 FROM openjdk:21-jdk-slim AS runtime
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
+COPY .env /app/.env
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
-##Build the application and create the runtime image
