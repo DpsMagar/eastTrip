@@ -1,6 +1,7 @@
 package com.eastTrip.backendSpringBoot.controller;
 
 import com.eastTrip.backendSpringBoot.dto.HotelSearchResultsDTO;
+import com.eastTrip.backendSpringBoot.dto.ListHotelNamesDTO;
 import com.eastTrip.backendSpringBoot.service.HotelSearchResultsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,5 +27,10 @@ public class HotelSearchResultsController {
     @GetMapping
     public ResponseEntity<List<HotelSearchResultsDTO>> getHotelSearchResults(@RequestParam String location) {
             return ResponseEntity.ok(hotelSearchResultsService.getAllHotelSearchList(location));
+    }
+
+    @GetMapping("/hotelList")
+    public ResponseEntity<List<ListHotelNamesDTO>> getHomeStayList() {
+        return ResponseEntity.ok(hotelSearchResultsService.getListOfHomeNames());
     }
 }

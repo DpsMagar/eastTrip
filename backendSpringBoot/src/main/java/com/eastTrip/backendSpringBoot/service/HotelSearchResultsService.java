@@ -1,6 +1,8 @@
 package com.eastTrip.backendSpringBoot.service;
 
 import com.eastTrip.backendSpringBoot.dto.HotelSearchResultsDTO;
+import com.eastTrip.backendSpringBoot.dto.ListHotelNamesDTO;
+import com.eastTrip.backendSpringBoot.model.HomeStay;
 import com.eastTrip.backendSpringBoot.model.Hotel;
 import com.eastTrip.backendSpringBoot.model.HotelFeatures;
 import com.eastTrip.backendSpringBoot.model.HotelRooms;
@@ -52,5 +54,19 @@ public class HotelSearchResultsService {
         return hotelFeatures.stream()
                 .map(HotelFeatures::getHotelFeatures)
                 .collect(Collectors.toList());
+    }
+
+    public List<ListHotelNamesDTO> getListOfHomeNames() {
+        List<Hotel> hotels = hotelRepository.findAll();
+
+        List<ListHotelNamesDTO> hotelNames = new ArrayList<>();
+
+        for (Hotel hotel : hotels) {
+            ListHotelNamesDTO hotelNamesDTO = new ListHotelNamesDTO();
+            hotelNamesDTO.setHotelName(hotel.getName());
+            hotelNamesDTO.setHotelCity(hotel.getLocation());
+            hotelNames.add(hotelNamesDTO);
+        }
+        return hotelNames;
     }
 }

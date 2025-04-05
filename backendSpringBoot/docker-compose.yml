@@ -1,26 +1,26 @@
-services:
-  backend-east-trip:
-#    build: .
-#    container_name: eastTrip-backend
-    image: easttrip-backend:latest
-    ports:
-      - "8080:8080"
-    secrets:
-      - DB_PASSWORD
-      - DB_URL
-      - DB_USERNAME
-
-    environment:
-      SPRING_DATASOURCE_URL_FILE: file:/run/secrets/DB_URL
-      SPRING_DATASOURCE_USERNAME_FILE: file:/run/secrets/DB_USERNAME
-      SPRING_DATASOURCE_PASSWORD_FILE: file:/run/secrets/DB_PASSWORD
-
-secrets:
-  DB_URL:
-    external: true
-  DB_USERNAME:
-    external: true
-  DB_PASSWORD:
-    external: true
-
-
+#services:
+#  backend-east-trip:
+##    build: .
+##    container_name: eastTrip-backend
+#    image: easttrip-backend:latest
+#    ports:
+#      - "8080:8080"
+#    secrets:
+#      - DB_PASSWORD
+#      - DB_URL
+#      - DB_USERNAME
+#
+#    environment:
+#      SPRING_DATASOURCE_URL_FILE: file:/run/secrets/DB_URL
+#      SPRING_DATASOURCE_USERNAME_FILE: file:/run/secrets/DB_USERNAME
+#      SPRING_DATASOURCE_PASSWORD_FILE: file:/run/secrets/DB_PASSWORD
+#
+#secrets:
+#  DB_URL:
+#    external: true
+#  DB_USERNAME:
+#    external: true
+#  DB_PASSWORD:
+#    external: true
+#
+#
