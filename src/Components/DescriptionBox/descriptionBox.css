@@ -1,0 +1,244 @@
+.description-box {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Gallery Styles */
+  .homestay-gallery {
+    margin-bottom: 30px;
+  }
+  
+  .main-image-container {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+  }
+  
+  .main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .thumbnail-container {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  
+  .thumbnail {
+    width: 100px;
+    height: 70px;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s, transform 0.2s;
+    background-color: #f0f0f0;
+  }
+  
+  .thumbnail:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+  
+  .thumbnail.active {
+    opacity: 1;
+    border: 2px solid #ff5722;
+  }
+  
+  .thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Info Box Styles */
+  .homestay-info-box {
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    background-color: white;
+    margin-bottom: 30px;
+  }
+  
+  .homestay-header {
+    margin-bottom: 20px;
+  }
+  
+  .homestay-header h1 {
+    font-size: 28px;
+    margin: 0 0 10px 0;
+    color: #333;
+  }
+  
+  .location-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  
+  .location-icon {
+    margin-right: 5px;
+  }
+  
+  .location-text {
+    font-weight: 500;
+    margin-right: 10px;
+  }
+  
+  .attraction-text {
+    color: #666;
+    font-style: italic;
+  }
+  
+  .rating-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .stars {
+    display: flex;
+    gap: 2px;
+  }
+  
+  .star {
+    stroke: #ddd;
+    fill: none;
+  }
+  
+  .star.filled {
+    stroke: #ff9800;
+    fill: #ff9800;
+  }
+  
+  .homestay-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  
+  .homestay-details {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .description-section {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: #555;
+  }
+  
+  .amenities-section {
+    margin-bottom: 20px;
+  }
+  
+  .amenities-section h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: #444;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+  }
+  
+  .features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .feature-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .feature-icon {
+    color: #4caf50;
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  
+  .price-section {
+    min-width: 250px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .description-box .price-container {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 15px;
+  }
+  
+  .price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    margin-right: 5px;
+  }
+  
+  .per-night {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .offer-badge {
+    background-color: #fff8e1;
+    color: #ff9800;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .book-now-btn {
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s;
+  }
+  
+  .book-now-btn:hover {
+    background-color: #e64a19;
+  }
+  
+  @media (max-width: 768px) {
+    .main-image-container {
+      height: 300px;
+    }
+  
+    .thumbnail {
+      width: 80px;
+      height: 60px;
+    }
+  
+    .homestay-content {
+      flex-direction: column;
+    }
+  
+    .price-section {
+      width: 100%;
+    }
+  }
+  
+  

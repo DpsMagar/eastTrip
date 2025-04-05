@@ -1,10 +1,12 @@
 import React from 'react';
-
+import Search from '../../Components/SearchBar/Search';
+import Box from '../../Components/Boxcard/BigBox'
 const Home = () => {
     return (
       <section className="page-content">
-        <h1>Welcome to Our Website</h1>
-        <p>This is the home page content that appears between navbar and footer.</p>
+        <Search />
+        <Box />
+
       </section>
     );
 };
