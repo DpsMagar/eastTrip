@@ -20,7 +20,7 @@ function App() {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/search2" element={<TwoSearch />} />
             <Route path="/description" element={<DescriptionPage />} />
-            <Route path="/dashboard" element={<DashBoard />} />
+            <Route path="/profile" element={<DashBoard />} />
             
           </Route>
         </Routes>
