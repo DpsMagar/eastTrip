@@ -9,7 +9,11 @@ export const hotelApi = createApi({
       query: ({ location }) =>
         `/results/hotels?cityName=${location}`,
     }),
+
+    getHotelsAll: builder.query({
+      query: ()=> '/results/hotels/hotelList'
+  })
   }),
 });
 
-export const { useGetHotelsQuery } = hotelApi;
+export const { useGetHotelsQuery, useGetHotelsAllQuery } = hotelApi;

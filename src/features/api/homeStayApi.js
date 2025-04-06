@@ -9,7 +9,10 @@ export const homeStayApi = createApi({
       query: ({ city }) =>
         `/results/homeStay?cityName=${city}`,
     }),
+    getHomeStayAll: builder.query({
+      query: ()=> '/results/homeStay/homeStayList'
+  })
   }),
 });
 
-export const { useGetHomeStaysQuery } = homeStayApi;
+export const { useGetHomeStayQuery, useGetHomeStayAllQuery } = homeStayApi;

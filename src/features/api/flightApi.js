@@ -9,7 +9,10 @@ export const flightApi = createApi({
       query: ({ from, to, dayOfWeek }) =>
         `/results/flights?fromCode=${from}&toCode=${to}&dayOfWeek=${dayOfWeek}`,
     }),
+    getAirportsAll: builder.query({
+      query: ()=> '/results/flight/flightsList'
+  })
   }),
 });
 
-export const { useGetFlightsQuery } = flightApi;
+export const { useGetFlightsQuery, useGetAirportsAllQuery } = flightApi;
