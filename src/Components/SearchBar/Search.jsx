@@ -7,7 +7,7 @@ import { useGetAirportsAllQuery } from "../../features/api/flightApi"
 import { useGetHotelsAllQuery } from "../../features/api/hotelApi"
 import { useGetHomeStayAllQuery } from "../../features/api/homeStayApi"
 import { useDispatch } from "react-redux"
-import { setFrom } from "../../features/slice/flightSlice"
+import { setFrom , setTo, setDayOfWeek} from "../../features/slice/flightSlice"
 
 export default function TravelBooking() {
 
@@ -231,6 +231,7 @@ export default function TravelBooking() {
 
     if (type === "departure") {
       setDepartureDate(formattedDate)
+      dispatch(setDayOfWeek(dayOfWeek))
       setDepartureDay(dayOfWeek)
     } else if (type === "return") {
       setReturnDate(formattedDate)
@@ -527,7 +528,7 @@ export default function TravelBooking() {
                     key={index}
                     className={`location-item ${airport.airportLocation === fromLocation ? "active" : ""}`}
                     onClick={() => {handleLocationSelect(airport , "from")
-                    dispatch(setFrom())}}
+                    dispatch(setFrom(airport.airportCode))}}
                   >
                     <div className="location-name">{airport.airportLocation}</div>
                     <div className="location-airport">{airport.airportName}</div>
@@ -592,7 +593,7 @@ export default function TravelBooking() {
                     key={index}
                     className={`location-item ${airport.airportLocation === toLocation ? "active" : ""}`}
                     onClick={() => {handleLocationSelect(airport, "to")
-                    dispatch(setFrom())}}
+                    dispatch(setTo(airport.airportCode))}}
                   >
                     <div className="location-name">{airport.airportLocation}</div>
                     <div className="location-airport">{airport.airportName}</div>

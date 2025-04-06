@@ -3,8 +3,17 @@
 import { useState } from "react"
 import HotelCard from '../Boxcard/Box';
 import "./Result.css"
+import { useGetFlightsQuery } from "../../features/api/flightApi";
+import { useSelector } from "react-redux";
 
 export default function Result() {
+    const { from, to, dayOfWeek } = useSelector((state) => state.flight);
+
+
+  const{data: flightInfo} = useGetFlightsQuery({from, to, dayOfWeek})
+  console.log(flightInfo);
+  
+
     const dumby = "https://lh3.googleusercontent.com/p/AF1QipMd4VA7pfadcudwAyE-kMvQyoprQsmxBRYaDDmy=s1360-w1360-h1020" 
   const allHotels = [
     {
