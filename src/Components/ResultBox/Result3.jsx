@@ -4,7 +4,7 @@ import { useState } from "react"
 import HotelCard from '../Boxcard/Box';
 import "./Result.css"
 
-export default function Result() {
+export default function Result3() {
     const dumby = "https://lh3.googleusercontent.com/p/AF1QipMd4VA7pfadcudwAyE-kMvQyoprQsmxBRYaDDmy=s1360-w1360-h1020" 
   const allHotels = [
     {
@@ -43,7 +43,7 @@ export default function Result() {
   return (
     <section className="page-content">
     <div className="hotel-listing-container">
-      <h1 className="hotel-listing-title">Showing Results for Hotels in Kathmandu</h1>
+      <h1 className="hotel-listing-title">Showing Results for Hotels  333in Kathmandu</h1>
 
       <div className="hotel-cards-container">
         {currentHotels.map((hotel, index) => (

@@ -1,23 +1,50 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "./Search.css"
 import { useNavigate } from "react-router-dom"
 import { useGetAirportsAllQuery } from "../../features/api/flightApi"
 import { useGetHotelsAllQuery } from "../../features/api/hotelApi"
 import { useGetHomeStayAllQuery } from "../../features/api/homeStayApi"
+import { useDispatch } from "react-redux"
+import { setFrom } from "../../features/slice/flightSlice"
 
 export default function TravelBooking() {
+
+  const dispatch = useDispatch();
+  // const { from, to, dayOfWeek } = useSelector((state) => state.flight);
+
+  const[airports, setAirports]= useState([])
+  const[hotelzz, setHotelzzz]= useState([])
+  const[homeStayzz, setHomeStayzz]= useState([])
+
 
 
   const {data:airport} = useGetAirportsAllQuery()
   console.log(airport);
+  
+
+  useEffect(() => {
+    if (airport) {
+      setAirports(airport);
+    }
+  }, [airport]);
 
   const{data: hotel}= useGetHotelsAllQuery()
-  console.log(hotel);
+  useEffect(() => {
+    if (hotel) {
+      setHotelzzz(hotel);
+    }
+  }, [hotel]);
   
 
   const{data: homeStay}= useGetHomeStayAllQuery()
+
+  useEffect(() => {
+    if (homeStay) {
+      setHomeStayzz(homeStay);
+    }
+  }, [homeStay]);
   
 
   
@@ -96,10 +123,10 @@ export default function TravelBooking() {
   //   Taplejung: "Taplejung Airport",
   // }
 
-  const airports = airport?.reduce((acc, airport) => {
-    acc[airport.airportLocation] = airport.airportName;
-    return acc;
-  }, {}) || {};
+  // const airports = airport?.reduce((acc, airport) => {
+  //   acc[airport.airportLocation] = airport.airportName;
+  //   return acc;
+  // }, {}) || {};
 
   // const locations = [
   //   "Kathmandu",
@@ -125,15 +152,15 @@ export default function TravelBooking() {
 
   const locationsHomeStay = homeStay ? Array.from(new Set(homeStay.map((hotelItem) => hotelItem.hotelCity))) : [];
 
-  const handleLocationSelect = (location, type) => {
+  const handleLocationSelect = (airport, type) => {
     if (type === "from") {
-      setFromLocation(location)
-      setFromAirport(airports[location])
+      setFromLocation(airport.airportLocation)
+      setFromAirport(airport.airportName)
     } else if (type === "to") {
-      setToLocation(location)
-      setToAirport(airports[location])
+      setToLocation(airport.airportLocation)
+      setToAirport(airport.airportName)
     } else if (type === "hotel") {
-      setLocation(location)
+      setLocation(airport)
     }
     setActivePopup(null)
   }
@@ -241,7 +268,9 @@ export default function TravelBooking() {
     <div className="search-wrapper">
       <div className="search-container">
         <div className="tabs">
-          <div className={`tab ${activeTab === "flights" ? "active" : ""}`} onClick={() => setActiveTab("flights")}>
+          <div className={`tab ${activeTab === "flights" ? "active" : ""}`} onClick={() => {setActiveTab("flights")
+           localStorage.setItem('active', 'flights')
+          }}>
             <div className="tab-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -255,7 +284,8 @@ export default function TravelBooking() {
             </div>
             <div className="tab-text">Flights</div>
           </div>
-          <div className={`tab ${activeTab === "hotels" ? "active" : ""}`} onClick={() => setActiveTab("hotels")}>
+          <div className={`tab ${activeTab === "hotels" ? "active" : ""}`} onClick={() => {setActiveTab("hotels")
+           localStorage.setItem('active', 'hotels')}}>
             <div className="tab-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -269,7 +299,8 @@ export default function TravelBooking() {
             </div>
             <div className="tab-text">Hotels</div>
           </div>
-          <div className={`tab ${activeTab === "homestays" ? "active" : ""}`} onClick={() => setActiveTab("homestays")}>
+          <div className={`tab ${activeTab === "homestays" ? "active" : ""}`} onClick={() => {setActiveTab("homestays")
+          localStorage.setItem('active', 'homeStays' )}}>
             <div className="tab-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -474,13 +505,14 @@ export default function TravelBooking() {
                     <div className="location-airport">{airports[location]}</div>
                   </div>
                 ))} */}
-                {
+                {/* {
                   
                   Object.entries(airports).map(([key, value], index)=> (
                     <div
                     key={index}
                     className={`location-item ${key === fromLocation ? "active" : ""}`}
-                    onClick={() => handleLocationSelect(key, "from")}
+                    onClick={() => {handleLocationSelect(key, "from")
+                    dispatch(setFrom())}}
                   >
                     <div className="location-name">{key}</div>
                     <div className="location-airport">{value}</div>
@@ -488,6 +520,19 @@ export default function TravelBooking() {
                   
                   ))
                 
+                } */}
+                {
+                  airports.map((airport, index)=>(
+                    <div
+                    key={index}
+                    className={`location-item ${airport.airportLocation === fromLocation ? "active" : ""}`}
+                    onClick={() => {handleLocationSelect(airport , "from")
+                    dispatch(setFrom())}}
+                  >
+                    <div className="location-name">{airport.airportLocation}</div>
+                    <div className="location-airport">{airport.airportName}</div>
+                  </div>
+                  ))
                 }
 
               </div>
@@ -526,7 +571,7 @@ export default function TravelBooking() {
                 ))}
                  */}
 
-                 {
+                 {/* {
                   
                   Object.entries(airports).map(([key, value], index)=> (
                     <div
@@ -540,6 +585,19 @@ export default function TravelBooking() {
                   
                   ))
                 
+                } */}
+                {
+                  airports.map((airport, index)=>(
+                    <div
+                    key={index}
+                    className={`location-item ${airport.airportLocation === toLocation ? "active" : ""}`}
+                    onClick={() => {handleLocationSelect(airport, "to")
+                    dispatch(setFrom())}}
+                  >
+                    <div className="location-name">{airport.airportLocation}</div>
+                    <div className="location-airport">{airport.airportName}</div>
+                  </div>
+                  ))
                 }
               </div>
             </div>
