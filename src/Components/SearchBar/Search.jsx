@@ -1,13 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import "./Search.css"
 import { useNavigate } from "react-router-dom"
-export default function TravelBooking() {
+import "./Search.css"
+
+export default function Search() {
   const navigate = useNavigate()
   const handleLogoClick = () => {
-    navigate("/search");
-  };
+    navigate("/search")
+  }
   const [activeTab, setActiveTab] = useState("flights")
   const [activePopup, setActivePopup] = useState(null)
   const [tripType, setTripType] = useState("One Way")
@@ -25,6 +26,7 @@ export default function TravelBooking() {
 
   // Hotel state
   const [location, setLocation] = useState("Kathmandu")
+  const [hotelName, setHotelName] = useState("")
   const [checkInDate, setCheckInDate] = useState("21 Feb 2025")
   const [checkInDay, setCheckInDay] = useState("Friday")
   const [checkOutDate, setCheckOutDate] = useState("22 Feb 2025")
@@ -144,6 +146,10 @@ export default function TravelBooking() {
     } else if (operation === "subtract" && guests > 1) {
       setGuests(guests - 1)
     }
+  }
+
+  const handleHotelNameChange = (e) => {
+    setHotelName(e.target.value)
   }
 
   const generateCalendarDays = (month, year) => {
@@ -320,16 +326,22 @@ export default function TravelBooking() {
 
               <div className="form-group" onClick={() => setActivePopup("departure")}>
                 <div className="field-label">Departure</div>
-                <div className="field-value">{departureDate}</div>
-                <div className="field-subtext">{departureDay}</div>
+                <div className="field-value">{departureDate.split(" ")[0]}</div>
+                <div className="field-subtext">
+                  {departureDate.split(" ")[1]} {departureDate.split(" ")[2]}
+                </div>
+                <div className="field-day">{departureDay}</div>
               </div>
 
               <div className="form-group" onClick={() => tripType !== "One Way" && setActivePopup("return")}>
                 <div className="field-label">Return</div>
                 {returnDate ? (
                   <>
-                    <div className="field-value">{returnDate}</div>
-                    <div className="field-subtext">{returnDay}</div>
+                    <div className="field-value">{returnDate.split(" ")[0]}</div>
+                    <div className="field-subtext">
+                      {returnDate.split(" ")[1]} {returnDate.split(" ")[2]}
+                    </div>
+                    <div className="field-day">{returnDay}</div>
                   </>
                 ) : (
                   <div className="field-placeholder">Tap to add return date</div>
@@ -338,9 +350,8 @@ export default function TravelBooking() {
 
               <div className="form-group" onClick={() => setActivePopup("travellers")}>
                 <div className="field-label">Travellers</div>
-                <div className="field-value">
-                  {travellers} Traveller{travellers !== 1 ? "s" : ""}
-                </div>
+                <div className="field-value">{travellers}</div>
+                <div className="field-subtext">Traveller{travellers !== 1 ? "s" : ""}</div>
               </div>
             </div>
           </div>
@@ -349,7 +360,7 @@ export default function TravelBooking() {
         {(activeTab === "hotels" || activeTab === "homestays") && (
           <div className="hotel-search">
             <div className="search-form-row">
-              <div className="form-group" onClick={() => setActivePopup("hotelLocation")}>
+              <div className="form-group location-field" onClick={() => setActivePopup("hotelLocation")}>
                 <div className="field-label">City, Hotel Name or Location</div>
                 <div className="field-value">{location}</div>
                 <div className="field-subtext">{location}, Nepal</div>
@@ -357,14 +368,20 @@ export default function TravelBooking() {
 
               <div className="form-group" onClick={() => setActivePopup("checkIn")}>
                 <div className="field-label">Check In</div>
-                <div className="field-value">{checkInDate}</div>
-                <div className="field-subtext">{checkInDay}</div>
+                <div className="field-value">{checkInDate.split(" ")[0]}</div>
+                <div className="field-subtext">
+                  {checkInDate.split(" ")[1]} {checkInDate.split(" ")[2]}
+                </div>
+                <div className="field-day">{checkInDay}</div>
               </div>
 
               <div className="form-group" onClick={() => setActivePopup("checkOut")}>
                 <div className="field-label">Check Out</div>
-                <div className="field-value">{checkOutDate}</div>
-                <div className="field-subtext">{checkOutDay}</div>
+                <div className="field-value">{checkOutDate.split(" ")[0]}</div>
+                <div className="field-subtext">
+                  {checkOutDate.split(" ")[1]} {checkOutDate.split(" ")[2]}
+                </div>
+                <div className="field-day">{checkOutDay}</div>
               </div>
 
               <div className="form-group" onClick={() => setActivePopup("roomsGuests")}>
@@ -377,7 +394,9 @@ export default function TravelBooking() {
           </div>
         )}
 
-        <button className="search-button" onClick={handleLogoClick} style={{cursor:"pointer"}}>Search</button>
+        <button className="search-button" onClick={handleLogoClick}>
+          Search
+        </button>
       </div>
 
       {/* From Location Popup */}
@@ -453,7 +472,7 @@ export default function TravelBooking() {
         <div className="popup-overlay">
           <div className="popup">
             <div className="popup-header">
-              <h3>Select Location</h3>
+              <h3>Select Location or Enter Hotel Name</h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M18 6L6 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -463,7 +482,12 @@ export default function TravelBooking() {
             </div>
             <div className="popup-content">
               <div className="location-search">
-                <input type="text" placeholder="Search for a city or hotel" />
+                <input
+                  type="text"
+                  placeholder="Search for a city or hotel"
+                  value={hotelName}
+                  onChange={handleHotelNameChange}
+                />
               </div>
               <div className="location-list">
                 {locations.map((loc, index) => (

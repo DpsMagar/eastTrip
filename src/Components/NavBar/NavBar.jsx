@@ -6,6 +6,7 @@ import { useAuth } from "../../context/AuthContext"
 import Login from "../LogIn/Login"
 import SignUp from "../SignUp/SignUp"
 import "./NavBar.css"
+import image from "../../Assest/logo.png"
 
 export default function NavBar() {
   const navigate = useNavigate()
@@ -46,7 +47,7 @@ export default function NavBar() {
     <div className="chumchom-container">
       <header className="header">
         <div className="logo-container" onClick={handleLogoClick} style={{ cursor: "pointer" }}>
-          <img src="/logo.jpg" alt="GhumGham" width={30} height={30} className="logo-img" />
+          <img src={image} alt="GhumGham" width={30} height={30} className="logo-img" />
           <h2 className="logo">GhumGham</h2>
         </div>
 
