@@ -31,7 +31,8 @@ public class FlightSearchResultsService {
         List<Airport> fromAirports = airportRepository.findAllByCode(from);
         List<Airport> toAirports = airportRepository.findAllByCode(to);
 
-        if (fromAirports.isEmpty() || toAirports.isEmpty()) {
+        // Handle swapped inputs: add results in both directions
+        if (fromAirports.isEmpty() && toAirports.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid airport codes");
         }
 
@@ -43,6 +44,28 @@ public class FlightSearchResultsService {
         }
 
         List<FlightSearchResultsDTO> flightSearchResultsDTOList = new ArrayList<>();
+
+        // First: from → to
+        if (!fromAirports.isEmpty() && !toAirports.isEmpty()) {
+            flightSearchResultsDTOList.addAll(getFlightsBetweenAirports(fromAirports, toAirports, from, to, dayOfWeekEnum));
+        }
+
+        // Then: to → from (shuffled input)
+        if (!toAirports.isEmpty() && !fromAirports.isEmpty()) {
+            flightSearchResultsDTOList.addAll(getFlightsBetweenAirports(toAirports, fromAirports, to, from, dayOfWeekEnum));
+        }
+
+        return flightSearchResultsDTOList;
+    }
+
+    private List<FlightSearchResultsDTO> getFlightsBetweenAirports(
+            List<Airport> fromAirports,
+            List<Airport> toAirports,
+            String fromCode,
+            String toCode,
+            DayOfWeek dayOfWeekEnum
+    ) {
+        List<FlightSearchResultsDTO> results = new ArrayList<>();
 
         for (Airport fromAirport : fromAirports) {
             for (Airport toAirport : toAirports) {
@@ -56,21 +79,23 @@ public class FlightSearchResultsService {
                         FlightSearchResultsDTO dto = new FlightSearchResultsDTO();
                         dto.setToName(toAirport.getName());
                         dto.setFromName(fromAirport.getName());
-                        dto.setToCode(to);
-                        dto.setFromCode(from);
+                        dto.setToCode(toCode);
+                        dto.setFromCode(fromCode);
                         dto.setToCity(toAirport.getCity());
                         dto.setFromCity(fromAirport.getCity());
                         dto.setFlightDuration(flightDetails.getFlightDuration());
                         dto.setAvailableSeats(flightDetails.getAvailableSeats());
                         dto.setPrice(flightDetails.getPrice());
 
-                        flightSearchResultsDTOList.add(dto);
+                        results.add(dto);
                     }
                 }
             }
         }
-        return flightSearchResultsDTOList;
+
+        return results;
     }
+
 
     private List<AirportOpeningDay> flightsAvailableOnThatDay(Airport airport, DayOfWeek dayOfWeek) {
         return airportOpeningDayRepository.findByAirportAndDayOfWeek(airport, dayOfWeek);
