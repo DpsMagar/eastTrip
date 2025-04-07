@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  from: '',
-  to: '',
+  from: 'KTM',
+  to: 'PKR',
   dayOfWeek: 'Friday',
 };
 

@@ -7,7 +7,7 @@ export const hotelApi = createApi({
   endpoints: (builder) => ({
     getHotels: builder.query({
       query: ({ location }) =>
-        `/results/hotels?cityName=${location}`,
+        `/results/hotels?location=${location}`,
     }),
 
     getHotelsAll: builder.query({

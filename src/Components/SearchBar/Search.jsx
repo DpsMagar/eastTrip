@@ -8,6 +8,8 @@ import { useGetHotelsAllQuery } from "../../features/api/hotelApi"
 import { useGetHomeStayAllQuery } from "../../features/api/homeStayApi"
 import { useDispatch } from "react-redux"
 import { setFrom , setTo, setDayOfWeek} from "../../features/slice/flightSlice"
+import { setHotelLocation } from "../../features/slice/hotelSlice"
+import { setHomeStayLocation } from "../../features/slice/homeStaySlice"
 
 export default function TravelBooking() {
 
@@ -66,8 +68,8 @@ export default function TravelBooking() {
   // Flight state
   const [fromLocation, setFromLocation] = useState("Kathmandu")
   const [fromAirport, setFromAirport] = useState("Tribhuvan International Airport")
-  const [toLocation, setToLocation] = useState("Lumbini")
-  const [toAirport, setToAirport] = useState("Lumbini Airport")
+  const [toLocation, setToLocation] = useState("Pokhara")
+  const [toAirport, setToAirport] = useState("Pokhara International Airport")
   const [departureDate, setDepartureDate] = useState("21 Mar 2025")
   const [departureDay, setDepartureDay] = useState("Friday")
   const [returnDate, setReturnDate] = useState("")
@@ -628,7 +630,7 @@ export default function TravelBooking() {
                   <div
                     key={index}
                     className={`location-item ${loc === location ? "active" : ""}`}
-                    onClick={() => handleLocationSelect(loc, "hotel")}
+                    onClick={() => {handleLocationSelect(loc, "hotel"); dispatch(setHotelLocation(loc))}}
                   >
                     <div className="location-name">{loc}</div>
                     <div className="location-airport">{loc}, Nepal</div>
@@ -661,7 +663,7 @@ export default function TravelBooking() {
                   <div
                     key={index}
                     className={`location-item ${loc === location ? "active" : ""}`}
-                    onClick={() => handleLocationSelect(loc, "hotel")}
+                    onClick={() => {handleLocationSelect(loc, "hotel"); dispatch(setHomeStayLocation(loc))}}
                   >
                     <div className="location-name">{loc}</div>
                     <div className="location-airport">{loc}, Nepal</div>

@@ -6,8 +6,8 @@ export const homeStayApi = createApi({
   baseQuery,
   endpoints: (builder) => ({
     getHomeStay: builder.query({
-      query: ({ city }) =>
-        `/results/homeStay?cityName=${city}`,
+      query: ({ location }) =>
+        `/results/homeStay?location=${location}`,
     }),
     getHomeStayAll: builder.query({
       query: ()=> '/results/homeStay/homeStayList'
