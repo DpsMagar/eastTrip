@@ -23,9 +23,9 @@ public class HomeStayController {
     }
 
     @GetMapping
-    public ResponseEntity<List<HomeStayResultsDTO>> getHomeStayResults(@RequestParam String cityName) {
+    public ResponseEntity<List<HomeStayResultsDTO>> getHomeStayResults(@RequestParam String location) {
 
-        return ResponseEntity.ok(homeStayResultsService.getHomeStaysResult(cityName));
+        return ResponseEntity.ok(homeStayResultsService.getHomeStaysResult(location));
 
     }
 
