@@ -11,7 +11,7 @@ export default function TwoSearch() {
   // Flights state
   const [tripType, setTripType] = useState("One Way")
   const [fromLocation, setFromLocation] = useState("Kathmandu")
-  const [toLocation, setToLocation] = useState("Lumbini")
+  const [toLocation, setToLocation] = useState("Pokhara")
   const [departDate, setDepartDate] = useState("Fri, 29 March 2025")
   const [returnDate, setReturnDate] = useState("Select here")
 
@@ -133,7 +133,7 @@ export default function TwoSearch() {
           Flights
         </button>
         <button className={`tab ${activeTab === "hotels" ? "active" : ""}`} onClick={() => setActiveTab("hotels")}>
-          Home
+          Hotel
         </button>
         <button
           className={`tab ${activeTab === "homestays" ? "active" : ""}`}
