@@ -1,0 +1,33 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  background: linear-gradient(to bottom, #FFA07A, #FFFFFF);
+
+}
+
+/* Ensure layout container takes full height and doesn't override the background */
+.layout-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.main-content {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+  }
+
+  
+  /* Responsive adjustments if needed */
+  @media (max-width: 768px) {
+    .split-screen-image {
+      height: 40vh;
+    }
+  
+    .split-screen-content {
+      min-height: 60vh;
+    }
+  }
+  
+  
