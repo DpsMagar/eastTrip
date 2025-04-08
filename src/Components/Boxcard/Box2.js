@@ -3,12 +3,7 @@
 import "./Box.css"
 import { useNavigate } from "react-router-dom"
 
-function Box({ hotel }) {
-  const navigate = useNavigate()
-
-  if (!hotel) {
-    return <div>Loading...</div>; 
-  }
+function Box2({ hotel }) {
   // Default props for when properties are missing
   // const defaultHotel = {
   //   name: "Hotel Name",
@@ -20,7 +15,7 @@ function Box({ hotel }) {
   //   roomType: "Standard Room",
   //   bedType: "Double Bed",
   //   viewType: "",
-  //   hotelFeatures: ["Wifi", "Parking"],
+  //   homeStayFeatures: ["Wifi", "Parking"],
   //   topSelling: false,
   //   bookings: 0,
   //   offers: "Special offer",
@@ -35,10 +30,10 @@ function Box({ hotel }) {
 
   // Merge with defaults to prevent errors from missing properties
   // const hotel = { ...defaultHotel, ...hotel }
-  
+  const navigate = useNavigate()
 
   const handleLogoClick = () => {
-    navigate("/workingpage?hotelname=" + hotel.hotelName)
+    navigate("/workingpage?hotelName=" + hotel.homeStayName)
   }
 
   return (
@@ -47,13 +42,13 @@ function Box({ hotel }) {
         {/* Left side - Images */}
         <div className="hotel-image-section">
           <div className="hotel-main-image">
-            <img src={hotel.image || "/placeholder.svg"} alt={hotel.hotelName} />
+            <img src={hotel.image || "/placeholder.svg"} alt={hotel.homeStayName} />
           </div>
           <div className="hotel-thumbnails">
-            {hotel.hotelFeatures && hotel.hotelFeatures.length > 0 ? (
-              hotel.hotelFeatures.slice(0, 4).map((thumb, index) => (
+            {hotel.homeStayFeatures && hotel.homeStayFeatures.length > 0 ? (
+              hotel.homeStayFeatures.slice(0, 4).map((thumb, index) => (
                 <div key={index} className="thumbnail">
-                  <img src={thumb || "/placeholder.svg"} alt={`${hotel.hotelName} view ${index + 1}`} />
+                  <img src={thumb || "/placeholder.svg"} alt={`${hotel.homeStayName} view ${index + 1}`} />
                 </div>
               ))
             ) : (
@@ -66,7 +61,7 @@ function Box({ hotel }) {
         <div className="hotel-details-section">
           <div className="hotel-name-container">
             <h3 className="hotel-name">
-              {hotel.hotelName}
+              {hotel.homeStayName}
               {hotel.formerName && <span className="former-name"> (formerly {hotel.formerName})</span>}
             </h3>
             <div className="hotel-stars">
@@ -80,7 +75,7 @@ function Box({ hotel }) {
 
           <div className="hotel-location">
             <p>
-              <span className="location-name">{hotel.hotelLocation}</span>
+              <span className="location-name">{hotel.homeStayLocation}</span>
               {hotel.attraction && <span> | {hotel.attraction}</span>}
             </p>
             {hotel.metroInfo && <p>{hotel.metroInfo}</p>}
@@ -91,17 +86,12 @@ function Box({ hotel }) {
           </div>
 
           <div className="hotel-amenities">
-          {hotel.hotelFeatures && Array.isArray(hotel.hotelFeatures) && hotel.hotelFeatures.length > 0 ? (
-            hotel.hotelFeatures.map((amenity, index) => (
+            {hotel.homeStayFeatures.map((amenity, index) => (
               <div key={index} className="amenity">
                 <span className="amenity-icon">✓</span> {amenity}
               </div>
-            ))
-          ) : (
-            <p>No amenities available.</p> // Or any fallback content
-          )}
-        </div>
-
+            ))}
+          </div>
 
           {hotel.topSelling && (
             <div className="top-selling">
@@ -142,5 +132,5 @@ function Box({ hotel }) {
   )
 }
 
-export default Box
+export default Box2
 

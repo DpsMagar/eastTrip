@@ -1,50 +1,59 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import HotelCard from '../Boxcard/Box';
 import "./Result.css"
-import { useGetFlightsQuery } from "../../features/api/flightApi";
 import { useSelector } from "react-redux";
+import { useGetHotelsQuery } from "../../features/api/hotelApi";
 
-export default function Result() {
-    const { from, to, dayOfWeek } = useSelector((state) => state.flight);
+export default function Result2() {
 
+  const[hotelData, setHotelData]= useState([])
 
-  const{data: flightInfo} = useGetFlightsQuery({from, to, dayOfWeek})
-  console.log(flightInfo);
+  const {location}=  useSelector((state)=> state.hotel)
+
+  const{data: hotelInfo} = useGetHotelsQuery({location})
+  console.log(hotelInfo);
   
+  useEffect(() => {
+    if (hotelInfo) {
+      setHotelData(hotelInfo);
+    }
+  }, [hotelInfo]);
+
+
 
     const dumby = "https://lh3.googleusercontent.com/p/AF1QipMd4VA7pfadcudwAyE-kMvQyoprQsmxBRYaDDmy=s1360-w1360-h1020" 
-  const allHotels = [
-    {
-      name: "Yatri Suites & Spa",
-      stars: 4,
-      location: "Thamel | 2 minutes walk to Thamel Market",
-      roomType: "Super Deluxe Double Room",
-      bedType: "King Bed",
-      viewType: "Courtyard View",
-      amenities: ["Free Shuttle Service", "Spa", "Breakfast Included"],
-      rating: 4.6,
-      ratingText: "Very Good",
-      reviews: 174,
-      price: 5132,
-      taxes: 1620,
-      City: "Kathmandu",
-      image: dumby,
-      thumbnails: [dumby, dumby, dumby, dumby],
-    },
-  ]
+  // const allHotels = [
+  //   {
+  //     name: "Yatri Suites & Spa",
+  //     stars: 4,
+  //     location: "Thamel | 2 minutes walk to Thamel Market",
+  //     roomType: "Super Deluxe Double Room",
+  //     bedType: "King Bed",
+  //     viewType: "Courtyard View",
+  //     amenities: ["Free Shuttle Service", "Spa", "Breakfast Included"],
+  //     rating: 4.6,
+  //     ratingText: "Very Good",
+  //     reviews: 174,
+  //     price: 5132,
+  //     taxes: 1620,
+  //     City: "Kathmandu",
+  //     image: dumby,
+  //     thumbnails: [dumby, dumby, dumby, dumby],
+  //   },
+  // ]
 
   const [currentPage, setCurrentPage] = useState(1)
   const hotelsPerPage = 4
 
   // Calculate total number of pages
-  const totalPages = Math.ceil(allHotels.length / hotelsPerPage)
+  const totalPages = Math.ceil(hotelData.length / hotelsPerPage)
 
   // Get current hotels
   const indexOfLastHotel = currentPage * hotelsPerPage
   const indexOfFirstHotel = indexOfLastHotel - hotelsPerPage
-  const currentHotels = allHotels.slice(indexOfFirstHotel, indexOfLastHotel)
+  const currentHotels = hotelData.slice(indexOfFirstHotel, indexOfLastHotel)
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber)
@@ -52,7 +61,7 @@ export default function Result() {
   return (
     <section className="page-content">
     <div className="hotel-listing-container">
-      <h1 className="hotel-listing-title">Showing Results for Flights</h1>
+      <h1 className="hotel-listing-title">Showing Results for Hotels in Kathmandu</h1>
 
       <div className="hotel-cards-container">
         {currentHotels.map((hotel, index) => (

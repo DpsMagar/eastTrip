@@ -1,32 +1,83 @@
 "use client"
 
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
 import "./Search.css"
+import { useNavigate } from "react-router-dom"
+import { useGetAirportsAllQuery } from "../../features/api/flightApi"
+import { useGetHotelsAllQuery } from "../../features/api/hotelApi"
+import { useGetHomeStayAllQuery } from "../../features/api/homeStayApi"
+import { useDispatch } from "react-redux"
+import { setFrom , setTo, setDayOfWeek} from "../../features/slice/flightSlice"
+import { setHotelLocation } from "../../features/slice/hotelSlice"
+import { setHomeStayLocation } from "../../features/slice/homeStaySlice"
 
-export default function Search() {
+export default function TravelBooking() {
+
+  const dispatch = useDispatch();
+  // const { from, to, dayOfWeek } = useSelector((state) => state.flight);
+
+  const[airports, setAirports]= useState([])
+  const[hotelzz, setHotelzzz]= useState([])
+  const[homeStayzz, setHomeStayzz]= useState([])
+
+
+
+  const {data:airport} = useGetAirportsAllQuery()
+  console.log(airport);
+  
+
+  useEffect(() => {
+    if (airport) {
+      setAirports(airport);
+    }
+  }, [airport]);
+
+  const{data: hotel}= useGetHotelsAllQuery()
+  useEffect(() => {
+    if (hotel) {
+      setHotelzzz(hotel);
+    }
+  }, [hotel]);
+  
+
+  const{data: homeStay}= useGetHomeStayAllQuery()
+
+  useEffect(() => {
+    if (homeStay) {
+      setHomeStayzz(homeStay);
+    }
+  }, [homeStay]);
+  
+
+  
+
+
   const navigate = useNavigate()
+
   const handleLogoClick = () => {
-    navigate("/search")
-  }
-  const [activeTab, setActiveTab] = useState("flights")
+    navigate("/search");
+
+  };
+
+
+
+  const [activeTab, setActiveTab] = useState("hotels")
   const [activePopup, setActivePopup] = useState(null)
   const [tripType, setTripType] = useState("One Way")
 
   // Flight state
   const [fromLocation, setFromLocation] = useState("Kathmandu")
   const [fromAirport, setFromAirport] = useState("Tribhuvan International Airport")
-  const [toLocation, setToLocation] = useState("Lumbini")
-  const [toAirport, setToAirport] = useState("Lumbini Airport")
+  const [toLocation, setToLocation] = useState("Pokhara")
+  const [toAirport, setToAirport] = useState("Pokhara International Airport")
   const [departureDate, setDepartureDate] = useState("21 Mar 2025")
   const [departureDay, setDepartureDay] = useState("Friday")
   const [returnDate, setReturnDate] = useState("")
   const [returnDay, setReturnDay] = useState("")
-  const [travellers, setTravellers] = useState(2)
+  const [travellers, setTravellers] = useState(1)
 
   // Hotel state
   const [location, setLocation] = useState("Kathmandu")
-  const [hotelName, setHotelName] = useState("")
   const [checkInDate, setCheckInDate] = useState("21 Feb 2025")
   const [checkInDay, setCheckInDay] = useState("Friday")
   const [checkOutDate, setCheckOutDate] = useState("22 Feb 2025")
@@ -54,55 +105,64 @@ export default function Search() {
 
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-  const airports = {
-    Kathmandu: "Tribhuvan International Airport",
-    Pokhara: "Pokhara International Airport",
-    Lumbini: "Lumbini Airport",
-    Biratnagar: "Biratnagar Airport",
-    Nepalgunj: "Nepalgunj Airport",
-    Bharatpur: "Bharatpur Airport",
-    Janakpur: "Janakpur Airport",
-    Dhangadhi: "Dhangadhi Airport",
-    Lukla: "Tenzing-Hillary Airport",
-    Jomsom: "Jomsom Airport",
-    Simara: "Simara Airport",
-    Tumlingtar: "Tumlingtar Airport",
-    Surkhet: "Surkhet Airport",
-    Bhadrapur: "Bhadrapur Airport",
-    Bhojpur: "Bhojpur Airport",
-    Phaplu: "Phaplu Airport",
-    Taplejung: "Taplejung Airport",
-  }
+  // const airports = {
+  //   Kathmandu: "Tribhuvan International Airport",
+  //   Pokhara: "Pokhara International Airport",
+  //   Lumbini: "Lumbini Airport",
+  //   Biratnagar: "Biratnagar Airport",
+  //   Nepalgunj: "Nepalgunj Airport",
+  //   Bharatpur: "Bharatpur Airport",
+  //   Janakpur: "Janakpur Airport",
+  //   Dhangadhi: "Dhangadhi Airport",
+  //   Lukla: "Tenzing-Hillary Airport",
+  //   Jomsom: "Jomsom Airport",
+  //   Simara: "Simara Airport",
+  //   Tumlingtar: "Tumlingtar Airport",
+  //   Surkhet: "Surkhet Airport",
+  //   Bhadrapur: "Bhadrapur Airport",
+  //   Bhojpur: "Bhojpur Airport",
+  //   Phaplu: "Phaplu Airport",
+  //   Taplejung: "Taplejung Airport",
+  // }
 
-  const locations = [
-    "Kathmandu",
-    "Pokhara",
-    "Lumbini",
-    "Biratnagar",
-    "Nepalgunj",
-    "Bharatpur",
-    "Janakpur",
-    "Dhangadhi",
-    "Lukla",
-    "Jomsom",
-    "Simara",
-    "Tumlingtar",
-    "Surkhet",
-    "Bhadrapur",
-    "Bhojpur",
-    "Phaplu",
-    "Taplejung",
-  ]
+  // const airports = airport?.reduce((acc, airport) => {
+  //   acc[airport.airportLocation] = airport.airportName;
+  //   return acc;
+  // }, {}) || {};
 
-  const handleLocationSelect = (location, type) => {
+  // const locations = [
+  //   "Kathmandu",
+  //   "Pokhara",
+  //   "Lumbini",
+  //   "Biratnagar",
+  //   "Nepalgunj",
+  //   "Bharatpur",
+  //   "Janakpur",
+  //   "Dhangadhi",
+  //   "Lukla",
+  //   "Jomsom",
+  //   "Simara",
+  //   "Tumlingtar",
+  //   "Surkhet",
+  //   "Bhadrapur",
+  //   "Bhojpur",
+  //   "Phaplu",
+  //   "Taplejung",
+  // ]
+
+  const locationsHotel = hotel ? Array.from(new Set(hotel.map((hotelItem) => hotelItem.hotelCity))) : [];
+
+  const locationsHomeStay = homeStay ? Array.from(new Set(homeStay.map((hotelItem) => hotelItem.hotelCity))) : [];
+
+  const handleLocationSelect = (airport, type) => {
     if (type === "from") {
-      setFromLocation(location)
-      setFromAirport(airports[location])
+      setFromLocation(airport.airportLocation)
+      setFromAirport(airport.airportName)
     } else if (type === "to") {
-      setToLocation(location)
-      setToAirport(airports[location])
+      setToLocation(airport.airportLocation)
+      setToAirport(airport.airportName)
     } else if (type === "hotel") {
-      setLocation(location)
+      setLocation(airport)
     }
     setActivePopup(null)
   }
@@ -148,10 +208,6 @@ export default function Search() {
     }
   }
 
-  const handleHotelNameChange = (e) => {
-    setHotelName(e.target.value)
-  }
-
   const generateCalendarDays = (month, year) => {
     const firstDay = new Date(year, month, 1).getDay()
     const daysInMonth = new Date(year, month + 1, 0).getDate()
@@ -177,6 +233,7 @@ export default function Search() {
 
     if (type === "departure") {
       setDepartureDate(formattedDate)
+      dispatch(setDayOfWeek(dayOfWeek))
       setDepartureDay(dayOfWeek)
     } else if (type === "return") {
       setReturnDate(formattedDate)
@@ -214,7 +271,9 @@ export default function Search() {
     <div className="search-wrapper">
       <div className="search-container">
         <div className="tabs">
-          <div className={`tab ${activeTab === "flights" ? "active" : ""}`} onClick={() => setActiveTab("flights")}>
+          <div className={`tab ${activeTab === "flights" ? "active" : ""}`} onClick={() => {setActiveTab("flights")
+           localStorage.setItem('active', 'flights')
+          }}>
             <div className="tab-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -228,7 +287,8 @@ export default function Search() {
             </div>
             <div className="tab-text">Flights</div>
           </div>
-          <div className={`tab ${activeTab === "hotels" ? "active" : ""}`} onClick={() => setActiveTab("hotels")}>
+          <div className={`tab ${activeTab === "hotels" ? "active" : ""}`} onClick={() => {setActiveTab("hotels")
+           localStorage.setItem('active', 'hotels')}}>
             <div className="tab-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -242,7 +302,8 @@ export default function Search() {
             </div>
             <div className="tab-text">Hotels</div>
           </div>
-          <div className={`tab ${activeTab === "homestays" ? "active" : ""}`} onClick={() => setActiveTab("homestays")}>
+          <div className={`tab ${activeTab === "homestays" ? "active" : ""}`} onClick={() => {setActiveTab("homestays")
+          localStorage.setItem('active', 'homeStays' )}}>
             <div className="tab-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -326,22 +387,16 @@ export default function Search() {
 
               <div className="form-group" onClick={() => setActivePopup("departure")}>
                 <div className="field-label">Departure</div>
-                <div className="field-value">{departureDate.split(" ")[0]}</div>
-                <div className="field-subtext">
-                  {departureDate.split(" ")[1]} {departureDate.split(" ")[2]}
-                </div>
-                <div className="field-day">{departureDay}</div>
+                <div className="field-value">{departureDate}</div>
+                <div className="field-subtext">{departureDay}</div>
               </div>
 
               <div className="form-group" onClick={() => tripType !== "One Way" && setActivePopup("return")}>
                 <div className="field-label">Return</div>
                 {returnDate ? (
                   <>
-                    <div className="field-value">{returnDate.split(" ")[0]}</div>
-                    <div className="field-subtext">
-                      {returnDate.split(" ")[1]} {returnDate.split(" ")[2]}
-                    </div>
-                    <div className="field-day">{returnDay}</div>
+                    <div className="field-value">{returnDate}</div>
+                    <div className="field-subtext">{returnDay}</div>
                   </>
                 ) : (
                   <div className="field-placeholder">Tap to add return date</div>
@@ -350,38 +405,34 @@ export default function Search() {
 
               <div className="form-group" onClick={() => setActivePopup("travellers")}>
                 <div className="field-label">Travellers</div>
-                <div className="field-value">{travellers}</div>
-                <div className="field-subtext">Traveller{travellers !== 1 ? "s" : ""}</div>
+                <div className="field-value">
+                  {travellers} Traveller{travellers !== 1 ? "s" : ""}
+                </div>
               </div>
             </div>
           </div>
         )}
 
-        {(activeTab === "hotels" || activeTab === "homestays") && (
+        {(activeTab === "hotels" ) && (
           <div className="hotel-search">
             <div className="search-form-row">
-              <div className="form-group location-field" onClick={() => setActivePopup("hotelLocation")}>
-                <div className="field-label">City, Hotel Name or Location</div>
+              <div className="form-group" onClick={() => setActivePopup("hotelLocation")}>
+                {/* <div className="field-label">City, Hotel Name or Location</div> */}
+                <div className="field-label">Location or city name of Hotel</div>
                 <div className="field-value">{location}</div>
                 <div className="field-subtext">{location}, Nepal</div>
               </div>
 
               <div className="form-group" onClick={() => setActivePopup("checkIn")}>
                 <div className="field-label">Check In</div>
-                <div className="field-value">{checkInDate.split(" ")[0]}</div>
-                <div className="field-subtext">
-                  {checkInDate.split(" ")[1]} {checkInDate.split(" ")[2]}
-                </div>
-                <div className="field-day">{checkInDay}</div>
+                <div className="field-value">{checkInDate}</div>
+                <div className="field-subtext">{checkInDay}</div>
               </div>
 
               <div className="form-group" onClick={() => setActivePopup("checkOut")}>
                 <div className="field-label">Check Out</div>
-                <div className="field-value">{checkOutDate.split(" ")[0]}</div>
-                <div className="field-subtext">
-                  {checkOutDate.split(" ")[1]} {checkOutDate.split(" ")[2]}
-                </div>
-                <div className="field-day">{checkOutDay}</div>
+                <div className="field-value">{checkOutDate}</div>
+                <div className="field-subtext">{checkOutDay}</div>
               </div>
 
               <div className="form-group" onClick={() => setActivePopup("roomsGuests")}>
@@ -394,9 +445,39 @@ export default function Search() {
           </div>
         )}
 
-        <button className="search-button" onClick={handleLogoClick}>
-          Search
-        </button>
+        {( activeTab === "homestays") && (
+          <div className="hotel-search">
+            <div className="search-form-row">
+              <div className="form-group" onClick={() => setActivePopup("homeStays")}>
+                <div className="field-label">Location or city name of HomeStay</div>
+                {/* <div className="field-label">City, Home Stay Name or Location</div> */}
+                <div className="field-value">{location}</div>
+                <div className="field-subtext">{location}, Nepal</div>
+              </div>
+
+              <div className="form-group" onClick={() => setActivePopup("checkIn")}>
+                <div className="field-label">Check In</div>
+                <div className="field-value">{checkInDate}</div>
+                <div className="field-subtext">{checkInDay}</div>
+              </div>
+
+              <div className="form-group" onClick={() => setActivePopup("checkOut")}>
+                <div className="field-label">Check Out</div>
+                <div className="field-value">{checkOutDate}</div>
+                <div className="field-subtext">{checkOutDay}</div>
+              </div>
+
+              <div className="form-group" onClick={() => setActivePopup("roomsGuests")}>
+                <div className="field-label">Rooms & Guests</div>
+                <div className="field-value">
+                  {rooms} Room{rooms !== 1 ? "s" : ""} & {guests} Guest{guests !== 1 ? "s" : ""}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <button className="search-button" onClick={handleLogoClick} style={{cursor:"pointer"}}>Search</button>
       </div>
 
       {/* From Location Popup */}
@@ -417,7 +498,7 @@ export default function Search() {
                 <input type="text" placeholder="Search for a city" />
               </div>
               <div className="location-list">
-                {locations.map((location, index) => (
+                {/* {locations.map((location, index) => (
                   <div
                     key={index}
                     className={`location-item ${location === fromLocation ? "active" : ""}`}
@@ -426,7 +507,37 @@ export default function Search() {
                     <div className="location-name">{location}</div>
                     <div className="location-airport">{airports[location]}</div>
                   </div>
-                ))}
+                ))} */}
+                {/* {
+                  
+                  Object.entries(airports).map(([key, value], index)=> (
+                    <div
+                    key={index}
+                    className={`location-item ${key === fromLocation ? "active" : ""}`}
+                    onClick={() => {handleLocationSelect(key, "from")
+                    dispatch(setFrom())}}
+                  >
+                    <div className="location-name">{key}</div>
+                    <div className="location-airport">{value}</div>
+                  </div>
+                  
+                  ))
+                
+                } */}
+                {
+                  airports.map((airport, index)=>(
+                    <div
+                    key={index}
+                    className={`location-item ${airport.airportLocation === fromLocation ? "active" : ""}`}
+                    onClick={() => {handleLocationSelect(airport , "from")
+                    dispatch(setFrom(airport.airportCode))}}
+                  >
+                    <div className="location-name">{airport.airportLocation}</div>
+                    <div className="location-airport">{airport.airportName}</div>
+                  </div>
+                  ))
+                }
+
               </div>
             </div>
           </div>
@@ -451,7 +562,7 @@ export default function Search() {
                 <input type="text" placeholder="Search for a city" />
               </div>
               <div className="location-list">
-                {locations.map((location, index) => (
+                {/* {locations.map((location, index) => (
                   <div
                     key={index}
                     className={`location-item ${location === toLocation ? "active" : ""}`}
@@ -461,6 +572,36 @@ export default function Search() {
                     <div className="location-airport">{airports[location]}</div>
                   </div>
                 ))}
+                 */}
+
+                 {/* {
+                  
+                  Object.entries(airports).map(([key, value], index)=> (
+                    <div
+                    key={index}
+                    className={`location-item ${key === fromLocation ? "active" : ""}`}
+                    onClick={() => handleLocationSelect(key, "from")}
+                  >
+                    <div className="location-name">{key}</div>
+                    <div className="location-airport">{value}</div>
+                  </div>
+                  
+                  ))
+                
+                } */}
+                {
+                  airports.map((airport, index)=>(
+                    <div
+                    key={index}
+                    className={`location-item ${airport.airportLocation === toLocation ? "active" : ""}`}
+                    onClick={() => {handleLocationSelect(airport, "to")
+                    dispatch(setTo(airport.airportCode))}}
+                  >
+                    <div className="location-name">{airport.airportLocation}</div>
+                    <div className="location-airport">{airport.airportName}</div>
+                  </div>
+                  ))
+                }
               </div>
             </div>
           </div>
@@ -472,7 +613,7 @@ export default function Search() {
         <div className="popup-overlay">
           <div className="popup">
             <div className="popup-header">
-              <h3>Select Location or Enter Hotel Name</h3>
+              <h3>Select Location</h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M18 6L6 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -482,19 +623,47 @@ export default function Search() {
             </div>
             <div className="popup-content">
               <div className="location-search">
-                <input
-                  type="text"
-                  placeholder="Search for a city or hotel"
-                  value={hotelName}
-                  onChange={handleHotelNameChange}
-                />
+                <input type="text" placeholder="Search for a city or hotel" />
               </div>
               <div className="location-list">
-                {locations.map((loc, index) => (
+                {locationsHotel.map((loc, index) => (
                   <div
                     key={index}
                     className={`location-item ${loc === location ? "active" : ""}`}
-                    onClick={() => handleLocationSelect(loc, "hotel")}
+                    onClick={() => {handleLocationSelect(loc, "hotel"); dispatch(setHotelLocation(loc))}}
+                  >
+                    <div className="location-name">{loc}</div>
+                    <div className="location-airport">{loc}, Nepal</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* HomeStay Location Popup */}
+      {activePopup === "homeStays" && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <div className="popup-header">
+              <h3>Select Location</h3>
+              <button className="close-button" onClick={() => setActivePopup(null)}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 6L6 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M6 6L18 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
+            <div className="popup-content">
+              <div className="location-search">
+                <input type="text" placeholder="Search for a city or hotel" />
+              </div>
+              <div className="location-list">
+                {locationsHomeStay.map((loc, index) => (
+                  <div
+                    key={index}
+                    className={`location-item ${loc === location ? "active" : ""}`}
+                    onClick={() => {handleLocationSelect(loc, "hotel"); dispatch(setHomeStayLocation(loc))}}
                   >
                     <div className="location-name">{loc}</div>
                     <div className="location-airport">{loc}, Nepal</div>
@@ -747,4 +916,3 @@ export default function Search() {
     </div>
   )
 }
-

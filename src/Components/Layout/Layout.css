@@ -1,7 +1,7 @@
 body, html {
   height: 100%;
   margin: 0;
-  background: linear-gradient(to bottom, #FFA07A, #FFFFFF);
+  background: white
 }
 
 .layout-container {
@@ -11,8 +11,7 @@ body, html {
 }
 
 .main-content {
-  max-width: 1700px;
-  width: 80%; /* Makes it take more space */
+ max-width: none;
   margin: 2rem auto; /* Adds more vertical spacing */
   padding: 2rem; /* Adds internal padding */
   background-color: transparent; /* Gives contrast against gradient */
