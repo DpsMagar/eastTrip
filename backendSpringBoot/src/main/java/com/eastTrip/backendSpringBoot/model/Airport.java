@@ -23,6 +23,8 @@ public class Airport {
     @Column(nullable = false)
     private String city;
 
+    private String imageUrl;
+
     @OneToMany(mappedBy = "airport", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AirportOpeningDay> operatingDays;
 

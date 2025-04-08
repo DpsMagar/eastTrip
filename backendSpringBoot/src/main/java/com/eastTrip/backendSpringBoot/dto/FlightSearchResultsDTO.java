@@ -16,6 +16,7 @@ public class FlightSearchResultsDTO {
     private String flightDuration;
     private int availableSeats;
     private BigDecimal price;
+    private String imageUrl;
 
 
 }

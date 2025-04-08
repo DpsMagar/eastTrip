@@ -8,4 +8,5 @@ public class ListAirportNamesDTO {
     private String airportName;
     private String airportCode;
     private String airportLocation;
+//    private String imageUrl;
 }
