@@ -86,7 +86,7 @@ public class FlightSearchResultsService {
                         dto.setFlightDuration(flightDetails.getFlightDuration());
                         dto.setAvailableSeats(flightDetails.getAvailableSeats());
                         dto.setPrice(flightDetails.getPrice());
-                        dto.setImageUrl(flightDetails.getIm);
+                        dto.setImageUrl(fromAirport.getImageUrl());
 
                         results.add(dto);
                     }

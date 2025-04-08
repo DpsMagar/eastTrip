@@ -38,6 +38,8 @@ public class FlightDetails {
 
     private BigDecimal price;
 
+
+
 //    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Bookings> bookings;
 
