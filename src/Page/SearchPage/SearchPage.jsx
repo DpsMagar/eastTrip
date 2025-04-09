@@ -17,6 +17,7 @@ const SearchPage = () => {
   }, []);
 
   const renderResultContainer = () => {
+    // eslint-disable-next-line default-case
     switch (resultType) {
       case 'flights':
         return <Result/>;

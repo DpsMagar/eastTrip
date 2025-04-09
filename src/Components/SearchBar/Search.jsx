@@ -7,8 +7,9 @@ import { useGetAirportsAllQuery } from "../../features/api/flightApi"
 import { useGetHotelsAllQuery } from "../../features/api/hotelApi"
 import { useGetHomeStayAllQuery } from "../../features/api/homeStayApi"
 import { useDispatch } from "react-redux"
-import { setFrom , setTo, setDayOfWeek} from "../../features/slice/flightSlice"
+import { setFrom , setTo, setDayOfWeek, setTravellers as globalTraveller} from "../../features/slice/flightSlice"
 import { setHotelLocation } from "../../features/slice/hotelSlice"
+import { setGuests as globalGuests, setRooms as globalRooms } from "../../features/slice/hotelSlice"
 import { setHomeStayLocation } from "../../features/slice/homeStaySlice"
 
 export default function TravelBooking() {
@@ -54,10 +55,6 @@ export default function TravelBooking() {
 
   const navigate = useNavigate()
 
-  const handleLogoClick = () => {
-    navigate("/search");
-
-  };
 
 
 
@@ -83,7 +80,7 @@ export default function TravelBooking() {
   const [checkOutDate, setCheckOutDate] = useState("22 Feb 2025")
   const [checkOutDay, setCheckOutDay] = useState("Saturday")
   const [rooms, setRooms] = useState(1)
-  const [guests, setGuests] = useState(4)
+  const [guests, setGuests] = useState(2)
 
   // Calendar state
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
@@ -105,50 +102,9 @@ export default function TravelBooking() {
 
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-  // const airports = {
-  //   Kathmandu: "Tribhuvan International Airport",
-  //   Pokhara: "Pokhara International Airport",
-  //   Lumbini: "Lumbini Airport",
-  //   Biratnagar: "Biratnagar Airport",
-  //   Nepalgunj: "Nepalgunj Airport",
-  //   Bharatpur: "Bharatpur Airport",
-  //   Janakpur: "Janakpur Airport",
-  //   Dhangadhi: "Dhangadhi Airport",
-  //   Lukla: "Tenzing-Hillary Airport",
-  //   Jomsom: "Jomsom Airport",
-  //   Simara: "Simara Airport",
-  //   Tumlingtar: "Tumlingtar Airport",
-  //   Surkhet: "Surkhet Airport",
-  //   Bhadrapur: "Bhadrapur Airport",
-  //   Bhojpur: "Bhojpur Airport",
-  //   Phaplu: "Phaplu Airport",
-  //   Taplejung: "Taplejung Airport",
-  // }
+ 
 
-  // const airports = airport?.reduce((acc, airport) => {
-  //   acc[airport.airportLocation] = airport.airportName;
-  //   return acc;
-  // }, {}) || {};
-
-  // const locations = [
-  //   "Kathmandu",
-  //   "Pokhara",
-  //   "Lumbini",
-  //   "Biratnagar",
-  //   "Nepalgunj",
-  //   "Bharatpur",
-  //   "Janakpur",
-  //   "Dhangadhi",
-  //   "Lukla",
-  //   "Jomsom",
-  //   "Simara",
-  //   "Tumlingtar",
-  //   "Surkhet",
-  //   "Bhadrapur",
-  //   "Bhojpur",
-  //   "Phaplu",
-  //   "Taplejung",
-  // ]
+  
 
   const locationsHotel = hotel ? Array.from(new Set(hotel.map((hotelItem) => hotelItem.hotelCity))) : [];
 
@@ -266,6 +222,16 @@ export default function TravelBooking() {
       setCurrentMonth(currentMonth + 1)
     }
   }
+
+  
+  const handleLogoClick = () => {
+    dispatch(globalTraveller(travellers))
+    dispatch(globalRooms(rooms))
+    dispatch(globalGuests(guests))
+
+    navigate("/search");
+
+  };
 
   return (
     <div className="search-wrapper">
@@ -498,32 +464,8 @@ export default function TravelBooking() {
                 <input type="text" placeholder="Search for a city" />
               </div>
               <div className="location-list">
-                {/* {locations.map((location, index) => (
-                  <div
-                    key={index}
-                    className={`location-item ${location === fromLocation ? "active" : ""}`}
-                    onClick={() => handleLocationSelect(location, "from")}
-                  >
-                    <div className="location-name">{location}</div>
-                    <div className="location-airport">{airports[location]}</div>
-                  </div>
-                ))} */}
-                {/* {
-                  
-                  Object.entries(airports).map(([key, value], index)=> (
-                    <div
-                    key={index}
-                    className={`location-item ${key === fromLocation ? "active" : ""}`}
-                    onClick={() => {handleLocationSelect(key, "from")
-                    dispatch(setFrom())}}
-                  >
-                    <div className="location-name">{key}</div>
-                    <div className="location-airport">{value}</div>
-                  </div>
-                  
-                  ))
                 
-                } */}
+               
                 {
                   airports.map((airport, index)=>(
                     <div
@@ -562,33 +504,7 @@ export default function TravelBooking() {
                 <input type="text" placeholder="Search for a city" />
               </div>
               <div className="location-list">
-                {/* {locations.map((location, index) => (
-                  <div
-                    key={index}
-                    className={`location-item ${location === toLocation ? "active" : ""}`}
-                    onClick={() => handleLocationSelect(location, "to")}
-                  >
-                    <div className="location-name">{location}</div>
-                    <div className="location-airport">{airports[location]}</div>
-                  </div>
-                ))}
-                 */}
-
-                 {/* {
-                  
-                  Object.entries(airports).map(([key, value], index)=> (
-                    <div
-                    key={index}
-                    className={`location-item ${key === fromLocation ? "active" : ""}`}
-                    onClick={() => handleLocationSelect(key, "from")}
-                  >
-                    <div className="location-name">{key}</div>
-                    <div className="location-airport">{value}</div>
-                  </div>
-                  
-                  ))
                 
-                } */}
                 {
                   airports.map((airport, index)=>(
                     <div
