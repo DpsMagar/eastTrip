@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import "./SignUp.css"
 
 export default function SignUp({ onClose, switchToLogin }) {
@@ -12,12 +12,27 @@ export default function SignUp({ onClose, switchToLogin }) {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [agreeTerms, setAgreeTerms] = useState(false)
+  
+  const modalRef = useRef(null)
+
+  // Close modal when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose()
+      }
+    }
+    
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [onClose])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError("")
 
-  
     if (password !== confirmPassword) {
       setError("Passwords do not match")
       return
@@ -29,7 +44,6 @@ export default function SignUp({ onClose, switchToLogin }) {
     }
 
     try {
-     
       console.log("Signup with:", { name, email, password })
       onClose()
     } catch (err) {
@@ -46,25 +60,25 @@ export default function SignUp({ onClose, switchToLogin }) {
   }
 
   return (
-    <div className="SignUp">
-    <div className="modal-overlay">
-      <div className="login-modal">
-        <button className="close-button" onClick={onClose}>
-          ×
-        </button>
+    <div className="signup__wrapper">
+      <div className="signup__overlay">
+        <div className="signup__modal" ref={modalRef}>
+          <button className="signup__close-btn" onClick={onClose}>
+            ×
+          </button>
 
-        <div className="login-container">
-          <div className="login-card">
-            <h1 className="login-title">Sign Up Now</h1>
+          <div className="signup__content">
+            <h1 className="signup__title">Sign Up Now</h1>
 
-            {error && <div className="error-message">{error}</div>}
+            {error && <div className="signup__error">{error}</div>}
 
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="name">Full Name</label>
+            <form onSubmit={handleSubmit} className="signup__form">
+              <div className="signup__form-group">
+                <label htmlFor="name" className="signup__label">Full Name</label>
                 <input
                   id="name"
                   type="text"
+                  className="signup__input"
                   placeholder="Enter your full name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -72,11 +86,12 @@ export default function SignUp({ onClose, switchToLogin }) {
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="signup-email">Email</label>
+              <div className="signup__form-group">
+                <label htmlFor="signup-email" className="signup__label">Email</label>
                 <input
                   id="signup-email"
                   type="email"
+                  className="signup__input"
                   placeholder="Enter email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -84,12 +99,13 @@ export default function SignUp({ onClose, switchToLogin }) {
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="signup-password">Password</label>
-                <div className="password-input-container">
+              <div className="signup__form-group">
+                <label htmlFor="signup-password" className="signup__label">Password</label>
+                <div className="signup__password-container">
                   <input
                     id="signup-password"
                     type={showPassword ? "text" : "password"}
+                    className="signup__input"
                     placeholder="Create password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -98,7 +114,7 @@ export default function SignUp({ onClose, switchToLogin }) {
                   <button
                     type="button"
                     onClick={togglePasswordVisibility}
-                    className="password-toggle"
+                    className="signup__password-toggle"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? (
@@ -136,15 +152,16 @@ export default function SignUp({ onClose, switchToLogin }) {
                     )}
                   </button>
                 </div>
-                <small className="password-hint">Password must be at least 8 characters</small>
+                <small className="signup__password-hint">Password must be at least 8 characters</small>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="confirm-password">Confirm Password</label>
-                <div className="password-input-container">
+              <div className="signup__form-group">
+                <label htmlFor="confirm-password" className="signup__label">Confirm Password</label>
+                <div className="signup__password-container">
                   <input
                     id="confirm-password"
                     type={showConfirmPassword ? "text" : "password"}
+                    className="signup__input"
                     placeholder="Confirm password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -153,7 +170,7 @@ export default function SignUp({ onClose, switchToLogin }) {
                   <button
                     type="button"
                     onClick={toggleConfirmPasswordVisibility}
-                    className="password-toggle"
+                    className="signup__password-toggle"
                     aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                   >
                     {showConfirmPassword ? (
@@ -193,36 +210,37 @@ export default function SignUp({ onClose, switchToLogin }) {
                 </div>
               </div>
 
-              <div className="terms-checkbox signup-terms">
+              <div className="signup__terms">
                 <input
                   type="checkbox"
                   id="agree-terms"
+                  className="signup__checkbox"
                   checked={agreeTerms}
                   onChange={() => setAgreeTerms(!agreeTerms)}
                   required
                 />
-                <label htmlFor="agree-terms">
+                <label htmlFor="agree-terms" className="signup__terms-label">
                   By creating an account, you agree to GhumGhamNepal's{" "}
-                  <a href="/privacy-policy" className="terms-link">
+                  <a href="/privacy-policy" className="signup__terms-link">
                     Privacy Policy
                   </a>
                   ,{" "}
-                  <a href="/user-agreement" className="terms-link">
+                  <a href="/user-agreement" className="signup__terms-link">
                     User Agreement and T&Cs
                   </a>
                 </label>
               </div>
 
-              <button type="submit" className="continue-button">
+              <button type="submit" className="signup__continue-btn">
                 CONTINUE
               </button>
 
-              <div className="divider">
+              <div className="signup__divider">
                 <span>Or Sign up with</span>
               </div>
 
-              <button type="button" className="google-button">
-                <div className="google-icon">
+              <button type="button" className="signup__google-btn">
+                <div className="signup__google-icon">
                   <svg viewBox="0 0 24 24" width="20" height="20">
                     <path
                       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -245,10 +263,10 @@ export default function SignUp({ onClose, switchToLogin }) {
                 Continue With Google
               </button>
 
-              <div className="create-account">
+              <div className="signup__login-link">
                 <p>
                   Already have an account?{" "}
-                  <a href="#" onClick={switchToLogin}>
+                  <a href="#" onClick={switchToLogin} className="signup__login-text">
                     Log In
                   </a>
                 </p>
@@ -258,7 +276,5 @@ export default function SignUp({ onClose, switchToLogin }) {
         </div>
       </div>
     </div>
-    </div>
   )
 }
-

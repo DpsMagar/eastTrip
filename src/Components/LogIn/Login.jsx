@@ -1,36 +1,50 @@
-"use client"
+"use client";
 
+import { useState, useEffect, useRef } from "react";
+import { useAuth } from "../../context/AuthContext";
+import "./Login.css";
 
-import { useState } from "react"
-import { useAuth } from "../../context/AuthContext"
-import "./Login.css"
 export default function Login({ onClose, switchToSignup }) {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [rememberMe, setRememberMe] = useState(false)
-  const { signIn } = useAuth()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const { signIn } = useAuth();
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError("")
+    e.preventDefault();
+    setError("");
 
     try {
-      await signIn(email, password)
-      onClose()
+      await signIn(email, password);
+      onClose();
     } catch (err) {
-      setError("Failed to sign in. Please check your credentials.")
+      setError("Failed to sign in. Please check your credentials.");
     }
-  }
+  };
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div className="modal-overlay">
-      <div className="login-modal">
+      <div className="login-modal" ref={modalRef}>
         <button className="close-button" onClick={onClose}>
           ×
         </button>
@@ -170,6 +184,5 @@ export default function Login({ onClose, switchToSignup }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

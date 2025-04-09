@@ -105,8 +105,8 @@ function Box({ hotel }) {
 
           {hotel.topSelling && (
             <div className="top-selling">
-              <span className="top-selling-icon">⚡</span> Top Selling! Booked {hotel.bookings} times in last 30
-              days
+              
+             
             </div>
           )}
 
@@ -117,8 +117,7 @@ function Box({ hotel }) {
           )}
 
           <div className="hotel-tags">
-            <div className="mmt-exclusive">MMT exclusive</div>
-            <div className="price-guarantee">Lowest Price Guarantee</div>
+           
           </div>
         </div>
 

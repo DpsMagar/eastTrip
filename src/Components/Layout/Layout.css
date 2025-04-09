@@ -11,9 +11,9 @@ body, html {
 }
 
 .main-content {
- max-width: none;
+ max-width: 3000px;
   margin: 2rem auto; /* Adds more vertical spacing */
-  padding: 2rem; /* Adds internal padding */
+ 
   background-color: transparent; /* Gives contrast against gradient */
   border-radius: 20px; /* Adds rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds subtle shadow */

@@ -81,8 +81,27 @@ function HotelTabs() {
     },
   ]
 
+  const plane ={
+    "airway logo": "https://www.buddhaair.com/images/logo.png",
+    "airway": "Buddha Air",
+    "flight number": "BHA123",
+    "to": "Pokhara",
+    "from": "Kathmandu",
+    "tocode": "PKR",
+    "fromcode": "KTM",
+    "toairport": "Pokhara Airport",
+    "fromairport": "Tribhuvan International Airport",
+    "flight duration": "30 minutes",
+    "departure": "9:00 AM",
+    "arrival": "9:30 AM",
+    "price": 5000,
+    "class": "Economy",
+    "available seats": 50,
+    "total seats": 100,
+}
   return (
     <section className="page-content">
+    <div className="plane-tabs-container"></div>
     <div className="hotel-tabs-container">
       {/* Simple tabs at the top */}
       <div className="tabs-header">
@@ -113,6 +132,8 @@ function HotelTabs() {
         ))}
       </div>
     </div>
+    
+    
     </section>
   )
 }
