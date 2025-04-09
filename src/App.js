@@ -8,6 +8,7 @@ import SearchPage from "./Page/SearchPage/SearchPage"
 import TwoSearch from "./Components/Search2/TwoSearch"
 import DescriptionPage from "./Page/DescriptionPage/DescriptionPage"
 import DashBoard from "./Page/DashBoard/DashBoard"
+
 function App() {
   return (
     <AuthProvider>
@@ -23,9 +24,13 @@ function App() {
             <Route path="/profile" element={<DashBoard />} />
             
           </Route>
+          
         </Routes>
+
       </Router>
     </AuthProvider>
+
+
   )
 }
 

@@ -1,6 +1,6 @@
 .travel-search {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px; /* Increased max-width */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   margin: 0 auto;
   padding: 20px;
@@ -44,6 +44,7 @@
   background-color: #fff;
   border-radius: 8px;
   padding: 10px;
+  width: 100%;
 }
 
 .travel-search .field-group {
@@ -54,7 +55,7 @@
 
 .travel-search .field {
   flex: 1;
-  min-width: 120px;
+  min-width: 180px; /* Increased min-width */
   padding: 10px 15px;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -64,6 +65,11 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+/* Extra wide field for location search */
+.travel-search .wide-field {
+  min-width: 280px;
 }
 
 .travel-search .field.disabled {
@@ -92,9 +98,21 @@
   margin-top: 2px;
 }
 
+/* Date Picker Input */
+.travel-search .date-picker-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  background: transparent;
+  cursor: pointer;
+}
+
 .travel-search .swap-button {
-  width: 36px;
-  height: 36px;
+  width: 56px;
+  height: 26px;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 50%;
@@ -113,8 +131,8 @@
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  min-width: 100px;
-  width: 120px;
+  min-width: 180px; /* Increased min-width */
+  width: 180px;
   flex-shrink: 0;
 }
 
@@ -141,7 +159,7 @@
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   width: 90%;
-  max-width: 400px;
+  max-width: 500px; /* Increased max-width */
   max-height: 80vh;
   overflow: auto;
 }
@@ -226,15 +244,15 @@
 
 .travel-search .search-input input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 14px;
 }
 
 /* Location List */
 .travel-search .location-list {
-  max-height: 300px;
+  max-height: 400px; /* Increased max-height */
   overflow-y: auto;
 }
 
@@ -258,60 +276,6 @@
   color: #666;
 }
 
-/* Calendar */
-.travel-search .calendar {
-  width: 100%;
-}
-
-.travel-search .calendar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.travel-search .calendar-title {
-  font-weight: 600;
-}
-
-.travel-search .calendar-nav {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #333;
-  padding: 5px 10px;
-  font-size: 16px;
-}
-
-.travel-search .calendar-days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-}
-
-.travel-search .weekday {
-  text-align: center;
-  font-weight: 600;
-  font-size: 12px;
-  color: #666;
-  padding: 5px 0;
-}
-
-.travel-search .calendar-day {
-  text-align: center;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.travel-search .calendar-day:hover:not(.empty) {
-  background-color: #f0f0f0;
-}
-
-.travel-search .calendar-day.empty {
-  cursor: default;
-}
-
 /* Counter Section */
 .travel-search .counter-section {
   display: flex;
@@ -322,6 +286,12 @@
 
 .travel-search .counter-label {
   font-weight: 600;
+}
+
+.travel-search .counter-subtext {
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
 }
 
 .travel-search .counter-controls {
@@ -377,6 +347,25 @@
 }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .travel-search .search-form {
+    flex-wrap: wrap;
+  }
+  
+  .travel-search .field {
+    min-width: calc(33.33% - 10px);
+  }
+  
+  .travel-search .wide-field {
+    min-width: calc(66.66% - 10px);
+  }
+  
+  .travel-search .search-button {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
 @media (max-width: 768px) {
   .travel-search .search-form {
     flex-direction: column;
@@ -388,8 +377,10 @@
   }
 
   .travel-search .field,
+  .travel-search .wide-field,
   .travel-search .search-button {
     width: 100%;
+    min-width: 100%;
   }
 
   .travel-search .swap-button {
