@@ -29,4 +29,6 @@ public class HomeStay {
     @ManyToMany
     private List<HomeStayFeatures> services = new ArrayList<>();
 
+    private String imageUrl;
+
 }

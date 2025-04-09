@@ -20,4 +20,5 @@ public class HomeStayResultsDTO {
     private List<String> HomeStayFeatures;
     private int price;
     private String extraInfo;
+    private String imageUrl;
 }

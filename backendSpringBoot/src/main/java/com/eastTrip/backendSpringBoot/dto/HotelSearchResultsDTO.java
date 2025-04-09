@@ -20,6 +20,7 @@ public class HotelSearchResultsDTO {
     private List<String> hotelFeatures;
     private int price;
     private String extraInfo;
+    private String imageUrl;
 
 
 }

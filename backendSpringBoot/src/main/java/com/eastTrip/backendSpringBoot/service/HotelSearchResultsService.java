@@ -37,6 +37,7 @@ public class HotelSearchResultsService {
             dto.setHotelFeatures(mapHotelFeatures(hotel.getFeaturesOfHotel()));
             dto.setPrice(hotel.getPrice());
             dto.setExtraInfo(hotel.getExtraInfo());
+            dto.setImageUrl(hotel.getImageUrl());
 
             hotelSearchResultsDTOList.add(dto);
         }

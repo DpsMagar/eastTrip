@@ -32,4 +32,6 @@ public class Hotel {
 
     @ManyToMany
     private List<HotelFeatures> featuresOfHotel= new ArrayList<>();
+
+    private String imageUrl;
 }

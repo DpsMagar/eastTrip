@@ -44,6 +44,7 @@ public class HomeStayResultsService {
             homeStayResultsDTO.setExtraInfo(homeStay.getExtraInfo());
             homeStayResultsDTO.setRoomFeatures(mapRoomFeatures(homeStay.getRoomFeatures()));
             homeStayResultsDTO.setHomeStayFeatures(mapHotelServices(homeStay.getServices()));
+            homeStayResultsDTO.setImageUrl(homeStay.getImageUrl());
 
             homeStayResultsDTOs.add(homeStayResultsDTO);
         }
