@@ -8,7 +8,7 @@ import SearchPage from "./Page/SearchPage/SearchPage"
 import TwoSearch from "./Components/Search2/TwoSearch"
 import DescriptionPage from "./Page/DescriptionPage/DescriptionPage"
 import DashBoard from "./Page/DashBoard/DashBoard"
-
+import Result from "./Components/ResultBox/PlaneResult"
 function App() {
   return (
     <AuthProvider>
@@ -22,6 +22,7 @@ function App() {
             <Route path="/search2" element={<TwoSearch />} />
             <Route path="/description" element={<DescriptionPage />} />
             <Route path="/profile" element={<DashBoard />} />
+            <Route path="/result" element={<Result />} />
             
           </Route>
           
