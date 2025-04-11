@@ -38,8 +38,7 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(request -> {
                     org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
-                    config.setAllowedOrigins(List.of("http://localhost:5173/"));
-                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    config.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000"));                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     config.setAllowedHeaders(List.of("*"));
                     config.setExposedHeaders(List.of("Authorization"));
                     config.setAllowCredentials(true);
@@ -48,7 +47,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // No session (JWT is stateless)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**", "/oauth2/**","/login/oauth2/**").permitAll()
+                        .requestMatchers("/api/**", "/oauth2/**", "/login/oauth2/**", "/results/**").permitAll()
                         .anyRequest().authenticated()
                 )
 
