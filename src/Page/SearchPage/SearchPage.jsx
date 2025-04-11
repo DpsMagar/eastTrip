@@ -4,6 +4,7 @@ import Result from '../../Components/ResultBox/Result'
 import "./SearchPage.css"
 import Result2 from '../../Components/ResultBox/Result2'
 import Result3 from '../../Components/ResultBox/Result3'
+import PlaneResult from '../../Components/ResultBox/PlaneResult'
 
 const SearchPage = () => {
   const [resultType, setResultType] = useState(null);
@@ -17,16 +18,18 @@ const SearchPage = () => {
   }, []);
 
   const renderResultContainer = () => {
-    // eslint-disable-next-line default-case
     switch (resultType) {
       case 'flights':
-        return <Result/>;
+        return <PlaneResult />;
       case 'hotels':
-        return <Result2/>;
+        return <Result2 />;
       case 'homeStays':
-        return <Result3/>;
+        return <Result3 />;
+      default:
+        return <div style={{ padding: "2rem", textAlign: "center" }}>No results to display.</div>;
     }
   };
+  
 
   return (
     <section className="page-content">

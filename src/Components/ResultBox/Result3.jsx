@@ -6,7 +6,7 @@ import "./Result.css"
 import { useSelector } from "react-redux";
 import { useGetHomeStayQuery } from "../../features/api/homeStayApi";
 
-export default function Result2() {
+export default function Result3() {
 
   const[homeStayData, setHomeStay]= useState([])
 

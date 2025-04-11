@@ -3,16 +3,13 @@
 import { useState, useRef, useEffect } from "react"
 import "./TwoSearch.css"
 import { ArrowLeftRight, ChevronDown, X } from "lucide-react"
+import { useSelector } from "react-redux"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
 
 export default function TwoSearch() {
-
-
-   const { from, to, dayOfWeek, travellers } = useSelector((state) => state.flight);
-   const { locations: selectedLocations, rooms: selectedRooms, guests: selectedGuests} = useSelector((state) => state.hotel);
-
-
-  const presentTab=  localStorage.getItem('active')
-  const [activeTab, setActiveTab] = useState(presentTab)
+  const presentTab = localStorage.getItem('active')
+  const [activeTab, setActiveTab] = useState(presentTab || "flights")
   const [activePopup, setActivePopup] = useState(null)
   const popupRef = useRef(null)
   const [searchInput, setSearchInput] = useState("")
@@ -21,8 +18,9 @@ export default function TwoSearch() {
   const [tripType, setTripType] = useState("One Way")
   const [fromLocation, setFromLocation] = useState("Kathmandu")
   const [toLocation, setToLocation] = useState("Pokhara")
-  const [departDate, setDepartDate] = useState("Fri, 29 March 2025")
-  const [returnDate, setReturnDate] = useState("Select here")
+  const [departDate, setDepartDate] = useState(new Date(2025, 2, 29)) // March is month 2 in JS
+  const [returnDate, setReturnDate] = useState(null)
+  const [travelers, setTravelers] = useState({ adults: 1, children: 0 })
 
   // Hotels state
   const [location, setLocation] = useState("Kathmandu")
@@ -30,6 +28,8 @@ export default function TwoSearch() {
   const [checkOutDate, setCheckOutDate] = useState(new Date(new Date().setDate(new Date().getDate() + 1)))
   const [rooms, setRooms] = useState(2)
   const [guests, setGuests] = useState(4)
+
+  // Rest of the code remains the same...
 
   // Top 20 cities in Nepal
   const topCities = [
