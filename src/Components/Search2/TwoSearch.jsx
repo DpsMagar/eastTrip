@@ -1,81 +1,38 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState } from "react"
 import "./TwoSearch.css"
 import { ArrowLeftRight, ChevronDown, X } from "lucide-react"
-import { useSelector } from "react-redux"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
 
 export default function TwoSearch() {
-  const presentTab = localStorage.getItem('active')
-  const [activeTab, setActiveTab] = useState(presentTab || "flights")
+  const [activeTab, setActiveTab] = useState("flights")
   const [activePopup, setActivePopup] = useState(null)
-  const popupRef = useRef(null)
-  const [searchInput, setSearchInput] = useState("")
 
   // Flights state
   const [tripType, setTripType] = useState("One Way")
   const [fromLocation, setFromLocation] = useState("Kathmandu")
   const [toLocation, setToLocation] = useState("Pokhara")
-  const [departDate, setDepartDate] = useState(new Date(2025, 2, 29)) // March is month 2 in JS
-  const [returnDate, setReturnDate] = useState(null)
-  const [travelers, setTravelers] = useState({ adults: 1, children: 0 })
+  const [departDate, setDepartDate] = useState("Fri, 29 March 2025")
+  const [returnDate, setReturnDate] = useState("Select here")
 
   // Hotels state
   const [location, setLocation] = useState("Kathmandu")
-  const [checkInDate, setCheckInDate] = useState(new Date())
-  const [checkOutDate, setCheckOutDate] = useState(new Date(new Date().setDate(new Date().getDate() + 1)))
+  const [checkInDate, setCheckInDate] = useState("12 Apr 2025")
+  const [checkOutDate, setCheckOutDate] = useState("13 Apr 2025")
   const [rooms, setRooms] = useState(2)
   const [guests, setGuests] = useState(4)
 
-  // Rest of the code remains the same...
+  // Calendar state
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
 
-  // Top 20 cities in Nepal
-  const topCities = [
-    "Kathmandu", "Pokhara", "Lalitpur", "Bharatpur", "Biratnagar",
-    "Birgunj", "Butwal", "Dharan", "Bhimdatta", "Hetauda",
-    "Dhangadhi", "Nepalgunj", "Itahari", "Kirtipur", "Tulsipur",
-    "Bidur", "Ghorahi", "Rajbiraj", "Lahan", "Janakpur"
-  ]
-
-  // Airports in Nepal
   const locations = [
     { name: "Kathmandu", info: "Tribhuvan International Airport" },
     { name: "Pokhara", info: "Pokhara International Airport" },
+    { name: "Lumbini", info: "Lumbini Airport" },
     { name: "Biratnagar", info: "Biratnagar Airport" },
     { name: "Nepalgunj", info: "Nepalgunj Airport" },
-    { name: "Bhairahawa", info: "Gautam Buddha Airport" },
-    { name: "Lukla", info: "Tenzing-Hillary Airport" },
-    { name: "Bhadrapur", info: "Chandragadhi Airport" },
-    { name: "Dhangadhi", info: "Dhangadhi Airport" },
-    { name: "Janakpur", info: "Janakpur Airport" },
-    { name: "Tumlingtar", info: "Tumlingtar Airport" }
   ]
-
-  // Filter locations based on search input
-  const filteredLocations = activePopup === "location" 
-  ? topCities.filter(city => 
-      city.toLowerCase().includes(searchInput.toLowerCase()) ||
-      searchInput.toLowerCase().includes(city.toLowerCase())
-    )
-  : locations.filter(loc => 
-      loc.name.toLowerCase().includes(searchInput.toLowerCase()) ||
-      loc.info.toLowerCase().includes(searchInput.toLowerCase())
-    )
-  // Close popup when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setActivePopup(null)
-        setSearchInput("")
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [popupRef])
 
   const handleSwapLocations = () => {
     const temp = fromLocation
@@ -97,17 +54,19 @@ export default function TwoSearch() {
       setLocation(loc)
     }
     setActivePopup(null)
-    setSearchInput("")
   }
 
-  const handleTravelersChange = (type, operation) => {
-    setTravelers(prev => {
-      const newValue = operation === "increment" ? prev[type] + 1 : prev[type] - 1
-      return {
-        ...prev,
-        [type]: Math.max(0, newValue)
-      }
-    })
+  const handleDateSelect = (date, type) => {
+    if (type === "depart") {
+      setDepartDate(date)
+    } else if (type === "return") {
+      setReturnDate(date)
+    } else if (type === "checkIn") {
+      setCheckInDate(date)
+    } else if (type === "checkOut") {
+      setCheckOutDate(date)
+    }
+    setActivePopup(null)
   }
 
   const handleRoomsGuestsChange = (operation) => {
@@ -122,13 +81,49 @@ export default function TwoSearch() {
     }
   }
 
-  const formatDate = (date) => {
-    if (!date) return "Select here"
-    const options = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }
-    return date.toLocaleDateString('en-US', options)
+  const generateCalendarDays = () => {
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay()
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate()
+
+    const days = []
+
+    // Add empty cells for days before the first day of the month
+    for (let i = 0; i < firstDay; i++) {
+      days.push(null)
+    }
+
+    // Add days of the month
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push(i)
+    }
+
+    return days
   }
 
-  const totalTravelers = travelers.adults + travelers.children
+  const handlePrevMonth = () => {
+    if (currentMonth === 0) {
+      setCurrentMonth(11)
+      setCurrentYear(currentYear - 1)
+    } else {
+      setCurrentMonth(currentMonth - 1)
+    }
+  }
+
+  const handleNextMonth = () => {
+    if (currentMonth === 11) {
+      setCurrentMonth(0)
+      setCurrentYear(currentYear + 1)
+    } else {
+      setCurrentMonth(currentMonth + 1)
+    }
+  }
+
+  const formatDate = (day) => {
+    if (!day) return ""
+    const date = new Date(currentYear, currentMonth, day)
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    return `${day} ${monthNames[currentMonth]} ${currentYear}`
+  }
 
   return (
     <div className="travel-search">
@@ -141,8 +136,8 @@ export default function TwoSearch() {
           Hotel
         </button>
         <button
-          className={`tab ${activeTab === "homeStays" ? "active" : ""}`}
-          onClick={() => setActiveTab("homeStays")}
+          className={`tab ${activeTab === "homestays" ? "active" : ""}`}
+          onClick={() => setActiveTab("homestays")}
         >
           HomeStays
         </button>
@@ -178,38 +173,18 @@ export default function TwoSearch() {
           </div>
 
           {/* Depart Time */}
-          <div className="field">
+          <div className="field" onClick={() => setActivePopup("depart")}>
             <div className="field-label">Depart Time</div>
-            <DatePicker
-              selected={departDate}
-              onChange={(date) => setDepartDate(date)}
-              dateFormat="EEE, d MMMM yyyy"
-              className="date-picker-input"
-              minDate={new Date()}
-            />
+            <div className="field-value">{departDate}</div>
           </div>
 
           {/* Return */}
-          <div className={`field ${tripType === "One Way" ? "disabled" : ""}`}>
+          <div
+            className={`field ${tripType === "One Way" ? "disabled" : ""}`}
+            onClick={() => tripType !== "One Way" && setActivePopup("return")}
+          >
             <div className="field-label">Return</div>
-            <DatePicker
-              selected={returnDate}
-              onChange={(date) => setReturnDate(date)}
-              dateFormat="EEE, d MMMM yyyy"
-              className="date-picker-input"
-              minDate={departDate}
-              disabled={tripType === "One Way"}
-              placeholderText="Select return date"
-            />
-          </div>
-
-          {/* Travelers */}
-          <div className="field" onClick={() => setActivePopup("travelers")}>
-            <div className="field-label">Travelers</div>
-            <div className="field-value">
-              {totalTravelers} {totalTravelers === 1 ? "Traveler" : "Travelers"}
-              <ChevronDown size={16} />
-            </div>
+            <div className="field-value">{returnDate}</div>
           </div>
 
           {/* Search Button */}
@@ -218,56 +193,11 @@ export default function TwoSearch() {
       )}
 
       {/* Hotels Search Form */}
-      {(activeTab === "hotels") && (
-        <div className="search-form">
-          {/* Location */}
-          <div className="field wide-field" onClick={() => setActivePopup("location")}>
-            <div className="field-label">City, Hotel Name or Location</div>
-            <div className="field-value">{location}</div>
-          </div>
-
-          {/* Check In */}
-          <div className="field">
-            <div className="field-label">Check In</div>
-            <DatePicker
-              selected={checkInDate}
-              onChange={(date) => setCheckInDate(date)}
-              dateFormat="d MMM yyyy"
-              className="date-picker-input"
-              minDate={new Date()}
-            />
-          </div>
-
-          {/* Check Out */}
-          <div className="field">
-            <div className="field-label">Check Out</div>
-            <DatePicker
-              selected={checkOutDate}
-              onChange={(date) => setCheckOutDate(date)}
-              dateFormat="d MMM yyyy"
-              className="date-picker-input"
-              minDate={checkInDate}
-            />
-          </div>
-
-          {/* Rooms & Guests */}
-          <div className="field" onClick={() => setActivePopup("roomsGuests")}>
-            <div className="field-label">Rooms & Guests</div>
-            <div className="field-value">
-              {rooms} Room & {guests} Guests
-            </div>
-          </div>
-
-          {/* Search Button */}
-          <button className="search-button">Search</button>
-        </div>
-      )}
-
-      {(activeTab === "homeStays") && (
+      {(activeTab === "hotels" || activeTab === "homestays") && (
         <div className="search-form">
           {/* Location */}
           <div className="field" onClick={() => setActivePopup("location")}>
-            <div className="field-label">City, homeStay Name or Location</div>
+            <div className="field-label">City, Hotel Name or Location</div>
             <div className="field-value">{location}</div>
           </div>
 
@@ -300,8 +230,8 @@ export default function TwoSearch() {
 
       {/* Popups */}
       {activePopup && (
-        <div className="popup-overlay">
-          <div className="popup" ref={popupRef}>
+        <div className="popup-overlay" onClick={() => setActivePopup(null)}>
+          <div className="popup" onClick={(e) => e.stopPropagation()}>
             {/* Trip Type Popup */}
             {activePopup === "tripType" && (
               <>
@@ -353,34 +283,17 @@ export default function TwoSearch() {
                 </div>
                 <div className="popup-content">
                   <div className="search-input">
-                    <input 
-                      type="text" 
-                      placeholder={
-                        activePopup === "location" 
-                          ? "Search for city, hotel or location" 
-                          : "Search for a city"
-                      }
-                      value={searchInput}
-                      onChange={(e) => setSearchInput(e.target.value)}
-                      autoFocus
-                    />
+                    <input type="text" placeholder="Search for a city" />
                   </div>
                   <div className="location-list">
-                    {filteredLocations.map((loc, index) => (
+                    {locations.map((loc, index) => (
                       <div
                         key={index}
                         className="location-item"
-                        onClick={() => handleLocationSelect(
-                          activePopup === "location" ? loc : loc.name, 
-                          activePopup
-                        )}
+                        onClick={() => handleLocationSelect(loc.name, activePopup)}
                       >
-                        <div className="location-name">
-                          {activePopup === "location" ? loc : loc.name}
-                        </div>
-                        {activePopup !== "location" && (
-                          <div className="location-info">{loc.info}</div>
-                        )}
+                        <div className="location-name">{loc.name}</div>
+                        <div className="location-info">{loc.info}</div>
                       </div>
                     ))}
                   </div>
@@ -388,69 +301,75 @@ export default function TwoSearch() {
               </>
             )}
 
-            {/* Travelers Popup */}
-            {activePopup === "travelers" && (
+            {/* Date Picker Popup */}
+            {(activePopup === "depart" ||
+              activePopup === "return" ||
+              activePopup === "checkIn" ||
+              activePopup === "checkOut") && (
               <>
                 <div className="popup-header">
-                  <h3>Select Travelers</h3>
+                  <h3>
+                    {activePopup === "depart"
+                      ? "Select Departure Date"
+                      : activePopup === "return"
+                        ? "Select Return Date"
+                        : activePopup === "checkIn"
+                          ? "Select Check In Date"
+                          : "Select Check Out Date"}
+                  </h3>
                   <button className="close-button" onClick={() => setActivePopup(null)}>
                     <X size={16} />
                   </button>
                 </div>
                 <div className="popup-content">
-                  <div className="counter-section">
-                    <div className="counter-label">
-                      <div>Adults</div>
-                      <div className="counter-subtext">12+ years</div>
+                  <div className="calendar">
+                    <div className="calendar-header">
+                      <button className="calendar-nav" onClick={handlePrevMonth}>
+                        &lt;
+                      </button>
+                      <div className="calendar-title">
+                        {
+                          [
+                            "January",
+                            "February",
+                            "March",
+                            "April",
+                            "May",
+                            "June",
+                            "July",
+                            "August",
+                            "September",
+                            "October",
+                            "November",
+                            "December",
+                          ][currentMonth]
+                        }{" "}
+                        {currentYear}
+                      </div>
+                      <button className="calendar-nav" onClick={handleNextMonth}>
+                        &gt;
+                      </button>
                     </div>
-                    <div className="counter-controls">
-                      <button
-                        className="counter-button"
-                        onClick={() => handleTravelersChange("adults", "decrement")}
-                        disabled={travelers.adults <= 1}
-                      >
-                        -
-                      </button>
-                      <span className="counter-value">{travelers.adults}</span>
-                      <button
-                        className="counter-button"
-                        onClick={() => handleTravelersChange("adults", "increment")}
-                        disabled={travelers.adults >= 9}
-                      >
-                        +
-                      </button>
+                    <div className="calendar-days">
+                      <div className="weekday">Su</div>
+                      <div className="weekday">Mo</div>
+                      <div className="weekday">Tu</div>
+                      <div className="weekday">We</div>
+                      <div className="weekday">Th</div>
+                      <div className="weekday">Fr</div>
+                      <div className="weekday">Sa</div>
+
+                      {generateCalendarDays().map((day, index) => (
+                        <div
+                          key={index}
+                          className={`calendar-day ${!day ? "empty" : ""}`}
+                          onClick={() => day && handleDateSelect(formatDate(day), activePopup)}
+                        >
+                          {day}
+                        </div>
+                      ))}
                     </div>
                   </div>
-
-                  <div className="counter-section">
-                    <div className="counter-label">
-                      <div>Children</div>
-                      <div className="counter-subtext">2-11 years</div>
-                    </div>
-                    <div className="counter-controls">
-                      <button
-                        className="counter-button"
-                        onClick={() => handleTravelersChange("children", "decrement")}
-                        disabled={travelers.children <= 0}
-                      >
-                        -
-                      </button>
-                      <span className="counter-value">{travelers.children}</span>
-                      <button
-                        className="counter-button"
-                        onClick={() => handleTravelersChange("children", "increment")}
-                        disabled={travelers.children >= 8 || totalTravelers >= 9}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="popup-info">Maximum 9 travelers allowed (including adults and children)</div>
-
-                  <button className="apply-button" onClick={() => setActivePopup(null)}>
-                    Apply
-                  </button>
                 </div>
               </>
             )}
