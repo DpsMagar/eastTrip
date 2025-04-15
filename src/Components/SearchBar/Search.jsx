@@ -7,7 +7,7 @@ import { useGetAirportsAllQuery } from "../../features/api/flightApi"
 import { useGetHotelsAllQuery } from "../../features/api/hotelApi"
 import { useGetHomeStayAllQuery } from "../../features/api/homeStayApi"
 import { useDispatch } from "react-redux"
-import { setFrom , setTo, setDayOfWeek, setTravellers as globalTraveller} from "../../features/slice/flightSlice"
+import { setFromFlightLocation,setToFlightLocation , setTo, setDayOfWeek, setTravellers as globalTraveller, setflightDate} from "../../features/slice/flightSlice"
 import { setHotelLocation } from "../../features/slice/hotelSlice"
 import {  setGlobalGuests , setGlobalRooms } from "../../features/slice/hotelSlice"
 import { setHomeStayLocation } from "../../features/slice/homeStaySlice"
@@ -15,7 +15,6 @@ import { setHomeStayLocation } from "../../features/slice/homeStaySlice"
 export default function TravelBooking() {
 
   const dispatch = useDispatch();
-  // const { from, to, dayOfWeek } = useSelector((state) => state.flight);
 
   const[airports, setAirports]= useState([])
   const[hotelzz, setHotelzzz]= useState([])
@@ -228,6 +227,7 @@ export default function TravelBooking() {
     dispatch(globalTraveller(travellers))
     dispatch(setGlobalRooms(rooms))
     dispatch(setGlobalGuests(guests))
+    dispatch(setflightDate(departureDate))
 
     navigate("/search");
 
@@ -472,7 +472,7 @@ export default function TravelBooking() {
                     key={index}
                     className={`location-item ${airport.airportLocation === fromLocation ? "active" : ""}`}
                     onClick={() => {handleLocationSelect(airport , "from")
-                    dispatch(setFrom(airport.airportCode))}}
+                    dispatch(setFromFlightLocation(airport.airportLocation))}}
                   >
                     <div className="location-name">{airport.airportLocation}</div>
                     <div className="location-airport">{airport.airportName}</div>
@@ -511,7 +511,7 @@ export default function TravelBooking() {
                     key={index}
                     className={`location-item ${airport.airportLocation === toLocation ? "active" : ""}`}
                     onClick={() => {handleLocationSelect(airport, "to")
-                    dispatch(setTo(airport.airportCode))}}
+                    dispatch(setToFlightLocation(airport.airportLocation))}}
                   >
                     <div className="location-name">{airport.airportLocation}</div>
                     <div className="location-airport">{airport.airportName}</div>

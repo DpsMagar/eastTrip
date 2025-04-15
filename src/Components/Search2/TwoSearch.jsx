@@ -3,16 +3,26 @@
 import { useState } from "react"
 import "./TwoSearch.css"
 import { ArrowLeftRight, ChevronDown, X } from "lucide-react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { setHotelLocation } from "../../features/slice/hotelSlice"
 
 export default function TwoSearch() {
 
+  const navigate= useNavigate()
+  const dispatch= useDispatch()
 
-   const { from, to, dayOfWeek, travellers } = useSelector((state) => state.flight);
+
+   const { from, to, dayOfWeek, travellers, flightDate,fromLocationFlight, toLocationFlight } = useSelector((state) => state.flight);
+  //  console.log("hiiii");
+   
+  //  console.log(flightDate,"kjhkjh");
+   
    const { location: selectedLocations, rooms: selectedRooms, guests: selectedGuests} = useSelector((state) => state.hotel);
   //  console.log(selectedRooms,"rooms");
   //  console.log(selectedGuests,"guests");
-   
+
+
 
 
   const presentTab=  localStorage.getItem('active')
@@ -21,9 +31,9 @@ export default function TwoSearch() {
 
   // Flights state
   const [tripType, setTripType] = useState("One Way")
-  const [fromLocation, setFromLocation] = useState(from)
-  const [toLocation, setToLocation] = useState(to)
-  const [departDate, setDepartDate] = useState("Fri, 29 March 2025")
+  const [fromLocation, setFromLocation] = useState(fromLocationFlight)
+  const [toLocation, setToLocation] = useState(toLocationFlight)
+  const [departDate, setDepartDate] = useState(flightDate)
   const [returnDate, setReturnDate] = useState("Select here")
 
   // Hotels state
@@ -136,6 +146,13 @@ export default function TwoSearch() {
     return `${day} ${monthNames[currentMonth]} ${currentYear}`
   }
 
+  const handleSearch=()=>{
+    console.log("Search triggered for tab:", activeTab);
+    dispatch(setHotelLocation(location))
+
+    navigate("/search")
+  }
+
   return (
     <div className="travel-search">
       {/* Tabs */}
@@ -199,7 +216,7 @@ export default function TwoSearch() {
           </div>
 
           {/* Search Button */}
-          <button className="search-button">Search</button>
+          <button className="search-button" onClick={handleSearch}>Search</button>
         </div>
       )}
 
@@ -235,7 +252,7 @@ export default function TwoSearch() {
           </div>
 
           {/* Search Button */}
-          <button className="search-button">Search</button>
+          <button className="search-button" onClick={handleSearch}>Search</button>
         </div>
       )}
 
@@ -270,7 +287,7 @@ export default function TwoSearch() {
           </div>
 
           {/* Search Button */}
-          <button className="search-button">Search</button>
+          <button className="search-button" onClick={handleSearch}>Search</button>
         </div>
       )}
 
