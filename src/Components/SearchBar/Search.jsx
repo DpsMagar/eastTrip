@@ -9,7 +9,7 @@ import { useGetHomeStayAllQuery } from "../../features/api/homeStayApi"
 import { useDispatch } from "react-redux"
 import { setFrom , setTo, setDayOfWeek, setTravellers as globalTraveller} from "../../features/slice/flightSlice"
 import { setHotelLocation } from "../../features/slice/hotelSlice"
-import { setGuests as globalGuests, setRooms as globalRooms } from "../../features/slice/hotelSlice"
+import {  setGlobalGuests , setGlobalRooms } from "../../features/slice/hotelSlice"
 import { setHomeStayLocation } from "../../features/slice/homeStaySlice"
 
 export default function TravelBooking() {
@@ -226,8 +226,8 @@ export default function TravelBooking() {
   
   const handleLogoClick = () => {
     dispatch(globalTraveller(travellers))
-    dispatch(globalRooms(rooms))
-    dispatch(globalGuests(guests))
+    dispatch(setGlobalRooms(rooms))
+    dispatch(setGlobalGuests(guests))
 
     navigate("/search");
 

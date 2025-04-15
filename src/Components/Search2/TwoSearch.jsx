@@ -3,24 +3,35 @@
 import { useState } from "react"
 import "./TwoSearch.css"
 import { ArrowLeftRight, ChevronDown, X } from "lucide-react"
+import { useSelector } from "react-redux"
 
 export default function TwoSearch() {
-  const [activeTab, setActiveTab] = useState("flights")
+
+
+   const { from, to, dayOfWeek, travellers } = useSelector((state) => state.flight);
+   const { location: selectedLocations, rooms: selectedRooms, guests: selectedGuests} = useSelector((state) => state.hotel);
+  //  console.log(selectedRooms,"rooms");
+  //  console.log(selectedGuests,"guests");
+   
+
+
+  const presentTab=  localStorage.getItem('active')
+  const [activeTab, setActiveTab] = useState(presentTab)
   const [activePopup, setActivePopup] = useState(null)
 
   // Flights state
   const [tripType, setTripType] = useState("One Way")
-  const [fromLocation, setFromLocation] = useState("Kathmandu")
-  const [toLocation, setToLocation] = useState("Pokhara")
+  const [fromLocation, setFromLocation] = useState(from)
+  const [toLocation, setToLocation] = useState(to)
   const [departDate, setDepartDate] = useState("Fri, 29 March 2025")
   const [returnDate, setReturnDate] = useState("Select here")
 
   // Hotels state
-  const [location, setLocation] = useState("Kathmandu")
+  const [location, setLocation] = useState(selectedLocations)
   const [checkInDate, setCheckInDate] = useState("12 Apr 2025")
   const [checkOutDate, setCheckOutDate] = useState("13 Apr 2025")
-  const [rooms, setRooms] = useState(2)
-  const [guests, setGuests] = useState(4)
+  const [rooms, setRooms] = useState(selectedRooms)
+  const [guests, setGuests] = useState(selectedGuests)
 
   // Calendar state
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
@@ -136,8 +147,8 @@ export default function TwoSearch() {
           Hotel
         </button>
         <button
-          className={`tab ${activeTab === "homestays" ? "active" : ""}`}
-          onClick={() => setActiveTab("homestays")}
+          className={`tab ${activeTab === "homeStays" ? "active" : ""}`}
+          onClick={() => setActiveTab("homeStays")}
         >
           HomeStays
         </button>
@@ -193,11 +204,46 @@ export default function TwoSearch() {
       )}
 
       {/* Hotels Search Form */}
-      {(activeTab === "hotels" || activeTab === "homestays") && (
+      {(activeTab === "hotels") && (
         <div className="search-form">
           {/* Location */}
           <div className="field" onClick={() => setActivePopup("location")}>
             <div className="field-label">City, Hotel Name or Location</div>
+            <div className="field-value">{location}</div>
+          </div>
+
+          {/* Check In */}
+          <div className="field" onClick={() => setActivePopup("checkIn")}>
+            <div className="field-label">Check In</div>
+            <div className="field-value">{checkInDate}</div>
+            <div className="field-subtext">Saturday</div>
+          </div>
+
+          {/* Check Out */}
+          <div className="field" onClick={() => setActivePopup("checkOut")}>
+            <div className="field-label">Check Out</div>
+            <div className="field-value">{checkOutDate}</div>
+            <div className="field-subtext">Sunday</div>
+          </div>
+
+          {/* Rooms & Guests */}
+          <div className="field" onClick={() => setActivePopup("roomsGuests")}>
+            <div className="field-label">Rooms & Guests</div>
+            <div className="field-value">
+              {rooms} Room & {guests} Guests
+            </div>
+          </div>
+
+          {/* Search Button */}
+          <button className="search-button">Search</button>
+        </div>
+      )}
+
+      {(activeTab === "homeStays") && (
+        <div className="search-form">
+          {/* Location */}
+          <div className="field" onClick={() => setActivePopup("location")}>
+            <div className="field-label">City, homeStay Name or Location</div>
             <div className="field-value">{location}</div>
           </div>
 

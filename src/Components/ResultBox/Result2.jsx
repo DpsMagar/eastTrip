@@ -61,7 +61,7 @@ export default function Result2() {
   return (
     <section className="page-content">
     <div className="hotel-listing-container">
-      <h1 className="hotel-listing-title">Showing Results for Hotels in Kathmandu</h1>
+      <h1 className="hotel-listing-title">Showing Results for Hotels in {location}</h1>
 
       <div className="hotel-cards-container">
         {currentHotels.map((hotel, index) => (

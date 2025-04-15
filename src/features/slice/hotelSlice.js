@@ -13,14 +13,14 @@ const hotelSlice = createSlice({
     setHotelLocation: (state, action) => {
         state.location= action.payload;
     },
-      setRooms:(state, action)=> {
+      setGlobalRooms:(state, action)=> {
         state.rooms= action.payload;
       },
-      setGuests:(state, action)=> {
-        state.rooms= action.payload;
+      setGlobalGuests:(state, action)=> {
+        state.guests= action.payload;
       }}
 });
 
-export const { setHotelLocation, setGuests,setRooms } = hotelSlice.actions;
+export const { setHotelLocation, setGlobalGuests, setGlobalRooms } = hotelSlice.actions;
 
 export default hotelSlice.reducer;
