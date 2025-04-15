@@ -47,7 +47,7 @@ export default function NavBar() {
     <div className="chumchom-container">
       <header className="header">
         <div className="logo-container" onClick={handleLogoClick} style={{ cursor: "pointer" }}>
-          <img src={image} alt="GhumGham" width={30} height={30} className="logo-img" />
+          
           <h2 className="logo">GhumGham</h2>
         </div>
 

@@ -11,6 +11,7 @@ import DashBoard from "./Page/DashBoard/DashBoard"
 import Result from "./Components/ResultBox/PlaneResult"
 function App() {
   return (
+    <div>
     <AuthProvider>
       <Router>
         <Routes>
@@ -31,7 +32,7 @@ function App() {
       </Router>
     </AuthProvider>
 
-
+    </div>
   )
 }
 
