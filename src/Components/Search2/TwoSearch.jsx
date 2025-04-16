@@ -6,7 +6,8 @@ import { ArrowLeftRight, ChevronDown, X } from "lucide-react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { setHotelLocation } from "../../features/slice/hotelSlice"
-
+import { setGlobalRooms, setGlobalGuests, setHotelCheckInDate, setHotelCheckOutDate } from "../../features/slice/hotelSlice"
+import { setTravellers as globalTraveller, setflightDate } from "../../features/slice/flightSlice"
 export default function TwoSearch() {
 
   const navigate= useNavigate()
@@ -18,9 +19,11 @@ export default function TwoSearch() {
    
   //  console.log(flightDate,"kjhkjh");
    
-   const { location: selectedLocations, rooms: selectedRooms, guests: selectedGuests} = useSelector((state) => state.hotel);
+   const { location: selectedLocations, rooms: selectedRooms, guests: selectedGuests, hotelCheckInDate:checkIn, hotelCheckOutDate: checkOut} = useSelector((state) => state.hotel);
   //  console.log(selectedRooms,"rooms");
   //  console.log(selectedGuests,"guests");
+// console.log(checkIn);a[is
+  
 
 
 
@@ -38,8 +41,8 @@ export default function TwoSearch() {
 
   // Hotels state
   const [location, setLocation] = useState(selectedLocations)
-  const [checkInDate, setCheckInDate] = useState("12 Apr 2025")
-  const [checkOutDate, setCheckOutDate] = useState("13 Apr 2025")
+  const [checkInDate, setCheckInDate] = useState(checkIn)
+  const [checkOutDate, setCheckOutDate] = useState(checkOut)
   const [rooms, setRooms] = useState(selectedRooms)
   const [guests, setGuests] = useState(selectedGuests)
 
@@ -149,7 +152,12 @@ export default function TwoSearch() {
   const handleSearch=()=>{
     console.log("Search triggered for tab:", activeTab);
     dispatch(setHotelLocation(location))
-
+    // dispatch(globalTraveller(travellers))
+    dispatch(setGlobalRooms(rooms))
+    dispatch(setGlobalGuests(guests))
+    dispatch(setflightDate(departDate))
+    dispatch(setHotelCheckInDate(checkInDate))
+    dispatch(setHotelCheckOutDate(checkOutDate))
     navigate("/search")
   }
 

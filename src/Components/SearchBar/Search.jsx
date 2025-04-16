@@ -8,7 +8,7 @@ import { useGetHotelsAllQuery } from "../../features/api/hotelApi"
 import { useGetHomeStayAllQuery } from "../../features/api/homeStayApi"
 import { useDispatch } from "react-redux"
 import { setFromFlightLocation,setToFlightLocation , setTo, setDayOfWeek, setTravellers as globalTraveller, setflightDate} from "../../features/slice/flightSlice"
-import { setHotelLocation } from "../../features/slice/hotelSlice"
+import { setHotelLocation, setHotelCheckInDate, setHotelCheckOutDate } from "../../features/slice/hotelSlice"
 import {  setGlobalGuests , setGlobalRooms } from "../../features/slice/hotelSlice"
 import { setHomeStayLocation } from "../../features/slice/homeStaySlice"
 
@@ -228,6 +228,8 @@ export default function TravelBooking() {
     dispatch(setGlobalRooms(rooms))
     dispatch(setGlobalGuests(guests))
     dispatch(setflightDate(departureDate))
+    dispatch(setHotelCheckInDate(checkInDate))
+    dispatch(setHotelCheckOutDate(checkOutDate))
 
     navigate("/search");
 
