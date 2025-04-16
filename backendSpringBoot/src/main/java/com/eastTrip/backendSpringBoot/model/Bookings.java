@@ -31,3 +31,16 @@
 //
 //
 //}
+
+//{
+//        "name": "HomeStay Butwal",
+//        "location": "Butwal",
+//        "attraction": "Near Mall Road",
+//        "price": 3500,
+//        "rating": 4,
+//        "extraInfo": "Free Wi-Fi, Complimentary Breakfast",
+//        "imageUrl": "https://example.com/images/sapphire.jpg",
+//        "featureIds": [1, 2, 3],
+//        "roomFeatureIds": [4, 5]
+//        }
+

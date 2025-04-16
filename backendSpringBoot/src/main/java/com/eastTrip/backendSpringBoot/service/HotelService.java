@@ -1,6 +1,6 @@
 package com.eastTrip.backendSpringBoot.service;
 
-import com.eastTrip.backendSpringBoot.dto.AddHotelDTO;
+import com.eastTrip.backendSpringBoot.dto.AddPropertyDTO;
 import com.eastTrip.backendSpringBoot.model.Hotel;
 import com.eastTrip.backendSpringBoot.model.HotelFeatures;
 import com.eastTrip.backendSpringBoot.model.HotelRooms;
@@ -26,7 +26,7 @@ public class HotelService {
         this.hotelRoomsRepository = hotelRoomsRepository;
     }
 
-    public Hotel addHotel(AddHotelDTO dto) {
+    public Hotel addHotel(AddPropertyDTO dto) {
         Hotel hotel = new Hotel();
         hotel.setName(dto.getName());
         hotel.setLocation(dto.getLocation());

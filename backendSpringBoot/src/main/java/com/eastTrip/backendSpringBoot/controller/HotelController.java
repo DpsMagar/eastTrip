@@ -1,7 +1,7 @@
 package com.eastTrip.backendSpringBoot.controller;
 
 
-import com.eastTrip.backendSpringBoot.dto.AddHotelDTO;
+import com.eastTrip.backendSpringBoot.dto.AddPropertyDTO;
 import com.eastTrip.backendSpringBoot.model.Hotel;
 import com.eastTrip.backendSpringBoot.service.HotelService;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class HotelController {
     }
 
     @PostMapping
-    public ResponseEntity<Hotel> addHotel(@RequestBody AddHotelDTO hotelDTO) {
+    public ResponseEntity<Hotel> addHotel(@RequestBody AddPropertyDTO hotelDTO) {
         Hotel hotel = hotelService.addHotel(hotelDTO);
         return ResponseEntity.ok(hotel);
     }
