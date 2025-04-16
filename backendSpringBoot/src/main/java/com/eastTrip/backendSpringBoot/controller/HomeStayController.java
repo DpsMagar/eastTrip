@@ -2,7 +2,6 @@ package com.eastTrip.backendSpringBoot.controller;
 
 
 import com.eastTrip.backendSpringBoot.dto.HomeStayResultsDTO;
-import com.eastTrip.backendSpringBoot.dto.ListHotelNamesDTO;
 import com.eastTrip.backendSpringBoot.service.HomeStayResultsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +28,4 @@ public class HomeStayController {
 
     }
 
-    @GetMapping("/homeStayList")
-    public ResponseEntity<List<ListHotelNamesDTO>> getHomeStayList() {
-        return ResponseEntity.ok(homeStayResultsService.getListOfHomeStayNames());
-    }
 }

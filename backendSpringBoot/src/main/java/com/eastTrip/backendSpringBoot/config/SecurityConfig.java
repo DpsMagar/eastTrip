@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // No session (JWT is stateless)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**", "/oauth2/**", "/login/oauth2/**", "/results/**").permitAll()
+                        .requestMatchers("/api/**", "/oauth2/**", "/login/oauth2/**", "/results/**","/add/**").permitAll()
                         .anyRequest().authenticated()
                 )
 

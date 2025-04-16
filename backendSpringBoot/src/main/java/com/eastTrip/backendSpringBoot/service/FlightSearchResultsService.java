@@ -2,7 +2,6 @@ package com.eastTrip.backendSpringBoot.service;
 
 import ch.qos.logback.core.read.ListAppender;
 import com.eastTrip.backendSpringBoot.dto.FlightSearchResultsDTO;
-import com.eastTrip.backendSpringBoot.dto.ListAirportNamesDTO;
 import com.eastTrip.backendSpringBoot.model.Airport;
 import com.eastTrip.backendSpringBoot.model.AirportOpeningDay;
 import com.eastTrip.backendSpringBoot.model.DayOfWeek;
@@ -102,18 +101,5 @@ public class FlightSearchResultsService {
         return airportOpeningDayRepository.findByAirportAndDayOfWeek(airport, dayOfWeek);
     }
 
-    public List<ListAirportNamesDTO> getFlightNamesList() {
-        List<Airport> airports = airportRepository.findAll();
-        List<ListAirportNamesDTO> flightNamesList = new ArrayList<>();
 
-        for (Airport airport : airports) {
-            ListAirportNamesDTO dto = new ListAirportNamesDTO();
-            dto.setAirportName(airport.getName());
-            dto.setAirportCode(airport.getCode());
-            dto.setAirportLocation(airport.getCity());
-            flightNamesList.add(dto);
-        }
-
-        return flightNamesList;
-    }
 }

@@ -2,7 +2,6 @@ package com.eastTrip.backendSpringBoot.service;
 
 
 import com.eastTrip.backendSpringBoot.dto.HomeStayResultsDTO;
-import com.eastTrip.backendSpringBoot.dto.ListHotelNamesDTO;
 import com.eastTrip.backendSpringBoot.model.HomeStay;
 import com.eastTrip.backendSpringBoot.model.HomeStayRooms;
 import com.eastTrip.backendSpringBoot.model.HomeStayFeatures;
@@ -64,17 +63,4 @@ public class HomeStayResultsService {
                 .collect(Collectors.toList());
     }
 
-    public List<ListHotelNamesDTO> getListOfHomeStayNames() {
-        List<HomeStay> homeStays = homeStayRepository.findAll();
-
-        List<ListHotelNamesDTO> homeStayNames = new ArrayList<>();
-
-        for (HomeStay homeStay : homeStays) {
-            ListHotelNamesDTO homeStayNamesDTO = new ListHotelNamesDTO();
-            homeStayNamesDTO.setHotelName(homeStay.getName());
-            homeStayNamesDTO.setHotelCity(homeStay.getLocation());
-            homeStayNames.add(homeStayNamesDTO);
-        }
-        return homeStayNames;
-    }
 }
