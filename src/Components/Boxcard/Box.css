@@ -161,22 +161,6 @@
   margin-top: auto;
 }
 
-.mmt-exclusive {
-  background-color: #e91e63;
-  color: white;
-  font-size: 11px;
-  padding: 3px 6px;
-  border-radius: 2px 0 0 2px;
-  font-weight: 500;
-}
-
-.price-guarantee {
-  background-color: #fff3cd;
-  color: #856404;
-  font-size: 11px;
-  padding: 3px 6px;
-  border-radius: 0 2px 2px 0;
-}
 
 /* Right section - Price and booking */
 .hotel-price-section {

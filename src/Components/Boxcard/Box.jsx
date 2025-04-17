@@ -116,9 +116,7 @@ function Box({ hotel }) {
             </div>
           )}
 
-          <div className="hotel-tags">
-           
-          </div>
+     
         </div>
 
         {/* Right section - Price and booking */}

@@ -106,10 +106,7 @@ function Box2({ hotel }) {
             </div>
           )}
 
-          <div className="hotel-tags">
-            <div className="mmt-exclusive">MMT exclusive</div>
-            <div className="price-guarantee">Lowest Price Guarantee</div>
-          </div>
+
         </div>
 
         {/* Right section - Price and booking */}

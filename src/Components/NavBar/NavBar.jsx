@@ -24,6 +24,10 @@ export default function NavBar() {
     navigate("/home")
   }
 
+  const goToTravellerPage = () => {
+    navigate("/Propertyform") 
+  }
+
   const toggleUserDropdown = () => {
     setUserDropdownOpen(!userDropdownOpen)
   }
@@ -53,7 +57,7 @@ export default function NavBar() {
 
         {!currentUser ? (
           <nav className="navigation">
-            <button className="nav-button">List Your Property</button>
+            <button className="nav-button" onClick={goToTravellerPage}>List Your Property</button>
             <button className="nav-button" onClick={openSignupModal}>
               Create Account
             </button>
@@ -63,7 +67,7 @@ export default function NavBar() {
           </nav>
         ) : (
           <nav className="navigation">
-            <button className="nav-button orange">List your Property</button>
+            <button className="nav-button orange" onClick={goToTravellerPage}>List your Property</button>
             <button className="nav-button orange">Messages</button>
             <div className="user-profile">
               <button className="user-profile-button" onClick={toggleUserDropdown}>
