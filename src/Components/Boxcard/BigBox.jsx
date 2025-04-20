@@ -5,10 +5,8 @@ import HotelCard from './Box';
 import "./BigBox.css"
 
 function HotelTabs() {
+    const dumby = "https://lh3.googleusercontent.com/p/AF1QipMd4VA7pfadcudwAyE-kMvQyoprQsmxBRYaDDmy=s1360-w1360-h1020"
   const [activeTab, setActiveTab] = useState("popular")
-  const dumby = "https://lh3.googleusercontent.com/p/AF1QipMd4VA7pfadcudwAyE-kMvQyoprQsmxBRYaDDmy=s1360-w1360-h1020"
-
-  
   const hotels = [
     {
       id: 1,
@@ -81,29 +79,11 @@ function HotelTabs() {
     },
   ]
 
-  const plane ={
-    "airway logo": "https://www.buddhaair.com/images/logo.png",
-    "airway": "Buddha Air",
-    "flight number": "BHA123",
-    "to": "Pokhara",
-    "from": "Kathmandu",
-    "tocode": "PKR",
-    "fromcode": "KTM",
-    "toairport": "Pokhara Airport",
-    "fromairport": "Tribhuvan International Airport",
-    "flight duration": "30 minutes",
-    "departure": "9:00 AM",
-    "arrival": "9:30 AM",
-    "price": 5000,
-    "class": "Economy",
-    "available seats": 50,
-    "total seats": 100,
-}
   return (
     <section className="page-content">
     <div className="plane-tabs-container"></div>
     <div className="hotel-tabs-container">
-      {/* Simple tabs at the top */}
+      
       <div className="tabs-header">
         <button
           className={`tab-button ${activeTab === "popular" ? "active" : ""}`}
@@ -121,19 +101,15 @@ function HotelTabs() {
           className={`tab-button ${activeTab === "homestays" ? "active" : ""}`}
           onClick={() => setActiveTab("homestays")}
         >
-          
         </button>
       </div>
 
-      {/* Hotel listings */}
       <div className="hotel-listings">
         {hotels.map((hotel) => (
           <HotelCard key={hotel.id} hotel={hotel} />
         ))}
       </div>
-    </div>
-    
-    
+    </div>  
     </section>
   )
 }

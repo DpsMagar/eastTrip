@@ -18,9 +18,6 @@ const PropertyForm = () => {
   const goToAmenities = () => {
     navigate("/PropertyAmenities") 
   }
-  const goToBasic = () => {
-    navigate("/propertyform") 
-  }
 
   return (
     <div className="min-h-screen bg-[#fcf6f4] font-sans p-6">
@@ -32,7 +29,7 @@ const PropertyForm = () => {
           </div>
           <div className="w-5/6 p-6">
             <div className="flex mb-4 gap-2">
-              <button className="bg-[#fde7d5] px-4 py-2 rounded-md text-sm font-semibold" onClick={goToBasic}>Basic</button>
+              <button className="bg-[#fde7d5] px-4 py-2 rounded-md text-sm font-semibold">Basic</button>
               <button className="bg-[#f47e5f] text-white px-4 py-2 rounded-md text-sm font-semibold" onClick={goToAmenities}>Amenities</button>
               <button className="bg-[#f47e5f] text-white px-4 py-2 rounded-md text-sm font-semibold">Photos and Videos</button>
             </div>
