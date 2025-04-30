@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,5 +70,9 @@ public class HotelSearchResultsService {
             hotelNames.add(hotelNamesDTO);
         }
         return hotelNames;
+    }
+
+    public Optional<Hotel> getHotel(Integer hotelId) {
+        return hotelRepository.findById(hotelId);
     }
 }
