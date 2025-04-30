@@ -1,0 +1,20 @@
+.page-content {
+    margin: 0 auto;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    max-width: 1900px; /* Ensure `.page-content` has a width */
+   
+}
+
+.page-content .box {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+    overflow: hidden;
+    margin: 0 auto; /* This centers the `.box` */
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0 !important;
+    display: block;
+    max-width: 2000px; /* Adjust width as needed */
+    border-radius: 30px;
+}
