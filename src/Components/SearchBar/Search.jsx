@@ -61,7 +61,7 @@ export default function TravelBooking() {
 
 
 
-  const [activeTab, setActiveTab] = useState("flights")
+  const [activeTab, setActiveTab] = useState("hotels")
   const [activePopup, setActivePopup] = useState(null)
   const [tripType, setTripType] = useState("One Way")
 
