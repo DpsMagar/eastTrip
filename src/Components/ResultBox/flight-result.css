@@ -1,0 +1,118 @@
+.flight-listing-container {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.flight-listing-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.flight-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.pagination-button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.pagination-button:hover:not(.disabled) {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+}
+
+.pagination-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-numbers {
+  display: flex;
+  gap: 8px;
+}
+
+.pagination-number {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.pagination-number:hover:not(.active) {
+  background-color: #f0f0f0;
+}
+
+.pagination-number.active {
+  background-color: #1976d2;
+  color: white;
+  border-color: #1976d2;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .flight-listing-container {
+    padding: 16px;
+  }
+
+  .pagination-container {
+    flex-wrap: wrap;
+  }
+
+  .pagination-numbers {
+    order: 2;
+    width: 100%;
+    justify-content: center;
+    margin-top: 12px;
+  }
+
+  .pagination-button {
+    order: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination-number {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .pagination-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}

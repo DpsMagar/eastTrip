@@ -4,6 +4,10 @@ const initialState = {
   from: 'KTM',
   to: 'PKR',
   dayOfWeek: 'Friday',
+  travellers:1,
+  flightDate: "21 Mar 2025",
+  fromLocationFlight: 'Kathmandu',
+  toLocationFlight: 'Pokhara',
 };
 
 const flightSlice = createSlice({
@@ -19,14 +23,27 @@ const flightSlice = createSlice({
     setDayOfWeek: (state, action) => {
       state.dayOfWeek = action.payload;
     },
+    setTravellers: (state, action)=> {
+      state.travellers= action.payload;
+    },
+
     resetFlightSearch: (state) => {
       state.from = '';
       state.to = '';
       state.dayOfWeek = '';
-    }
+    },
+    setflightDate:(state, action)=> {
+      state.flightDate= action.payload;
+    },
+    setFromFlightLocation: (state, action) => {
+      state.fromLocationFlight = action.payload;
+    },
+    setToFlightLocation: (state, action) => {
+      state.toLocationFlight = action.payload;
+    },
   }
 });
 
-export const { setFrom, setTo, setDayOfWeek, resetFlightSearch } = flightSlice.actions;
+export const { setFrom, setTo, setDayOfWeek, resetFlightSearch, setTravellers, setflightDate, setFromFlightLocation, setToFlightLocation } = flightSlice.actions;
 
 export default flightSlice.reducer;

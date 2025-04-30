@@ -14,7 +14,7 @@ export default function Result() {
   console.log(flightInfo);
   
 
-    const dumby = "https://lh3.googleusercontent.com/p/AF1QipMd4VA7pfadcudwAyE-kMvQyoprQsmxBRYaDDmy=s1360-w1360-h1020" 
+  const dumby = "https://lh3.googleusercontent.com/p/AF1QipMd4VA7pfadcudwAyE-kMvQyoprQsmxBRYaDDmy=s1360-w1360-h1020" 
   const allHotels = [
     {
       name: "Yatri Suites & Spa",

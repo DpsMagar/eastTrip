@@ -3,24 +3,48 @@
 import { useState } from "react"
 import "./TwoSearch.css"
 import { ArrowLeftRight, ChevronDown, X } from "lucide-react"
-
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { setHotelLocation } from "../../features/slice/hotelSlice"
+import { setGlobalRooms, setGlobalGuests, setHotelCheckInDate, setHotelCheckOutDate } from "../../features/slice/hotelSlice"
+import { setTravellers as globalTraveller, setflightDate } from "../../features/slice/flightSlice"
 export default function TwoSearch() {
-  const [activeTab, setActiveTab] = useState("flights")
+
+  const navigate= useNavigate()
+  const dispatch= useDispatch()
+
+
+   const { from, to, dayOfWeek, travellers, flightDate,fromLocationFlight, toLocationFlight } = useSelector((state) => state.flight);
+  //  console.log("hiiii");
+   
+  //  console.log(flightDate,"kjhkjh");
+   
+   const { location: selectedLocations, rooms: selectedRooms, guests: selectedGuests, hotelCheckInDate:checkIn, hotelCheckOutDate: checkOut} = useSelector((state) => state.hotel);
+  //  console.log(selectedRooms,"rooms");
+  //  console.log(selectedGuests,"guests");
+// console.log(checkIn);a[is
+  
+
+
+
+
+  const presentTab=  localStorage.getItem('active')
+  const [activeTab, setActiveTab] = useState(presentTab)
   const [activePopup, setActivePopup] = useState(null)
 
   // Flights state
   const [tripType, setTripType] = useState("One Way")
-  const [fromLocation, setFromLocation] = useState("Kathmandu")
-  const [toLocation, setToLocation] = useState("Pokhara")
-  const [departDate, setDepartDate] = useState("Fri, 29 March 2025")
+  const [fromLocation, setFromLocation] = useState(fromLocationFlight)
+  const [toLocation, setToLocation] = useState(toLocationFlight)
+  const [departDate, setDepartDate] = useState(flightDate)
   const [returnDate, setReturnDate] = useState("Select here")
 
   // Hotels state
-  const [location, setLocation] = useState("Kathmandu")
-  const [checkInDate, setCheckInDate] = useState("12 Apr 2025")
-  const [checkOutDate, setCheckOutDate] = useState("13 Apr 2025")
-  const [rooms, setRooms] = useState(2)
-  const [guests, setGuests] = useState(4)
+  const [location, setLocation] = useState(selectedLocations)
+  const [checkInDate, setCheckInDate] = useState(checkIn)
+  const [checkOutDate, setCheckOutDate] = useState(checkOut)
+  const [rooms, setRooms] = useState(selectedRooms)
+  const [guests, setGuests] = useState(selectedGuests)
 
   // Calendar state
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
@@ -125,6 +149,18 @@ export default function TwoSearch() {
     return `${day} ${monthNames[currentMonth]} ${currentYear}`
   }
 
+  const handleSearch=()=>{
+    console.log("Search triggered for tab:", activeTab);
+    dispatch(setHotelLocation(location))
+    // dispatch(globalTraveller(travellers))
+    dispatch(setGlobalRooms(rooms))
+    dispatch(setGlobalGuests(guests))
+    dispatch(setflightDate(departDate))
+    dispatch(setHotelCheckInDate(checkInDate))
+    dispatch(setHotelCheckOutDate(checkOutDate))
+    navigate("/search")
+  }
+
   return (
     <div className="travel-search">
       {/* Tabs */}
@@ -136,8 +172,8 @@ export default function TwoSearch() {
           Hotel
         </button>
         <button
-          className={`tab ${activeTab === "homestays" ? "active" : ""}`}
-          onClick={() => setActiveTab("homestays")}
+          className={`tab ${activeTab === "homeStays" ? "active" : ""}`}
+          onClick={() => setActiveTab("homeStays")}
         >
           HomeStays
         </button>
@@ -188,12 +224,12 @@ export default function TwoSearch() {
           </div>
 
           {/* Search Button */}
-          <button className="search-button">Search</button>
+          <button className="search-button" onClick={handleSearch}>Search</button>
         </div>
       )}
 
       {/* Hotels Search Form */}
-      {(activeTab === "hotels" || activeTab === "homestays") && (
+      {(activeTab === "hotels") && (
         <div className="search-form">
           {/* Location */}
           <div className="field" onClick={() => setActivePopup("location")}>
@@ -224,7 +260,42 @@ export default function TwoSearch() {
           </div>
 
           {/* Search Button */}
-          <button className="search-button">Search</button>
+          <button className="search-button" onClick={handleSearch}>Search</button>
+        </div>
+      )}
+
+      {(activeTab === "homeStays") && (
+        <div className="search-form">
+          {/* Location */}
+          <div className="field" onClick={() => setActivePopup("location")}>
+            <div className="field-label">City, homeStay Name or Location</div>
+            <div className="field-value">{location}</div>
+          </div>
+
+          {/* Check In */}
+          <div className="field" onClick={() => setActivePopup("checkIn")}>
+            <div className="field-label">Check In</div>
+            <div className="field-value">{checkInDate}</div>
+            <div className="field-subtext">Saturday</div>
+          </div>
+
+          {/* Check Out */}
+          <div className="field" onClick={() => setActivePopup("checkOut")}>
+            <div className="field-label">Check Out</div>
+            <div className="field-value">{checkOutDate}</div>
+            <div className="field-subtext">Sunday</div>
+          </div>
+
+          {/* Rooms & Guests */}
+          <div className="field" onClick={() => setActivePopup("roomsGuests")}>
+            <div className="field-label">Rooms & Guests</div>
+            <div className="field-value">
+              {rooms} Room & {guests} Guests
+            </div>
+          </div>
+
+          {/* Search Button */}
+          <button className="search-button" onClick={handleSearch}>Search</button>
         </div>
       )}
 
@@ -440,4 +511,3 @@ export default function TwoSearch() {
     </div>
   )
 }
-

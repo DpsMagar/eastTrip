@@ -1,33 +1,38 @@
-body, html {
+html, body, #root {
   height: 100%;
   margin: 0;
-  background: linear-gradient(to bottom, #FFA07A, #FFFFFF);
-
+  padding: 0;
+  overflow: hidden; /* prevent double scrollbars */
 }
 
-/* Ensure layout container takes full height and doesn't override the background */
 .layout-container {
-  min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
 }
-.main-content {
-    width: 80%;
-    max-width: 1200px;
-    margin: 0 auto;
-    
-  }
 
-  
-  /* Responsive adjustments if needed */
-  @media (max-width: 768px) {
-    .split-screen-image {
-      height: 40vh;
-    }
-  
-    .split-screen-content {
-      min-height: 60vh;
-    }
+.scrollbar-wrapper {
+  flex-grow: 1;
+  height: calc(100vh - 120px); /* adjust height considering navbar + footer */
+  overflow: hidden;
+}
+
+.main-content {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #c78b67, #FFFFFF);
+  border-radius: 0px;
+  box-shadow: none;
+  overflow-y: auto;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    width: 95%;
+    padding: 1rem;
+    margin: 1rem auto;
+    border-radius: 15px;
   }
-  
-  
+}

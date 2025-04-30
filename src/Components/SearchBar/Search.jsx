@@ -7,14 +7,14 @@ import { useGetAirportsAllQuery } from "../../features/api/flightApi"
 import { useGetHotelsAllQuery } from "../../features/api/hotelApi"
 import { useGetHomeStayAllQuery } from "../../features/api/homeStayApi"
 import { useDispatch } from "react-redux"
-import { setFrom , setTo, setDayOfWeek} from "../../features/slice/flightSlice"
-import { setHotelLocation } from "../../features/slice/hotelSlice"
+import { setFromFlightLocation,setToFlightLocation , setTo, setDayOfWeek, setTravellers as globalTraveller, setflightDate} from "../../features/slice/flightSlice"
+import { setHotelLocation, setHotelCheckInDate, setHotelCheckOutDate } from "../../features/slice/hotelSlice"
+import {  setGlobalGuests , setGlobalRooms } from "../../features/slice/hotelSlice"
 import { setHomeStayLocation } from "../../features/slice/homeStaySlice"
 
 export default function TravelBooking() {
 
   const dispatch = useDispatch();
-  // const { from, to, dayOfWeek } = useSelector((state) => state.flight);
 
   const[airports, setAirports]= useState([])
   const[hotelzz, setHotelzzz]= useState([])
@@ -54,10 +54,6 @@ export default function TravelBooking() {
 
   const navigate = useNavigate()
 
-  const handleLogoClick = () => {
-    navigate("/search");
-
-  };
 
 
 
@@ -83,7 +79,7 @@ export default function TravelBooking() {
   const [checkOutDate, setCheckOutDate] = useState("22 Feb 2025")
   const [checkOutDay, setCheckOutDay] = useState("Saturday")
   const [rooms, setRooms] = useState(1)
-  const [guests, setGuests] = useState(4)
+  const [guests, setGuests] = useState(2)
 
   // Calendar state
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
@@ -105,50 +101,9 @@ export default function TravelBooking() {
 
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-  // const airports = {
-  //   Kathmandu: "Tribhuvan International Airport",
-  //   Pokhara: "Pokhara International Airport",
-  //   Lumbini: "Lumbini Airport",
-  //   Biratnagar: "Biratnagar Airport",
-  //   Nepalgunj: "Nepalgunj Airport",
-  //   Bharatpur: "Bharatpur Airport",
-  //   Janakpur: "Janakpur Airport",
-  //   Dhangadhi: "Dhangadhi Airport",
-  //   Lukla: "Tenzing-Hillary Airport",
-  //   Jomsom: "Jomsom Airport",
-  //   Simara: "Simara Airport",
-  //   Tumlingtar: "Tumlingtar Airport",
-  //   Surkhet: "Surkhet Airport",
-  //   Bhadrapur: "Bhadrapur Airport",
-  //   Bhojpur: "Bhojpur Airport",
-  //   Phaplu: "Phaplu Airport",
-  //   Taplejung: "Taplejung Airport",
-  // }
+ 
 
-  // const airports = airport?.reduce((acc, airport) => {
-  //   acc[airport.airportLocation] = airport.airportName;
-  //   return acc;
-  // }, {}) || {};
-
-  // const locations = [
-  //   "Kathmandu",
-  //   "Pokhara",
-  //   "Lumbini",
-  //   "Biratnagar",
-  //   "Nepalgunj",
-  //   "Bharatpur",
-  //   "Janakpur",
-  //   "Dhangadhi",
-  //   "Lukla",
-  //   "Jomsom",
-  //   "Simara",
-  //   "Tumlingtar",
-  //   "Surkhet",
-  //   "Bhadrapur",
-  //   "Bhojpur",
-  //   "Phaplu",
-  //   "Taplejung",
-  // ]
+  
 
   const locationsHotel = hotel ? Array.from(new Set(hotel.map((hotelItem) => hotelItem.hotelCity))) : [];
 
@@ -266,6 +221,19 @@ export default function TravelBooking() {
       setCurrentMonth(currentMonth + 1)
     }
   }
+
+  
+  const handleLogoClick = () => {
+    dispatch(globalTraveller(travellers))
+    dispatch(setGlobalRooms(rooms))
+    dispatch(setGlobalGuests(guests))
+    dispatch(setflightDate(departureDate))
+    dispatch(setHotelCheckInDate(checkInDate))
+    dispatch(setHotelCheckOutDate(checkOutDate))
+
+    navigate("/search");
+
+  };
 
   return (
     <div className="search-wrapper">
@@ -498,39 +466,15 @@ export default function TravelBooking() {
                 <input type="text" placeholder="Search for a city" />
               </div>
               <div className="location-list">
-                {/* {locations.map((location, index) => (
-                  <div
-                    key={index}
-                    className={`location-item ${location === fromLocation ? "active" : ""}`}
-                    onClick={() => handleLocationSelect(location, "from")}
-                  >
-                    <div className="location-name">{location}</div>
-                    <div className="location-airport">{airports[location]}</div>
-                  </div>
-                ))} */}
-                {/* {
-                  
-                  Object.entries(airports).map(([key, value], index)=> (
-                    <div
-                    key={index}
-                    className={`location-item ${key === fromLocation ? "active" : ""}`}
-                    onClick={() => {handleLocationSelect(key, "from")
-                    dispatch(setFrom())}}
-                  >
-                    <div className="location-name">{key}</div>
-                    <div className="location-airport">{value}</div>
-                  </div>
-                  
-                  ))
                 
-                } */}
+               
                 {
                   airports.map((airport, index)=>(
                     <div
                     key={index}
                     className={`location-item ${airport.airportLocation === fromLocation ? "active" : ""}`}
                     onClick={() => {handleLocationSelect(airport , "from")
-                    dispatch(setFrom(airport.airportCode))}}
+                    dispatch(setFromFlightLocation(airport.airportLocation))}}
                   >
                     <div className="location-name">{airport.airportLocation}</div>
                     <div className="location-airport">{airport.airportName}</div>
@@ -562,40 +506,14 @@ export default function TravelBooking() {
                 <input type="text" placeholder="Search for a city" />
               </div>
               <div className="location-list">
-                {/* {locations.map((location, index) => (
-                  <div
-                    key={index}
-                    className={`location-item ${location === toLocation ? "active" : ""}`}
-                    onClick={() => handleLocationSelect(location, "to")}
-                  >
-                    <div className="location-name">{location}</div>
-                    <div className="location-airport">{airports[location]}</div>
-                  </div>
-                ))}
-                 */}
-
-                 {/* {
-                  
-                  Object.entries(airports).map(([key, value], index)=> (
-                    <div
-                    key={index}
-                    className={`location-item ${key === fromLocation ? "active" : ""}`}
-                    onClick={() => handleLocationSelect(key, "from")}
-                  >
-                    <div className="location-name">{key}</div>
-                    <div className="location-airport">{value}</div>
-                  </div>
-                  
-                  ))
                 
-                } */}
                 {
                   airports.map((airport, index)=>(
                     <div
                     key={index}
                     className={`location-item ${airport.airportLocation === toLocation ? "active" : ""}`}
                     onClick={() => {handleLocationSelect(airport, "to")
-                    dispatch(setTo(airport.airportCode))}}
+                    dispatch(setToFlightLocation(airport.airportLocation))}}
                   >
                     <div className="location-name">{airport.airportLocation}</div>
                     <div className="location-airport">{airport.airportName}</div>
@@ -916,4 +834,3 @@ export default function TravelBooking() {
     </div>
   )
 }
-

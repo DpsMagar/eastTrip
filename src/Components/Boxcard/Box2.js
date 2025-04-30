@@ -42,19 +42,9 @@ function Box2({ hotel }) {
         {/* Left side - Images */}
         <div className="hotel-image-section">
           <div className="hotel-main-image">
-            <img src={hotel.image || "/placeholder.svg"} alt={hotel.homeStayName} />
+            <img src={hotel.imageUrl || "/placeholder.svg"} alt={hotel.homeStayName} />
           </div>
-          <div className="hotel-thumbnails">
-            {hotel.homeStayFeatures && hotel.homeStayFeatures.length > 0 ? (
-              hotel.homeStayFeatures.slice(0, 4).map((thumb, index) => (
-                <div key={index} className="thumbnail">
-                  <img src={thumb || "/placeholder.svg"} alt={`${hotel.homeStayName} view ${index + 1}`} />
-                </div>
-              ))
-            ) : (
-              <></>
-            )}
-          </div>
+
         </div>
 
         {/* Middle section - Hotel details */}
@@ -106,10 +96,7 @@ function Box2({ hotel }) {
             </div>
           )}
 
-          <div className="hotel-tags">
-            <div className="mmt-exclusive">MMT exclusive</div>
-            <div className="price-guarantee">Lowest Price Guarantee</div>
-          </div>
+
         </div>
 
         {/* Right section - Price and booking */}
@@ -133,4 +120,3 @@ function Box2({ hotel }) {
 }
 
 export default Box2
-

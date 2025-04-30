@@ -6,6 +6,7 @@ import { useAuth } from "../../context/AuthContext"
 import Login from "../LogIn/Login"
 import SignUp from "../SignUp/SignUp"
 import "./NavBar.css"
+import image from "../../Assest/logo.png"
 
 export default function NavBar() {
   const navigate = useNavigate()
@@ -21,6 +22,10 @@ export default function NavBar() {
   const handleSignOut = () => {
     signOut()
     navigate("/home")
+  }
+
+  const goToTravellerPage = () => {
+    navigate("/Propertyform") 
   }
 
   const toggleUserDropdown = () => {
@@ -46,13 +51,13 @@ export default function NavBar() {
     <div className="chumchom-container">
       <header className="header">
         <div className="logo-container" onClick={handleLogoClick} style={{ cursor: "pointer" }}>
-          <img src="/logo.jpg" alt="GhumGham" width={30} height={30} className="logo-img" />
+          
           <h2 className="logo">GhumGham</h2>
         </div>
 
         {!currentUser ? (
           <nav className="navigation">
-            <button className="nav-button">List Your Property</button>
+            <button className="nav-button" onClick={goToTravellerPage}>List Your Property</button>
             <button className="nav-button" onClick={openSignupModal}>
               Create Account
             </button>
@@ -62,7 +67,7 @@ export default function NavBar() {
           </nav>
         ) : (
           <nav className="navigation">
-            <button className="nav-button orange">List your Property</button>
+            <button className="nav-button orange" onClick={goToTravellerPage}>List your Property</button>
             <button className="nav-button orange">Messages</button>
             <div className="user-profile">
               <button className="user-profile-button" onClick={toggleUserDropdown}>

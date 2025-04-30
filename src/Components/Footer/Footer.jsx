@@ -21,7 +21,7 @@ const Footer = () => {
           <div className="facebook-icon"></div>
         </a>
       </div>
-      <p className="copyright">© 2023 GhumGham Travel & Tourismm LLC</p>
+      <p className="copyright">© 2023 GhumGham Travel & Tourism LLC</p>
     </footer>
   </div>
 

@@ -44,7 +44,7 @@ function Box({ hotel }) {
   return (
     <div className="hotel-card" onClick={handleLogoClick}>
       <div className="hotel-card-container">
-        {/* Left side - Images */}
+  
         <div className="hotel-image-section">
           <div className="hotel-main-image">
             <img src={hotel.image || "/placeholder.svg"} alt={hotel.hotelName} />
@@ -53,7 +53,7 @@ function Box({ hotel }) {
             {hotel.hotelFeatures && hotel.hotelFeatures.length > 0 ? (
               hotel.hotelFeatures.slice(0, 4).map((thumb, index) => (
                 <div key={index} className="thumbnail">
-                  <img src={thumb || "/placeholder.svg"} alt={`${hotel.hotelName} view ${index + 1}`} />
+                  
                 </div>
               ))
             ) : (
@@ -62,7 +62,6 @@ function Box({ hotel }) {
           </div>
         </div>
 
-        {/* Middle section - Hotel details */}
         <div className="hotel-details-section">
           <div className="hotel-name-container">
             <h3 className="hotel-name">
@@ -105,8 +104,8 @@ function Box({ hotel }) {
 
           {hotel.topSelling && (
             <div className="top-selling">
-              <span className="top-selling-icon">⚡</span> Top Selling! Booked {hotel.bookings} times in last 30
-              days
+              
+             
             </div>
           )}
 
@@ -116,10 +115,7 @@ function Box({ hotel }) {
             </div>
           )}
 
-          <div className="hotel-tags">
-            <div className="mmt-exclusive">MMT exclusive</div>
-            <div className="price-guarantee">Lowest Price Guarantee</div>
-          </div>
+     
         </div>
 
         {/* Right section - Price and booking */}
