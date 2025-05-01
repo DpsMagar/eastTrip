@@ -1,0 +1,105 @@
+.photo-section {
+    background-color: #fff5f0;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .section-title {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+  
+  .section-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .upload-area h4 {
+    margin-bottom: 10px;
+  }
+  
+  .drop-box {
+    border: 1px solid #ccc;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .upload-label {
+    cursor: pointer;
+  }
+  
+  .upload-icon {
+    font-size: 2rem;
+  }
+  
+  .click-text {
+    color: #e65c2e;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .uploaded-container {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .uploaded-thumbnails {
+    width: 150px;
+  }
+  
+  .thumbnail {
+    width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  .preview-section {
+    flex-grow: 1;
+  }
+  
+  .preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .upload-more {
+    color: #e65c2e;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .preview-box {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .preview-img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    margin-bottom: 10px;
+  }
+  
+  .tag-instruction {
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .tag-input {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+  }
+  

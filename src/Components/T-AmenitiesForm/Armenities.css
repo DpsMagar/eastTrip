@@ -1,0 +1,82 @@
+.amenities-container {
+    background-color: #fff5f0;
+    padding: 20px;
+    width: 100%;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.amenities-container h1 {
+    margin-bottom: 5px;
+    font-size: 24px;
+}
+
+.amenities-container .subtitle {
+    margin-top: 0;
+    font-weight: normal;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.amenities-container .amenities-table {
+    background-color: white;
+    overflow: hidden;
+    border: none;
+    border-radius: 0;
+}
+
+.amenities-container .amenity-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 15px;
+}
+
+.amenities-container .amenity-row:last-child {
+    border-bottom: none;
+}
+
+.amenities-container .amenity-row:first-child {
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.amenities-container .amenity-name {
+    font-size: 16px;
+}
+
+.amenities-container .amenity-options {
+    display: flex;
+    gap: 15px;
+}
+
+.amenities-container .option-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.amenities-container input[type="radio"] {
+    margin-right: 5px;
+    width: 16px;
+    height: 16px;
+}
+
+.amenities-container .option-text {
+    padding: 0 5px;
+}
+
+.amenities-container .error-message {
+    color: #ff4444;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+.amenities-container input.error,
+.amenities-container select.error {
+    border-color: #ff4444;
+}

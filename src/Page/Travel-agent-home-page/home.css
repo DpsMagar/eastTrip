@@ -1,0 +1,104 @@
+.mainbox-travel-agent {
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.mainbox-travel-agent .content-box {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+}
+
+/* Section header with flex alignment */
+.mainbox-travel-agent .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Left part: icon and text */
+.mainbox-travel-agent .section-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Icon card */
+.mainbox-travel-agent .logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mainbox-travel-agent .card {
+  background-color: #fff6f2;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 120px;
+}
+
+.mainbox-travel-agent .icon img {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 8px;
+}
+
+.mainbox-travel-agent .card h3 {
+  font-size: 14px;
+  font-weight: normal;
+  margin: 0;
+}
+
+/* Heading and subtext */
+.mainbox-travel-agent .heading-box {
+  margin: 0;
+}
+
+.mainbox-travel-agent .heading-box h2 {
+  font-size: 20px;
+  color: #1a1a1a;
+  margin: 0 0 5px 0;
+}
+
+.mainbox-travel-agent .heading-box p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+
+.mainbox-travel-agent .add-property-btn {
+  background-color: #F47848;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 15px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.mainbox-travel-agent .add-property-btn:hover {
+  background-color: #d95c34;
+}
+
+
+.mainbox-travel-agent hr {
+  margin: 20px 0;
+  border: 0;
+  border-top: 1px solid #ccc;
+}
+
+
+.mainbox-travel-agent .properties-section h4 {
+  font-size: 16px;
+  color: #333;
+  margin-top: 0;
+}

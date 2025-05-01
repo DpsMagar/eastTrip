@@ -25,7 +25,7 @@ export default function NavBar() {
   }
 
   const goToTravellerPage = () => {
-    navigate("/Propertyform") 
+    navigate("/travelagent") 
   }
 
   const toggleUserDropdown = () => {
