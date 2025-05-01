@@ -13,6 +13,7 @@
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  padding: 20px; 
 }
 
 .signup__modal {
@@ -24,8 +25,9 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   overflow: hidden;
   border: 1px solid #e0e0e0;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-height: 90vh; /* Reduced from 95vh to account for padding */
+  display: flex;
+  flex-direction: column;
 }
 
 .signup__close-btn {
@@ -51,18 +53,29 @@
 }
 
 .signup__content {
-  padding: 35px 40px;
+  padding: 28px; /* Reduced padding to create more space */
+  overflow-y: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+ 
 }
 
 .signup__title {
-  font-size: 32px;
+  font-size: 28px; /* Slightly smaller title */
   font-weight: 700;
-  margin-bottom: 30px;
+  margin-bottom: 10px; /* Reduced margin */
   color: #000;
 }
 
+.signup__form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px; /* Consistent spacing between form groups */
+}
+
 .signup__form-group {
-  margin-bottom: 24px;
+  margin-bottom: 0; /* Remove bottom margin since we're using gap */
 }
 
 .signup__label {
@@ -75,7 +88,7 @@
 
 .signup__input {
   width: 100%;
-  padding: 14px 16px;
+  padding: 12px 16px; /* Slightly reduced padding */
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
@@ -114,7 +127,7 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 0; /* Remove bottom margin since we're using gap */
 }
 
 .signup__checkbox {
@@ -135,7 +148,7 @@
 
 .signup__continue-btn {
   width: 100%;
-  padding: 16px;
+  padding: 14px; /* Slightly reduced padding */
   background-color: #ff5722;
   color: white;
   border: none;
@@ -143,8 +156,6 @@
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 10px;
-  margin-bottom: 24px;
   transition: background-color 0.2s;
 }
 
@@ -156,7 +167,7 @@
   display: flex;
   align-items: center;
   text-align: center;
-  margin: 24px 0;
+  margin: 0; /* Remove margin since we're using gap */
 }
 
 .signup__divider::before,
@@ -174,7 +185,7 @@
 
 .signup__google-btn {
   width: 100%;
-  padding: 14px;
+  padding: 12px; /* Slightly reduced padding */
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -184,7 +195,6 @@
   cursor: pointer;
   font-weight: 500;
   gap: 10px;
-  margin-bottom: 24px;
   transition: background-color 0.2s;
 }
 
@@ -198,8 +208,8 @@
 }
 
 .signup__login-link {
-  text-align: right;
-  margin-bottom: 10px;
+  text-align: right; 
+  
 }
 
 .signup__login-link p {
@@ -218,22 +228,26 @@
   color: #d32f2f;
   padding: 12px;
   border-radius: 4px;
-  margin-bottom: 20px;
   font-size: 14px;
+  margin-bottom: 0; /* Remove bottom margin since we're using gap */
 }
 
-/* Make the modal responsive */
+/* Responsive Design */
 @media (max-width: 640px) {
   .signup__modal {
     max-width: 95%;
-    max-height: 95vh;
+    max-height: 90vh;
   }
-  
+
   .signup__content {
-    padding: 25px 20px;
+    padding: 20px 15px; /* Reduced padding for mobile */
+  }
+
+  .signup__title {
+    font-size: 24px; /* Smaller title for mobile */
   }
   
-  .signup__title {
-    font-size: 28px;
+  .signup__form {
+    gap: 15px; /* Smaller gap for mobile */
   }
 }
