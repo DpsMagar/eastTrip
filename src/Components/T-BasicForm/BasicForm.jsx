@@ -4,7 +4,7 @@ import "./Basic.css";
 import HotelImage from "../../Assest/Hotel.png";
 import HomestayImage from "../../Assest/homestay.png";
 import { useForm } from "../../context/FormContext";
-
+    
 const BasicForm = () => {
   const { formData, updateFormData, errors } = useForm();
   const currentYear = new Date().getFullYear();

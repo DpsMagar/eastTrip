@@ -102,3 +102,59 @@
   color: #333;
   margin-top: 0;
 }
+/* Auth buttons styling */
+.mainbox-travel-agent .auth-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.mainbox-travel-agent .auth-btn {
+  padding: 8px 20px;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.mainbox-travel-agent .login-btn {
+  background-color: white;
+  color: #F47848;
+  border: 1px solid #F47848;
+}
+
+.mainbox-travel-agent .login-btn:hover {
+  background-color: #fff0eb;
+}
+
+.mainbox-travel-agent .signup-btn {
+  background-color: #F47848;
+  color: white;
+}
+
+.mainbox-travel-agent .signup-btn:hover {
+  background-color: #d95c34;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mainbox-travel-agent .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  
+  .mainbox-travel-agent .auth-actions {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+  
+  .mainbox-travel-agent .add-property-btn {
+    margin-top: 10px;
+    width: 100%;
+  }
+}

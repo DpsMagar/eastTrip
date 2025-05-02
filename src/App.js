@@ -11,7 +11,10 @@ import DashBoard from "./Page/DashBoard/DashBoard"
 import Result from "./Components/ResultBox/PlaneResult"
 import { Homepage } from './Page/Travel-agent-home-page/Homepage';
 import FormPage from './Page/Travel-agent-form/FormPage';
-import { FormProvider } from './context/FormContext'; // Import the FormProvider
+import { FormProvider } from './context/FormContext';
+import TLogin from './Components/TLogin/TLogin';
+import TSignUp from './Components/T-SignUp/TSignUp';
+import ForgetPassword from './Components/T-ForgetPassword/ForgetPassword';
 
 function App() {
   return (
@@ -28,17 +31,17 @@ function App() {
               <Route path="/description" element={<DescriptionPage />} />
               <Route path="/profile" element={<DashBoard />} />
               <Route path="/result" element={<Result />} />
+              
+              {/* Travel Agent Routes */}
               <Route path="/travelagent" element={<Homepage />} />
+              <Route path="/travelagent/login" element={<TLogin />} />
+              <Route path="/travelagent/signup" element={<TSignUp />} />
+              <Route path="/travelagent/forgot-password" element={<ForgetPassword />} />
               <Route path="/travelagentform" element={
-                <FormProvider> {/* Wrap FormPage with FormProvider */}
+                <FormProvider> 
                   <FormPage />
                 </FormProvider>
               } />
-              {/* Remove these individual form routes as they should be accessed through FormPage */}
-              {/* <Route path="/basicform" element={<BasicForm />} /> */}
-              {/* <Route path="/amenitiesform" element={<AmenitiesForm />} /> */}
-              {/* <Route path="/location" element={<Location />} /> */}
-              {/* <Route path="/photos" element={<PhotoForm />} /> */}
             </Route>
           </Routes>
         </Router>

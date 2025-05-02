@@ -4,14 +4,14 @@
   padding: 20px;
 }
 
-.form-tabs {
+.form-page-container .form-tabs {
   display: flex;
   border-bottom: 1px solid #ddd;
   margin-bottom: 20px;
 }
 
 /* Changed from tab-button to tab-indicator to reflect their new role */
-.tab-indicator {
+.form-page-container .tab-indicator {
   padding: 10px 20px;
   background: none;
   font-size: 16px;
@@ -23,18 +23,18 @@
   cursor: default; /* Changed from pointer to default since they're not clickable */
 }
 
-.tab-indicator.active {
+.form-page-container .tab-indicator.active {
   background-color: #f47848;
   color: white;
   font-weight: normal;
 }
 
-.form-content {
+.form-page-container .form-content {
   padding: 20px 0;
 }
 
 /* New styles for the navigation buttons */
-.form-navigation {
+.form-page-container .form-navigation {
   display: flex;
   justify-content: space-between;
   margin-top: 30px;
@@ -42,7 +42,7 @@
   border-top: 1px solid #eee;
 }
 
-.nav-button {
+.form-page-container .nav-button {
   padding: 10px 25px;
   border: none;
   border-radius: 4px;
@@ -51,36 +51,36 @@
   transition: all 0.3s ease;
 }
 
-.back-button {
+.form-page-container .back-button {
   background-color: #f5f5f5;
   color: #333;
 }
 
-.back-button:hover:not(:disabled) {
+.form-page-container .back-button:hover:not(:disabled) {
   background-color: #e0e0e0;
 }
 
-.next-button {
+.form-page-container .next-button {
   background-color: #f47848;
   color: white;
 }
 
-.next-button:hover:not(:disabled) {
+.form-page-container .next-button:hover:not(:disabled) {
   background-color: #e56738;
 }
 
-.nav-button:disabled {
+.form-page-container .nav-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.error-message {
+.form-page-container .error-message {
   color: #ff4444;
   font-size: 0.8rem;
   margin-top: 0.25rem;
 }
 
-input.error,
+.form-page-container input.error,
 select.error {
   border-color: #ff4444;
 }

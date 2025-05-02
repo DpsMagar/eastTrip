@@ -1,18 +1,19 @@
 import React from 'react';
-import './home.css';
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import building from '../../Assest/building.png';
+import './home.css'; 
 
 export const Homepage = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  
   const handleLogoClick = () => {
-    navigate("/travelagentform")
-  }
+    navigate("/travelagentform");
+  };
+
   return (
     <div className="mainbox-travel-agent">
       <div className="content-box">
         <div className="section-header">
-
           <div className="section-left">
             <div className="logo">
               <div className="card">
@@ -28,7 +29,15 @@ export const Homepage = () => {
             </div>
           </div>
 
-          <button className="add-property-btn" onClick={handleLogoClick} style={{ cursor: "pointer" }}>List Your New Property +</button>
+          <div className="auth-actions">
+
+            <button 
+              className="add-property-btn" 
+              onClick={handleLogoClick}
+            >
+              List Your New Property +
+            </button>
+          </div>
         </div>
 
         <hr />
