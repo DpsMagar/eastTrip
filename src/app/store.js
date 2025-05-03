@@ -5,6 +5,8 @@ import { homeStayApi } from '../features/api/homeStayApi';
 import flightReducer from '../features/slice/flightSlice'
 import hotelReducer from '../features/slice/hotelSlice'
 import homeStayReducer from '../features/slice/homeStaySlice'
+import authReducer from '../features/slice/authSlice'
+import { authApi } from '../features/api/authApi';
 
 export const store = configureStore({
   reducer: {
@@ -14,10 +16,13 @@ export const store = configureStore({
     flight: flightReducer,
     hotel: hotelReducer,
     homeStay: homeStayReducer,
+    auth: authReducer,
+    [authApi.reducerPath]: authApi.reducer, 
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(flightApi.middleware)
       .concat(hotelApi.middleware)
       .concat(homeStayApi.middleware)
+      .concat(authApi.middleware)
 });
