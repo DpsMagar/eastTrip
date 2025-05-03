@@ -1,6 +1,7 @@
     package com.eastTrip.backendSpringBoot.model;
 
 
+    import com.fasterxml.jackson.annotation.JsonIgnore;
     import jakarta.persistence.*;
     import lombok.AllArgsConstructor;
     import lombok.Data;
@@ -24,6 +25,7 @@
         private String roomFeatures;
 
         @ManyToMany(mappedBy = "roomFeatures")
+        @JsonIgnore
         private List<Hotel> hotels=new ArrayList<>();
 
 

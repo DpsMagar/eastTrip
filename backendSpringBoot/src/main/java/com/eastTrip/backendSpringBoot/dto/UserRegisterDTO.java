@@ -1,6 +1,7 @@
 package com.eastTrip.backendSpringBoot.dto;
 
 
+import com.eastTrip.backendSpringBoot.model.Role;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,5 +13,6 @@ public class UserRegisterDTO {
     private String email;
     private String password;
     private String confirmPassword;
+    private Role role;
 
 }
