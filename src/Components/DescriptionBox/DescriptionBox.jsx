@@ -6,11 +6,33 @@ import BookingForm from "./BookingFrom"
 import Reviews from "./Review"
 import "./descriptionBox.css"
 import { useSelector } from "react-redux"
+import { useGetHotelInfoQuery } from "../../features/api/hotelApi"
+import { useGetHomeStayInfoQuery } from "../../features/api/homeStayApi"
 
 const DescriptionBox = ({ hotelInfo }) => {
 
   const activeItemIndex= useSelector((state)=> state.active.activeItemIndex);
-  const activeItemType= useSelector((state)=> state.active.activeItemType);
+  const activeItemType= useSelector((state)=> state.active.activeTypeIndex );
+
+  const isHotel = activeItemType === 1;
+  const isHomeStay = activeItemType ===2;
+
+  console.log(activeItemIndex);
+  console.log(activeItemType);
+  
+
+  const {infoHotel}= useGetHotelInfoQuery(activeItemIndex, {skip: !isHotel});
+  const {infoHomeStay}= useGetHomeStayInfoQuery(activeItemIndex, {skip: !isHomeStay});
+
+  console.log('Hiii');
+  
+  console.log(infoHotel);
+  console.log(infoHomeStay);
+  
+  
+
+
+  
 
   const [mainImage, setMainImage] = useState(hotelInfo["Main-Image"] || "/placeholder.svg")
 

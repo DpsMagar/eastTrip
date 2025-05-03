@@ -6,11 +6,13 @@ import "./Box.css"
 import { useNavigate } from "react-router-dom"
 import { setActiveItemIndex, setActiveTypeIndex } from "../../features/slice/activeCardSlice"
 
-function Box({ hotel, index }) {
+function Box({ hotel, key }) {
   const navigate = useNavigate()
 
   const dispatch= useDispatch();
 
+  console.log(key);
+  
   // const {data: hotelData}= useGetHotelInfoQuery(index);
 
   if (!hotel) {
@@ -47,13 +49,13 @@ function Box({ hotel, index }) {
   const handleLogoClick = () => {
 
     navigate("/description?hotelname=" + hotel.hotelName)
-    dispatch(setActiveItemIndex(index))
+    dispatch(setActiveItemIndex(key))
     dispatch(setActiveTypeIndex(1))
   }
 
   return (
-    <div className="hotel-card" onClick={handleLogoClick}>
-      <div className="hotel-card-container">
+    <div className="hotel-card" >
+      <div className="hotel-card-container" onClick={handleLogoClick}>
   
         <div className="hotel-image-section">
           <div className="hotel-main-image">

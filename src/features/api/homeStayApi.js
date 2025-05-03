@@ -19,4 +19,4 @@ export const homeStayApi = createApi({
   }),
 });
 
-export const { useGetHomeStayQuery, useGetHomeStayAllQuery } = homeStayApi;
+export const { useGetHomeStayQuery, useGetHomeStayAllQuery, useGetHomeStayInfoQuery } = homeStayApi;

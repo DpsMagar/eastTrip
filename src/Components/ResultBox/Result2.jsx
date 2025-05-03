@@ -65,7 +65,9 @@ export default function Result2() {
 
       <div className="hotel-cards-container">
         {currentHotels.map((hotel, index) => (
+          
           <HotelCard key={index} hotel={hotel} />
+          
         ))}
       </div>
 
