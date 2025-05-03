@@ -1,14 +1,13 @@
-.signup-container {
+.signup-container-box {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 80vh;
   background-color: #f9f4f0;
   font-family: Arial, sans-serif;
-  
 }
 
-.signup-box {
+.signup-container-box .signup-box {
   width: 100%;
   max-width: 500px;
   padding: 30px;
@@ -17,7 +16,7 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-h1 {
+.signup-container-box h1 {
   font-size: 24px;
   margin-bottom: 25px;
   color: #000;
@@ -25,11 +24,11 @@ h1 {
   font-weight: bold;
 }
 
-.input-group {
+.signup-container-box .input-group {
   margin-bottom: 15px;
 }
 
-label {
+.signup-container-box label {
   display: block;
   margin-bottom: 8px;
   font-size: 14px;
@@ -37,7 +36,7 @@ label {
   color: #333;
 }
 
-input {
+.signup-container-box input {
   width: 100%;
   padding: 12px 15px;
   border: 1px solid #e0e0e0;
@@ -48,22 +47,22 @@ input {
   box-sizing: border-box;
 }
 
-input::placeholder {
+.signup-container-box input::placeholder {
   color: #aaa;
 }
 
-input:focus {
+.signup-container-box input:focus {
   outline: none;
   border-color: #ff5722;
 }
 
-.password-input-container {
+.signup-container-box .password-input-container {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.toggle-password {
+.signup-container-box .toggle-password {
   position: absolute;
   right: 10px;
   background: none;
@@ -77,12 +76,12 @@ input:focus {
   justify-content: center;
 }
 
-.eye-icon {
+.signup-container-box .eye-icon {
   font-size: 20px;
   opacity: 0.6;
 }
 
-.create-account-btn {
+.signup-container-box .create-account-btn {
   width: 100%;
   padding: 14px;
   background-color: #ff5722;
@@ -97,12 +96,11 @@ input:focus {
   transition: background-color 0.2s;
 }
 
-.create-account-btn:hover {
+.signup-container-box .create-account-btn:hover {
   background-color: #e64a19;
 }
 
-
-.text-link {
+.signup-container-box .text-link {
   color: #ff5722;
   cursor: pointer;
   text-decoration: none;
@@ -114,21 +112,19 @@ input:focus {
   font: inherit;
 }
 
-.text-link:hover {
+.signup-container-box .text-link:hover {
   text-decoration: underline;
   color: #e64a19;
 }
 
-
-.already-have-account {
+.signup-container-box .already-have-account {
   text-align: center;
   margin-top: 20px;
   font-size: 14px;
   color: #333;
 }
 
-
-.terms-conditions {
+.signup-container-box .terms-conditions {
   margin-top: 20px;
   font-size: 12px;
   color: #666;
@@ -136,23 +132,23 @@ input:focus {
   line-height: 1.5;
 }
 
-.terms-conditions a {
+.signup-container-box .terms-conditions a {
   color: #ff5722;
   text-decoration: none;
 }
 
-.terms-conditions a:hover {
+.signup-container-box .terms-conditions a:hover {
   text-decoration: underline;
 }
 
-.error-message {
+.signup-container-box .error-message {
   color: #e53935;
   font-size: 12px;
   margin-top: 5px;
   font-weight: 500;
 }
 
-.input-error {
+.signup-container-box .input-error {
   border-color: #e53935 !important;
   background-color: #ffebee;
 }

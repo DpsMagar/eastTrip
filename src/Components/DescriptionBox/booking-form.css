@@ -46,6 +46,15 @@
   font-weight: 500;
 }
 
+.reward-label{
+  color: #555;
+}
+
+.reward-value {
+  font-weight: 500;
+}
+
+
 .total-row {
   font-weight: bold;
   margin-top: 10px;

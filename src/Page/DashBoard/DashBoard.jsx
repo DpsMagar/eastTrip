@@ -3,7 +3,12 @@
 import { useState } from "react"
 import ProfileInfo from "../../Components/PlayerDashboard/ProfileInfo"
 import RecentBookings from "../../Components/PlayerDashboard/RecentBookings"
+import RewardBox from "../../Components/PlayerDashboard/RewardBox"
 import "./DashBoard.css"
+import Trophy from '../../Assest/trophy.png'
+import profile1 from "../../Assest/profile.png"
+import booking from "../../Assest/booking.png"
+import redeem from "../../Assest/redeem.png"
 
 export default function DashBoard() {
   const [activeTab, setActiveTab] = useState("profile")
@@ -23,6 +28,7 @@ export default function DashBoard() {
     "passport no": "1111111",
     "Issuing place": "usa",
     "expiry date": "01/01/2030",
+    rewardpoint: 5000,
   }
 
   const recentBookings = [
@@ -42,12 +48,25 @@ export default function DashBoard() {
     },
   ]
 
-  // Function to get profile image with fallback
+  const Reward = [
+    {
+      id: 1,
+      TitleImage: "https://media.app.nepalguidetrekking.com/uploads/media/BlogImages/Rara-Lake-View.jpg",
+      Title: "Rara Lake visit",
+      RewardCost: 10000
+    },
+    {
+      id: 2,
+      TitleImage: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Estadio_Santiago_Bernabéu_Madrid.jpg",
+      Title: "Santiago Bernabéu visit",
+      RewardCost: 30000
+    }
+  ]
+
   const getProfileImage = () => {
     if (profile.ProfileImage && profile.ProfileImage.trim() !== "") {
       return profile.ProfileImage
     }
-    // Return default avatar image if ProfileImage is empty
     return "/placeholder.svg?height=100&width=100"
   }
 
@@ -55,11 +74,18 @@ export default function DashBoard() {
     <div className="profile-container">
       <div className="profile-sidebar">
         <div className="profile-avatar">
-          <img src={getProfileImage() || "/placeholder.svg"} alt="Profile" className="avatar-img" />
-          <h3 className="profile-name">
-            {profile.Firstname} {profile.Lastname}
-          </h3>
+          <img src={getProfileImage()} alt="Profile" className="avatar-img" />
+          <h3 className="profile-name">{profile.Firstname} {profile.Lastname}</h3>
           <p className="profile-email">{profile.Email}</p>
+          <div className="rewardpoint">
+            <div className="logo">
+              <img src={Trophy} alt="Trophy" />
+            </div>
+            <div className="rewardpoint-text-container">
+              <h3 className="rewardpoint-text">Reward Points</h3>
+              <p className="rewardpoint-value">{profile.rewardpoint}</p>
+            </div>
+          </div>
         </div>
 
         <div className="profile-navigation">
@@ -67,20 +93,9 @@ export default function DashBoard() {
             className={`nav-item ${activeTab === "profile" ? "active" : ""}`}
             onClick={() => setActiveTab("profile")}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
+            <div className="logo-nav">
+              <img src={profile1} alt="Profile" />
+            </div>
             My Profile
           </button>
 
@@ -88,30 +103,35 @@ export default function DashBoard() {
             className={`nav-item ${activeTab === "bookings" ? "active" : ""}`}
             onClick={() => setActiveTab("bookings")}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-              <line x1="12" y1="22.08" x2="12" y2="12"></line>
-            </svg>
+            <div className="logo-nav">
+              <img src={booking} alt="Booking" />
+            </div>
             My Bookings
+          </button>
+
+          <button
+            className={`nav-item ${activeTab === "Redeem Points" ? "active" : ""}`}
+            onClick={() => setActiveTab("Redeem Points")}
+          >
+            <div className="logo-nav">
+              <img src={redeem} alt="Redeem Points" />
+            </div>
+            Redeem Points
           </button>
         </div>
       </div>
 
       <div className="profile-content">
-        {activeTab === "profile" ? <ProfileInfo profile={profile} /> : <RecentBookings bookings={recentBookings} />}
+        {activeTab === "profile" && <ProfileInfo profile={profile} />}
+        {activeTab === "bookings" && <RecentBookings bookings={recentBookings} />}
+        {activeTab === "Redeem Points" && (
+          <div className="rewards-container">
+            {Reward.map((rewardItem) => (
+              <RewardBox key={rewardItem.id} Reward={rewardItem} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
 }
-

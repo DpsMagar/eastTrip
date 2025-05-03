@@ -10,12 +10,12 @@ const BookingForm = ({ hotelInfo }) => {
   const [children, setChildren] = useState(0)
   const [rooms, setRooms] = useState(1)
 
-  // Calculate taxes (using 16% as an example)
+  
   const basePrice = hotelInfo.price
+  const RewardPoint = hotelInfo.rewardPoints
   const taxesAndFees = Math.round(basePrice * 0.16)
   const totalPrice = basePrice + taxesAndFees
-  const perNightPrice = Math.round(totalPrice / 3) // Assuming 3 nights as an example
-
+  const perNightPrice = Math.round(totalPrice / 3) 
   const handleIncrement = (setter, value, max = 10) => {
     if (value < max) {
       setter(value + 1)
@@ -56,6 +56,10 @@ const BookingForm = ({ hotelInfo }) => {
         <div className="price-row total-row">
           <span className="price-label">Total</span>
           <span className="price-value">NPR {totalPrice.toLocaleString()}</span>
+        </div>
+        <div className="price-row">
+        <span className="reward-label">Reward Points</span>
+        <span className="reward-value"> {RewardPoint.toLocaleString()}</span>
         </div>
       </div>
 
