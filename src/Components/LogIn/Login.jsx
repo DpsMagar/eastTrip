@@ -15,7 +15,7 @@ export default function Login({ onClose, switchToSignup }) {
   const [rememberMe, setRememberMe] = useState(false);
   const { signIn } = useAuth();
   const modalRef = useRef(null);
-  const dispatch= useDispatch()
+  const dispatch = useDispatch();
   const [login] = useLoginMutation();
 
   useEffect(() => {
@@ -36,10 +36,13 @@ export default function Login({ onClose, switchToSignup }) {
     setError("");
 
     try {
-      const response= await login({email, password}).unwrap();
+      const response = await login({ email, password }).unwrap();
       console.log(response);
+
       dispatch(setToken(response));
-      
+
+      // ✅ Update AuthContext's currentUser
+      await signIn(response.user || { email }); // use response.user or fallback to email
 
       onClose();
     } catch (err) {
@@ -176,7 +179,12 @@ export default function Login({ onClose, switchToSignup }) {
               </div>
 
               <div className="terms-checkbox">
-                <input type="checkbox" id="terms" checked={rememberMe} onChange={() => setRememberMe(!rememberMe)} />
+                <input
+                  type="checkbox"
+                  id="terms"
+                  checked={rememberMe}
+                  onChange={() => setRememberMe(!rememberMe)}
+                />
                 <label htmlFor="terms">
                   By signing in or creating an account, you agree to GhumGhamNepal's{" "}
                   <a href="/privacy-policy" className="terms-link">

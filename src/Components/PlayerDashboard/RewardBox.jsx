@@ -5,7 +5,7 @@ import trophy from '../../Assest/trophy.png';
 const RewardBox = ({ Reward }) => {
   return (
     <div className="reward-box-container">
-      <h4>Redeem Your points</h4>
+     
 
       <div className="reward-box">
         <img src={Reward.TitleImage} alt={Reward.Title} className="reward-image" />

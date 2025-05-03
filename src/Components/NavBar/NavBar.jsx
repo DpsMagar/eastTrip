@@ -5,8 +5,9 @@ import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../../context/AuthContext"
 import Login from "../LogIn/Login"
 import SignUp from "../SignUp/SignUp"
+import ForgetPassword  from "../ForgetPassword/ForgetPasswordUser"
 import "./NavBar.css"
-import image from "../../Assest/logo.png"
+import image from "../../Assest/profile.jpg"
 
 export default function NavBar() {
   const navigate = useNavigate()
@@ -73,7 +74,7 @@ export default function NavBar() {
               <button className="user-profile-button" onClick={toggleUserDropdown}>
                 <span>Hi, {currentUser?.name || "Traveller"}</span>
                 <div className="profile-icon">
-                  <img src="/placeholder.svg" alt="Profile" width={24} height={24} className="profile-img" />
+                  <img src={image} alt="Profile" width={24} height={24} className="profile-img" />
                 </div>
               </button>
               {userDropdownOpen && (

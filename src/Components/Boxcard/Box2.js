@@ -33,7 +33,7 @@ function Box2({ hotel }) {
   const navigate = useNavigate()
 
   const handleLogoClick = () => {
-    navigate("/workingpage?hotelName=" + hotel.homeStayName)
+    navigate("/description?hotelName=" + hotel.homeStayName)
   }
 
   return (
