@@ -6,6 +6,7 @@ import flightReducer from '../features/slice/flightSlice'
 import hotelReducer from '../features/slice/hotelSlice'
 import homeStayReducer from '../features/slice/homeStaySlice'
 import authReducer from '../features/slice/authSlice'
+import activeReducer from '../features/slice/activeCardSlice'
 import { authApi } from '../features/api/authApi';
 
 export const store = configureStore({
@@ -18,6 +19,7 @@ export const store = configureStore({
     homeStay: homeStayReducer,
     auth: authReducer,
     [authApi.reducerPath]: authApi.reducer, 
+    active: activeReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

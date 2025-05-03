@@ -11,7 +11,11 @@ export const homeStayApi = createApi({
     }),
     getHomeStayAll: builder.query({
       query: ()=> '/results/homeStay/homeStayList'
-  })
+  }),
+  getHomeStayInfo: builder.query({
+    query: (homeStayId)=> 
+      `/results/homeStay/homeStay?homeStayId=${ homeStayId}`
+}),
   }),
 });
 

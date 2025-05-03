@@ -118,6 +118,8 @@ export default function TravelBooking() {
       setToAirport(airport.airportName)
     } else if (type === "hotel") {
       setLocation(airport)
+      console.log(airport);
+      
     }
     setActivePopup(null)
   }

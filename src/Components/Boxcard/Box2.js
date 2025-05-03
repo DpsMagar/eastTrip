@@ -1,9 +1,11 @@
 "use client"
 
+import { useDispatch } from "react-redux"
 import "./Box.css"
 import { useNavigate } from "react-router-dom"
+import { setActiveItemIndex, setActiveTypeIndex } from "../../features/slice/activeCardSlice"
 
-function Box2({ hotel }) {
+function Box2({ hotel, index }) {
   // Default props for when properties are missing
   // const defaultHotel = {
   //   name: "Hotel Name",
@@ -32,7 +34,13 @@ function Box2({ hotel }) {
   // const hotel = { ...defaultHotel, ...hotel }
   const navigate = useNavigate()
 
+  const dispatch= useDispatch()
+
   const handleLogoClick = () => {
+
+    dispatch(setActiveItemIndex(index))
+    dispatch(setActiveTypeIndex(2))
+
     navigate("/description?hotelName=" + hotel.homeStayName)
   }
 

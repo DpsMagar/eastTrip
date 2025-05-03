@@ -5,8 +5,13 @@ import { Star } from "lucide-react"
 import BookingForm from "./BookingFrom"
 import Reviews from "./Review"
 import "./descriptionBox.css"
+import { useSelector } from "react-redux"
 
 const DescriptionBox = ({ hotelInfo }) => {
+
+  const activeItemIndex= useSelector((state)=> state.active.activeItemIndex);
+  const activeItemType= useSelector((state)=> state.active.activeItemType);
+
   const [mainImage, setMainImage] = useState(hotelInfo["Main-Image"] || "/placeholder.svg")
 
   const renderStars = (rating) => {

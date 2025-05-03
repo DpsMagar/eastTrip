@@ -1,10 +1,17 @@
 "use client"
 
+import { useDispatch } from "react-redux"
+import { useGetHotelInfoQuery } from "../../features/api/hotelApi"
 import "./Box.css"
 import { useNavigate } from "react-router-dom"
+import { setActiveItemIndex, setActiveTypeIndex } from "../../features/slice/activeCardSlice"
 
-function Box({ hotel }) {
+function Box({ hotel, index }) {
   const navigate = useNavigate()
+
+  const dispatch= useDispatch();
+
+  // const {data: hotelData}= useGetHotelInfoQuery(index);
 
   if (!hotel) {
     return <div>Loading...</div>; 
@@ -38,7 +45,10 @@ function Box({ hotel }) {
   
 
   const handleLogoClick = () => {
+
     navigate("/description?hotelname=" + hotel.hotelName)
+    dispatch(setActiveItemIndex(index))
+    dispatch(setActiveTypeIndex(1))
   }
 
   return (
