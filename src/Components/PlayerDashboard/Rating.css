@@ -1,0 +1,74 @@
+.rating-box {
+    width: 400px;
+    background-color: white;
+    
+    padding: 20px;
+    position: relative;
+    font-family: Arial, sans-serif;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .rating-title {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+  
+  .stars {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+  
+  .star {
+    font-size: 28px;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  .star.filled {
+    color: #000;
+  }
+  
+  .rating-message {
+    width: 100%;
+    height: 120px;
+    padding: 10px;
+    border: 1px solid #000;
+    resize: none;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  .submit-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  
+  .submit-btn {
+    background-color: #f97f4c;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .error-text {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
