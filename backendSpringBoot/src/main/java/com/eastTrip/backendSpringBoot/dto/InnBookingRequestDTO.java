@@ -4,12 +4,13 @@ import lombok.Data;
 
 @Data
 public class InnBookingRequestDTO {
-    private String innName;
+    private String name;
     private Long userId;
-    private Long innId;
+    private int innId;
     private Long numberOfRooms;
     private String checkInDate;
     private String checkOutDate;
     private int numberOfGuests;
     private int totalPrice;
+    private int innType;
 }

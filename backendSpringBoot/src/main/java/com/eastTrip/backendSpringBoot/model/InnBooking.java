@@ -31,4 +31,7 @@ public class InnBooking {
 
     private boolean isConfirmed = false;
     private LocalDate bookedAt = LocalDate.now();
+
+    private int innType;
+    private int innId;
 }

@@ -19,14 +19,9 @@ public class InnBookingService {
     private final HotelRoomsRepository roomRepo;
 
     public InnBookingResponseDTO createBooking(InnBookingRequestDTO dto) {
+
         User user = userRepo.findById(dto.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
-
-        Hotel hotel = (Hotel) hotelRepo.findById(dto.getHotelId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid hotel ID"));
-
-        HotelRooms room = (HotelRooms) roomRepo.findById(dto.getRoomId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid room ID"));
 
         LocalDate checkIn = LocalDate.parse(dto.getCheckInDate());
         LocalDate checkOut = LocalDate.parse(dto.getCheckOutDate());
@@ -36,29 +31,35 @@ public class InnBookingService {
             throw new IllegalArgumentException("Check-out date must be after check-in date");
         }
 
-        int totalPrice = room.getPrice() * days;
+        if ( dto.getInnType() == 1){
+
+        }
+
+        int totalPrice = dto.getTotalPrice() * days;
 
         InnBooking booking = new InnBooking();
         booking.setUser(user);
-        booking.setHotel(hotel);
-        booking.setRoom(room);
+        booking.setName(dto.getName());
+        booking.setInnType(dto.getInnType());
         booking.setCheckInDate(checkIn);
         booking.setCheckOutDate(checkOut);
         booking.setNumberOfGuests(dto.getNumberOfGuests());
         booking.setTotalPrice(totalPrice);
-        booking.setIsConfirmed(true);  // default to confirmed
+        booking.setConfirmed(true);
+        booking.setInnId(dto.getInnId());
 
         InnBooking saved = bookingRepo.save(booking);
 
         return InnBookingResponseDTO.builder()
-                .bookingId(saved.getId())
-                .hotelName(hotel.getName())
-                .roomType(room.getRoomType())
+                .name(dto.getName())
                 .checkInDate(checkIn.toString())
                 .checkOutDate(checkOut.toString())
                 .numberOfGuests(dto.getNumberOfGuests())
                 .totalPrice(totalPrice)
-                .isConfirmed(true)
+                .userId(dto.getUserId())
+                .innId(saved.getInnId())
+                .numberOfRooms(dto.getNumberOfRooms())
+                .innType(dto.getInnType())
                 .build();
     }
 }
