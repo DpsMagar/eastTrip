@@ -15,7 +15,7 @@ export const hotelApi = createApi({
   }),
 
   getHotelInfo:builder.query({
-    query:({hotelId})=>
+    query:(hotelId)=>
       `/results/hotels/hotel?hotelId=${hotelId}`,
   }),
   }),

@@ -9,11 +9,13 @@ import { setActiveItemIndex, setActiveTypeIndex } from "../../features/slice/act
 function Box({ hotel, index }) {
   const navigate = useNavigate()
 
-  console.log("hiiiiiii");
+  console.log("box1");
+  console.log(hotel.hotelId);
+  
   
   const dispatch= useDispatch();
 
-  console.log(index);
+  // console.log(index);
   
   // const {data: hotelData}= useGetHotelInfoQuery(index);
 
@@ -50,14 +52,15 @@ function Box({ hotel, index }) {
 
   const handleLogoClick = () => {
 
-    navigate("/description?hotelname=" + hotel.hotelName)
-    dispatch(setActiveItemIndex(index))
+    dispatch(setActiveItemIndex(hotel.hotelId))
     dispatch(setActiveTypeIndex(1))
+    navigate("/description?hotelname=" + hotel.hotelName)
+    
   }
 
   return (
-    <div className="hotel-card" >
-      <div className="hotel-card-container" onClick={handleLogoClick}>
+    <div className="hotel-card" onClick={handleLogoClick} >
+      <div className="hotel-card-container" >
   
         <div className="hotel-image-section">
           <div className="hotel-main-image">

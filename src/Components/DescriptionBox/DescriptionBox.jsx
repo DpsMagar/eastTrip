@@ -11,14 +11,26 @@ import { useGetHomeStayInfoQuery } from "../../features/api/homeStayApi"
 const DescriptionBox = () => {
   const activeItemIndex = useSelector((state) => state.active.activeItemIndex)
   const activeItemType = useSelector((state) => state.active.activeTypeIndex)
+  // console.log('Yoooo',activeItemIndex);
+  // console.log(activeItemType);
+  
+  
 
   const isHotel = activeItemType === 1
   const isHomeStay = activeItemType === 2
 
-  const { data: infoHotel } = useGetHotelInfoQuery(activeItemIndex, { skip: !isHotel })
+  // console.log("hotel",isHotel);
+  // console.log(isHomeStay);
+  
+  
+
+  const { data: infoHotel, error } = useGetHotelInfoQuery(activeItemIndex, { skip: !isHotel })
   const { data: infoHomeStay } = useGetHomeStayInfoQuery(activeItemIndex, { skip: !isHomeStay })
 
   const dataInfo = infoHotel || infoHomeStay
+  // console.error("Hotel fetch error:", error)
+  console.log(dataInfo);
+  
 
   if (!dataInfo) {
     return <div>Loading accommodation info...</div>
