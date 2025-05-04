@@ -4,16 +4,16 @@ import Rating from "./Rating";
 
 export default function RecentBookings({ bookings }) {
   const [showRating, setShowRating] = useState(false);
-  const [selectedBookingId, setSelectedBookingId] = useState(null);
+  const [selectedBooking, setSelectedBooking] = useState(null);
 
-  const handleRateClick = (bookingId) => {
-    setSelectedBookingId(bookingId);
+  const handleRateClick = (booking) => {
+    setSelectedBooking(booking);
     setShowRating(true);
   };
 
   const closeRating = () => {
     setShowRating(false);
-    setSelectedBookingId(null);
+    setSelectedBooking(null);
   };
 
   const handlePrintDetails = (booking) => {
@@ -55,9 +55,9 @@ export default function RecentBookings({ bookings }) {
               {booking.status === "Completed" ? (
                 <button
                   className="rate-button"
-                  onClick={() => handleRateClick(booking.id)}
+                  onClick={() => handleRateClick(booking)}
                 >
-                  Rate your stay
+                  Rate Your Stay
                 </button>
               ) : (
                 <button
@@ -72,13 +72,16 @@ export default function RecentBookings({ bookings }) {
         ))}
       </div>
 
-      {showRating && (
+      {showRating && selectedBooking && (
         <div className="rating-overlay">
           <div className="rating-popup">
-            <button className="popup-close" onClick={closeRating}>
-              &times;
-            </button>
-            <Rating />
+            <Rating 
+              onClose={closeRating} 
+              hotelData={{
+                name: selectedBooking.destination,
+                image: selectedBooking.hotelImage || null
+              }} 
+            />
           </div>
         </div>
       )}

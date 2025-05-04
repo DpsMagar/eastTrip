@@ -11,7 +11,7 @@ const Layout = () => {
       <NavBar />
       
       <div className="scrollbar-wrapper">
-        <Scrollbar style={{ width: "100%", height: "calc(100vh - 120px)" }}>
+        <Scrollbar style={{ width: "100%", height: "calc(90vh - 120px)" }}>
           <main className="main-content">
             <Outlet />
           </main>

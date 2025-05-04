@@ -1,74 +1,122 @@
-.rating-box {
-    width: 400px;
-    background-color: white;
-    
-    padding: 20px;
-    position: relative;
-    font-family: Arial, sans-serif;
-  }
-  
-  .close-btn {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-  }
-  
-  .rating-title {
-    text-align: center;
-    margin-bottom: 10px;
-    font-size: 20px;
-  }
-  
-  .stars {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
-  }
-  
-  .star {
-    font-size: 28px;
-    cursor: pointer;
-    color: #999;
-    transition: color 0.2s ease-in-out;
-  }
-  
-  .star.filled {
-    color: #000;
-  }
-  
-  .rating-message {
-    width: 100%;
-    height: 120px;
-    padding: 10px;
-    border: 1px solid #000;
-    resize: none;
-    font-size: 14px;
-    box-sizing: border-box;
-  }
-  
-  .submit-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-  }
-  
-  .submit-btn {
-    background-color: #f97f4c;
-    color: white;
-    border: none;
-    padding: 8px 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  .error-text {
-    color: red;
-    font-size: 14px;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-  
+.rating-modal {
+  width: 600px;
+  max-width: 90vw;
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  position: relative;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rating-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0 0 8px 0;
+  text-align: center;
+}
+
+.rating-subtitle {
+  font-size: 16px;
+  color: #4a5568;
+  margin: 0 0 24px 0;
+  text-align: center;
+}
+
+.hotel-image-container {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.hotel-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.rating-section,
+.review-section {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.rating-section h2,
+.review-section h2 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #1a202c;
+  margin: 0 0 12px 0;
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.star {
+  font-size: 32px;
+  cursor: pointer;
+  color: #e2e8f0;
+  transition: color 0.2s ease;
+}
+
+.star.filled {
+  color: #f97f4c;
+}
+
+.review-textarea {
+  width: 100%;
+  height: 120px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  resize: none;
+  font-size: 16px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.submit-btn {
+  background-color: #f97f4c;
+  color: white;
+  border: none;
+  padding: 12px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  width: 100%;
+  margin-top: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.submit-btn:hover {
+  background-color: #e86c39;
+}
+
+.error-text {
+  color: #e53e3e;
+  font-size: 14px;
+  text-align: center;
+  margin: 0 0 16px 0;
+}
