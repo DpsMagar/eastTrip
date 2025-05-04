@@ -31,35 +31,64 @@ public class InnBookingService {
             throw new IllegalArgumentException("Check-out date must be after check-in date");
         }
 
-        if ( dto.getInnType() == 1){
-
-        }
-
+        // Calculate total price
         int totalPrice = dto.getTotalPrice() * days;
 
-        InnBooking booking = new InnBooking();
-        booking.setUser(user);
-        booking.setName(dto.getName());
-        booking.setInnType(dto.getInnType());
-        booking.setCheckInDate(checkIn);
-        booking.setCheckOutDate(checkOut);
-        booking.setNumberOfGuests(dto.getNumberOfGuests());
-        booking.setTotalPrice(totalPrice);
-        booking.setConfirmed(true);
-        booking.setInnId(dto.getInnId());
+        // Check if booking with the same userId, innId, and innType already exists
+        InnBooking existingBooking = bookingRepo.findByUserIdAndInnIdAndInnType(dto.getUserId(), dto.getInnId(), dto.getInnType());
 
-        InnBooking saved = bookingRepo.save(booking);
+        if (existingBooking != null) {
+            // Update the existing booking with the new details
+            existingBooking.setCheckInDate(checkIn);
+            existingBooking.setCheckOutDate(checkOut);
+            existingBooking.setNumberOfGuests(dto.getNumberOfGuests());
+            existingBooking.setTotalPrice(totalPrice);
+            existingBooking.setConfirmed(true);
+            existingBooking.setName(dto.getName());
+            existingBooking.setNumberOfRooms(Math.toIntExact(dto.getNumberOfRooms()));
 
-        return InnBookingResponseDTO.builder()
-                .name(dto.getName())
-                .checkInDate(checkIn.toString())
-                .checkOutDate(checkOut.toString())
-                .numberOfGuests(dto.getNumberOfGuests())
-                .totalPrice(totalPrice)
-                .userId(dto.getUserId())
-                .innId(saved.getInnId())
-                .numberOfRooms(dto.getNumberOfRooms())
-                .innType(dto.getInnType())
-                .build();
+            // Save the updated booking
+            InnBooking updatedBooking = bookingRepo.save(existingBooking);
+
+            return InnBookingResponseDTO.builder()
+                    .name(updatedBooking.getName())
+                    .checkInDate(updatedBooking.getCheckInDate().toString())
+                    .checkOutDate(updatedBooking.getCheckOutDate().toString())
+                    .numberOfGuests(updatedBooking.getNumberOfGuests())
+                    .totalPrice(updatedBooking.getTotalPrice())
+                    .userId(updatedBooking.getUser().getId())
+                    .innId(updatedBooking.getInnId())
+                    .numberOfRooms((long) updatedBooking.getNumberOfRooms())
+                    .innType(updatedBooking.getInnType())
+                    .build();
+
+        } else {
+            // If no existing booking, create a new one
+            InnBooking newBooking = new InnBooking();
+            newBooking.setUser(user);
+            newBooking.setName(dto.getName());
+            newBooking.setInnType(dto.getInnType());
+            newBooking.setCheckInDate(checkIn);
+            newBooking.setCheckOutDate(checkOut);
+            newBooking.setNumberOfGuests(dto.getNumberOfGuests());
+            newBooking.setTotalPrice(totalPrice);
+            newBooking.setConfirmed(true);
+            newBooking.setInnId(dto.getInnId());
+
+            InnBooking savedBooking = bookingRepo.save(newBooking);
+
+            return InnBookingResponseDTO.builder()
+                    .name(savedBooking.getName())
+                    .checkInDate(savedBooking.getCheckInDate().toString())
+                    .checkOutDate(savedBooking.getCheckOutDate().toString())
+                    .numberOfGuests(savedBooking.getNumberOfGuests())
+                    .totalPrice(savedBooking.getTotalPrice())
+                    .userId(savedBooking.getUser().getId())
+                    .innId(savedBooking.getInnId())
+                    .numberOfRooms(dto.getNumberOfRooms())
+                    .innType(savedBooking.getInnType())
+                    .build();
+        }
     }
+
 }
