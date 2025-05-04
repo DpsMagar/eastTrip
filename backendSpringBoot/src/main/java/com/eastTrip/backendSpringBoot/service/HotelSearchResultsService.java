@@ -30,6 +30,7 @@ public class HotelSearchResultsService {
         List<HotelSearchResultsDTO> hotelSearchResultsDTOList = new ArrayList<>();
         for (Hotel hotel : hotels) {
             HotelSearchResultsDTO dto = new HotelSearchResultsDTO();
+            dto.setHotelId(hotel.getId());
             dto.setHotelName(hotel.getName());
             dto.setHotelLocation(hotel.getLocation());
             dto.setAttraction(hotel.getAttraction());

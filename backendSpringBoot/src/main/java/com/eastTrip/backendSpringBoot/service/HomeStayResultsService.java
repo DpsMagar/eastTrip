@@ -37,7 +37,9 @@ public class HomeStayResultsService {
         List<HomeStayResultsDTO> homeStayResultsDTOs = new ArrayList<HomeStayResultsDTO>();
 
         for (HomeStay homeStay : homeStays) {
+
             HomeStayResultsDTO homeStayResultsDTO = new HomeStayResultsDTO();
+            homeStayResultsDTO.setHomeStayId(homeStay.getId());
             homeStayResultsDTO.setHomeStayName(homeStay.getName());
             homeStayResultsDTO.setHomeStayLocation(homeStay.getLocation());
             homeStayResultsDTO.setAttraction(homeStay.getAttraction());

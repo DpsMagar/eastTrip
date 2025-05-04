@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class HomeStayResultsDTO {
 
+    private int homeStayId;
     private String homeStayName;
     private String homeStayLocation;
     private String attraction;

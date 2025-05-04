@@ -12,6 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HotelSearchResultsDTO {
+    private Long hotelId;
     private String hotelName;
     private String hotelLocation;
     private String attraction;
