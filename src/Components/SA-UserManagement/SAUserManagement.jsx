@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SAUserManagement.css';
 import { FaUsers, FaTrash } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
@@ -33,15 +33,26 @@ const SAUserManagement = () => {
     { id: 24, profile: CustomProfile, name: "Benjamin Adams", email: "benjamin.a@example.com" },
     { id: 25, profile: CustomProfile, name: "Harper Nelson", email: "harper.n@example.com" }
   ];
+
+  const [users, setUsers] = useState(initialUsers);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [filteredUsers, setFilteredUsers] = useState(initialUsers);
   const usersPerPage = 3;
 
-  const filteredUsers = initialUsers.filter(
-    user =>
+  useEffect(() => {
+    const filtered = users.filter(user =>
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+    );
+    setFilteredUsers(filtered);
+    
+    // Reset to first page if current page would be empty after filtering
+    const totalPages = Math.ceil(filtered.length / usersPerPage);
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
+    }
+  }, [users, searchQuery, currentPage, usersPerPage]);
 
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
   const startIndex = (currentPage - 1) * usersPerPage;
@@ -55,6 +66,16 @@ const SAUserManagement = () => {
   const showingFrom = startIndex + 1;
   const showingTo = Math.min(startIndex + usersPerPage, filteredUsers.length);
 
+  const handleDeleteUser = (id) => {
+    const updatedUsers = users.filter(user => user.id !== id);
+    setUsers(updatedUsers);
+    
+    // Adjust current page if needed
+    if (paginatedUsers.length === 1 && currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <div className='sa-UserManagement'>
       <div className='sa-UserManagement-header'>
@@ -66,14 +87,13 @@ const SAUserManagement = () => {
         <div className="icon"><FaUsers /></div>
         <div className="text">
           <p>Total Users</p>
-          <h2>{initialUsers.length}</h2>
+          <h2>{users.length}</h2>
         </div>
       </div>
 
       <div className='sa-UserManagement-UserList'>
         <div className="um-header-box">
           <h2>User List</h2>
-          
         </div>
 
         <div className="um-Search-box">
@@ -97,31 +117,41 @@ const SAUserManagement = () => {
             <div className="action-table-cell">Actions</div>
           </div>
 
-          {paginatedUsers.map((user) => (
-            <div className="table-row" key={user.id}>
-              <div className="user-cell">
-                <img src={user.profile} alt="User" className='user-profile' />
-                <span className='user-name'>{user.name}</span>
+          {paginatedUsers.length > 0 ? (
+            paginatedUsers.map((user) => (
+              <div className="table-row" key={user.id}>
+                <div className="user-cell">
+                  <img src={user.profile} alt="User" className='user-profile' />
+                  <span className='user-name'>{user.name}</span>
+                </div>
+                <div className="email-cell">
+                  <span className='user-email'>{user.email}</span>
+                </div>
+                <div className="action-cell">
+                  <button className='edit-btn'><FiEdit className='edit-icon' /></button>
+                  <button 
+                    className='delete-btn'
+                    onClick={() => handleDeleteUser(user.id)}
+                  >
+                    <FaTrash className='delete-icon' />
+                  </button>
+                </div>
               </div>
-              <div className="email-cell">
-                <span className='user-email'>{user.email}</span>
-              </div>
-              <div className="action-cell">
-                <button className='edit-btn'><FiEdit className='edit-icon' /></button>
-                <button className='delete-btn'><FaTrash className='delete-icon' /></button>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div className="no-results">No users found matching your criteria</div>
+          )}
 
           <div className="pagination-container">
             <div className="entries-count">
-              Showing {showingFrom} to {showingTo} of {filteredUsers.length} entries
+              Showing {filteredUsers.length > 0 ? `${showingFrom} to ${showingTo}` : 0} of {filteredUsers.length} entries
             </div>
             <div className="pagination">
               <button
                 onClick={() => {
                   if (groupStart > 1) setCurrentPage(groupStart - 1);
                 }}
+                disabled={groupStart === 1}
               >
                 Previous
               </button>
@@ -143,12 +173,12 @@ const SAUserManagement = () => {
                 onClick={() => {
                   if (groupEnd < totalPages) setCurrentPage(groupEnd + 1);
                 }}
+                disabled={groupEnd === totalPages}
               >
                 Next
               </button>
             </div>
           </div>
-
         </div>
       </div>
     </div>
