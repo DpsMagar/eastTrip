@@ -6,6 +6,15 @@ import { useNavigate } from "react-router-dom"
 import { setActiveItemIndex, setActiveTypeIndex } from "../../features/slice/activeCardSlice"
 
 function Box2({ hotel, index }) {
+
+  // console.log(hotel);
+  // console.log(index);
+  console.log("box2");
+  console.log(hotel.homeStayId);
+  
+  
+  
+  
   // Default props for when properties are missing
   // const defaultHotel = {
   //   name: "Hotel Name",
@@ -38,7 +47,7 @@ function Box2({ hotel, index }) {
 
   const handleLogoClick = () => {
 
-    dispatch(setActiveItemIndex(index))
+    dispatch(setActiveItemIndex(hotel.homeStayId))
     dispatch(setActiveTypeIndex(2))
 
     navigate("/description?hotelName=" + hotel.homeStayName)

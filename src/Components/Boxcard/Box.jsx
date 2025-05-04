@@ -6,12 +6,14 @@ import "./Box.css"
 import { useNavigate } from "react-router-dom"
 import { setActiveItemIndex, setActiveTypeIndex } from "../../features/slice/activeCardSlice"
 
-function Box({ hotel, key }) {
+function Box({ hotel, index }) {
   const navigate = useNavigate()
 
+  console.log("hiiiiiii");
+  
   const dispatch= useDispatch();
 
-  console.log(key);
+  console.log(index);
   
   // const {data: hotelData}= useGetHotelInfoQuery(index);
 
@@ -49,7 +51,7 @@ function Box({ hotel, key }) {
   const handleLogoClick = () => {
 
     navigate("/description?hotelname=" + hotel.hotelName)
-    dispatch(setActiveItemIndex(key))
+    dispatch(setActiveItemIndex(index))
     dispatch(setActiveTypeIndex(1))
   }
 
