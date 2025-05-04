@@ -11,7 +11,7 @@ html, body {
   padding: 0 1rem;
 }
 
-.header {
+.chumchom-container .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,9 +26,6 @@ html, body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-body {
-  padding-top: 70px;
-}
 
 .navigation {
   display: flex;

@@ -1,6 +1,8 @@
 .admin-container {
     font-family: 'Segoe UI', sans-serif;
   }
+
+
   
   .navbar {
     height: 50px;
@@ -11,6 +13,8 @@
     justify-content: space-between;
     align-items: center;
   }
+
+  
   
   .logo {
     font-weight: bold;

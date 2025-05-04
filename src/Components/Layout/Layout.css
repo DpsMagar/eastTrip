@@ -2,7 +2,6 @@ html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* prevent double scrollbars */
 }
 
 .layout-container {
@@ -11,28 +10,38 @@ html, body, #root {
   flex-direction: column;
 }
 
+.layout-container > nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 70px;
+  z-index: 100;
+}
+
 .scrollbar-wrapper {
   flex-grow: 1;
-  height: calc(100vh - 120px); /* adjust height considering navbar + footer */
+  margin-top: 70px;
+  height: calc(100vh - 70px - 50px);
   overflow: hidden;
 }
 
 .main-content {
   width: 100%;
   height: 100%;
+  padding-top: 0;
   background: white;
-  border-radius: 0px;
-  box-shadow: none;
-  overflow-y: auto;
 }
 
+.layout-container > footer {
+  height: 50px;
+}
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
+  .scrollbar-wrapper {
+    height: calc(100vh - 70px - 40px);
+  }
+  
   .main-content {
-    width: 95%;
     padding: 1rem;
-    margin: 1rem auto;
-    border-radius: 15px;
   }
 }
