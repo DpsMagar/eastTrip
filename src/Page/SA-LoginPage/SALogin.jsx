@@ -23,10 +23,8 @@ const SALogin = () => {
     const correctPassword = "admin123";
 
     if (username === correctUsername && password === correctPassword) {
-      // Successful login
       navigate('/superadminhomepage');
     } else {
-      // Failed login
       setError('Invalid username or password');
     }
   };
