@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
@@ -15,6 +16,8 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
 //    Set<Hotel> findAllByName(String name);
 
     List<Hotel> findAllByLocation(String location);
+
+    Optional<Object> findById(Long hotelId);
 
 //    Arrays findByCity(String cityName);
 }
