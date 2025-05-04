@@ -15,6 +15,8 @@ import { FormProvider } from './context/FormContext';
 import TLogin from './Components/TLogin/TLogin';
 import TSignUp from './Components/T-SignUp/TSignUp';
 import ForgetPassword from './Components/T-ForgetPassword/ForgetPassword';
+import SALogin from "./Page/SA-LoginPage/SALogin"
+import SAHomePage from "./Page/SA-HomePage/SAHomePage"
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
+            {/* Routes with Layout */}
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
               <Route path="/home" element={<Home />} />
@@ -43,6 +46,10 @@ function App() {
                 </FormProvider>
               } />
             </Route>
+
+            {/* Super Admin Routes (without Layout) */}
+            <Route path="/superadmin" element={<SALogin />} />
+            <Route path="/superadminhomepage" element={<SAHomePage />} />
           </Routes>
         </Router>
       </AuthProvider>

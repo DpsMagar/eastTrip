@@ -25,6 +25,9 @@ export default function Login({ onClose, switchToSignup }) {
       }
     };
 
+
+
+    // Add event listener to handle clicks outside the modal
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);

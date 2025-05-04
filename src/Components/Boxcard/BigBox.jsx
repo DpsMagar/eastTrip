@@ -89,7 +89,7 @@ function HotelTabs() {
           className={`tab-button ${activeTab === "popular" ? "active" : ""}`}
           onClick={() => setActiveTab("popular")}
         >
-          Popular Hotel 🔥🔥🔥
+          Recommend Hotel 
         </button>
         <button
           className={`tab-button ${activeTab === "hotels" ? "active" : ""}`}

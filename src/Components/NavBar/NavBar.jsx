@@ -90,6 +90,8 @@ export default function NavBar() {
 
       {isLoginModalOpen && <Login onClose={closeAllModals} switchToSignup={openSignupModal} />}
 
+
+
       {isSignupModalOpen && <SignUp onClose={closeAllModals} switchToLogin={openLoginModal} />}
     </div>
   )
