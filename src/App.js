@@ -17,6 +17,8 @@ import TSignUp from './Components/T-SignUp/TSignUp';
 import ForgetPassword from './Components/T-ForgetPassword/ForgetPassword';
 import SALogin from "./Page/SA-LoginPage/SALogin"
 import SAHomePage from "./Page/SA-HomePage/SAHomePage"
+import Result3 from "./Components/ResultBox/Result3"
+import Result2 from "./Components/ResultBox/Result2"
 
 function App() {
   return (
@@ -34,6 +36,7 @@ function App() {
               <Route path="/description" element={<DescriptionPage />} />
               <Route path="/profile" element={<DashBoard />} />
               <Route path="/result" element={<Result />} />
+              
               
               {/* Travel Agent Routes */}
               <Route path="/travelagent" element={<Homepage />} />

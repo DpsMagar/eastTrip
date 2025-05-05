@@ -172,20 +172,43 @@ export default function TwoSearch() {
     dispatch(setHotelCheckOutDate(checkOutDate))
     navigate("/search")
   }
+  const handleHotel=()=>{
+    console.log("Search triggered for tab:", activeTab);
+    dispatch(setHotelLocation(location))
+    // dispatch(globalTraveller(travellers))
+    dispatch(setGlobalRooms(rooms))
+    dispatch(setGlobalGuests(guests))
+    dispatch(setHotelCheckInDate(checkInDate))
+    dispatch(setHotelCheckOutDate(checkOutDate))
+    navigate("/search")
+  }
+  const handleHomeStay=()=>{
+    console.log("Search triggered for tab:", activeTab);
+    dispatch(setHotelLocation(location))
+    // dispatch(globalTraveller(travellers))
+    dispatch(setGlobalRooms(rooms))
+    dispatch(setGlobalGuests(guests))
+    dispatch(setHotelCheckInDate(checkInDate))
+    dispatch(setHotelCheckOutDate(checkOutDate))
+    navigate("/search")
+  }
 
   return (
     <div className="travel-search">
       {/* Tabs */}
       <div className="tabs">
-        <button className={`tab ${activeTab === "flights" ? "active" : ""}`} onClick={() => setActiveTab("flights")}>
+        <button className={`tab ${activeTab === "flights" ? "active" : ""}`} onClick={() => {setActiveTab("flights");
+         handleSearch()}}>
           Flights
         </button>
-        <button className={`tab ${activeTab === "hotels" ? "active" : ""}`} onClick={() => setActiveTab("hotels")}>
+        <button className={`tab ${activeTab === "hotels" ? "active" : ""}`} onClick={() => {setActiveTab("hotels");
+        handleSearch()}}>
           Hotel
         </button>
         <button
           className={`tab ${activeTab === "homeStays" ? "active" : ""}`}
-          onClick={() => setActiveTab("homeStays")}
+          onClick={() => {setActiveTab("homeStays");
+          handleSearch()}}
         >
           HomeStays
         </button>
