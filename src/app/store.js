@@ -8,6 +8,7 @@ import homeStayReducer from '../features/slice/homeStaySlice'
 import authReducer from '../features/slice/authSlice'
 import activeReducer from '../features/slice/activeCardSlice'
 import { authApi } from '../features/api/authApi';
+import { bookApi } from '../features/api/bookApi';
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     auth: authReducer,
     [authApi.reducerPath]: authApi.reducer, 
     active: activeReducer,
+    [bookApi.reducerPath] : bookApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -27,4 +29,5 @@ export const store = configureStore({
       .concat(hotelApi.middleware)
       .concat(homeStayApi.middleware)
       .concat(authApi.middleware)
+      .concat(bookApi.middleware)
 });

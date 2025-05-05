@@ -5,8 +5,20 @@ import { ChevronDown, Minus, Plus } from "lucide-react"
 import "./booking-form.css"
 import { useDispatch, useSelector } from "react-redux"
 import { setGlobalGuests, setGlobalRooms, setHotelCheckInDate, setHotelCheckOutDate } from "../../features/slice/hotelSlice"
+import { useBookNowMutation } from "../../features/api/bookApi"
 
 const BookingForm = ({ hotelInfo }) => {
+
+  const [book] = useBookNowMutation();
+
+  console.log(hotelInfo);
+    const innType= useSelector((state)=> state.active.activeTypeIndex );
+  
+
+
+  
+
+  const userID= localStorage.getItem('userId');
 
   const dispatch= useDispatch();
 
@@ -14,6 +26,9 @@ const BookingForm = ({ hotelInfo }) => {
 
   const checkInDate= new Date(hotelCheckInDate).toISOString().split("T")[0];
   const checkOutDate= new Date(hotelCheckOutDate).toISOString().split("T")[0];
+  
+
+
   
   // Fallback dummy data if hotelInfo is not provided or incomplete
   const fallbackHotelInfo = {
@@ -38,6 +53,19 @@ const BookingForm = ({ hotelInfo }) => {
   const taxesAndFees = Math.round(basePrice * 0.16)
   const totalPrice = basePrice + taxesAndFees
   const perNightPrice = Math.round(totalPrice / 3)
+
+  function convertDateFormat(inputDate) {
+    const date = new Date(inputDate);
+    
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const day = String(date.getDate()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  }
+
+  const Cin = convertDateFormat(hotelCheckInDate);
+  const Cout = convertDateFormat(hotelCheckOutDate);
 
   const handleIncrement = (setter, value, max = 10) => {
     if (value < max) {
@@ -73,6 +101,30 @@ const BookingForm = ({ hotelInfo }) => {
     dispatch(setGlobalRooms(rooms))
   }, [rooms])
 
+  const handleBookNow= async ()=>{
+
+    const bookDTO={
+      name:hotelInfo.name,
+      userId:userID,
+      innId: hotelInfo.id,
+      checkInDate:Cin, 
+      checkOutDate:Cout,
+      numberOfGuests:guestsFromStore, 
+      numberOfRooms:roomFromStore,
+      innType,
+      totalPrice: hotelInfo.price
+    }
+
+    console.log(bookDTO);
+    
+    try {
+      const response = await book(bookDTO).unwrap();
+      console.log(response);
+    } catch (error) {
+      console.error("Error booking:", error);
+    }
+  }
+    
   return (
     <div className="booking-form">
       <div className="price-header">
@@ -187,7 +239,7 @@ const BookingForm = ({ hotelInfo }) => {
         </div>
       </div>
 
-      <button className="book-now-btn">Book Now</button>
+      <button className="book-now-btn" onClick={handleBookNow}>Book Now</button>
 
       <div className="cancellation-policy">
         <span className="info-icon">ⓘ</span>

@@ -33,7 +33,7 @@ function Box({ hotel, index }) {
   //   roomType: "Standard Room",
   //   bedType: "Double Bed",
   //   viewType: "",
-  //   hotelFeatures: ["Wifi", "Parking"],
+  //   services: ["Wifi", "Parking"],
   //   topSelling: false,
   //   bookings: 0,
   //   offers: "Special offer",
@@ -54,7 +54,11 @@ function Box({ hotel, index }) {
 
     dispatch(setActiveItemIndex(hotel.hotelId))
     dispatch(setActiveTypeIndex(1))
+    console.log(hotel);
+    
     navigate("/description?hotelname=" + hotel.hotelName)
+
+
     
   }
 
@@ -64,11 +68,11 @@ function Box({ hotel, index }) {
   
         <div className="hotel-image-section">
           <div className="hotel-main-image">
-            <img src={hotel.image || "/placeholder.svg"} alt={hotel.hotelName} />
+            <img src={hotel.imageUrl || "/placeholder.svg"} alt={hotel.hotelName} />
           </div>
-          <div className="hotel-thumbnails">
-            {hotel.hotelFeatures && hotel.hotelFeatures.length > 0 ? (
-              hotel.hotelFeatures.slice(0, 4).map((thumb, index) => (
+          {/* <div className="hotel-thumbnails">
+            {hotel.services && hotel.services.length > 0 ? (
+              hotel.services.slice(0, 4).map((thumb, index) => (
                 <div key={index} className="thumbnail">
                   
                 </div>
@@ -76,7 +80,7 @@ function Box({ hotel, index }) {
             ) : (
               <></>
             )}
-          </div>
+          </div> */}
         </div>
 
         <div className="hotel-details-section">
@@ -107,8 +111,8 @@ function Box({ hotel, index }) {
           </div>
 
           <div className="hotel-amenities">
-          {hotel.hotelFeatures && Array.isArray(hotel.hotelFeatures) && hotel.hotelFeatures.length > 0 ? (
-            hotel.hotelFeatures.map((amenity, index) => (
+          {hotel.services && Array.isArray(hotel.services) && hotel.services.length > 0 ? (
+            hotel.services.map((amenity, index) => (
               <div key={index} className="amenity">
                 <span className="amenity-icon">✓</span> {amenity}
               </div>

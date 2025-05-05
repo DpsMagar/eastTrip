@@ -28,15 +28,6 @@ const info = infoHotel || infoHomeStay
 
   console.log(info);
 
-  
-  
-  
-  
-  
-
-
-  
-
   const [mainImage, setMainImage] = useState(hotelInfo["Main-Image"] || "/placeholder.svg")
 
   const renderStars = (rating) => {
