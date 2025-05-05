@@ -7,15 +7,43 @@ import { useDispatch, useSelector } from "react-redux"
 import { setGlobalGuests, setGlobalRooms, setHotelCheckInDate, setHotelCheckOutDate } from "../../features/slice/hotelSlice"
 
 const BookingForm = ({ hotelInfo }) => {
+  const dispatch = useDispatch();
+  const { rooms: roomFromStore, guests: guestsFromStore } = useSelector((state) => state.hotel)
 
-  const dispatch= useDispatch();
+  // Get today's date in YYYY-MM-DD format
+  const getTodayDate = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return today.toISOString().split("T")[0];
+  }
 
-  const {hotelCheckInDate, hotelCheckOutDate, rooms: roomFromStore, guests: guestsFromStore}= useSelector((state)=> state.hotel)
+  // Initialize dates
+  const [checkInDate, setCheckInDate] = useState(getTodayDate())
+  const [checkOutDate, setCheckOutDate] = useState("")
+  const [minCheckOutDate, setMinCheckOutDate] = useState("")
 
-  const checkInDate= new Date(hotelCheckInDate).toISOString().split("T")[0];
-  const checkOutDate= new Date(hotelCheckOutDate).toISOString().split("T")[0];
-  
-  // Fallback dummy data if hotelInfo is not provided or incomplete
+  // Update Redux store when dates change
+  useEffect(() => {
+    dispatch(setHotelCheckInDate(checkInDate))
+    if (checkOutDate) {
+      dispatch(setHotelCheckOutDate(checkOutDate))
+    }
+  }, [checkInDate, checkOutDate, dispatch])
+
+  // Calculate minimum check-out date whenever check-in changes
+  useEffect(() => {
+    if (checkInDate) {
+      const nextDay = new Date(checkInDate)
+      nextDay.setDate(nextDay.getDate() + 1)
+      setMinCheckOutDate(nextDay.toISOString().split("T")[0])
+      
+      // Reset check-out if it's now invalid
+      if (checkOutDate && new Date(checkOutDate) <= new Date(checkInDate)) {
+        setCheckOutDate("")
+      }
+    }
+  }, [checkInDate])
+
   const fallbackHotelInfo = {
     price: 7500,
     rewardPoints: 1200,
@@ -53,37 +81,37 @@ const BookingForm = ({ hotelInfo }) => {
 
   const getGuestSummary = () => {
     let summary = `${adults} Guest${adults !== 1 ? "s" : ""}`
-    
     summary += ` · ${rooms} Room${rooms !== 1 ? "s" : ""}`
     return summary
   }
 
-  const handleCheckIn=(e)=>{
-    dispatch(setHotelCheckInDate(e.target.value))
+  const handleCheckInChange = (e) => {
+    setCheckInDate(e.target.value)
   }
 
-  const handleCheckOut= (e)=>{
-    dispatch(setHotelCheckOutDate(e.target.value))
+  const handleCheckOutChange = (e) => {
+    setCheckOutDate(e.target.value)
   }
+
   useEffect(() => {
     dispatch(setGlobalGuests(adults + children)) 
-  }, [adults, children])
+  }, [adults, children, dispatch])
   
   useEffect(() => {
     dispatch(setGlobalRooms(rooms))
-  }, [rooms])
+  }, [rooms, dispatch])
 
   return (
     <div className="booking-form">
       <div className="price-header">
-        <h2 className="per-night-price">NPR {hotelInfo.price }</h2>
+        <h2 className="per-night-price">NPR {validHotelInfo.price}</h2>
         <span className="per-night-label">per night</span>
       </div>
 
       <div className="price-breakdown">
         <div className="price-row">
           <span className="price-label">Base Price</span>
-          <span className="price-value">NPR {basePrice -416}</span>
+          <span className="price-value">NPR {basePrice - 416}</span>
         </div>
         <div className="price-row">
           <span className="price-label">Taxes & Fees</span>
@@ -91,7 +119,7 @@ const BookingForm = ({ hotelInfo }) => {
         </div>
         <div className="price-row total-row">
           <span className="price-label">Total</span>
-          <span className="price-value">NPR {hotelInfo.price}</span>
+          <span className="price-value">NPR {validHotelInfo.price}</span>
         </div>
         <div className="price-row">
           <span className="reward-label">Reward Points</span>
@@ -103,14 +131,30 @@ const BookingForm = ({ hotelInfo }) => {
         <div className="input-group">
           <label htmlFor="check-in">Check-in</label>
           <div className="date-input-wrapper">
-            <input type="date" id="check-in" className="date-input" value={checkInDate} onChange={handleCheckIn}/>
+            <input 
+              type="date" 
+              id="check-in" 
+              className="date-input" 
+              value={checkInDate} 
+              onChange={handleCheckInChange}
+              min={getTodayDate()}
+            />
           </div>
         </div>
 
         <div className="input-group">
           <label htmlFor="check-out">Check-out</label>
           <div className="date-input-wrapper">
-            <input type="date" id="check-out" className="date-input" value={checkOutDate} onChange={handleCheckOut} />
+            <input 
+              type="date" 
+              id="check-out" 
+              className="date-input" 
+              value={checkOutDate} 
+              onChange={handleCheckOutChange} 
+              min={minCheckOutDate}
+              disabled={!checkInDate}
+              placeholder={checkInDate ? "Select date" : "Select check-in first"}
+            />
           </div>
         </div>
 
@@ -154,8 +198,6 @@ const BookingForm = ({ hotelInfo }) => {
                   </div>
                 </div>
 
-               
-
                 <div className="guest-option-row">
                   <div className="guest-option-label">Rooms</div>
                   <div className="guest-counter">
@@ -189,14 +231,8 @@ const BookingForm = ({ hotelInfo }) => {
 
       <button className="book-now-btn">Book Now</button>
 
-      <div className="cancellation-policy">
-        <span className="info-icon">ⓘ</span>
-        <span className="policy-text">Free cancellation until 24 hours before check-in</span>
-      </div>
 
-      {validHotelInfo.extraInfo && (
-        <div className="offer-badge">{validHotelInfo.extraInfo}</div>
-      )}
+
     </div>
   )
 }
