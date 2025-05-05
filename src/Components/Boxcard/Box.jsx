@@ -1,27 +1,20 @@
 "use client"
 
 import { useDispatch } from "react-redux"
-import { useGetHotelInfoQuery } from "../../features/api/hotelApi"
 import "./Box.css"
 import { useNavigate } from "react-router-dom"
 import { setActiveItemIndex, setActiveTypeIndex } from "../../features/slice/activeCardSlice"
 
 function Box({ hotel, index }) {
-  const navigate = useNavigate()
 
-  console.log("box1");
-  console.log(hotel.hotelId);
-  
-  
-  const dispatch= useDispatch();
-
+  // console.log(hotel);
   // console.log(index);
+  console.log("Box");
+  console.log(hotel.hotelName);
   
-  // const {data: hotelData}= useGetHotelInfoQuery(index);
-
-  if (!hotel) {
-    return <div>Loading...</div>; 
-  }
+  
+  
+  
   // Default props for when properties are missing
   // const defaultHotel = {
   //   name: "Hotel Name",
@@ -33,7 +26,7 @@ function Box({ hotel, index }) {
   //   roomType: "Standard Room",
   //   bedType: "Double Bed",
   //   viewType: "",
-  //   services: ["Wifi", "Parking"],
+  //   homeStayFeatures: ["Wifi", "Parking"],
   //   topSelling: false,
   //   bookings: 0,
   //   offers: "Special offer",
@@ -48,24 +41,22 @@ function Box({ hotel, index }) {
 
   // Merge with defaults to prevent errors from missing properties
   // const hotel = { ...defaultHotel, ...hotel }
-  
+  const navigate = useNavigate()
+
+  const dispatch= useDispatch()
 
   const handleLogoClick = () => {
 
     dispatch(setActiveItemIndex(hotel.hotelId))
     dispatch(setActiveTypeIndex(1))
-    console.log(hotel);
-    
-    navigate("/description?hotelname=" + hotel.hotelName)
 
-
-    
+    navigate("/description?hotelName=" + hotel.hotelName)
   }
 
   return (
-    <div className="hotel-card" onClick={handleLogoClick} >
-      <div className="hotel-card-container" >
-  
+    <div className="hotel-card" onClick={handleLogoClick}>
+      <div className="hotel-card-container">
+        {/* Left side - Images */}
         <div className="hotel-image-section">
           <div className="hotel-main-image">
             <img src={hotel.imageUrl || "/placeholder.svg"} alt={hotel.hotelName} />
@@ -73,6 +64,7 @@ function Box({ hotel, index }) {
 
         </div>
 
+        {/* Middle section - Hotel details */}
         <div className="hotel-details-section">
           <div className="hotel-name-container">
             <h3 className="hotel-name">
@@ -101,35 +93,26 @@ function Box({ hotel, index }) {
           </div>
 
           <div className="hotel-amenities">
-          {hotel.services && Array.isArray(hotel.services) && hotel.services.length > 0 ? (
-            hotel.services.map((amenity, index) => (
+            {hotel.hotelFeatures.map((amenity, index) => (
               <div key={index} className="amenity">
                 <span className="amenity-icon">✓</span> {amenity}
               </div>
-            ))
-          ) : (
-            <p>No amenities available.</p> 
-          )}
-        </div>
-
+            ))}
+          </div>
 
           {hotel.topSelling && (
             <div className="top-selling">
-              
-             
+              <span className="top-selling-icon">⚡</span> Top Selling! Booked {hotel.bookings} times in last 30
+              days
             </div>
           )}
 
-          {hotel.extraInfo && (
-            <div className="hotel-offers">
-              <span className="offers-icon"></span> 
-            </div>
-          )}
+          
 
-     
+
         </div>
 
-        
+        {/* Right section - Price and booking */}
         <div className="hotel-price-section">
           <div className="rating-badge">
             {hotel.ratingText} {hotel.rating}
@@ -138,7 +121,7 @@ function Box({ hotel, index }) {
 
           <div className="price-container">
             <div className="price">Rs {hotel.price}</div>
-            <div className="taxes">+ Rs 100 taxes & fees</div>
+            <div className="taxes">+ Rs 1200 taxes & fees</div>
             <div className="per-night">Per Night</div>
           </div>
 
@@ -150,4 +133,3 @@ function Box({ hotel, index }) {
 }
 
 export default Box
-
