@@ -84,7 +84,7 @@ const info = infoHotel || infoHomeStay
                 {info.roomFeatures.map((feature, index) => (
                   <li key={index} className="feature-item">
                     <span className="feature-icon">✓</span>
-                    <span>{feature.roomFeature}</span>
+                    <span>{feature.roomFeature || feature.roomFeatures}</span>
                   </li>
                 ))}
               </ul>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "./TwoSearch.css"
 import { ArrowLeftRight, ChevronDown, X } from "lucide-react"
 import { useDispatch, useSelector } from "react-redux"
@@ -8,10 +8,22 @@ import { useNavigate } from "react-router-dom"
 import { setHotelLocation } from "../../features/slice/hotelSlice"
 import { setGlobalRooms, setGlobalGuests, setHotelCheckInDate, setHotelCheckOutDate } from "../../features/slice/hotelSlice"
 import { setTravellers as globalTraveller, setflightDate } from "../../features/slice/flightSlice"
+import { useGetHotelsAllQuery } from "../../features/api/hotelApi"
+import { useGetHomeStayAllQuery } from "../../features/api/homeStayApi"
 export default function TwoSearch() {
 
   const navigate= useNavigate()
   const dispatch= useDispatch()
+
+  const{data: hotel}= useGetHotelsAllQuery()
+    
+    const{data: homeStay}= useGetHomeStayAllQuery()
+
+    const locationsHotel = hotel ? Array.from(new Set(hotel.map((hotelItem) => hotelItem.hotelCity))) : [];
+    // console.log(locationsHotel);
+    
+
+  const locationsHomeStay = homeStay ? Array.from(new Set(homeStay.map((hotelItem) => hotelItem.hotelCity))) : [];
 
 
    const { from, to, dayOfWeek, travellers, flightDate,fromLocationFlight, toLocationFlight } = useSelector((state) => state.flight);
@@ -232,7 +244,7 @@ export default function TwoSearch() {
       {(activeTab === "hotels") && (
         <div className="search-form">
           {/* Location */}
-          <div className="field" onClick={() => setActivePopup("location")}>
+          <div className="field" onClick={() => setActivePopup("Hotellocation")}>
             <div className="field-label">City, Hotel Name or Location</div>
             <div className="field-value">{location}</div>
           </div>
@@ -267,7 +279,7 @@ export default function TwoSearch() {
       {(activeTab === "homeStays") && (
         <div className="search-form">
           {/* Location */}
-          <div className="field" onClick={() => setActivePopup("location")}>
+          <div className="field" onClick={() => setActivePopup("HomeStaylocation")}>
             <div className="field-label">City, homeStay Name or Location</div>
             <div className="field-value">{location}</div>
           </div>
@@ -338,7 +350,7 @@ export default function TwoSearch() {
             )}
 
             {/* Location Popup */}
-            {(activePopup === "from" || activePopup === "to" || activePopup === "location") && (
+            {(activePopup === "from" || activePopup === "to") && (
               <>
                 <div className="popup-header">
                   <h3>
@@ -365,6 +377,74 @@ export default function TwoSearch() {
                       >
                         <div className="location-name">{loc.name}</div>
                         <div className="location-info">{loc.info}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {(activePopup === "Hotellocation") && (
+              <>
+                <div className="popup-header">
+                  <h3>
+                    {activePopup === "from"
+                      ? "Select Departure City"
+                      : activePopup === "to"
+                        ? "Select Destination City"
+                        : "Select Location"}
+                  </h3>
+                  <button className="close-button" onClick={() => setActivePopup(null)}>
+                    <X size={16} />
+                  </button>
+                </div>
+                <div className="popup-content">
+                  <div className="search-input">
+                    <input type="text" placeholder="Search for a city" />
+                  </div>
+                  <div className="location-list">
+                    {locationsHotel.map((loc, index) => (
+                      <div
+                        key={index}
+                        className="location-item"
+                        onClick={() => handleLocationSelect(loc , activePopup)}
+                      >
+                        <div className="location-name">{loc}</div>
+                        <div className="location-info">{loc}, Nepal</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {(activePopup === "HomeStaylocation") && (
+              <>
+                <div className="popup-header">
+                  <h3>
+                    {activePopup === "from"
+                      ? "Select Departure City"
+                      : activePopup === "to"
+                        ? "Select Destination City"
+                        : "Select Location"}
+                  </h3>
+                  <button className="close-button" onClick={() => setActivePopup(null)}>
+                    <X size={16} />
+                  </button>
+                </div>
+                <div className="popup-content">
+                  <div className="search-input">
+                    <input type="text" placeholder="Search for a city" />
+                  </div>
+                  <div className="location-list">
+                    {locationsHomeStay.map((loc, index) => (
+                      <div
+                        key={index}
+                        className="location-item"
+                        onClick={() => handleLocationSelect(loc, activePopup)}
+                      >
+                        <div className="location-name">{loc}</div>
+                        <div className="location-info">{loc}</div>
                       </div>
                     ))}
                   </div>
