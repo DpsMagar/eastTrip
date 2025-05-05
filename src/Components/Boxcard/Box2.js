@@ -124,12 +124,12 @@ function Box2({ hotel, index }) {
           </div>
 
           <div className="price-container">
-            <div className="price">${hotel.price}</div>
-            <div className="taxes">+ $1200 taxes & fees</div>
+            <div className="price">Rs {hotel.price}</div>
+            <div className="taxes">+ Rs 1200 taxes & fees</div>
             <div className="per-night">Per Night</div>
           </div>
 
-          <button className="book-button">Login to Book Now & Pay Later!</button>
+          <button className="book-button">Book Now</button>
         </div>
       </div>
     </div>

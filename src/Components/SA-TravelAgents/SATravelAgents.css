@@ -1,0 +1,185 @@
+.sa-UserManagement {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .sa-UserManagement-header h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .sa-UserManagement-header p {
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .sa-UserManagement-card {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    width: 180px
+  }
+  
+  .sa-UserManagement-card .icon {
+    font-size: 30px;
+    color: #ff5e2e;
+    margin-right: 15px;
+  }
+  
+  .sa-UserManagement-UserList {
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  
+  .um-header-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .add-user-btn {
+    background: #ff5e2e;
+    border: none;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .um-Search-box {
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  .search-bar-with-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+  }
+  
+  .search-bar {
+    position: relative;
+    width: 100%;
+    max-width: 500px; /* wider */
+    flex-grow: 1;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 10px 35px 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  .search-icon {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    font-size: 18px;
+    color: #999;
+  }
+  
+  .um-user-table {
+    margin-top: 15px;
+  }
+  .table-header-row,
+  .table-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    gap: 40px; /* wider gap between columns */
+  }
+  
+  .table-cell {
+    flex: 1;
+    font-weight: bold;
+    color: #333;
+  }
+  
+
+  .user-profile {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .user-name {
+    font-weight: 500;
+  }
+ 
+  .email-table-cell, .email-cell {
+    text-align: left;
+  }
+  
+  .action-table-cell {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    width: 94%;
+  }
+  .action-cell {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .edit-btn, .delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 8px;
+  }
+  
+  .edit-icon {
+    color: #007bff;
+  }
+  
+  .delete-icon {
+    color: red;
+  }
+  
+  .pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .entries-count {
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+  
+  .pagination {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .pagination button {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  .pagination .active {
+    background: #ff5e2e;
+    color: white;
+    border-color: #ff5e2e;
+  }
+  
