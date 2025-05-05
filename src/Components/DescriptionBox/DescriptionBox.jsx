@@ -1,66 +1,53 @@
 "use client"
 
-import { useSelector } from "react-redux"
+import { useState } from "react"
 import { Star } from "lucide-react"
 import BookingForm from "./BookingFrom"
 import Reviews from "./Review"
 import "./descriptionBox.css"
+import { useSelector } from "react-redux"
 import { useGetHotelInfoQuery } from "../../features/api/hotelApi"
 import { useGetHomeStayInfoQuery } from "../../features/api/homeStayApi"
 
-const DescriptionBox = () => {
-  const activeItemIndex = useSelector((state) => state.active.activeItemIndex)
-  const activeItemType = useSelector((state) => state.active.activeTypeIndex)
-  // console.log('Yoooo',activeItemIndex);
-  // console.log(activeItemType);
-  
-  
+const DescriptionBox = ({ hotelInfo }) => {
 
-  const isHotel = activeItemType === 1
-  const isHomeStay = activeItemType === 2
+  const activeItemIndex= useSelector((state)=> state.active.activeItemIndex);
+  const activeItemType= useSelector((state)=> state.active.activeTypeIndex );
 
-  // console.log("hotel",isHotel);
-  // console.log(isHomeStay);
-  
+  const isHotel = activeItemType === 1;
+  const isHomeStay = activeItemType ===2;
+
+  console.log(activeItemIndex);
+  console.log(activeItemType);
   
 
-  const { data: infoHotel, error } = useGetHotelInfoQuery(activeItemIndex, { skip: !isHotel })
-  const { data: infoHomeStay } = useGetHomeStayInfoQuery(activeItemIndex, { skip: !isHomeStay })
+  const {data:infoHotel}= useGetHotelInfoQuery(activeItemIndex, {skip: !isHotel});
+  const {data:infoHomeStay}= useGetHomeStayInfoQuery(activeItemIndex, {skip: !isHomeStay});
 
-  const dataInfo = infoHotel || infoHomeStay
-  // console.error("Hotel fetch error:", error)
-  console.log(dataInfo);
+const info = infoHotel || infoHomeStay
+
+  console.log(info);
+
+  
+  
+  
+  
   
 
-  if (!dataInfo) {
-    return <div>Loading accommodation info...</div>
-  }
 
-  const {
-    name = "Accommodation",
-    location = "",
-    attraction = "",
-    rating = 0,
-    description = "No description available.",
-    roomFeatures = [],
-    services = [],
-    imageUrl,
-    reviews = [],
-  } = dataInfo
+  
+
+  const [mainImage, setMainImage] = useState(hotelInfo["Main-Image"] || "/placeholder.svg")
 
   const renderStars = (rating) => {
     const stars = []
-    const numericRating = parseInt(rating)
     for (let i = 1; i <= 5; i++) {
-      stars.push(
-        <Star
-          key={i}
-          className={`star ${i <= numericRating ? "filled" : ""}`}
-          size={18}
-        />
-      )
+      stars.push(<Star key={i} className={`star ${i <= rating ? "filled" : ""}`} size={18} />)
     }
     return stars
+  } 
+  if (!info) {
+    return <div>Loading accommodation info...</div>
   }
 
   return (
@@ -69,79 +56,72 @@ const DescriptionBox = () => {
       <div className="homestay-gallery">
         <div className="main-image-container">
           <img
-            src={imageUrl || "/placeholder.svg"}
-            alt={name}
+            src={info.imageUrl}
+            alt={hotelInfo.Name}
             className="main-image"
             onError={(e) => {
               e.target.src = "/placeholder.svg"
             }}
           />
         </div>
-        {/* You can render extra images here later if needed */}
+        
       </div>
 
       {/* Info Box Section */}
       <div className="homestay-info-box">
         <div className="homestay-header">
-          <h1>{name}</h1>
+          <h1>{info.name}</h1>
           <div className="location-container">
             <span className="location-icon">📍</span>
-            <span className="location-text">{location}</span>
-            <span className="attraction-text">{attraction}</span>
+            <span className="location-text">{info.Location}</span>
+            <span className="attraction-text">{info.attraction}</span>
           </div>
           <div className="rating-container">
-            <div className="stars">{renderStars(rating)}</div>
+            <div className="stars">{renderStars(info.rating)}</div>
           </div>
         </div>
 
         <div className="homestay-content">
           <div className="homestay-details">
             <div className="description-section">
-              <p>{description}</p>
+              <p>{info.extraInfo}</p>
             </div>
 
             <div className="amenities-section">
               <h3>Room Features</h3>
               <ul className="features-list">
-                {roomFeatures.length > 0 ? (
-                  roomFeatures.map((feature, index) => (
-                    <li key={index} className="feature-item">
-                      <span className="feature-icon">✓</span>
-                      <span>{typeof feature === "object" ? feature.roomFeature : feature}</span>
-                    </li>
-                  ))
-                ) : (
-                  <li className="feature-item">No room features listed.</li>
-                )}
+                {info.roomFeatures.map((feature, index) => (
+                  <li key={index} className="feature-item">
+                    <span className="feature-icon">✓</span>
+                    <span>{feature.roomFeature}</span>
+                  </li>
+                ))}
               </ul>
             </div>
 
             <div className="amenities-section">
               <h3>Homestay Features</h3>
               <ul className="features-list">
-                {services.length > 0 ? (
-                  services.map((service, index) => (
-                    <li key={index} className="feature-item">
-                      <span className="feature-icon">✓</span>
-                      <span>{typeof service === "object" ? service.service : service}</span>
-                    </li>
-                  ))
-                ) : (
-                  <li className="feature-item">No services listed.</li>
-                )}
+                {info.services.map((feature, index) => (
+                  <li key={index} className="feature-item">
+                    <span className="feature-icon">✓</span>
+                    <span>{feature.services}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
 
           {/* Booking Form */}
-          <BookingForm dataInfo={dataInfo} />
+          <BookingForm hotelInfo={info} />
         </div>
       </div>
 
       {/* Reviews Section */}
-      <Reviews reviews={reviews} />
+      <Reviews reviews={hotelInfo.reviews || []} />
     </div>
   )
 }
+
 
 export default DescriptionBox
