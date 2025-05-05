@@ -31,7 +31,7 @@ public class Hotel {
     private List<HotelRooms> roomFeatures= new ArrayList<>();
 
     @ManyToMany
-    private List<HotelFeatures> featuresOfHotel= new ArrayList<>();
+    private List<HotelFeatures> services= new ArrayList<>();
 
     private String imageUrl;
 }

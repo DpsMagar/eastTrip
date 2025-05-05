@@ -22,9 +22,9 @@ public class HotelFeatures {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String hotelFeatures;
+    private String services;
 
-    @ManyToMany(mappedBy = "featuresOfHotel")
+    @ManyToMany(mappedBy = "services")
     @JsonIgnore
     private List<Hotel> hotels= new ArrayList<>();
 

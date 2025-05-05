@@ -20,6 +20,11 @@ public class InnBookingService {
 
     public InnBookingResponseDTO createBooking(InnBookingRequestDTO dto) {
 
+        System.out.println("-----------------------------------");
+        System.out.println(dto);
+        System.out.println("-----------------------------------");
+
+
         User user = userRepo.findById(dto.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
 

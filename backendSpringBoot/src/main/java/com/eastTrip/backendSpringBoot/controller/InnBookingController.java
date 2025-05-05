@@ -18,6 +18,10 @@ public class InnBookingController {
     public ResponseEntity<InnBookingResponseDTO> createBooking(
             @RequestBody InnBookingRequestDTO request
     ) {
+        System.out.println("============================================================");
+        System.out.println(request);
+        System.out.println("============================================================");
+
         InnBookingResponseDTO response = innBookingService.createBooking(request);
         return ResponseEntity.ok(response);
     }

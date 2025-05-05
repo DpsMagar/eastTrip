@@ -36,7 +36,7 @@ public class HotelSearchResultsService {
             dto.setAttraction(hotel.getAttraction());
             dto.setRating(Integer.parseInt(hotel.getRating()));
             dto.setRoomFeatures(mapRoomFeatures(hotel.getRoomFeatures()));
-            dto.setHotelFeatures(mapHotelFeatures(hotel.getFeaturesOfHotel()));
+            dto.setHotelFeatures(mapHotelFeatures(hotel.getServices()));
             dto.setPrice(hotel.getPrice());
             dto.setExtraInfo(hotel.getExtraInfo());
             dto.setImageUrl(hotel.getImageUrl());
@@ -55,7 +55,7 @@ public class HotelSearchResultsService {
 
     private List<String> mapHotelFeatures(List<HotelFeatures> hotelFeatures) {
         return hotelFeatures.stream()
-                .map(HotelFeatures::getHotelFeatures)
+                .map(HotelFeatures::getServices)
                 .collect(Collectors.toList());
     }
 

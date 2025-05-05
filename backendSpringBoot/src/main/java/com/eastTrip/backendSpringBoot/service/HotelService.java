@@ -39,7 +39,7 @@ public class HotelService {
         List<HotelFeatures> features = hotelFeaturesRepository.findAllById(dto.getFeatureIds());
         List<HotelRooms> rooms = hotelRoomsRepository.findAllById(dto.getRoomFeatureIds());
 
-        hotel.setFeaturesOfHotel(features);
+        hotel.setServices(features);
         hotel.setRoomFeatures(rooms);
 
         return hotelRepository.save(hotel);
