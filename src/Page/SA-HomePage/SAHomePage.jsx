@@ -4,7 +4,7 @@ import SADashBoard from '../../Components/SA-DashBoard/SADashBoard';
 import SATravelAgents from '../../Components/SA-TravelAgents/SATravelAgents';
 import SAUserManagement from '../../Components/SA-UserManagement/SAUserManagement';
 import SAPendingLists from '../../Components/SA-PendingLists/SAPendingLists';
-import SAHomeStays from '../../Components/SA-HomeStays/SAHomeStays';
+
 import SAHotels from '../../Components/SA-Hotels/SAHotels';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -22,8 +22,8 @@ const SAHomePage = () => {
       case 'Dashboard': return <SADashBoard />;
       case 'User Management': return <SAUserManagement />;
       case 'Travel Agents': return <SATravelAgents />;
-      case 'Hotels': return <SAHotels />;
-      case 'Homestays': return <SAHomeStays />;
+      case 'Properties': return <SAHotels />;
+     
       case 'Pending lists': return <SAPendingLists />;
       default: return <SADashBoard />;
     }
@@ -60,12 +60,10 @@ const SAHomePage = () => {
             <li onClick={() => setActiveTab('Travel Agents')} className={activeTab === 'Travel Agents' ? 'active' : ''}>
               <FaUserTie /> Travel Agents
             </li>
-            <li onClick={() => setActiveTab('Hotels')} className={activeTab === 'Hotels' ? 'active' : ''}>
-              <FaHotel /> Hotels
+            <li onClick={() => setActiveTab('Properties')} className={activeTab === 'Properties' ? 'active' : ''}>
+              <FaHotel /> Properties
             </li>
-            <li onClick={() => setActiveTab('Homestays')} className={activeTab === 'Homestays' ? 'active' : ''}>
-              <FaHome /> Homestays
-            </li>
+
             <li onClick={() => setActiveTab('Pending lists')} className={activeTab === 'Pending lists' ? 'active' : ''}>
               <FaClipboardList /> Pending lists
             </li>

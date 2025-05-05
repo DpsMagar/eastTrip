@@ -72,12 +72,12 @@ function Box2({ hotel, index }) {
               {hotel.formerName && <span className="former-name"> (formerly {hotel.formerName})</span>}
             </h3>
             <div className="hotel-stars">
-              {Array.from({ length: hotel.rating }).map((_, i) => (
-                <span key={i} className="star">
-                  ★
-                </span>
-              ))}
-            </div>
+    {Array.from({ length: 5 }).map((_, i) => (
+        <span key={i} className={`star ${i < hotel.rating ? 'filled' : 'empty'}`}>
+            {i < hotel.rating ? '★' : '☆'}
+        </span>
+    ))}
+</div>
           </div>
 
           <div className="hotel-location">
@@ -107,11 +107,7 @@ function Box2({ hotel, index }) {
             </div>
           )}
 
-          {hotel.extraInfo && (
-            <div className="hotel-offers">
-              <span className="offers-icon">ℹ️</span> {hotel.extraInfo}
-            </div>
-          )}
+          
 
 
         </div>
@@ -124,12 +120,12 @@ function Box2({ hotel, index }) {
           </div>
 
           <div className="price-container">
-            <div className="price">${hotel.price}</div>
-            <div className="taxes">+ $1200 taxes & fees</div>
+            <div className="price">Rs {hotel.price}</div>
+            <div className="taxes">+ Rs 1200 taxes & fees</div>
             <div className="per-night">Per Night</div>
           </div>
 
-          <button className="book-button">Login to Book Now & Pay Later!</button>
+          <button className="book-button">Book Now</button>
         </div>
       </div>
     </div>

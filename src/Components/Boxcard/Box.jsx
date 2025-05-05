@@ -70,17 +70,7 @@ function Box({ hotel, index }) {
           <div className="hotel-main-image">
             <img src={hotel.imageUrl || "/placeholder.svg"} alt={hotel.hotelName} />
           </div>
-          {/* <div className="hotel-thumbnails">
-            {hotel.services && hotel.services.length > 0 ? (
-              hotel.services.slice(0, 4).map((thumb, index) => (
-                <div key={index} className="thumbnail">
-                  
-                </div>
-              ))
-            ) : (
-              <></>
-            )}
-          </div> */}
+
         </div>
 
         <div className="hotel-details-section">
@@ -90,12 +80,12 @@ function Box({ hotel, index }) {
               {hotel.formerName && <span className="former-name"> (formerly {hotel.formerName})</span>}
             </h3>
             <div className="hotel-stars">
-              {Array.from({ length: hotel.rating }).map((_, i) => (
-                <span key={i} className="star">
-                  ★
-                </span>
-              ))}
-            </div>
+    {Array.from({ length: 5 }).map((_, i) => (
+        <span key={i} className={`star ${i < hotel.rating ? 'filled' : 'empty'}`}>
+            {i < hotel.rating ? '★' : '☆'}
+        </span>
+    ))}
+</div>
           </div>
 
           <div className="hotel-location">
@@ -118,7 +108,7 @@ function Box({ hotel, index }) {
               </div>
             ))
           ) : (
-            <p>No amenities available.</p> // Or any fallback content
+            <p>No amenities available.</p> 
           )}
         </div>
 
@@ -132,14 +122,14 @@ function Box({ hotel, index }) {
 
           {hotel.extraInfo && (
             <div className="hotel-offers">
-              <span className="offers-icon">ℹ️</span> {hotel.extraInfo}
+              <span className="offers-icon"></span> 
             </div>
           )}
 
      
         </div>
 
-        {/* Right section - Price and booking */}
+        
         <div className="hotel-price-section">
           <div className="rating-badge">
             {hotel.ratingText} {hotel.rating}
@@ -147,12 +137,12 @@ function Box({ hotel, index }) {
           </div>
 
           <div className="price-container">
-            <div className="price">${hotel.price}</div>
-            <div className="taxes">+ $1200 taxes & fees</div>
+            <div className="price">Rs {hotel.price}</div>
+            <div className="taxes">+ Rs 100 taxes & fees</div>
             <div className="per-night">Per Night</div>
           </div>
 
-          <button className="book-button">Login to Book Now & Pay Later!</button>
+          <button className="book-button">Book Now</button>
         </div>
       </div>
     </div>
