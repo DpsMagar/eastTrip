@@ -12,8 +12,13 @@ export const hotelApi = createApi({
 
     getHotelsAll: builder.query({
       query: ()=> '/results/hotels/hotelList'
-  })
+  }),
+
+  getHotelInfo:builder.query({
+    query:(hotelId)=>
+      `/results/hotels/hotel?hotelId=${hotelId}`,
+  }),
   }),
 });
 
-export const { useGetHotelsQuery, useGetHotelsAllQuery } = hotelApi;
+export const { useGetHotelsQuery, useGetHotelsAllQuery, useGetHotelInfoQuery } = hotelApi;

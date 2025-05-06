@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthContext"
 import Login from "../LogIn/Login"
 import SignUp from "../SignUp/SignUp"
 import "./NavBar.css"
-import image from "../../Assest/logo.png"
+import image from "../../Assest/profile.jpg"
 
 export default function NavBar() {
   const navigate = useNavigate()
@@ -25,7 +25,7 @@ export default function NavBar() {
   }
 
   const goToTravellerPage = () => {
-    navigate("/travelagent/login") 
+    navigate("/travelagent/login")
   }
 
   const toggleUserDropdown = () => {
@@ -48,49 +48,51 @@ export default function NavBar() {
   }
 
   return (
-    <div className="chumchom-container">
-      <header className="header">
-        <div className="logo-container" onClick={handleLogoClick} style={{ cursor: "pointer" }}>
+    <div className="gh-navbar-container">
+      <header className="gh-navbar">
+        <div className="gh-logo-section" onClick={handleLogoClick}>
           
-          <h2 className="logo">GhumGham</h2>
+          <h2 className="gh-logo-text">GhumGham</h2>
         </div>
 
         {!currentUser ? (
-          <nav className="navigation">
-            <button className="nav-button" onClick={goToTravellerPage}>List Your Property</button>
-            <button className="nav-button" onClick={openSignupModal}>
+          <div className="gh-nav-buttons">
+            <button className="gh-nav-btn" onClick={goToTravellerPage}>
+              List Your Property
+            </button>
+            <button className="gh-nav-btn" onClick={openSignupModal}>
               Create Account
             </button>
-            <button onClick={openLoginModal} className="nav-button">
+            <button onClick={openLoginModal} className="gh-nav-btn">
               Log In
             </button>
-          </nav>
+          </div>
         ) : (
-          <nav className="navigation">
-            <button className="nav-button orange" onClick={goToTravellerPage}>List your Property</button>
-            <button className="nav-button orange">Messages</button>
-            <div className="user-profile">
-              <button className="user-profile-button" onClick={toggleUserDropdown}>
-                <span>Hi, {currentUser?.name || "Traveller"}</span>
-                <div className="profile-icon">
-                  <img src="/placeholder.svg" alt="Profile" width={24} height={24} className="profile-img" />
-                </div>
-              </button>
+          <div className="gh-nav-buttons">
+            <button className="gh-nav-btn">List your Property</button>
+            <button className="gh-nav-btn">Messages</button>
+            <div className="gh-user-section" onClick={toggleUserDropdown}>
+              <span className="gh-greeting">Hi, {currentUser?.name || "Traveller"}</span>
+              <div className="gh-avatar">
+                <img src={image || currentUser?.image} alt="Profile" />
+              </div>
               {userDropdownOpen && (
-                <div className="user-dropdown">
-                  <Link to="/profile">Profile</Link>
-                  <button onClick={handleSignOut}>Sign Out</button>
+                <div className="gh-dropdown">
+                  <Link to="/profile" className="gh-dropdown-link">
+                    Profile
+                  </Link>
+                  <button onClick={handleSignOut} className="gh-dropdown-btn">
+                    Sign Out
+                  </button>
                 </div>
               )}
             </div>
-          </nav>
+          </div>
         )}
       </header>
 
       {isLoginModalOpen && <Login onClose={closeAllModals} switchToSignup={openSignupModal} />}
-
       {isSignupModalOpen && <SignUp onClose={closeAllModals} switchToLogin={openLoginModal} />}
     </div>
   )
 }
-

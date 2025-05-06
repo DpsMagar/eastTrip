@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"
 import "./TLogin.css"
 
 const TLogin = () => {
-  // Hardcoded credentials for verification
+
   const validCredentials = {
     email: "something@gmail.com",
     password: "1234"
@@ -19,7 +19,7 @@ const TLogin = () => {
   const [errors, setErrors] = useState({
     email: "",
     password: "",
-    auth: "" // Added for authentication errors
+    auth: "" 
   })
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
@@ -69,26 +69,26 @@ const TLogin = () => {
 
     setIsLoading(true)
     
-    // Simulate API call with timeout
+   
     setTimeout(() => {
       if (formData.email === validCredentials.email && 
           formData.password === validCredentials.password) {
-        // Successful login
+     
         console.log("Login successful")
-        navigate("/travelagent") // Redirect to travel agent dashboard
+        navigate("/travelagent") 
       } else {
-        // Failed login
+        
         setErrors({
           ...errors,
           auth: "Invalid email or password"
         })
       }
       setIsLoading(false)
-    }, 1000) // Simulate network delay
+    }, 1000) 
   }
 
   return (
-    <div className="login-container">
+    <div className="login-container-box">
       <div className="login-box">
         <h1>List your Property</h1>
         {errors.auth && <div className="error-message auth-error">{errors.auth}</div>}

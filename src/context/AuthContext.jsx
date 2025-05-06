@@ -1,42 +1,51 @@
-"use client"
+"use client";
 
-import { createContext, useState, useContext } from "react"
+import { createContext, useState, useContext, useEffect } from "react";
 
-const AuthContext = createContext()
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null)
+  const [currentUser, setCurrentUser] = useState(null);
 
-  const signIn = async (email, password) => {
-    // Simulate authentication logic
+  // Load user from localStorage on initial render
+  useEffect(() => {
+    const storedUser = localStorage.getItem("currentUser");
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const signIn = async (user) => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        setCurrentUser({ email }) // In a real app, fetch user data
-        resolve()
-      }, 500)
-    })
-  }
+        setCurrentUser(user);
+        localStorage.setItem("currentUser", JSON.stringify(user)); // Persist user
+        resolve();
+      }, 500);
+    });
+  };
 
   const signOut = async () => {
-    // Simulate sign-out logic
     return new Promise((resolve) => {
       setTimeout(() => {
-        setCurrentUser(null)
-        resolve()
-      }, 500)
-    })
-  }
+        setCurrentUser(null);
+        localStorage.removeItem("currentUser"); // Clear storage
+        resolve();
+      }, 500);
+    });
+  };
 
   const value = {
     currentUser,
     signIn,
     signOut,
-  }
+  };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+
 
 export const useAuth = () => {
-  return useContext(AuthContext)
-}
-
+  return useContext(AuthContext);
+};

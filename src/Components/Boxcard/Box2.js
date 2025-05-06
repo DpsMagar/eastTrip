@@ -1,9 +1,20 @@
 "use client"
 
+import { useDispatch } from "react-redux"
 import "./Box.css"
 import { useNavigate } from "react-router-dom"
+import { setActiveItemIndex, setActiveTypeIndex } from "../../features/slice/activeCardSlice"
 
-function Box2({ hotel }) {
+function Box2({ hotel, index }) {
+
+  // console.log(hotel);
+  // console.log(index);
+  console.log("box2");
+  console.log(hotel.homeStayId);
+  
+  
+  
+  
   // Default props for when properties are missing
   // const defaultHotel = {
   //   name: "Hotel Name",
@@ -32,8 +43,14 @@ function Box2({ hotel }) {
   // const hotel = { ...defaultHotel, ...hotel }
   const navigate = useNavigate()
 
+  const dispatch= useDispatch()
+
   const handleLogoClick = () => {
-    navigate("/workingpage?hotelName=" + hotel.homeStayName)
+
+    dispatch(setActiveItemIndex(hotel.homeStayId))
+    dispatch(setActiveTypeIndex(2))
+
+    navigate("/description?hotelName=" + hotel.homeStayName)
   }
 
   return (
@@ -55,12 +72,12 @@ function Box2({ hotel }) {
               {hotel.formerName && <span className="former-name"> (formerly {hotel.formerName})</span>}
             </h3>
             <div className="hotel-stars">
-              {Array.from({ length: hotel.rating }).map((_, i) => (
-                <span key={i} className="star">
-                  ★
-                </span>
-              ))}
-            </div>
+    {Array.from({ length: 5 }).map((_, i) => (
+        <span key={i} className={`star ${i < hotel.rating ? 'filled' : 'empty'}`}>
+            {i < hotel.rating ? '★' : '☆'}
+        </span>
+    ))}
+</div>
           </div>
 
           <div className="hotel-location">
@@ -90,11 +107,7 @@ function Box2({ hotel }) {
             </div>
           )}
 
-          {hotel.extraInfo && (
-            <div className="hotel-offers">
-              <span className="offers-icon">ℹ️</span> {hotel.extraInfo}
-            </div>
-          )}
+          
 
 
         </div>
@@ -107,12 +120,12 @@ function Box2({ hotel }) {
           </div>
 
           <div className="price-container">
-            <div className="price">${hotel.price}</div>
-            <div className="taxes">+ $1200 taxes & fees</div>
+            <div className="price">Rs {hotel.price}</div>
+            <div className="taxes">+ Rs 1200 taxes & fees</div>
             <div className="per-night">Per Night</div>
           </div>
 
-          <button className="book-button">Login to Book Now & Pay Later!</button>
+          <button className="book-button">Book Now</button>
         </div>
       </div>
     </div>

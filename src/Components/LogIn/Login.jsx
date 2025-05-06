@@ -3,6 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 import "./Login.css";
+import { useLoginMutation } from "../../features/api/authApi";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../features/slice/authSlice";
 
 export default function Login({ onClose, switchToSignup }) {
   const [email, setEmail] = useState("");
@@ -12,6 +15,8 @@ export default function Login({ onClose, switchToSignup }) {
   const [rememberMe, setRememberMe] = useState(false);
   const { signIn } = useAuth();
   const modalRef = useRef(null);
+  const dispatch = useDispatch();
+  const [login] = useLoginMutation();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -20,6 +25,9 @@ export default function Login({ onClose, switchToSignup }) {
       }
     };
 
+
+
+    // Add event listener to handle clicks outside the modal
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -31,7 +39,14 @@ export default function Login({ onClose, switchToSignup }) {
     setError("");
 
     try {
-      await signIn(email, password);
+      const response = await login({ email, password }).unwrap();
+      console.log(response);
+
+      dispatch(setToken(response));
+
+      // ✅ Update AuthContext's currentUser
+      await signIn(response.user || { email }); // use response.user or fallback to email
+
       onClose();
     } catch (err) {
       setError("Failed to sign in. Please check your credentials.");
@@ -167,7 +182,12 @@ export default function Login({ onClose, switchToSignup }) {
               </div>
 
               <div className="terms-checkbox">
-                <input type="checkbox" id="terms" checked={rememberMe} onChange={() => setRememberMe(!rememberMe)} />
+                <input
+                  type="checkbox"
+                  id="terms"
+                  checked={rememberMe}
+                  onChange={() => setRememberMe(!rememberMe)}
+                />
                 <label htmlFor="terms">
                   By signing in or creating an account, you agree to GhumGhamNepal's{" "}
                   <a href="/privacy-policy" className="terms-link">

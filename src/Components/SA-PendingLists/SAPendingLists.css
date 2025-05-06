@@ -1,0 +1,203 @@
+.sa-pending {
+    padding: 20px;
+    background-color: #f7f7f7;
+    font-family: "Arial", sans-serif;
+    min-height: 100vh;
+  }
+  
+  .sa-pending-header h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .sa-pending-header p {
+    margin: 5px 0 20px 0;
+    color: #666;
+  }
+  
+  .sa-pending-search {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .sa-pending-search-section {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 5px 10px;
+    background: white;
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .sa-pending-search-icon {
+    font-size: 20px;
+    margin-right: 5px;
+    color: #999;
+  }
+  
+  .sa-pending-search-section input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+  }
+  
+  .sa-pending-search-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+  }
+  
+  /* Card Styles */
+  .sa-pending-card {
+    background: #fff;
+    border-radius: 8px;
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: relative;
+    border: 1px solid #eaeaea;
+  }
+  
+  .sa-pending-card-left img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
+  .sa-pending-card-middle {
+    flex-grow: 1;
+  }
+  
+  .sa-pending-property-name {
+    margin: 0 0 15px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .property-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 30px;
+    margin-bottom: 15px;
+  }
+  
+  .property-detail-column {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .detail-label {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .detail-value {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .view-details-link {
+    margin: 10px 0 0 0;
+    color: #4285f4;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .sa-pending-card-right {
+    align-self: flex-start;
+  }
+  
+  .sa-pending-delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+  .sa-pending-delete-icon {
+    font-size: 20px;
+    color: red;
+  }
+  
+  .sa-pending-delete-btn:hover .sa-pending-delete-icon {
+    color: #d9363e;
+  }
+  
+  /* Bottom Pagination Section */
+  .bottom-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .pagination {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .sa-pending-pagination-btn {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .sa-pending-pagination-btn:hover {
+    background: #e2e6ea;
+  }
+  
+  .sa-pending-pagination-btn:disabled {
+    background: white;
+    color: black;
+    cursor: not-allowed;
+  }
+  
+  .sa-pending-reject-btn,
+.sa-pending-approve-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  color: white;
+  margin-left: 10px;
+}
+
+.sa-pending-reject-btn {
+  background-color: #e74c3c;
+}
+
+.sa-pending-reject-btn:hover {
+  background-color: #c0392b;
+}
+
+.sa-pending-approve-btn {
+  background-color: #27ae60;
+}
+
+.sa-pending-approve-btn:hover {
+  background-color: #219150;
+}

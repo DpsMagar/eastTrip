@@ -1,0 +1,100 @@
+.admin-container {
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+
+  
+  .navbar {
+    height: 60px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  
+  
+  .logo {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .profile-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  
+  .profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+   
+    z-index: 10;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .dropdown-menu div {
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu div:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .main {
+    display: flex;
+    height: calc(100vh - 50px);
+  }
+  
+  .sidebar {
+    width: 209px;
+    background-color: #fff;
+    border-right: 1px solid #eee;
+    padding-top: 10px;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar li {
+    padding: 12px 20px;
+    color: #344767;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  
+  .sidebar li:hover {
+    background-color: #f6f6f6;
+  }
+  
+  .sidebar li.active {
+    background-color: #fff4e6;
+    color: #fb8c00;
+    font-weight: bold;
+    border-right: 4px solid #fb8c00;
+  }
+  
+  .content {
+    flex: 1;
+    background-color: #f4f4f4;
+    padding: 10px;
+  }
+  

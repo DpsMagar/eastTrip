@@ -1,7 +1,10 @@
 import DescriptionBox from "../../Components/DescriptionBox/DescriptionBox"
 import "./DescriptionPage.css"
+import { useSearchParams } from "react-router-dom";
+
 const DescriptionPage = () => {
-    // Sample data with the structure provided
+  const [searchParams] = useSearchParams();
+  const hotelName = searchParams.get("hotelName");
     var dumby = "https://upload.wikimedia.org/wikipedia/commons/0/0e/Estadio_Santiago_Bernabéu_Madrid.jpg"
     const hotel_info = {
       Name: "Pokhreli Homestay",
@@ -16,6 +19,7 @@ const DescriptionPage = () => {
         "Nestled in the heart of Kathmandu, Hotel Himalayan Bliss offers a blend of modern comfort and traditional Nepalese charm. Guests can enjoy spacious rooms with stunning views of the surrounding mountains and cityscape. With exceptional hospitality and a range of amenities, it's the perfect retreat for and exploration.",
       "Main-Image": dumby,
       "extra-image": [dumby, dumby, dumby, dumby],
+      rewardPoints: 400,
       reviews: [
         {
           name: "Hinata",

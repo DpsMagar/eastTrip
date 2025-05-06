@@ -2,8 +2,15 @@
 
 import { useState, useEffect, useRef } from "react"
 import "./SignUp.css"
+import { useDispatch } from "react-redux"
+import { useLoginMutation, useRegisterMutation } from "../../features/api/authApi";
+import { setToken } from "../../features/slice/authSlice";
 
 export default function SignUp({ onClose, switchToLogin }) {
+
+  const dispatch= useDispatch();
+  const[register, {isLoading, loginError }]=useRegisterMutation();
+
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -13,6 +20,11 @@ export default function SignUp({ onClose, switchToLogin }) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [agreeTerms, setAgreeTerms] = useState(false)
   
+
+  
+
+  
+
   const modalRef = useRef(null)
 
   // Close modal when clicking outside
@@ -43,10 +55,22 @@ export default function SignUp({ onClose, switchToLogin }) {
       return
     }
 
+    const dto= {
+      fullName: name,
+      email, 
+      password,
+      confirmPassword,
+    }
+
     try {
-      console.log("Signup with:", { name, email, password })
+      const response= await register(dto).unwrap();
+      console.log(response);
+      dispatch(setToken(response));
+      
       onClose()
     } catch (err) {
+      console.log(err);
+      
       setError("Failed to create an account. Please try again.")
     }
   }

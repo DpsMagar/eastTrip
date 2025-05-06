@@ -1,0 +1,74 @@
+/* Container */
+.reward-box-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Header */
+  .reward-box-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    justify-content: center;
+  }
+  
+  .reward-box-title {
+    font-size: 26px;
+    font-weight: bold;
+    margin-left: 10px;
+    color: #333;
+  }
+  
+  /* Reward box (FULL width) */
+  .reward-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border: 1px solid #eee;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    background-color: white;
+    width: 100%;
+    transition: transform 0.2s ease;
+  }
+  
+  .reward-box:hover {
+    transform: scale(1.02);
+  }
+  
+  .reward-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-right: 20px;
+  }
+  
+  .reward-title {
+    flex: 1;
+    font-size: 20px;
+    font-weight: 500;
+    color: #222;
+  }
+  
+  .reward-cost {
+    display: flex;
+    align-items: center;
+    background-color: #f1f1f1;
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #cc5500;
+  }
+  
+  .trophy-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
+  }
+  

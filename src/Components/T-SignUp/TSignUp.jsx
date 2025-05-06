@@ -73,7 +73,7 @@ const TSignUp = () => {
   }
 
   return (
-    <div className="signup-container">
+    <div className="signup-container-box">
       <div className="signup-box">
         <h1>Create an Account</h1>
         <form onSubmit={handleSubmit}>

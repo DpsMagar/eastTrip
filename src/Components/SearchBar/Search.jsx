@@ -118,6 +118,8 @@ export default function TravelBooking() {
       setToAirport(airport.airportName)
     } else if (type === "hotel") {
       setLocation(airport)
+      console.log(airport);
+      
     }
     setActivePopup(null)
   }
@@ -234,6 +236,8 @@ export default function TravelBooking() {
     navigate("/search");
 
   };
+
+  localStorage.setItem('active', 'hotels');
 
   return (
     <div className="search-wrapper">
