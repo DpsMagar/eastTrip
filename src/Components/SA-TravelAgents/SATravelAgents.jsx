@@ -8,32 +8,37 @@ import { MdRealEstateAgent } from "react-icons/md";
 
 const SATravelAgents = () => {
   const initialUsers = [
-    { id: 1, profile: CustomProfile, name: "Sarah Wilson", properties:3},
-    { id: 2, profile: CustomProfile, name: "John Doe", properties:5 },
-    { id: 3, profile: CustomProfile, name: "Jane Smith", properties:2 },
-    { id: 4, profile: CustomProfile, name: "Michael Brown", properties:4 },
-    { id: 5, profile: CustomProfile, name: "Emily Davis", properties:1 },
-    { id: 6, profile: CustomProfile, name: "David Johnson", properties:3 },
-    { id: 7, profile: CustomProfile, name: "Emma Wilson", properties:2 },
-    { id: 8, profile: CustomProfile, name: "James Taylor", properties:4 },
-    { id: 9, profile: CustomProfile, name: "Olivia Martinez", properties:5 },
-    { id: 10, profile: CustomProfile, name: "Liam Anderson", properties:3 },
-    { id: 11, profile: CustomProfile, name: "Sophia Thomas", properties:2 },
-    { id: 12, profile: CustomProfile, name: "Benjamin Jackson", properties:4 },
-    { id: 13, profile: CustomProfile, name: "Ava White", properties:1 },
-    { id: 14, profile: CustomProfile, name: "Lucas Harris", properties:3 },
-    { id: 15, profile: CustomProfile, name: "Mia Clark", properties:2 },
-    { id: 16, profile: CustomProfile, name: "Ethan Lewis", properties:4 },
-    { id: 17, profile: CustomProfile, name: "Charlotte Walker", properties:5 },
-    { id: 18, profile: CustomProfile, name: "Alexander Hall", properties:3 },
-    { id: 19, profile: CustomProfile, name: "Amelia Allen", properties:2 },
-    { id: 20, profile: CustomProfile, name: "William Young", properties:4 },
+    { id: 1, profile: CustomProfile, name: "Sarah Wilson", properties: 3 },
+    { id: 2, profile: CustomProfile, name: "John Doe", properties: 5 },
+    { id: 3, profile: CustomProfile, name: "Jane Smith", properties: 2 },
+    { id: 4, profile: CustomProfile, name: "Michael Brown", properties: 4 },
+    { id: 5, profile: CustomProfile, name: "Emily Davis", properties: 1 },
+    { id: 6, profile: CustomProfile, name: "David Johnson", properties: 3 },
+    { id: 7, profile: CustomProfile, name: "Emma Wilson", properties: 2 },
+    { id: 8, profile: CustomProfile, name: "James Taylor", properties: 4 },
+    { id: 9, profile: CustomProfile, name: "Olivia Martinez", properties: 5 },
+    { id: 10, profile: CustomProfile, name: "Liam Anderson", properties: 3 },
+    { id: 11, profile: CustomProfile, name: "Sophia Thomas", properties: 2 },
+    { id: 12, profile: CustomProfile, name: "Benjamin Jackson", properties: 4 },
+    { id: 13, profile: CustomProfile, name: "Ava White", properties: 1 },
+    { id: 14, profile: CustomProfile, name: "Lucas Harris", properties: 3 },
+    { id: 15, profile: CustomProfile, name: "Mia Clark", properties: 2 },
+    { id: 16, profile: CustomProfile, name: "Ethan Lewis", properties: 4 },
+    { id: 17, profile: CustomProfile, name: "Charlotte Walker", properties: 5 },
+    { id: 18, profile: CustomProfile, name: "Alexander Hall", properties: 3 },
+    { id: 19, profile: CustomProfile, name: "Amelia Allen", properties: 2 },
+    { id: 20, profile: CustomProfile, name: "William Young", properties: 4 },
   ];
 
   const [users, setUsers] = useState(initialUsers);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredUsers, setFilteredUsers] = useState(initialUsers);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
+  const [fadingUserId, setFadingUserId] = useState(null); // Fade out logic
+
   const usersPerPage = 3;
 
   useEffect(() => {
@@ -42,8 +47,7 @@ const SATravelAgents = () => {
       user.properties.toString().includes(searchQuery)
     );
     setFilteredUsers(filtered);
-    
-    
+
     const totalPages = Math.ceil(filtered.length / usersPerPage);
     if (currentPage > totalPages && totalPages > 0) {
       setCurrentPage(totalPages);
@@ -63,20 +67,30 @@ const SATravelAgents = () => {
   const showingTo = Math.min(startIndex + usersPerPage, filteredUsers.length);
 
   const handleDeleteUser = (id) => {
-    const updatedUsers = users.filter(user => user.id !== id);
-    setUsers(updatedUsers);
-    
-    
-    if (paginatedUsers.length === 1 && currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
+    setFadingUserId(id); // Trigger fade out
+    setShowConfirm(false);
+
+    setTimeout(() => {
+      const updatedUsers = users.filter(user => user.id !== id);
+      setUsers(updatedUsers);
+      setDeleteSuccess(true);
+      setFadingUserId(null); // Clear fade user after deletion
+
+      if (paginatedUsers.length === 1 && currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+
+      setTimeout(() => {
+        setDeleteSuccess(false);
+      }, 2000);
+    }, 300); // Match fade-out transition time
   };
 
   return (
     <div className='sa-UserManagement'>
       <div className='sa-UserManagement-header'>
         <h1>Travel Agents</h1>
-        <p>Manage and monitor tarvel agent accountss</p>
+        <p>Manage and monitor travel agent accounts</p>
       </div>
 
       <div className='sa-UserManagement-card'>
@@ -96,14 +110,13 @@ const SATravelAgents = () => {
           <div className="search-bar">
             <input
               type="text"
-              placeholder='Search by name or email'
+              placeholder='Search by name or properties'
               className='search-input'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             <CiSearch className='search-icon' />
           </div>
-
         </div>
 
         <div className="um-user-table">
@@ -115,7 +128,10 @@ const SATravelAgents = () => {
 
           {paginatedUsers.length > 0 ? (
             paginatedUsers.map((user) => (
-              <div className="table-row" key={user.id}>
+              <div
+                className={`table-row ${fadingUserId === user.id ? 'fade-out' : ''}`}
+                key={user.id}
+              >
                 <div className="user-cell">
                   <img src={user.profile} alt="User" className='user-profile' />
                   <span className='user-name'>{user.name}</span>
@@ -125,9 +141,12 @@ const SATravelAgents = () => {
                 </div>
                 <div className="action-cell">
                   <button className='edit-btn'><FiEdit className='edit-icon' /></button>
-                  <button 
+                  <button
                     className='delete-btn'
-                    onClick={() => handleDeleteUser(user.id)}
+                    onClick={() => {
+                      setSelectedUserId(user.id);
+                      setShowConfirm(true);
+                    }}
                   >
                     <FaTrash className='delete-icon' />
                   </button>
@@ -177,6 +196,25 @@ const SATravelAgents = () => {
           </div>
         </div>
       </div>
+
+      {/* Confirm Popup */}
+      {showConfirm && (
+        <div className="popup-overlay" onClick={() => setShowConfirm(false)}>
+          <div className="popup-box" onClick={(e) => e.stopPropagation()}>
+            <button className="close-btn" onClick={() => setShowConfirm(false)}>×</button>
+            <p className="popup-text">Are you sure you want to remove this agent?</p>
+            <div className="popup-buttons">
+              <button className="popup-btn no" onClick={() => setShowConfirm(false)}>No</button>
+              <button className="popup-btn yes" onClick={() => handleDeleteUser(selectedUserId)}>Yes</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Success Popup */}
+      {deleteSuccess && (
+        <div className="success-popup">Agent deleted successfully!</div>
+      )}
     </div>
   );
 };

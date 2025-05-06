@@ -16,7 +16,7 @@ const BasicForm = () => {
 
   return (
     <div className="basic-form-box">
-      <h3 className="section-title">Basic Info</h3>
+      <h3 className="section-title">Basic Information</h3>
 
       <div className="hotel-homestay">
         <label

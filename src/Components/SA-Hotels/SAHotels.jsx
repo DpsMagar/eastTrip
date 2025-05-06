@@ -19,13 +19,17 @@ const SAHotels = () => {
   ];
 
   const [properties, setProperties] = useState(initialProperties);
-  const cities = ["Kathmandu", "Lalitpur", "Bhaktapur", "Pokhara", "Chitwan", "Lumbini", "Nagarkot", "Bandipur", "Gosaikunda", "Rara"];
-  const PropertyTypes = ["Hotel", "Homestay"];
-
   const [searchTerm, setSearchTerm] = useState("");
   const [cityFilter, setCityFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const [fadeOutId, setFadeOutId] = useState(null);
+
+  const cities = ["Kathmandu", "Lalitpur", "Bhaktapur", "Pokhara", "Chitwan", "Lumbini", "Nagarkot", "Bandipur", "Gosaikunda", "Rara"];
+  const PropertyTypes = ["Hotel", "Homestay"];
 
   const filteredProperties = properties.filter((property) =>
     property.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -47,10 +51,41 @@ const SAHotels = () => {
   let showingFrom = (currentPage - 1) * propertiesPerPage + 1;
   let showingTo = Math.min(currentPage * propertiesPerPage, filteredProperties.length);
 
-  const handleDeleteProperty = (id) => {
-    setProperties(properties.filter(property => property.id !== id));
-    // Reset to first page after deletion to avoid empty page issues
-    setCurrentPage(1);
+  const confirmDelete = (id) => {
+    setShowConfirm(true);
+    setDeleteId(id);
+  };
+
+  const handleDeleteProperty = () => {
+    setFadeOutId(deleteId);
+    setShowConfirm(false);
+
+    setTimeout(() => {
+      const updatedProperties = properties.filter(property => property.id !== deleteId);
+      setProperties(updatedProperties);
+
+      const filteredAfterDelete = updatedProperties.filter((property) =>
+        property.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (cityFilter ? property.Location === cityFilter : true) &&
+        (typeFilter ? property.PropertyType === typeFilter : true)
+      );
+
+      const totalPagesAfterDelete = Math.ceil(filteredAfterDelete.length / propertiesPerPage);
+
+      if (currentPage > totalPagesAfterDelete && totalPagesAfterDelete > 0) {
+        setCurrentPage(totalPagesAfterDelete);
+      } else if (paginatedProperties.length === 1 && currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+
+      setFadeOutId(null);
+      setDeleteSuccess(true);
+
+      setTimeout(() => {
+        setDeleteSuccess(false);
+      }, 2000);
+
+    }, 300);
   };
 
   return (
@@ -69,7 +104,7 @@ const SAHotels = () => {
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setCurrentPage(1); 
+              setCurrentPage(1);
             }}
           />
         </div>
@@ -97,7 +132,10 @@ const SAHotels = () => {
 
       {paginatedProperties.length > 0 ? (
         paginatedProperties.map((property) => (
-          <div key={property.id} className="sa-hotels-card">
+          <div
+            key={property.id}
+            className={`sa-hotels-card ${fadeOutId === property.id ? "fade-out" : ""}`}
+          >
             <div className="sa-hotels-card-left">
               <img src={property.ImgUrl || "/placeholder.svg"} alt="Hotel" />
             </div>
@@ -120,9 +158,9 @@ const SAHotels = () => {
               <p className="view-details-link">View Details</p>
             </div>
             <div className="sa-hotels-card-right">
-              <button 
+              <button
                 className="sa-hotels-delete-btn"
-                onClick={() => handleDeleteProperty(property.id)}
+                onClick={() => confirmDelete(property.id)}
               >
                 <FaTrash className="sa-hotels-delete-icon" />
               </button>
@@ -153,7 +191,7 @@ const SAHotels = () => {
             return (
               <button
                 key={page}
-                className={`sa-hotels-pagination-btn ${currentPage === page ? 'active' : ''}`}
+                className={`sa-hotels-pagination-btn ${currentPage === page ? "active" : ""}`}
                 onClick={() => setCurrentPage(page)}
               >
                 {page}
@@ -172,6 +210,25 @@ const SAHotels = () => {
           </button>
         </div>
       </div>
+
+      {/* Confirm Popup */}
+      {showConfirm && (
+        <div className="popup-overlay" onClick={() => setShowConfirm(false)}>
+          <div className="popup-box" onClick={(e) => e.stopPropagation()}>
+            <button className="close-btn" onClick={() => setShowConfirm(false)}>×</button>
+            <p className="popup-text">Are you sure you want to remove this property?</p>
+            <div className="popup-buttons">
+              <button className="popup-btn no" onClick={() => setShowConfirm(false)}>No</button>
+              <button className="popup-btn yes" onClick={handleDeleteProperty}>Yes</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success Popup */}
+      {deleteSuccess && (
+        <div className="success-popup">Property deleted successfully!</div>
+      )}
     </div>
   );
 };

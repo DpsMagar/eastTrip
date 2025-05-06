@@ -25,7 +25,7 @@ export default function NavBar() {
   }
 
   const goToTravellerPage = () => {
-    navigate("/travelagent/login")
+    navigate("/travelagent")
   }
 
   const toggleUserDropdown = () => {
@@ -69,7 +69,7 @@ export default function NavBar() {
           </div>
         ) : (
           <div className="gh-nav-buttons">
-            <button className="gh-nav-btn">List your Property</button>
+            <button className="gh-nav-btn"onClick={goToTravellerPage}>List your Property</button>
             <button className="gh-nav-btn">Messages</button>
             <div className="gh-user-section" onClick={toggleUserDropdown}>
               <span className="gh-greeting">Hi, {currentUser?.name || "Traveller"}</span>
