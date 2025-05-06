@@ -59,7 +59,7 @@ function Box2({ hotel, index }) {
         {/* Left side - Images */}
         <div className="hotel-image-section">
           <div className="hotel-main-image">
-            <img src={hotel.imageUrl || "/placeholder.svg"} alt={hotel.homeStayName} />
+            <img src={hotel.imageUrl || "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/4e/9a/9a/the-mansion.jpg?w=1200&h=-1&s=1"} alt={hotel.homeStayName} />
           </div>
 
         </div>

@@ -15,6 +15,7 @@ const BasicForm = () => {
   }
 
   return (
+
     <div className="basic-form-box">
       <h3 className="section-title">Basic Information</h3>
 

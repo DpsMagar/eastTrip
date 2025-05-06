@@ -1,60 +1,71 @@
 .location-box {
+    background-color: #ffffff;
     padding: 20px;
-    border-radius: 10px;
-    background-color: #fff5f0;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     width: 100%;
     margin: 0 auto;
-}
-
-.location-box .section-title {
-    font-size: 18px;
+  }
+  
+  .location-box .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
     margin-top: 0;
     margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.location-box .location-form {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .location-box .location-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-}
-
-.location-box .form-row {
+    gap: 16px;
+  }
+  
+  .location-box .form-row {
     display: flex;
-    align-items: center;
-    justify-content: space-between; 
-    padding: 16px 0;
-    border-bottom: 1px solid #f0e0da;
-}
-
-.location-box .form-row label {
-    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .location-box .form-row label {
+    font-size: 14px;
     font-weight: 500;
-    min-width: 150px;
-    text-align: left; 
-}
-
-.location-box .form-row input {
-    flex: 0 0 220px;
+    color: #555;
+  }
+  
+  .location-box .form-row input {
     padding: 10px 12px;
-    border: 1px solid #ddd;
+    border: 1px solid #e0e0e0;
     border-radius: 4px;
     font-size: 14px;
-    text-align: left; 
-}
-
-.location-box .form-row input::placeholder {
+    width: 100%;
+    transition: border-color 0.2s;
+  }
+  
+  .location-box .form-row input:focus {
+    outline: none;
+    border-color: #f47848;
+    box-shadow: 0 0 0 2px rgba(244, 120, 72, 0.1);
+  }
+  
+  .location-box .form-row input::placeholder {
     color: #aaa;
-}
-
-.location-box .error-message {
+  }
+  
+  .location-box .error-message {
     color: #ff4444;
-    font-size: 0.8rem;
-    margin-top: 0.25rem;
-    text-align: right; 
-}
-
-.location-box input.error,
-.location-box select.error {
-    border-color: #ff4444;
-}
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 4px;
+  }
+  
+  /* Media query for larger screens */
+  @media (min-width: 768px) {
+    .location-box .location-form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px 16px;
+    }
+  }

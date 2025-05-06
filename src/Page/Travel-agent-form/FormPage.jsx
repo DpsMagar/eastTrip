@@ -58,17 +58,17 @@ const FormPage = () => {
 
   return (
     <div className="form-page-container">
-      <div className="form-tabs">
-        <div className={`tab-indicator ${activeTab === "Basic" ? "active" : ""}`}>
-          Basic
-        </div>
-        <div className={`tab-indicator ${activeTab === "Amenities" ? "active" : ""}`}>
-          Amenities
-        </div>
-        <div className={`tab-indicator ${activeTab === "Location" ? "active" : ""}`}>
-          Location and Pricing
-        </div>
-      </div>
+<div className="form-tabs">
+  {tabs.map((tab) => (
+    <div
+      key={tab}
+      className={`tab-indicator ${activeTab === tab ? "active" : ""}`}
+      onClick={() => setActiveTab(tab)}
+    >
+      {tab === "Location" ? "Location & Pricing" : tab}
+    </div>
+  ))}
+</div>
 
       <div className="form-content">
         {renderTabContent()}

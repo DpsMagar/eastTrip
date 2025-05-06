@@ -1,4 +1,3 @@
-// AmenitiesForm.js
 import "./Armenities.css";
 import { useForm } from "../../context/FormContext";
 
@@ -26,7 +25,15 @@ const AmenitiesForm = () => {
 
   return (
     <div className="amenities-container">
-      <h1>Amenities</h1>
+      <div className="amenities-header">
+        <h1>Amenities</h1>
+        {errors.amenities && (
+          <span className="error-message">
+            Please select an option for all amenities
+          </span>
+        )}
+      </div>
+
       <p className="subtitle">
         Please select all the amenities available at your property
       </p>
@@ -41,7 +48,7 @@ const AmenitiesForm = () => {
                   type="radio"
                   name={amenity.id}
                   value="Yes"
-                  checked={formData.amenities[amenity.id] === "Yes"}
+                  checked={formData.amenities?.[amenity.id] === "Yes"}
                   onChange={(e) =>
                     updateFormData("amenities", amenity.id, e.target.value)
                   }
@@ -53,7 +60,7 @@ const AmenitiesForm = () => {
                   type="radio"
                   name={amenity.id}
                   value="No"
-                  checked={formData.amenities[amenity.id] === "No"}
+                  checked={formData.amenities?.[amenity.id] === "No"}
                   onChange={(e) =>
                     updateFormData("amenities", amenity.id, e.target.value)
                   }
@@ -61,9 +68,6 @@ const AmenitiesForm = () => {
                 <span className="option-text">No</span>
               </label>
             </div>
-            {errors.amenities?.[amenity.id] && (
-              <p className="error-message">{errors.amenities[amenity.id]}</p>
-            )}
           </div>
         ))}
       </div>
