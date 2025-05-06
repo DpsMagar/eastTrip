@@ -21,7 +21,6 @@ html, body, #root {
 
 .scrollbar-wrapper {
   flex-grow: 1;
-  margin-top: 70px;
   height: calc(100vh - 70px - 50px);
   overflow: hidden;
   background:#f9f4f0;
