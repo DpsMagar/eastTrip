@@ -237,7 +237,7 @@ export default function TravelBooking() {
 
   };
 
-  localStorage.setItem('active', 'hotels');
+  // localStorage.setItem('active', 'hotels');
 
   return (
     <div className="search-wrapper">
