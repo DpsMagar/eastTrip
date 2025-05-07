@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Data
-
+    
 public class HomeStayRooms {
 
     @Id
