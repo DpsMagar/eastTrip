@@ -57,6 +57,11 @@ const FormPage = () => {
   }
 
   return (
+    <div className="form-page">
+      <div className="form-header">
+        <h1>Properties Form</h1>
+        <p>Fill in the details below to add new Properties of yours in GhumGham</p>
+      </div>
     <div className="form-page-container">
 <div className="form-tabs">
   {tabs.map((tab) => (
@@ -98,6 +103,7 @@ const FormPage = () => {
           )}
         </div>
       </div>
+    </div>
     </div>
   )
 }

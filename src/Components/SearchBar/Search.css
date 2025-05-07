@@ -127,7 +127,7 @@
   margin-bottom: 20px;
 }
 
-.form-group {
+.search-wrapper .form-group {
   flex: 1;
   padding: 15px;
   border-right: 1px solid #eee;

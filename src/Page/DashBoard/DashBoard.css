@@ -123,10 +123,28 @@
 
 .profile-content {
   flex: 1;
-  padding: 2rem;
+  
   overflow-y: auto;
 }
+.rewards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 32px;
+}
 
+.rewards-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.Reward-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* Maintains your gap between items */
+}
 @media (max-width: 768px) {
   .profile-container {
     flex-direction: column;
@@ -166,5 +184,13 @@
 
   .profile-content {
     padding: 1.5rem 1rem;
+  }
+  .rewards-container {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .Reward-box {
+    gap: 16px;
   }
 }

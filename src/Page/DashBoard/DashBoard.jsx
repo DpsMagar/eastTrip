@@ -126,9 +126,13 @@ export default function DashBoard() {
         {activeTab === "bookings" && <RecentBookings bookings={recentBookings} />}
         {activeTab === "Redeem Points" && (
           <div className="rewards-container">
+            <h2 className="rewards-title">Redeem Your points</h2>
+            <div className="Reward-box">
             {Reward.map((rewardItem) => (
               <RewardBox key={rewardItem.id} Reward={rewardItem} />
             ))}
+            </div>
+
           </div>
         )}
       </div>
