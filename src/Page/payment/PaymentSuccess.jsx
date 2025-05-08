@@ -6,29 +6,35 @@ const PaymentSuccess = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const total_amount = params.get('total_amount');
-    const transaction_uuid = params.get('transaction_uuid');
-    const product_code = params.get('product_code');
-    const signature = params.get('signature');
+    const base64Data = params.get('data');
 
-    if (total_amount && transaction_uuid && product_code && signature) {
-      axios
-        .post('http://localhost:8080/api/payment/verify', {
-          total_amount,
-          transaction_uuid,
-          product_code,
-          signature,
-        })
-        .then((res) => setMessage(res.data))
-        .catch((err) => setMessage(err.response?.data || 'Verification failed'));
-    } else {
-      setMessage('Missing payment details');
+    if (!base64Data) {
+      setMessage('Missing payment data');
+      return;
+    }
+
+    try {
+      // Decode Base64 response
+      const decodedStr = atob(base64Data);
+      const decodedData = JSON.parse(decodedStr);
+
+      // Send to backend for verification
+      axios.post('http://localhost:8080/api/payment/verify', decodedData)
+        .then(res => setMessage(res.data))
+        .catch(err => {
+          console.error('Verification Error:', err.response?.data);
+          setMessage('Verification failed');
+        });
+
+    } catch (error) {
+      console.error('Decoding Error:', error);
+      setMessage('Invalid payment data');
     }
   }, []);
 
   return (
     <div>
-      <h2>Payment Success</h2>
+      <h2>Payment Status</h2>
       <p>{message}</p>
     </div>
   );
