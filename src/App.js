@@ -21,6 +21,7 @@ import SAHomePage from "./Page/SA-HomePage/SAHomePage"
 import EsewaPayment from "./Page/payment/EsewaPayment"
 import PaymentSuccess from "./Page/payment/PaymentSuccess"
 import PaymentFailure from "./Page/payment/PaymentFailure"
+import SADescriptionPage from "./Page/SA-DescriptionPage/SADescriptionPage"
 function App() {
   return (
     <div className="Main">
@@ -64,6 +65,7 @@ function App() {
             {/* Super Admin Routes (without Layout) */}
             <Route path="/superadmin" element={<SALogin />} />
             <Route path="/superadminhomepage" element={<SAHomePage />} />
+            <Route path="/SuperAdmin/pending/descriptionpage" element={<SADescriptionPage />} />
           </Routes>
         </Router>
       </AuthProvider>

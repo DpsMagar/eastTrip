@@ -1,4 +1,5 @@
 "use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import { ChevronDown, Minus, Plus } from "lucide-react";
@@ -35,10 +36,14 @@ const BookingForm = ({ hotelInfo }) => {
     rewardPoints: 1200,
     extraInfo: "20% off for early bookings!",
   };
+    extraInfo: "20% off for early bookings!",
+  };
 
   const validHotelInfo = {
     price: hotelInfo?.price ?? fallbackHotelInfo.price,
     rewardPoints: hotelInfo?.rewardPoints ?? fallbackHotelInfo.rewardPoints,
+    extraInfo: hotelInfo?.extraInfo ?? fallbackHotelInfo.extraInfo,
+  };
     extraInfo: hotelInfo?.extraInfo ?? fallbackHotelInfo.extraInfo,
   };
 
@@ -68,16 +73,24 @@ const BookingForm = ({ hotelInfo }) => {
   const handleIncrement = (setter, value, max = 10) => {
     if (value < max) {
       setter(value + 1);
+      setter(value + 1);
     }
+  };
   };
 
   const handleDecrement = (setter, value, min = 0) => {
     if (value > min) {
       setter(value - 1);
+      setter(value - 1);
     }
+  };
   };
 
   const getGuestSummary = () => {
+    let summary = `${adults} Guest${adults !== 1 ? "s" : ""}`;
+    summary += ` · ${rooms} Room${rooms !== 1 ? "s" : ""}`;
+    return summary;
+  };
     let summary = `${adults} Guest${adults !== 1 ? "s" : ""}`;
     summary += ` · ${rooms} Room${rooms !== 1 ? "s" : ""}`;
     return summary;
@@ -159,9 +172,12 @@ const BookingForm = ({ hotelInfo }) => {
     }
   };
 
+  };
+
   return (
     <div className="booking-form">
       <div className="price-header">
+        <h2 className="per-night-price">NPR {hotelInfo.price}</h2>
         <h2 className="per-night-price">NPR {hotelInfo.price}</h2>
         <span className="per-night-label">per night</span>
       </div>
@@ -169,6 +185,7 @@ const BookingForm = ({ hotelInfo }) => {
       <div className="price-breakdown">
         <div className="price-row">
           <span className="price-label">Base Price</span>
+          <span className="price-value">NPR {basePrice - 416}</span>
           <span className="price-value">NPR {basePrice - 416}</span>
         </div>
         <div className="price-row">
@@ -218,10 +235,7 @@ const BookingForm = ({ hotelInfo }) => {
 
         <div className="input-group">
           <label>Guests & Rooms</label>
-          <div
-            className="guest-dropdown"
-            onClick={() => setIsGuestDropdownOpen(!isGuestDropdownOpen)}
-          >
+          <div className="guest-dropdown" onClick={() => setIsGuestDropdownOpen(!isGuestDropdownOpen)}>
             <span>{getGuestSummary()}</span>
             <ChevronDown
               size={18}
@@ -240,6 +254,8 @@ const BookingForm = ({ hotelInfo }) => {
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDecrement(setAdults, adults, 1);
+                        e.stopPropagation();
+                        handleDecrement(setAdults, adults, 1);
                       }}
                       disabled={adults <= 1}
                     >
@@ -249,6 +265,8 @@ const BookingForm = ({ hotelInfo }) => {
                     <button
                       className="counter-btn"
                       onClick={(e) => {
+                        e.stopPropagation();
+                        handleIncrement(setAdults, adults);
                         e.stopPropagation();
                         handleIncrement(setAdults, adults);
                       }}
@@ -266,6 +284,8 @@ const BookingForm = ({ hotelInfo }) => {
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDecrement(setRooms, rooms, 1);
+                        e.stopPropagation();
+                        handleDecrement(setRooms, rooms, 1);
                       }}
                       disabled={rooms <= 1}
                     >
@@ -275,6 +295,8 @@ const BookingForm = ({ hotelInfo }) => {
                     <button
                       className="counter-btn"
                       onClick={(e) => {
+                        e.stopPropagation();
+                        handleIncrement(setRooms, rooms);
                         e.stopPropagation();
                         handleIncrement(setRooms, rooms);
                       }}
@@ -303,5 +325,9 @@ const BookingForm = ({ hotelInfo }) => {
     </div>
   );
 };
+  );
+};
+
+export default BookingForm;
 
 export default BookingForm;

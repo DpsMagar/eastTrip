@@ -1,0 +1,109 @@
+.sa-booking-form {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 350px;
+  height: fit-content;
+}
+
+.sa-price-header {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 15px;
+}
+
+.sa-per-night-price {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  margin-right: 5px;
+}
+
+.sa-per-night-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.sa-price-breakdown {
+  margin-bottom: 20px;
+ 
+  padding-bottom: 15px;
+}
+
+.sa-price-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.sa-price-label {
+  color: #555;
+}
+
+.sa-price-value {
+  font-weight: 500;
+}
+
+.sa-reward-label {
+  color: #555;
+}
+
+.sa-reward-value {
+  font-weight: 500;
+}
+
+.sa-price-row.total-row {
+  font-weight: bold;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.sa-button {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.sa-reject-button {
+  background-color: red;
+  color: white;
+  border: 1px solid #ff5722;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  flex: 1;
+  transition: all 0.2s;
+}
+
+.sa-reject-button:hover {
+  background-color: #ffebee;
+}
+
+.sa-approve-button {
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  flex: 1;
+  transition: background-color 0.2s;
+}
+
+.sa-approve-button:hover {
+  background-color: #e64a19;
+}
+
+@media (max-width: 768px) {
+  .sa-booking-form {
+    max-width: 100%;
+  }
+}

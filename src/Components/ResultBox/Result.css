@@ -77,9 +77,9 @@
   }
   
   .pagination-number.active {
-    background-color: #1976d2;
+    background-color: #ff7e45;
     color: white;
-    border-color: #1976d2;
+    border-color: #ff7e45;
   }
   
   /* Responsive styles */

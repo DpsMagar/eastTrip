@@ -11,6 +11,12 @@ import { setFromFlightLocation,setToFlightLocation , setTo, setDayOfWeek, setTra
 import { setHotelLocation, setHotelCheckInDate, setHotelCheckOutDate } from "../../features/slice/hotelSlice"
 import {  setGlobalGuests , setGlobalRooms } from "../../features/slice/hotelSlice"
 import { setHomeStayLocation } from "../../features/slice/homeStaySlice"
+import { RiHotelLine } from "react-icons/ri";
+import { RiFlightTakeoffFill } from "react-icons/ri";
+import { IoHomeOutline } from "react-icons/io5";
+import { IoSwapVerticalOutline } from "react-icons/io5";
+import { IoMdClose } from "react-icons/io";
+
 
 export default function TravelBooking() {
 
@@ -247,52 +253,21 @@ export default function TravelBooking() {
            localStorage.setItem('active', 'flights')
           }}>
             <div className="tab-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M21 15L15 21M21 15H13.5M21 15V22.5M3 9L9 3M3 9H10.5M3 9V1.5"
-                  stroke={activeTab === "flights" ? "#FF7E45" : "#000"}
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+            <RiFlightTakeoffFill className="flight-icon" color={activeTab === "flights" ? "#FF7E45" : "#000"} size={24} />
             </div>
             <div className="tab-text">Flights</div>
           </div>
           <div className={`tab ${activeTab === "hotels" ? "active" : ""}`} onClick={() => {setActiveTab("hotels")
            localStorage.setItem('active', 'hotels')}}>
             <div className="tab-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M3 21H21M3 18H21M5 18V8C5 7.46957 5.21071 6.96086 5.58579 6.58579C5.96086 6.21071 6.46957 6 7 6H17C17.5304 6 18.0391 6.21071 18.4142 6.58579C18.7893 6.96086 19 7.46957 19 8V18M9 6V3H15V6"
-                  stroke={activeTab === "hotels" ? "#FF7E45" : "#000"}
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+            <RiHotelLine className="hotel-icon" color={activeTab === "hotels" ? "#FF7E45" : "#000"} size={24} />
             </div>
             <div className="tab-text">Hotels</div>
           </div>
           <div className={`tab ${activeTab === "homestays" ? "active" : ""}`} onClick={() => {setActiveTab("homestays")
           localStorage.setItem('active', 'homeStays' )}}>
             <div className="tab-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
-                  stroke={activeTab === "homestays" ? "#FF7E45" : "#000"}
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M9 22V12H15V22"
-                  stroke={activeTab === "homestays" ? "#FF7E45" : "#000"}
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+            <IoHomeOutline className="home-icon" color={activeTab === "homestays" ? "#FF7E45" : "#000"} size={24} />
             </div>
             <div className="tab-text">Homestays</div>
           </div>
@@ -331,24 +306,7 @@ export default function TravelBooking() {
               </div>
 
               <div className="swap-button" onClick={handleSwapLocations}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M7 10L3 14L7 18"
-                    stroke="#000"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M17 14L21 10L17 6"
-                    stroke="#000"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path d="M21 10H3" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M3 14H21" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+              <IoSwapVerticalOutline className="swap-icon" size={24} />
               </div>
 
               <div className="form-group" onClick={() => setActivePopup("to")}>
@@ -459,10 +417,7 @@ export default function TravelBooking() {
             <div className="popup-header">
               <h3>Select Departure City</h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 6L6 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M6 6L18 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+              <IoMdClose className="close-icon" size={24} />
               </button>
             </div>
             <div className="popup-content">
@@ -499,10 +454,7 @@ export default function TravelBooking() {
             <div className="popup-header">
               <h3>Select Destination City</h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 6L6 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M6 6L18 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+              <IoMdClose className="close-icon" size={24} />
               </button>
             </div>
             <div className="popup-content">
@@ -537,10 +489,7 @@ export default function TravelBooking() {
             <div className="popup-header">
               <h3>Select Location</h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 6L6 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M6 6L18 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+              <IoMdClose className="close-icon" size={24} />
               </button>
             </div>
             <div className="popup-content">
@@ -570,10 +519,7 @@ export default function TravelBooking() {
             <div className="popup-header">
               <h3>Select Location</h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 6L6 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M6 6L18 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+              <IoMdClose className="close-icon" size={24} />
               </button>
             </div>
             <div className="popup-content">
@@ -617,10 +563,7 @@ export default function TravelBooking() {
                 Date
               </h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 6L6 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M6 6L18 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+              <IoMdClose className="close-icon" size={24} />
               </button>
             </div>
             <div className="popup-content">
@@ -733,10 +676,7 @@ export default function TravelBooking() {
             <div className="popup-header">
               <h3>Select Travellers</h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 6L6 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M6 6L18 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+              <IoMdClose className="close-icon" size={24} />
               </button>
             </div>
             <div className="popup-content">
@@ -780,10 +720,7 @@ export default function TravelBooking() {
             <div className="popup-header">
               <h3>Select Rooms & Guests</h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 6L6 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M6 6L18 18" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+              <IoMdClose className="close-icon" size={24} />
               </button>
             </div>
             <div className="popup-content">

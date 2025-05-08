@@ -166,7 +166,7 @@ export default function RecentBookings({ bookings }) {
                   className="rate-button"
                   onClick={() => handleRateClick(booking)}
                 >
-                  Rate Your Stay
+                  Rate It
                 </button>
               ) : (
                 <button

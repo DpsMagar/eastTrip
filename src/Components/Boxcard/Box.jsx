@@ -100,12 +100,7 @@ function Box({ hotel, index }) {
             ))}
           </div>
 
-          {hotel.topSelling && (
-            <div className="top-selling">
-              <span className="top-selling-icon">⚡</span> Top Selling! Booked {hotel.bookings} times in last 30
-              days
-            </div>
-          )}
+
 
           
 
