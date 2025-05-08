@@ -1,4 +1,4 @@
-.booking-form {
+.sa-booking-form {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 20px;
@@ -6,228 +6,104 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 350px;
+  height: fit-content;
 }
 
-.price-header {
+.sa-price-header {
   display: flex;
   align-items: baseline;
   margin-bottom: 15px;
 }
 
-.per-night-price {
+.sa-per-night-price {
   font-size: 24px;
   font-weight: bold;
   margin: 0;
   margin-right: 5px;
 }
 
-.per-night-label {
+.sa-per-night-label {
   font-size: 14px;
   color: #666;
 }
 
-.price-breakdown {
+.sa-price-breakdown {
   margin-bottom: 20px;
-  border-bottom: 1px solid #eee;
+ 
   padding-bottom: 15px;
 }
 
-.price-row {
+.sa-price-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 }
 
-.price-label {
+.sa-price-label {
   color: #555;
 }
 
-.price-value {
+.sa-price-value {
   font-weight: 500;
 }
 
-.reward-label{
+.sa-reward-label {
   color: #555;
 }
 
-.reward-value {
+.sa-reward-value {
   font-weight: 500;
 }
 
-
-.total-row {
+.sa-price-row.total-row {
   font-weight: bold;
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid #eee;
 }
 
-.booking-inputs {
+.sa-button {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.input-group label {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.date-input-wrapper {
-  position: relative;
-}
-
-.date-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.calendar-icon {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #666;
-}
-
-.guest-dropdown {
-  position: relative;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-}
-
-.dropdown-icon {
-  transition: transform 0.2s;
-}
-
-.dropdown-icon.open {
-  transform: rotate(180deg);
-}
-
-.guest-options-panel {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-top: 5px;
-  z-index: 10;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-}
-
-.guest-option-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.guest-option-row:last-child {
-  border-bottom: none;
-}
-
-.guest-option-label {
-  font-size: 14px;
-}
-
-.guest-counter {
-  display: flex;
-  align-items: center;
   gap: 10px;
+  margin-top: 20px;
 }
 
-.counter-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid #ddd;
-  background: white;
+.sa-reject-button {
+  background-color: red;
+  color: white;
+  border: 1px solid #ff5722;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
+  flex: 1;
   transition: all 0.2s;
 }
 
-.counter-btn:hover:not(:disabled) {
-  background: #f5f5f5;
+.sa-reject-button:hover {
+  background-color: #ffebee;
 }
 
-.counter-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.counter-value {
-  font-size: 14px;
-  min-width: 20px;
-  text-align: center;
-}
-
-.book-now-btn {
+.sa-approve-button {
   background-color: #ff5722;
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 14px;
+  padding: 12px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  width: 100%;
+  flex: 1;
   transition: background-color 0.2s;
-  margin-bottom: 15px;
 }
 
-.book-now-btn:hover {
+.sa-approve-button:hover {
   background-color: #e64a19;
 }
 
-.cancellation-policy {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 15px;
-}
-
-.info-icon {
-  font-size: 14px;
-}
-
-.offer-badge {
-  background-color: #fff8e1;
-  color: #ff9800;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 500;
-  text-align: center;
-}
-
 @media (max-width: 768px) {
-  .booking-form {
+  .sa-booking-form {
     max-width: 100%;
   }
 }
-

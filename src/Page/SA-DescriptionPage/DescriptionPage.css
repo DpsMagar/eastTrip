@@ -1,18 +1,20 @@
-.description-page {
-    background-color: #f5f5f5;
-    min-height: 100vh;
-    padding: 30px 0;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+.SA-description-page {
+  background-color: white;
+  min-height: 100vh;
+  padding: 30px 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: relative; /* Allows absolute positioning inside */
+}
+
+.SA-description-page .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+  .SA-description-page .container {
+    padding: 0 15px;
   }
-  
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-  
-  @media (max-width: 768px) {
-    .container {
-      padding: 0 15px;
-    }
-  }
+}
+

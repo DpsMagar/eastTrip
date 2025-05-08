@@ -1,8 +1,9 @@
-import DescriptionBox from "../../Components/DescriptionBox/DescriptionBox"
+import DescriptionBox from "../../Components/SA-DescriptionBox/DescriptionBox"
 import "./DescriptionPage.css"
 import { useSearchParams } from "react-router-dom";
+import { IoClose } from "react-icons/io5";
 
-const DescriptionPage = () => {
+const SADescriptionPage = () => {
   const [searchParams] = useSearchParams();
   const hotelName = searchParams.get("hotelName");
     var dumby = "https://upload.wikimedia.org/wikipedia/commons/0/0e/Estadio_Santiago_Bernabéu_Madrid.jpg"
@@ -41,14 +42,17 @@ const DescriptionPage = () => {
     }
   
     return (
-      <div className="description-page">
-        <div className="container">
-          <DescriptionBox hotelInfo={hotel_info} />
+      <div className="SA-description-page">
+
+        <div className="big-container">
+          <div className="container">
+            <DescriptionBox hotelInfo={hotel_info} />
+          </div>
         </div>
       </div>
     )
-  }
+  }    
   
-  export default DescriptionPage
+  export default SADescriptionPage
   
   

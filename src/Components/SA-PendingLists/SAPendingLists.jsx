@@ -2,21 +2,103 @@ import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import dumby from "../../Assest/hotelimage.png";
 import "./SAPendingLists.css";
+import SADescriptionPage from "../../Page/SA-DescriptionPage/SADescriptionPage";
+import { IoClose } from "react-icons/io5";
 
 const SAPendingLists = () => {
   const initialProperties = [
-    { id: 1, ImgUrl: dumby, name: "Hotel Everest", PropertyType: "Hotel", Owner: "John Doe", Location: "Kathmandu", aprrovalStatus: "Pending" },
-    { id: 2, ImgUrl: dumby, name: "Hotel Annapurna", PropertyType: "Hotel", Owner: "Jane Smith", Location: "Lalitpur", aprrovalStatus: "Pending" },
-    { id: 3, ImgUrl: dumby, name: "Peaceful Homestay", PropertyType: "Homestay", Owner: "Hari Bahadur", Location: "Pokhara", aprrovalStatus: "Pending" },
-    { id: 4, ImgUrl: dumby, name: "Mountain View", PropertyType: "Hotel", Owner: "Sita Ram", Location: "Chitwan", aprrovalStatus: "Pending" },
-    { id: 5, ImgUrl: dumby, name: "Lumbini Retreat", PropertyType: "Homestay", Owner: "Gita Devi", Location: "Lumbini", aprrovalStatus: "Pending" },
-    { id: 6, ImgUrl: dumby, name: "Nagarkot Paradise", PropertyType: "Hotel", Owner: "Ramesh Kumar", Location: "Nagarkot", aprrovalStatus: "Pending" },
-    { id: 7, ImgUrl: dumby, name: "Bandipur Heritage", PropertyType: "Homestay", Owner: "Anita Sharma", Location: "Bandipur", aprrovalStatus: "Pending" },
-    { id: 8, ImgUrl: dumby, name: "Gosaikunda Lodge", PropertyType: "Hotel", Owner: "Prakash Thapa", Location: "Gosaikunda", aprrovalStatus: "Pending" },
-    { id: 9, ImgUrl: dumby, name: "Rara Lake Resort", PropertyType: "Homestay", Owner: "Sunita Rai", Location: "Rara", aprrovalStatus: "Pending" },
-    { id: 10, ImgUrl: dumby, name: "Himalayan Escape", PropertyType: "Hotel", Owner: "Bishnu Prasad", Location: "Kathmandu", aprrovalStatus: "Pending" },
+    { 
+      id: 1, 
+      ImgUrl: dumby, 
+      name: "Hotel Everest", 
+      PropertyType: "Hotel", 
+      Owner: "John Doe", 
+      Location: "Kathmandu", 
+      aprrovalStatus: "Pending",
+      description: "Nestled in the heart of Kathmandu, Hotel Everest offers a blend of modern comfort and traditional Nepalese charm.",
+      rating: 4,
+      features: ["Private Bathroom", "Aesthetic Lighting", "Free WiFi", "Mountain View"],
+      images: [dumby, dumby, dumby, dumby],
+      price: 4500,
+      amenities: ["Swimming Pool", "Restaurant", "Spa"]
+    },
+    { 
+      id: 2, 
+      ImgUrl: dumby, 
+      name: "Hotel Annapurna", 
+      PropertyType: "Hotel", 
+      Owner: "Jane Smith", 
+      Location: "Lalitpur", 
+      aprrovalStatus: "Pending",
+      description: "Luxury hotel with panoramic views of the Annapurna mountain range.",
+      rating: 5,
+      features: ["Private Balcony", "Minibar", "Room Service"],
+      images: [dumby, dumby, dumby, dumby],
+      price: 6800,
+      amenities: ["Fitness Center", "Conference Room", "Bar"]
+    },
+    { 
+      id: 3, 
+      ImgUrl: dumby, 
+      name: "Homestay in Bhaktapur", 
+      PropertyType: "Homestay", 
+      Owner: "Sita Rai", 
+      Location: "Bhaktapur", 
+      aprrovalStatus: "Pending",
+      description: "Experience the rich culture of Bhaktapur in this cozy homestay.",
+      rating: 4.5,
+      features: ["Shared Kitchen", "Local Cuisine"],
+      images: [dumby, dumby, dumby, dumby],
+      price: 2000,
+      amenities: ["Cultural Tours", "Cooking Classes"]
+    },
+    { 
+      id: 4, 
+      ImgUrl: dumby, 
+      name: "Pokhara Lakeside Retreat", 
+      PropertyType: "Homestay", 
+      Owner: "Ram Thapa", 
+      Location: "Pokhara", 
+      aprrovalStatus: "Pending",
+      description: "Relax by the lakeside in this beautiful homestay.",
+      rating: 4.8,
+      features: ["Lake View", "Private Garden"],
+      images: [dumby, dumby, dumby, dumby],
+      price: 3500,
+      amenities: ["Kayaking", "Yoga Classes"]
+    },
+    { 
+      id: 5, 
+      ImgUrl: dumby, 
+      name: "Chitwan Jungle Lodge", 
+      PropertyType: "Hotel", 
+      Owner: "Hari Gurung", 
+      Location: "Chitwan", 
+      aprrovalStatus: "Pending",
+      description: "Explore the wildlife of Chitwan National Park from this lodge.",
+      rating: 4.2,
+      features: ["Safari Tours", "Nature Walks"],
+      images: [dumby, dumby, dumby, dumby],
+      price: 4000,
+      amenities: ["Wildlife Tours", "Bird Watching"]
+    },
+    { 
+      id: 6, 
+      ImgUrl: dumby, 
+      name: "Lumbini Heritage Hotel", 
+      PropertyType: "Hotel", 
+      Owner: "Gita Koirala", 
+      Location: "Lumbini", 
+      aprrovalStatus: "Pending",
+      description: "Stay close to the birthplace of Buddha in this heritage hotel.",
+      rating: 4.7,
+      features: ["Cultural Tours", "Meditation Rooms"],
+      images: [dumby, dumby, dumby, dumby],
+      price: 5000,
+      amenities: ["Spa Services", "Guided Tours"]
+    },
   ];
-  console.log(initialProperties);
+
   const [properties, setProperties] = useState(initialProperties);
   const cities = ["Kathmandu", "Lalitpur", "Bhaktapur", "Pokhara", "Chitwan", "Lumbini", "Nagarkot", "Bandipur", "Gosaikunda", "Rara"];
   const PropertyTypes = ["Hotel", "Homestay"];
@@ -31,7 +113,9 @@ const SAPendingLists = () => {
   const [deleteId, setDeleteId] = useState(null);
   const [approveId, setApproveId] = useState(null);
   const [fadeOutId, setFadeOutId] = useState(null);
-  const [actionType, setActionType] = useState(null); // 'reject' or 'approve'
+  const [actionType, setActionType] = useState(null);
+  const [selectedProperty, setSelectedProperty] = useState(null);
+  const [showDescription, setShowDescription] = useState(false);
 
   const filteredProperties = properties.filter((property) =>
     property.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -104,6 +188,49 @@ const SAPendingLists = () => {
         setApproveSuccess(false);
       }, 2000);
     }, 300);
+  };
+
+  const handleDetailClick = (property) => {
+    setSelectedProperty(property);
+    setShowDescription(true);
+  };
+
+  const closeDescriptionPopup = () => {
+    setShowDescription(false);
+    setSelectedProperty(null);
+  };
+
+  const mapToHotelInfo = (property) => {
+    return {
+      Name: property.name,
+      location: property.Location,
+      attraction: `Located in ${property.Location}`,
+      rating: property.rating || 4,
+      roomFeatures: property.features || ["Private Bathroom", "Aesthetic Lighting"],
+      price: property.price || 2800,
+      extraInfo: "Available for booking",
+      homeStayFeatures: property.amenities || ["24/7 Customer Support"],
+      description: property.description || "No description available",
+      "Main-Image": property.ImgUrl || dumby,
+      "extra-image": property.images || [dumby, dumby, dumby, dumby],
+      rewardPoints: 400,
+      reviews: [
+        {
+          name: "Hinata",
+          avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+          rating: 5,
+          date: "2 days ago",
+          comment: "Amazing experience! The staff was incredibly helpful.",
+        },
+        {
+          name: "Akainu",
+          avatar: "https://randomuser.me/api/portraits/men/22.jpg",
+          rating: 4,
+          date: "1 week ago",
+          comment: "Great location and beautiful rooms.",
+        },
+      ],
+    };
   };
 
   return (
@@ -181,7 +308,12 @@ const SAPendingLists = () => {
                   <p className="detail-value">{property.Owner}</p>
                 </div>
               </div>
-              <p className="view-details-link">View Details</p>
+              <p 
+                className="view-details-link" 
+                onClick={() => handleDetailClick(property)}
+              >
+                View Details
+              </p>
             </div>
             <div className="sa-pending-card-right">
               <button 
@@ -273,6 +405,21 @@ const SAPendingLists = () => {
       {approveSuccess && (
         <div className="success-popup approve">Property approved successfully!</div>
       )}
+
+      {/* Description Popup */}
+      {showDescription && selectedProperty && (
+  <div className="popup-overlay" onClick={closeDescriptionPopup}>
+    <div className="description-popup-container" onClick={(e) => e.stopPropagation()}>
+      <button className="popup-close-button" onClick={closeDescriptionPopup}>
+        <IoClose />
+      </button>
+      <SADescriptionPage 
+        hotelInfo={mapToHotelInfo(selectedProperty)} 
+        onClose={closeDescriptionPopup}
+      />
+    </div>
+  </div>
+)}
     </div>
   );
 };
