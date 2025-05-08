@@ -34,4 +34,5 @@ public class InnBooking {
 
     private int innType;
     private int innId;
+    private boolean hasPaid= false;
 }

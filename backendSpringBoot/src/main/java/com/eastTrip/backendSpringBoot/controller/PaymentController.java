@@ -1,5 +1,7 @@
 package com.eastTrip.backendSpringBoot.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -62,49 +64,80 @@ public class PaymentController {
         }
     }
 
+    // PaymentController.java
     @PostMapping("/verify")
-    public ResponseEntity<String> verifyPayment(@RequestBody Map<String, String> params) {
+    public ResponseEntity<?> verifyPayment(@RequestBody Map<String, String> esewaResponse) {
         try {
-            String totalAmount = params.get("total_amount");
-            String transactionUUID = params.get("transaction_uuid");
-            String productCode = params.get("product_code");
-            String receivedSignature = params.get("signature");
+            // 1. Verify Signature
+            String signedFieldNames = esewaResponse.get("signed_field_names");
+            String receivedSignature = esewaResponse.get("signature");
 
-            String signedData = String.format("total_amount=%s,transaction_uuid=%s,product_code=%s",
-                    totalAmount, transactionUUID, productCode);
+            // Build the signed data string
+            List<String> fields = Arrays.asList(signedFieldNames.split(","));
+            StringBuilder signedData = new StringBuilder();
 
-            String generatedSignature = generateSignature(signedData);
+            for (String field : fields) {
+                String value = esewaResponse.get(field);
+                if (value != null) {
+                    signedData.append(field).append("=").append(value).append(",");
+                }
+            }
+
+            // Remove trailing comma
+            if (signedData.length() > 0) {
+                signedData.setLength(signedData.length() - 1);
+            }
+
+            // Generate HMAC-SHA256 signature
+            String generatedSignature = generateSignature(signedData.toString());
 
             if (!generatedSignature.equals(receivedSignature)) {
                 return ResponseEntity.badRequest().body("Invalid signature");
             }
 
-            // Verify transaction with eSewa
-            String verificationUrl = "https://rc-epay.esewa.com.np/api/epay/transrec/v2";
-            Map<String, String> verificationParams = new HashMap<>();
-            verificationParams.put("total_amount", totalAmount);
-            verificationParams.put("transaction_uuid", transactionUUID);
-            verificationParams.put("product_code", productCode);
+            // 2. Verify Transaction Status with eSewa API
+            String statusUrl = "https://rc-epay.esewa.com.np/api/epay/transaction/status/";
+            String productCode = esewaResponse.get("product_code");
+            String transactionUUID = esewaResponse.get("transaction_uuid");
+            String totalAmount = esewaResponse.get("total_amount").replace(",", ""); // Remove commas
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Map<String, String>> entity = new HttpEntity<>(verificationParams, headers);
+            String apiUrl = String.format("%s?product_code=%s&total_amount=%s&transaction_uuid=%s",
+                    statusUrl, productCode, totalAmount, transactionUUID);
 
-            ResponseEntity<String> verificationResponse = restTemplate.postForEntity(verificationUrl, entity, String.class);
+            // Call eSewa's status API
+            ResponseEntity<String> apiResponse = restTemplate.getForEntity(apiUrl, String.class);
 
-            if (verificationResponse.getStatusCode() == HttpStatus.OK && verificationResponse.getBody().contains("Success")) {
-                return ResponseEntity.ok("Payment successful and verified");
-            } else {
-                return ResponseEntity.badRequest().body("Payment verification failed");
+            if (apiResponse.getStatusCode() != HttpStatus.OK) {
+                return ResponseEntity.badRequest().body("Status API error");
             }
+
+            // Parse response
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode responseJson = mapper.readTree(apiResponse.getBody());
+
+            // Handle statuses
+            String status = responseJson.get("status").asText();
+            switch (status) {
+                case "COMPLETE":
+                    return ResponseEntity.ok("Payment successful");
+                case "PENDING":
+                    return ResponseEntity.ok("Payment pending");
+                case "NOT_FOUND":
+                    return ResponseEntity.badRequest().body("Transaction expired");
+                default:
+                    return ResponseEntity.badRequest().body("Payment failed: " + status);
+            }
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Verification error");
+            return ResponseEntity.internalServerError().body("Verification error");
         }
     }
 
     private String generateSignature(String data) throws Exception {
         Mac sha256 = Mac.getInstance("HmacSHA256");
-        sha256.init(new SecretKeySpec(secretKey.getBytes(), "HmacSHA256"));
+        // Correct: Use the String secretKey to create SecretKeySpec
+        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA256");
+        sha256.init(secretKeySpec);
         return Base64.getEncoder().encodeToString(sha256.doFinal(data.getBytes()));
     }
-}
+    }
