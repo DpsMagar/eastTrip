@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.9.0",
     "lucide-react": "^0.487.0",
     "react": "^19.1.0",
     "react-datepicker": "^8.2.1",
@@ -18,7 +19,8 @@
     "react-router-dom": "^7.4.1",
     "react-scripts": "^5.0.1",
     "react-scrollbars-custom": "^4.1.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "whatwg-fetch": "^3.6.20"
   },
   "scripts": {
     "start": "react-scripts start",

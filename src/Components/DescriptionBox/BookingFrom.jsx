@@ -18,7 +18,7 @@ const BookingForm = ({ hotelInfo }) => {
 
   
 
-  const userID= localStorage.getItem('userId');
+  const userID= sessionStorage.getItem('userId');
 
   const dispatch= useDispatch();
 

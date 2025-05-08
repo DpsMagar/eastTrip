@@ -19,7 +19,13 @@ import SALogin from "./Page/SA-LoginPage/SALogin"
 import SAHomePage from "./Page/SA-HomePage/SAHomePage"
 import Result3 from "./Components/ResultBox/Result3"
 import Result2 from "./Components/ResultBox/Result2"
-
+import EsewaForm from "./Page/payment/EsewaForm"
+import Payment   from "./Page/payment/PaymentFailure"
+import Success from "./Page/payment/PaymentSuccess"
+import KhaltiPayment from "./Page/payment/KhaltiPayment"
+import EsewaPayment from "./Page/payment/EsewaPayment"
+import PaymentSuccess from "./Page/payment/PaymentSuccess"
+import PaymentFailure from "./Page/payment/PaymentFailure"
 function App() {
   return (
     <div className="Main">
@@ -36,6 +42,18 @@ function App() {
               <Route path="/description" element={<DescriptionPage />} />
               <Route path="/profile" element={<DashBoard />} />
               <Route path="/result" element={<Result />} />
+
+
+              <Route path="/pay" element={<Payment />} />
+              <Route path="/khalti" element={<KhaltiPayment />} />
+              <Route path="/success" element={<Success />} />
+              <Route path="/e-payment" element={<EsewaPayment />} />
+
+              <Route path="/payment-success" element={<PaymentSuccess />} />
+              <Route path="/payment-failure" element={<PaymentFailure />} />
+
+
+
               
               
               {/* Travel Agent Routes */}
