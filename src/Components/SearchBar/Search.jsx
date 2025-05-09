@@ -412,8 +412,10 @@ export default function TravelBooking() {
 
       {/* From Location Popup */}
       {activePopup === "from" && (
-        <div className="popup-overlay">
-          <div className="popup">
+        <div className="popup-overlay"
+        onClick={() => setActivePopup(null)}>
+          <div className="popup"
+           onClick={(e) => e.stopPropagation()}>
             <div className="popup-header">
               <h3>Select Departure City</h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
@@ -449,8 +451,10 @@ export default function TravelBooking() {
 
       {/* To Location Popup */}
       {activePopup === "to" && (
-        <div className="popup-overlay">
-          <div className="popup">
+ <div className="popup-overlay"
+ onClick={() => setActivePopup(null)}>
+   <div className="popup"
+    onClick={(e) => e.stopPropagation()}>
             <div className="popup-header">
               <h3>Select Destination City</h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
@@ -484,8 +488,10 @@ export default function TravelBooking() {
 
       {/* Hotel Location Popup */}
       {activePopup === "hotelLocation" && (
-        <div className="popup-overlay">
-          <div className="popup">
+ <div className="popup-overlay"
+ onClick={() => setActivePopup(null)}>
+   <div className="popup"
+    onClick={(e) => e.stopPropagation()}>
             <div className="popup-header">
               <h3>Select Location</h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
@@ -514,8 +520,10 @@ export default function TravelBooking() {
       )}
       {/* HomeStay Location Popup */}
       {activePopup === "homeStays" && (
-        <div className="popup-overlay">
-          <div className="popup">
+ <div className="popup-overlay"
+ onClick={() => setActivePopup(null)}>
+   <div className="popup"
+    onClick={(e) => e.stopPropagation()}>
             <div className="popup-header">
               <h3>Select Location</h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
@@ -548,8 +556,10 @@ export default function TravelBooking() {
         activePopup === "return" ||
         activePopup === "checkIn" ||
         activePopup === "checkOut") && (
-        <div className="popup-overlay">
-          <div className="popup">
+          <div className="popup-overlay"
+          onClick={() => setActivePopup(null)}>
+            <div className="popup"
+             onClick={(e) => e.stopPropagation()}>
             <div className="popup-header">
               <h3>
                 Select{" "}
@@ -642,27 +652,7 @@ export default function TravelBooking() {
                   </div>
                 </div>
 
-                {(activePopup === "return" || activePopup === "checkOut") && (
-                  <div className="date-selection-info">
-                    <div className="date-range">
-                      <div className="date-range-item">
-                        <span className="date-label">{activePopup === "return" ? "Departure:" : "Check In:"}</span>
-                        <span className="date-value-small">
-                          {activePopup === "return" ? departureDate : checkInDate}
-                        </span>
-                      </div>
-                      <div className="date-range-item">
-                        <span className="date-label">{activePopup === "return" ? "Return:" : "Check Out:"}</span>
-                        <span className="date-value-small">
-                          {activePopup === "return" ? returnDate || "Not selected" : checkOutDate || "Not selected"}
-                        </span>
-                      </div>
-                    </div>
-                    <button className="apply-button" onClick={() => setActivePopup(null)}>
-                      Apply
-                    </button>
-                  </div>
-                )}
+
               </div>
             </div>
           </div>
@@ -671,8 +661,10 @@ export default function TravelBooking() {
 
       {/* Travellers Popup */}
       {activePopup === "travellers" && (
-        <div className="popup-overlay">
-          <div className="popup">
+ <div className="popup-overlay"
+ onClick={() => setActivePopup(null)}>
+   <div className="popup"
+    onClick={(e) => e.stopPropagation()}>
             <div className="popup-header">
               <h3>Select Travellers</h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
@@ -715,8 +707,10 @@ export default function TravelBooking() {
 
       {/* Rooms & Guests Popup */}
       {activePopup === "roomsGuests" && (
-        <div className="popup-overlay">
-          <div className="popup">
+ <div className="popup-overlay"
+ onClick={() => setActivePopup(null)}>
+   <div className="popup"
+    onClick={(e) => e.stopPropagation()}>
             <div className="popup-header">
               <h3>Select Rooms & Guests</h3>
               <button className="close-button" onClick={() => setActivePopup(null)}>
