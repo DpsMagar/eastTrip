@@ -400,7 +400,7 @@ const SAPendingLists = () => {
 
       {/* Success Popups */}
       {deleteSuccess && (
-        <div className="success-popup reject">Property rejected successfully!</div>
+        <div className="success-popup-reject">Property rejected successfully!</div>
       )}
       {approveSuccess && (
         <div className="success-popup approve">Property approved successfully!</div>

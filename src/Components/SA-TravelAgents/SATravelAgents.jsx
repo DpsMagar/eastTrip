@@ -140,7 +140,7 @@ const SATravelAgents = () => {
                   <span className='user-email'>{user.properties}</span>
                 </div>
                 <div className="action-cell">
-                  <button className='edit-btn'><FiEdit className='edit-icon' /></button>
+                  
                   <button
                     className='delete-btn'
                     onClick={() => {

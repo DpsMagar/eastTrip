@@ -3,7 +3,7 @@
 import { useState } from "react"
 import "./booking-form.css"
 
-const BookingForm = ({ hotelInfo }) => {
+const SABookingFrom = ({ hotelInfo }) => {
   // Fallback dummy data if hotelInfo is not provided or incomplete
   const fallbackHotelInfo = {
     price: 7500,
@@ -87,4 +87,4 @@ const BookingForm = ({ hotelInfo }) => {
   )
 }
 
-export default BookingForm
+export default SABookingFrom

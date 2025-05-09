@@ -4,35 +4,36 @@ import { FaUsers, FaTrash } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import { CiSearch } from "react-icons/ci";
 import CustomProfile from "../../Assest/profile.jpg";
+import SADashBoard from '../../Page/SA-DashBoard-User/SADashBoard';
+import { IoClose } from "react-icons/io5";
 
 const initialUsers = [
   { id: 1, profile: CustomProfile, name: "Sarah Wilson", email: "sarah.wilson@example.com" },
-  { id: 2, profile: CustomProfile, name: "Michael Chen", email: "michael.chen@example.com" },
-  { id: 3, profile: CustomProfile, name: "Emma Thompson", email: "emma.t@example.com" },
-  { id: 4, profile: CustomProfile, name: "Jane Smith", email: "jane.smith@example.com" },
-  { id: 5, profile: CustomProfile, name: "Alice Johnson", email: "alice.j@example.com" },
-  { id: 6, profile: CustomProfile, name: "David Wilson", email: "david.w@example.com" },
-  { id: 7, profile: CustomProfile, name: "Chris Evans", email: "chris.e@example.com" },
-  { id: 8, profile: CustomProfile, name: "Robert Brown", email: "robert.b@example.com" },
-  { id: 9, profile: CustomProfile, name: "Lisa Wong", email: "lisa.w@example.com" },
-  { id: 10, profile: CustomProfile, name: "James Taylor", email: "james.t@example.com" },
-  { id: 11, profile: CustomProfile, name: "Olivia Martinez", email: "olivia.m@example.com" },
-  { id: 12, profile: CustomProfile, name: "Daniel Garcia", email: "daniel.g@example.com" },
-  { id: 13, profile: CustomProfile, name: "Sophia Lee", email: "sophia.l@example.com" },
-  { id: 14, profile: CustomProfile, name: "Matthew Clark", email: "matthew.c@example.com" },
-  { id: 15, profile: CustomProfile, name: "Emily Rodriguez", email: "emily.r@example.com" },
-  { id: 16, profile: CustomProfile, name: "Andrew Lewis", email: "andrew.l@example.com" },
-  { id: 17, profile: CustomProfile, name: "Ava Walker", email: "ava.w@example.com" },
-  { id: 18, profile: CustomProfile, name: "Joshua Hall", email: "joshua.h@example.com" },
-  { id: 19, profile: CustomProfile, name: "Mia Young", email: "mia.y@example.com" },
-  { id: 20, profile: CustomProfile, name: "Christopher Allen", email: "chris.a@example.com" },
-  { id: 21, profile: CustomProfile, name: "Charlotte King", email: "charlotte.k@example.com" },
-  { id: 22, profile: CustomProfile, name: "Ethan Scott", email: "ethan.s@example.com" },
-  { id: 23, profile: CustomProfile, name: "Amelia Green", email: "amelia.g@example.com" },
-  { id: 24, profile: CustomProfile, name: "Benjamin Adams", email: "benjamin.a@example.com" },
-  { id: 25, profile: CustomProfile, name: "Harper Nelson", email: "harper.n@example.com" }
+  { id: 2, profile: CustomProfile, name: "John Doe", email: "john.doe@gmail.com" },
+  { id: 3, profile: CustomProfile, name: "Emma Johnson", email: "emma.johnson@example.com" },
+  { id: 4, profile: CustomProfile, name: "Michael Brown", email: "michael.brown@example.com" },
+  { id: 5, profile: CustomProfile, name: "Olivia Davis", email: "olivia.davis@example.com" },
+  { id: 6, profile: CustomProfile, name: "William Martinez", email: "william.martinez@example.com" },
+  { id: 7, profile: CustomProfile, name: "Sophia Garcia", email: "sophia.garcia@example.com" },
+  { id: 8, profile: CustomProfile, name: "James Rodriguez", email: "james.rodriguez@example.com" },
+  { id: 9, profile: CustomProfile, name: "Isabella Lee", email: "isabella.lee@example.com" },
+  { id: 10, profile: CustomProfile, name: "Benjamin Harris", email: "benjamin.harris@example.com" },
+  { id: 11, profile: CustomProfile, name: "Charlotte Clark", email: "charlotte.clark@example.com" },
+  { id: 12, profile: CustomProfile, name: "Daniel Lewis", email: "daniel.lewis@example.com" },
+  { id: 13, profile: CustomProfile, name: "Amelia Young", email: "amelia.young@example.com" },
+  { id: 14, profile: CustomProfile, name: "Ethan Allen", email: "ethan.allen@example.com" },
+  { id: 15, profile: CustomProfile, name: "Mia Scott", email: "mia.scott@example.com" },
+  { id: 16, profile: CustomProfile, name: "Alexander King", email: "alexander.king@example.com" },
+  { id: 17, profile: CustomProfile, name: "Harper Green", email: "harper.green@example.com" },
+  { id: 18, profile: CustomProfile, name: "Henry Baker", email: "henry.baker@example.com" },
+  { id: 19, profile: CustomProfile, name: "Ella Carter", email: "ella.carter@example.com" },
+  { id: 20, profile: CustomProfile, name: "Lucas Rivera", email: "lucas.rivera@example.com" },
+  { id: 21, profile: CustomProfile, name: "Avery Sanchez", email: "avery.sanchez@example.com" },
+  { id: 22, profile: CustomProfile, name: "Jack Murphy", email: "jack.murphy@example.com" },
+  { id: 23, profile: CustomProfile, name: "Scarlett Flores", email: "scarlett.flores@example.com" },
+  { id: 24, profile: CustomProfile, name: "Gabriel Torres", email: "gabriel.torres@example.com" },
+  { id: 25, profile: CustomProfile, name: "Lily Nguyen", email: "lily.nguyen@example.com" }
 ];
-
 const SAUserManagement = () => {
   const [users, setUsers] = useState(initialUsers);
   const [searchQuery, setSearchQuery] = useState('');
@@ -41,7 +42,9 @@ const SAUserManagement = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
-  const [fadingUserId, setFadingUserId] = useState(null); // <-- For fade effect
+  const [fadingUserId, setFadingUserId] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showDashboard, setShowDashboard] = useState(false);
 
   const usersPerPage = 3;
 
@@ -71,16 +74,15 @@ const SAUserManagement = () => {
   const showingTo = Math.min(startIndex + usersPerPage, filteredUsers.length);
 
   const handleDeleteUser = (id) => {
-    setFadingUserId(id); // trigger fade out
+    setFadingUserId(id);
     setShowConfirm(false);
 
     setTimeout(() => {
       const updatedUsers = users.filter(user => user.id !== id);
       setUsers(updatedUsers);
       setDeleteSuccess(true);
-      setFadingUserId(null); // clear fade user after deletion
+      setFadingUserId(null);
 
-      // Adjust current page if needed
       if (paginatedUsers.length === 1 && currentPage > 1) {
         setCurrentPage(currentPage - 1);
       }
@@ -88,8 +90,51 @@ const SAUserManagement = () => {
       setTimeout(() => {
         setDeleteSuccess(false);
       }, 2000);
+    }, 300);
+  };
 
-    }, 300); // match fade-out transition time
+  const handleUserClick = (user) => {
+    setSelectedUser(user);
+    setShowDashboard(true);
+  };
+
+  const closeDashboardPopup = () => {
+    setShowDashboard(false);
+    setSelectedUser(null);
+  };
+
+  const mapToProfileData = (user) => {
+    return {
+      ProfileImage: user.profile,
+      Firstname: user.name.split(' ')[0],
+      Lastname: user.name.split(' ')[1] || '',
+      Email: user.email,
+      Phone: user.phone || '1234567890',
+      Address: user.address,
+      country: user.country,
+      district: user.district,
+      gender: user.gender,
+      martialStatus: user.maritalStatus,
+      DateOfBirth: user.dateOfBirth,
+      "passport no": "1111111",
+      "Issuing place": "usa",
+      "expiry date": "01/01/2030",
+      rewardpoint: user.rewardPoints || 0,
+    };
+  };
+
+  const mapToRecentBookings = (user) => {
+    
+    return [
+      {
+        id: `B${Math.floor(100000 + Math.random() * 900000)}`,
+        type: "Hotel",
+        destination: "Sample Hotel",
+        date: new Date().toLocaleDateString(),
+        status: "Completed",
+      },
+      
+    ];
   };
 
   return (
@@ -123,7 +168,6 @@ const SAUserManagement = () => {
             />
             <CiSearch className='search-icon' />
           </div>
-          
         </div>
 
         <div className="um-user-table">
@@ -138,6 +182,7 @@ const SAUserManagement = () => {
               <div
                 className={`table-row ${fadingUserId === user.id ? 'fade-out' : ''}`}
                 key={user.id}
+                onClick={() => handleUserClick(user)}
               >
                 <div className="user-cell">
                   <img src={user.profile} alt="User" className='user-profile' />
@@ -147,10 +192,10 @@ const SAUserManagement = () => {
                   <span className='user-email'>{user.email}</span>
                 </div>
                 <div className="action-cell">
-                  <button className='edit-btn'><FiEdit className='edit-icon' /></button>
                   <button
                     className='delete-btn'
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setSelectedUserId(user.id);
                       setShowConfirm(true);
                     }}
@@ -221,6 +266,21 @@ const SAUserManagement = () => {
       {/* Delete Success Popup */}
       {deleteSuccess && (
         <div className="success-popup">User deleted successfully!</div>
+      )}
+
+      {/* Dashboard Popup */}
+      {showDashboard && selectedUser && (
+        <div className="popup-overlay" onClick={closeDashboardPopup}>
+          <div className="dashboard-popup-container" onClick={(e) => e.stopPropagation()}>
+            <button className="popup-close-button" onClick={closeDashboardPopup}>
+              <IoClose />
+            </button>
+            <SADashBoard 
+              profile={mapToProfileData(selectedUser)}
+              recentBookings={mapToRecentBookings(selectedUser)}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

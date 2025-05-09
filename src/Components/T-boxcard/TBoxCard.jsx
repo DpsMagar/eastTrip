@@ -2,39 +2,95 @@ import React, { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
 import dumby from "../../Assest/hotelimage.png";
-import "./SAHotels.css";
+import "./TBoxCard.css";
 import SADescriptionPage from "../../Page/SA-DescriptionPage/SADescriptionPage";
 import { IoClose } from "react-icons/io5";
+import { CiStar } from "react-icons/ci";
 
-const SAHotels = () => {
+
+const TBoxCard = () => {
   const initialProperties = [
     { 
       id: 1, 
       ImgUrl: dumby, 
       name: "Hotel Everest", 
       PropertyType: "Hotel", 
-      Owner: "John Doe", 
-      Location: "Kathmandu",
-      description: "Luxury hotel with views of the Himalayas",
-      rating: 4.5,
-      features: ["Free WiFi", "Swimming Pool", "Spa"],
-      price: 5000,
-      amenities: ["Restaurant", "24/7 Room Service", "Conference Room"],
-      images: [dumby, dumby, dumby, dumby]
+      Rating: 4,
+      Location: "Kathmandu"
     },
     { 
       id: 2, 
       ImgUrl: dumby, 
-      name: "Homestay in Pokhara", 
-      PropertyType: "Homestay", 
-      Owner: "Jane Smith", 
-      Location: "Pokhara",
-      description: "Cozy homestay with local cuisine",
-      rating: 4.0,
-      features: ["Free Breakfast", "Local Tours"],
-      price: 2800,
-      amenities: ["Shared Kitchen", "Garden"],
+      name: "Hotel Annapurna", 
+      PropertyType: "Hotel", 
+      Rating: 5,
+      Location: "Lalitpur"
     },
+    { 
+      id: 3, 
+      ImgUrl: dumby, 
+      name: "Hotel Pokhara", 
+      PropertyType: "Homestay", 
+      Rating: 3,
+      Location: "Pokhara"
+    },
+    { 
+      id: 4, 
+      ImgUrl: dumby, 
+      name: "Hotel Chitwan", 
+      PropertyType: "Homestay", 
+      Rating: 4,
+      Location: "Chitwan"
+    },
+    { 
+      id: 5, 
+      ImgUrl: dumby, 
+      name: "Hotel Lumbini", 
+      PropertyType: "Hotel", 
+      Rating: 5,
+      Location: "Lumbini"
+    },
+    { 
+      id: 6, 
+      ImgUrl: dumby, 
+      name: "Hotel Nagarkot", 
+      PropertyType: "Homestay", 
+      Rating: 3,
+      Location: "Nagarkot"
+    },
+    { 
+      id: 7, 
+      ImgUrl: dumby, 
+      name: "Hotel Bandipur", 
+      PropertyType: "Hotel", 
+      Rating: 4,
+      Location: "Bandipur"
+    },
+    { 
+      id: 8, 
+      ImgUrl: dumby, 
+      name: "Hotel Gosaikunda", 
+      PropertyType: "Homestay", 
+      Rating: 5,
+      Location: "Gosaikunda"
+    },
+    { 
+      id: 9, 
+      ImgUrl: dumby, 
+      name: "Hotel Rara", 
+      PropertyType: "Hotel", 
+      Rating: 3,
+      Location: "Rara"
+    },
+    { 
+      id: 10, 
+      ImgUrl: dumby, 
+      name: "Hotel Bhaktapur", 
+      PropertyType: "Homestay", 
+      Rating: 4,
+      Location: "Bhaktapur"
+    },
+  
 
    
   ];
@@ -154,15 +210,12 @@ const SAHotels = () => {
   };
 
   return (
-    <div className="sa-hotels">
-      <div className="sa-hotels-header">
-        <h1>Properties</h1>
-        <p>Review and manage property listings</p>
-      </div>
+    <div className="t-hotels">
 
-      <div className="sa-hotels-search">
-        <div className="sa-hotels-search-section">
-          <CiSearch className="sa-hotels-search-icon" />
+
+      <div className="t-hotels-search">
+        <div className="t-hotels-search-section">
+          <CiSearch className="t-hotels-search-icon" />
           <input
             type="text"
             placeholder="Search by name or location"
@@ -174,7 +227,7 @@ const SAHotels = () => {
           />
         </div>
 
-        <select className="sa-hotels-search-select" value={typeFilter} onChange={(e) => {
+        <select className="t-hotels-search-select" value={typeFilter} onChange={(e) => {
           setTypeFilter(e.target.value);
           setCurrentPage(1);
         }}>
@@ -184,7 +237,7 @@ const SAHotels = () => {
           ))}
         </select>
 
-        <select className="sa-hotels-search-select" value={cityFilter} onChange={(e) => {
+        <select className="t-hotels-search-select" value={cityFilter} onChange={(e) => {
           setCityFilter(e.target.value);
           setCurrentPage(1);
         }}>
@@ -199,13 +252,13 @@ const SAHotels = () => {
         paginatedProperties.map((property) => (
           <div
             key={property.id}
-            className={`sa-hotels-card ${fadeOutId === property.id ? "fade-out" : ""}`}
+            className={`t-hotels-card ${fadeOutId === property.id ? "fade-out" : ""}`}
           >
-            <div className="sa-hotels-card-left">
+            <div className="t-hotels-card-left">
               <img src={property.ImgUrl || "/placeholder.svg"} alt="Hotel" />
             </div>
-            <div className="sa-hotels-card-middle">
-              <h2 className="sa-hotels-property-name">{property.name}</h2>
+            <div className="t-hotels-card-middle">
+              <h2 className="t-hotels-property-name">{property.name}</h2>
               <div className="property-details-grid">
                 <div className="property-detail-column">
                   <p className="detail-label">Property Type</p>
@@ -216,9 +269,19 @@ const SAHotels = () => {
                   <p className="detail-value">{property.Location}</p>
                 </div>
                 <div className="property-detail-column">
-                  <p className="detail-label">Owner</p>
-                  <p className="detail-value">{property.Owner}</p>
-                </div>
+  <p className="detail-label">Rating</p>
+  <div className="stars-row">
+    {Array.from({ length: 5 }).map((_, i) => (
+      <span 
+        key={i} 
+        className={`star-icon ${i < property.Rating ? 'filled' : 'empty'}`}
+      >
+        ★
+      </span>
+    ))}
+  </div>
+</div>
+
               </div>
               <p 
                 className="view-details-link" 
@@ -227,14 +290,24 @@ const SAHotels = () => {
                 View Details
               </p>
             </div>
-            <div className="sa-hotels-card-right">
-              <button
-                className="sa-hotels-delete-btn"
-                onClick={() => confirmDelete(property.id)}
-              >
-                <FaTrash className="sa-hotels-delete-icon" />
-              </button>
-            </div>
+            <div className="t-hotels-card-right">
+
+  <div className="top-button">
+    <button
+      className="t-hotels-delete-btn"
+      onClick={() => confirmDelete(property.id)}
+    >
+      <FaTrash className="t-hotels-delete-icon" />
+    </button>
+  </div>
+  
+
+  <div className="bottom-button">
+    <button className="t-hotels-edit-btn">
+      Edit
+    </button>
+  </div>
+</div>
           </div>
         ))
       ) : (
@@ -247,7 +320,7 @@ const SAHotels = () => {
         </div>
         <div className="pagination">
           <button
-            className="sa-hotels-pagination-btn"
+            className="t-hotels-pagination-btn"
             onClick={() => {
               if (groupStart > 1) setCurrentPage(groupStart - 1);
             }}
@@ -261,7 +334,7 @@ const SAHotels = () => {
             return (
               <button
                 key={page}
-                className={`sa-hotels-pagination-btn ${currentPage === page ? "active" : ""}`}
+                className={`t-hotels-pagination-btn ${currentPage === page ? "active" : ""}`}
                 onClick={() => setCurrentPage(page)}
               >
                 {page}
@@ -270,7 +343,7 @@ const SAHotels = () => {
           })}
 
           <button
-            className="sa-hotels-pagination-btn"
+            className="t-hotels-pagination-btn"
             onClick={() => {
               if (groupEnd < totalPages) setCurrentPage(groupEnd + 1);
             }}
@@ -318,4 +391,4 @@ const SAHotels = () => {
   );
 };
 
-export default SAHotels;
+export default TBoxCard;

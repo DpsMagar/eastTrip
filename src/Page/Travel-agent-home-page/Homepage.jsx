@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import building from '../../Assest/building.png';
 import './home.css'; 
+import TBoxCard from '../../Components/T-boxcard/TBoxCard';
 
 export const Homepage = () => {
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ export const Homepage = () => {
         <hr />
         <div className="properties-section">
           <h4>Your active properties,</h4>
+          <TBoxCard />
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Star } from "lucide-react"
 import Reviews from "./Review"
-import BookingForm from "./BookingFrom"
+import SABookingForm from "./SABookingFrom"
 import "./descriptionBox.css"
 
 const DescriptionBox = ({ hotelInfo }) => {
@@ -22,7 +22,7 @@ const DescriptionBox = ({ hotelInfo }) => {
   }
 
   return (
-    <div className="description-box">
+    <div className="SA-description-box">
       {/* Gallery Section */}
       <div className="homestay-gallery">
         <div className="main-image-container">
@@ -83,7 +83,7 @@ const DescriptionBox = ({ hotelInfo }) => {
           </div>
 
           {/* Booking Form */}
-          <BookingForm hotelInfo={hotelInfo} />
+          <SABookingForm hotelInfo={hotelInfo} />
         </div>
       </div>
 
