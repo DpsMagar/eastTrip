@@ -20,6 +20,8 @@ import { IoMdClose } from "react-icons/io";
 
 export default function TravelBooking() {
 
+
+
   const dispatch = useDispatch();
 
   const[airports, setAirports]= useState([])
@@ -54,6 +56,28 @@ export default function TravelBooking() {
     }
   }, [homeStay]);
   
+  const months1 = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  
+  const days1 = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  
+  
+   
+    const today = new Date();
+    const formattedToday = `${today.getDate()} ${months1[today.getMonth()].substring(0, 3)} ${today.getFullYear()}`;
+    const todayDay = days1[today.getDay()];
 
   
 
@@ -61,8 +85,7 @@ export default function TravelBooking() {
   const navigate = useNavigate()
 
 
-
-
+  
   const [activeTab, setActiveTab] = useState("hotels")
   const [activePopup, setActivePopup] = useState(null)
   const [tripType, setTripType] = useState("One Way")
@@ -72,18 +95,26 @@ export default function TravelBooking() {
   const [fromAirport, setFromAirport] = useState("Tribhuvan International Airport")
   const [toLocation, setToLocation] = useState("Pokhara")
   const [toAirport, setToAirport] = useState("Pokhara International Airport")
-  const [departureDate, setDepartureDate] = useState("21 Mar 2025")
-  const [departureDay, setDepartureDay] = useState("Friday")
+  const [departureDate, setDepartureDate] = useState(formattedToday)
+  const [departureDay, setDepartureDay] = useState(todayDay)
   const [returnDate, setReturnDate] = useState("")
   const [returnDay, setReturnDay] = useState("")
   const [travellers, setTravellers] = useState(1)
+  const [fromSearch, setFromSearch] = useState("");
+  const [toSearch, setToSearch] = useState("");
+  const [hotelSearch, setHotelSearch] = useState("");
+  const [homeStaySearch, setHomeStaySearch] = useState("");
+  
 
   // Hotel state
   const [location, setLocation] = useState("Kathmandu")
-  const [checkInDate, setCheckInDate] = useState("21 Feb 2025")
-  const [checkInDay, setCheckInDay] = useState("Friday")
-  const [checkOutDate, setCheckOutDate] = useState("22 Feb 2025")
-  const [checkOutDay, setCheckOutDay] = useState("Saturday")
+  const [checkInDate, setCheckInDate] = useState(formattedToday);
+  const [checkInDay, setCheckInDay] = useState(todayDay);
+  const [checkOutDate, setCheckOutDate] = useState(
+   
+    `${today.getDate() + 1} ${months1[today.getMonth()].substring(0, 3)} ${today.getFullYear()}`
+  );
+  const [checkOutDay, setCheckOutDay] = useState(days1[(today.getDay() + 1) % 7]);
   const [rooms, setRooms] = useState(1)
   const [guests, setGuests] = useState(2)
 
@@ -108,9 +139,6 @@ export default function TravelBooking() {
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
  
-
-  
-
   const locationsHotel = hotel ? Array.from(new Set(hotel.map((hotelItem) => hotelItem.hotelCity))) : [];
 
   const locationsHomeStay = homeStay ? Array.from(new Set(homeStay.map((hotelItem) => hotelItem.hotelCity))) : [];
@@ -176,12 +204,12 @@ export default function TravelBooking() {
     const daysInMonth = new Date(year, month + 1, 0).getDate()
     const calendarDays = []
 
-    // Add empty cells for days before the first day of the month
+
     for (let i = 0; i < firstDay; i++) {
       calendarDays.push(null)
     }
 
-    // Add days of the month
+
     for (let i = 1; i <= daysInMonth; i++) {
       calendarDays.push(i)
     }
@@ -190,27 +218,35 @@ export default function TravelBooking() {
   }
 
   const handleDateSelect = (day, month, year, type) => {
-    const date = new Date(year, month, day)
-    const formattedDate = `${day} ${months[month].substring(0, 3)} ${year}`
-    const dayOfWeek = days[date.getDay()]
-
-    if (type === "departure") {
-      setDepartureDate(formattedDate)
-      dispatch(setDayOfWeek(dayOfWeek))
-      setDepartureDay(dayOfWeek)
-    } else if (type === "return") {
-      setReturnDate(formattedDate)
-      setReturnDay(dayOfWeek)
-    } else if (type === "checkIn") {
-      setCheckInDate(formattedDate)
-      setCheckInDay(dayOfWeek)
-    } else if (type === "checkOut") {
-      setCheckOutDate(formattedDate)
-      setCheckOutDay(dayOfWeek)
+    const selectedDate = new Date(year, month, day);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to compare dates only
+  
+    // Prevent selecting past dates for departure/check-in
+    if ((type === "departure" || type === "checkIn") && selectedDate < today) {
+      return; // Don't proceed with selection
     }
-
-    setActivePopup(null)
-  }
+  
+    const formattedDate = `${day} ${months1[month].substring(0, 3)} ${year}`;
+    const dayOfWeek = days1[selectedDate.getDay()];
+  
+    if (type === "departure") {
+      setDepartureDate(formattedDate);
+      dispatch(setDayOfWeek(dayOfWeek));
+      setDepartureDay(dayOfWeek);
+    } else if (type === "return") {
+      setReturnDate(formattedDate);
+      setReturnDay(dayOfWeek);
+    } else if (type === "checkIn") {
+      setCheckInDate(formattedDate);
+      setCheckInDay(dayOfWeek);
+    } else if (type === "checkOut") {
+      setCheckOutDate(formattedDate);
+      setCheckOutDay(dayOfWeek);
+    }
+  
+    setActivePopup(null);
+  };
 
   const handlePrevMonth = () => {
     if (currentMonth === 0) {
@@ -412,252 +448,270 @@ export default function TravelBooking() {
 
       {/* From Location Popup */}
       {activePopup === "from" && (
-        <div className="popup-overlay"
-        onClick={() => setActivePopup(null)}>
-          <div className="popup"
-           onClick={(e) => e.stopPropagation()}>
-            <div className="popup-header">
-              <h3>Select Departure City</h3>
-              <button className="close-button" onClick={() => setActivePopup(null)}>
-              <IoMdClose className="close-icon" size={24} />
-              </button>
-            </div>
-            <div className="popup-content">
-              <div className="location-search">
-                <input type="text" placeholder="Search for a city" />
-              </div>
-              <div className="location-list">
-                
-               
-                {
-                  airports.map((airport, index)=>(
-                    <div
-                    key={index}
-                    className={`location-item ${airport.airportLocation === fromLocation ? "active" : ""}`}
-                    onClick={() => {handleLocationSelect(airport , "from")
-                    dispatch(setFromFlightLocation(airport.airportLocation))}}
-                  >
-                    <div className="location-name">{airport.airportLocation}</div>
-                    <div className="location-airport">{airport.airportName}</div>
-                  </div>
-                  ))
-                }
-
-              </div>
-            </div>
-          </div>
+  <div className="popup-overlay" onClick={() => setActivePopup(null)}>
+    <div className="popup" onClick={(e) => e.stopPropagation()}>
+      <div className="popup-header">
+        <h3>Select Departure City</h3>
+        <button className="close-button" onClick={() => setActivePopup(null)}>
+          <IoMdClose className="close-icon" size={24} />
+        </button>
+      </div>
+      <div className="popup-content">
+        <div className="location-search">
+          <input 
+            type="text" 
+            placeholder="Search for a city" 
+            value={fromSearch}
+            onChange={(e) => setFromSearch(e.target.value)}
+          />
         </div>
-      )}
+        <div className="location-list">
+          {airports
+            .filter(airport => 
+              airport.airportLocation.toLowerCase().includes(fromSearch.toLowerCase()) ||
+              airport.airportName.toLowerCase().includes(fromSearch.toLowerCase())
+            )
+            .map((airport, index) => (
+              <div
+                key={index}
+                className={`location-item ${airport.airportLocation === fromLocation ? "active" : ""}`}
+                onClick={() => {
+                  handleLocationSelect(airport, "from");
+                  dispatch(setFromFlightLocation(airport.airportLocation));
+                  setFromSearch(""); // Clear search after selection
+                }}
+              >
+                <div className="location-name">{airport.airportLocation}</div>
+                <div className="location-airport">{airport.airportName}</div>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
 
       {/* To Location Popup */}
       {activePopup === "to" && (
- <div className="popup-overlay"
- onClick={() => setActivePopup(null)}>
-   <div className="popup"
-    onClick={(e) => e.stopPropagation()}>
-            <div className="popup-header">
-              <h3>Select Destination City</h3>
-              <button className="close-button" onClick={() => setActivePopup(null)}>
-              <IoMdClose className="close-icon" size={24} />
-              </button>
-            </div>
-            <div className="popup-content">
-              <div className="location-search">
-                <input type="text" placeholder="Search for a city" />
-              </div>
-              <div className="location-list">
-                
-                {
-                  airports.map((airport, index)=>(
-                    <div
-                    key={index}
-                    className={`location-item ${airport.airportLocation === toLocation ? "active" : ""}`}
-                    onClick={() => {handleLocationSelect(airport, "to")
-                    dispatch(setToFlightLocation(airport.airportLocation))}}
-                  >
-                    <div className="location-name">{airport.airportLocation}</div>
-                    <div className="location-airport">{airport.airportName}</div>
-                  </div>
-                  ))
-                }
-              </div>
-            </div>
-          </div>
+  <div className="popup-overlay" onClick={() => setActivePopup(null)}>
+    <div className="popup" onClick={(e) => e.stopPropagation()}>
+      {/* ... same header ... */}
+      <div className="popup-content">
+        <div className="location-search">
+          <input 
+            type="text" 
+            placeholder="Search for a city" 
+            value={toSearch}
+            onChange={(e) => setToSearch(e.target.value)}
+          />
         </div>
-      )}
+        <div className="location-list">
+          {airports
+            .filter(airport => 
+              airport.airportLocation.toLowerCase().includes(toSearch.toLowerCase()) ||
+              airport.airportName.toLowerCase().includes(toSearch.toLowerCase())
+            )
+            .map((airport, index) => (
+              <div
+                key={index}
+                className={`location-item ${airport.airportLocation === toLocation ? "active" : ""}`}
+                onClick={() => {
+                  handleLocationSelect(airport, "to");
+                  dispatch(setToFlightLocation(airport.airportLocation));
+                  setToSearch(""); // Clear search after selection
+                }}
+              >
+                <div className="location-name">{airport.airportLocation}</div>
+                <div className="location-airport">{airport.airportName}</div>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
 
       {/* Hotel Location Popup */}
       {activePopup === "hotelLocation" && (
- <div className="popup-overlay"
- onClick={() => setActivePopup(null)}>
-   <div className="popup"
-    onClick={(e) => e.stopPropagation()}>
-            <div className="popup-header">
-              <h3>Select Location</h3>
-              <button className="close-button" onClick={() => setActivePopup(null)}>
-              <IoMdClose className="close-icon" size={24} />
-              </button>
-            </div>
-            <div className="popup-content">
-              <div className="location-search">
-                <input type="text" placeholder="Search for a city or hotel" />
-              </div>
-              <div className="location-list">
-                {locationsHotel.map((loc, index) => (
-                  <div
-                    key={index}
-                    className={`location-item ${loc === location ? "active" : ""}`}
-                    onClick={() => {handleLocationSelect(loc, "hotel"); dispatch(setHotelLocation(loc))}}
-                  >
-                    <div className="location-name">{loc}</div>
-                    <div className="location-airport">{loc}, Nepal</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+  <div className="popup-overlay" onClick={() => setActivePopup(null)}>
+    <div className="popup" onClick={(e) => e.stopPropagation()}>
+      {/* ... same header ... */}
+      <div className="popup-content">
+        <div className="location-search">
+          <input 
+            type="text" 
+            placeholder="Search for a city or hotel" 
+            value={hotelSearch}
+            onChange={(e) => setHotelSearch(e.target.value)}
+          />
         </div>
-      )}
+        <div className="location-list">
+          {locationsHotel
+            .filter(loc => loc.toLowerCase().includes(hotelSearch.toLowerCase()))
+            .map((loc, index) => (
+              <div
+                key={index}
+                className={`location-item ${loc === location ? "active" : ""}`}
+                onClick={() => {
+                  handleLocationSelect(loc, "hotel"); 
+                  dispatch(setHotelLocation(loc));
+                  setHotelSearch(""); // Clear search after selection
+                }}
+              >
+                <div className="location-name">{loc}</div>
+                <div className="location-airport">{loc}, Nepal</div>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
       {/* HomeStay Location Popup */}
       {activePopup === "homeStays" && (
- <div className="popup-overlay"
- onClick={() => setActivePopup(null)}>
-   <div className="popup"
-    onClick={(e) => e.stopPropagation()}>
-            <div className="popup-header">
-              <h3>Select Location</h3>
-              <button className="close-button" onClick={() => setActivePopup(null)}>
-              <IoMdClose className="close-icon" size={24} />
-              </button>
-            </div>
-            <div className="popup-content">
-              <div className="location-search">
-                <input type="text" placeholder="Search for a city or hotel" />
-              </div>
-              <div className="location-list">
-                {locationsHomeStay.map((loc, index) => (
-                  <div
-                    key={index}
-                    className={`location-item ${loc === location ? "active" : ""}`}
-                    onClick={() => {handleLocationSelect(loc, "hotel"); dispatch(setHomeStayLocation(loc))}}
-                  >
-                    <div className="location-name">{loc}</div>
-                    <div className="location-airport">{loc}, Nepal</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+  <div className="popup-overlay" onClick={() => setActivePopup(null)}>
+    <div className="popup" onClick={(e) => e.stopPropagation()}>
+      {/* ... same header ... */}
+      <div className="popup-content">
+        <div className="location-search">
+          <input 
+            type="text" 
+            placeholder="Search for a city or homestay" 
+            value={homeStaySearch}
+            onChange={(e) => setHomeStaySearch(e.target.value)}
+          />
         </div>
-      )}
+        <div className="location-list">
+          {locationsHomeStay
+            .filter(loc => loc.toLowerCase().includes(homeStaySearch.toLowerCase()))
+            .map((loc, index) => (
+              <div
+                key={index}
+                className={`location-item ${loc === location ? "active" : ""}`}
+                onClick={() => {
+                  handleLocationSelect(loc, "hotel"); 
+                  dispatch(setHomeStayLocation(loc));
+                  setHomeStaySearch(""); // Clear search after selection
+                }}
+              >
+                <div className="location-name">{loc}</div>
+                <div className="location-airport">{loc}, Nepal</div>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+{(activePopup === "departure" ||
+  activePopup === "return" ||
+  activePopup === "checkIn" ||
+  activePopup === "checkOut") && (
+  <div className="popup-overlay" onClick={() => setActivePopup(null)}>
+    <div className="popup" onClick={(e) => e.stopPropagation()}>
+      <div className="popup-header">
+        <h3>
+          Select{" "}
+          {activePopup === "departure"
+            ? "Departure"
+            : activePopup === "return"
+            ? "Return"
+            : activePopup === "checkIn"
+            ? "Check In"
+            : "Check Out"}{" "}
+          Date
+        </h3>
+        <button className="close-button" onClick={() => setActivePopup(null)}>
+          <IoMdClose className="close-icon" size={24} />
+        </button>
+      </div>
 
-      {/* Date Picker Popup */}
-      {(activePopup === "departure" ||
-        activePopup === "return" ||
-        activePopup === "checkIn" ||
-        activePopup === "checkOut") && (
-          <div className="popup-overlay"
-          onClick={() => setActivePopup(null)}>
-            <div className="popup"
-             onClick={(e) => e.stopPropagation()}>
-            <div className="popup-header">
-              <h3>
-                Select{" "}
-                {activePopup === "departure"
-                  ? "Departure"
-                  : activePopup === "return"
-                    ? "Return"
-                    : activePopup === "checkIn"
-                      ? "Check In"
-                      : "Check Out"}{" "}
-                Date
-              </h3>
-              <button className="close-button" onClick={() => setActivePopup(null)}>
-              <IoMdClose className="close-icon" size={24} />
+      <div className="popup-content">
+        <div className="calendar-container">
+          <div className="calendar">
+            <div className="calendar-header">
+              <button className="calendar-nav" onClick={handlePrevMonth}>
+                &lt;
+              </button>
+              <div className="calendar-title">
+                {months[currentMonth]} {currentYear}
+              </div>
+              <button className="calendar-nav" onClick={handleNextMonth}>
+                &gt;
               </button>
             </div>
-            <div className="popup-content">
-              <div className="calendar-container">
-                <div className="calendar">
-                  <div className="calendar-header">
-                    <button className="calendar-nav" onClick={handlePrevMonth}>
-                      &lt;
-                    </button>
-                    <div className="calendar-title">
-                      {months[currentMonth]} {currentYear}
-                    </div>
-                    <button className="calendar-nav" onClick={handleNextMonth}>
-                      &gt;
-                    </button>
-                  </div>
-                  <div className="calendar-days">
-                    <div className="weekday">Su</div>
-                    <div className="weekday">Mo</div>
-                    <div className="weekday">Tu</div>
-                    <div className="weekday">We</div>
-                    <div className="weekday">Th</div>
-                    <div className="weekday">Fr</div>
-                    <div className="weekday">Sa</div>
 
-                    {generateCalendarDays(currentMonth, currentYear).map((day, index) => {
-                      const dateStr = day ? `${day} ${months[currentMonth].substring(0, 3)} ${currentYear}` : ""
-                      const isSelected =
-                        (activePopup === "departure" && dateStr === departureDate) ||
-                        (activePopup === "return" && dateStr === returnDate) ||
-                        (activePopup === "checkIn" && dateStr === checkInDate) ||
-                        (activePopup === "checkOut" && dateStr === checkOutDate)
+            <div className="calendar-days">
+              <div className="weekday">Su</div>
+              <div className="weekday">Mo</div>
+              <div className="weekday">Tu</div>
+              <div className="weekday">We</div>
+              <div className="weekday">Th</div>
+              <div className="weekday">Fr</div>
+              <div className="weekday">Sa</div>
 
-                      const isDisabled =
-                        activePopup === "return" && day
-                          ? new Date(currentYear, currentMonth, day) <
-                            new Date(
-                              Number.parseInt(departureDate.split(" ")[2]),
-                              months.findIndex((m) => m.substring(0, 3) === departureDate.split(" ")[1]),
-                              Number.parseInt(departureDate.split(" ")[0]),
-                            )
-                          : activePopup === "checkOut" && day
-                            ? new Date(currentYear, currentMonth, day) <
-                              new Date(
-                                Number.parseInt(checkInDate.split(" ")[2]),
-                                months.findIndex((m) => m.substring(0, 3) === checkInDate.split(" ")[1]),
-                                Number.parseInt(checkInDate.split(" ")[0]),
-                              )
-                            : false
+              {generateCalendarDays(currentMonth, currentYear).map((day, index) => {
+                const dateStr = day
+                  ? `${day} ${months[currentMonth].substring(0, 3)} ${currentYear}`
+                  : "";
 
-                      return (
-                        <div
-                          key={`current-${index}`}
-                          className={`calendar-day ${!day ? "empty" : ""} ${isSelected ? "selected" : ""} ${isDisabled ? "disabled" : ""}`}
-                          onClick={() =>
-                            day &&
-                            !isDisabled &&
-                            handleDateSelect(
-                              day,
-                              currentMonth,
-                              currentYear,
-                              activePopup === "departure"
-                                ? "departure"
-                                : activePopup === "return"
-                                  ? "return"
-                                  : activePopup === "checkIn"
-                                    ? "checkIn"
-                                    : "checkOut",
-                            )
-                          }
-                        >
-                          {day}
-                        </div>
+                const isSelected =
+                  (activePopup === "departure" && dateStr === departureDate) ||
+                  (activePopup === "return" && dateStr === returnDate) ||
+                  (activePopup === "checkIn" && dateStr === checkInDate) ||
+                  (activePopup === "checkOut" && dateStr === checkOutDate);
+
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const currentDate = day ? new Date(currentYear, currentMonth, day) : null;
+
+                const isDisabled = day
+                  ? activePopup === "departure" || activePopup === "checkIn"
+                    ? currentDate < today
+                    : activePopup === "return"
+                    ? currentDate <
+                      new Date(
+                        Number.parseInt(departureDate.split(" ")[2]),
+                        months.findIndex(
+                          (m) => m.substring(0, 3) === departureDate.split(" ")[1]
+                        ),
+                        Number.parseInt(departureDate.split(" ")[0])
                       )
-                    })}
+                    : activePopup === "checkOut"
+                    ? currentDate <
+                      new Date(
+                        Number.parseInt(checkInDate.split(" ")[2]),
+                        months.findIndex(
+                          (m) => m.substring(0, 3) === checkInDate.split(" ")[1]
+                        ),
+                        Number.parseInt(checkInDate.split(" ")[0])
+                      )
+                    : false
+                  : false;
+
+                return (
+                  <div
+                    key={`current-${index}`}
+                    className={`calendar-day ${!day ? "empty" : ""} ${
+                      isSelected ? "selected" : ""
+                    } ${isDisabled ? "disabled" : ""}`}
+                    onClick={() =>
+                      day &&
+                      !isDisabled &&
+                      handleDateSelect(day, currentMonth, currentYear, activePopup)
+                    }
+                  >
+                    {day}
                   </div>
-                </div>
-
-
-              </div>
+                );
+              })}
             </div>
           </div>
         </div>
-      )}
+      </div>
+    </div>
+  </div>
+)}
 
       {/* Travellers Popup */}
       {activePopup === "travellers" && (

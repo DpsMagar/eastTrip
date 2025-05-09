@@ -6,7 +6,7 @@ import TBoxCard from '../../Components/T-boxcard/TBoxCard';
 
 export const Homepage = () => {
   const navigate = useNavigate();
-  
+
   const handleLogoClick = () => {
     navigate("/travelagentform");
   };
@@ -43,7 +43,8 @@ export const Homepage = () => {
 
         <hr />
         <div className="properties-section">
-          <h4>Your active properties:</h4>
+          <h4>Your active properties,</h4>
+          <TBoxCard />
         </div>
       </div>
     </div>
