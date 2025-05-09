@@ -7,9 +7,9 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
 
-  // Load user from localStorage on initial render
+  // Load user from sessionStorage on initial render
   useEffect(() => {
-    const storedUser = localStorage.getItem("currentUser");
+    const storedUser = sessionStorage.getItem("currentUser");
     if (storedUser) {
       setCurrentUser(JSON.parse(storedUser));
     }
@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
     return new Promise((resolve) => {
       setTimeout(() => {
         setCurrentUser(user);
-        localStorage.setItem("currentUser", JSON.stringify(user)); // Persist user
+        sessionStorage.setItem("currentUser", JSON.stringify(user)); // Persist user
         resolve();
       }, 500);
     });
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
     return new Promise((resolve) => {
       setTimeout(() => {
         setCurrentUser(null);
-        localStorage.removeItem("currentUser"); // Clear storage
+        sessionStorage.removeItem("currentUser"); // Clear storage
         resolve();
       }, 500);
     });

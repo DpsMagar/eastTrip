@@ -12,11 +12,15 @@ import {
 } from "../../features/slice/hotelSlice";
 import { useBookNowMutation } from "../../features/api/bookApi";
 import axios from "axios";
+import Login from "../LogIn/Login";
+import SignUp from "../SignUp/SignUp";
 
 const BookingForm = ({ hotelInfo }) => {
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false)  
+
   const [book] = useBookNowMutation();
   const dispatch = useDispatch();
-
   const innType = useSelector((state) => state.active.activeTypeIndex);
   const userID = sessionStorage.getItem("userId");
 
@@ -97,6 +101,12 @@ const BookingForm = ({ hotelInfo }) => {
   }, [adults, children, rooms]);
 
   const handleBookNow = async () => {
+
+     if (!userID) {
+    setIsLoginModalOpen(true);
+    return; 
+  }
+
     setIsLoading(true);
     setError(null);
 
@@ -113,9 +123,6 @@ const BookingForm = ({ hotelInfo }) => {
     };
 
     try {
-      const bookingResponse = await book(bookDTO).unwrap();
-      console.log("Booking successful:", bookingResponse);
-
       const amount = hotelInfo.price;
       // const taxAmount = Math.round(hotelInfo.price * 0.16);
       const taxAmount = 0;
@@ -143,8 +150,11 @@ const BookingForm = ({ hotelInfo }) => {
           form.appendChild(input);
         });
 
+
         document.body.appendChild(form);
         form.submit();
+        const bookingResponse = await book(bookDTO).unwrap();
+      console.log("Booking successful:", bookingResponse);
       } catch (err) {
         console.error("Payment error:", err);
         setError(
@@ -158,6 +168,21 @@ const BookingForm = ({ hotelInfo }) => {
       setIsLoading(false);
     }
   };
+
+  const openLoginModal = () => {
+    setIsSignupModalOpen(false)
+    setIsLoginModalOpen(true)
+  }
+
+  const openSignupModal = () => {
+    setIsLoginModalOpen(false)
+    setIsSignupModalOpen(true)
+  }
+
+  const closeAllModals = () => {
+    setIsLoginModalOpen(false)
+    setIsSignupModalOpen(false)
+  }
 
   return (
     <div className="booking-form">
@@ -300,6 +325,9 @@ const BookingForm = ({ hotelInfo }) => {
           {isLoading ? "Booking..." : "Book Now"}
         </button>
       </div>
+
+      {isLoginModalOpen && <Login onClose={closeAllModals} switchToSignup={openSignupModal} />}
+            {isSignupModalOpen && <SignUp onClose={closeAllModals} switchToLogin={openLoginModal} />}
     </div>
   );
 };
