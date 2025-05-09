@@ -42,7 +42,7 @@ export const Homepage = () => {
 
         <hr />
         <div className="properties-section">
-          <h4>Your active properties,</h4>
+          <h4>Your active properties:</h4>
         </div>
       </div>
     </div>

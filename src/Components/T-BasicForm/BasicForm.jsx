@@ -1,11 +1,16 @@
 // BasicForm.js
-import React from "react";
+import React, { useEffect } from "react";
 import "./Basic.css";
 import HotelImage from "../../Assest/Hotel.png";
 import HomestayImage from "../../Assest/homestay.png";
 import { useForm } from "../../context/FormContext";
+import { useDispatch } from "react-redux";
+import { setName, setRating, setImageUrl } from "../../features/slice/propertySlice";
+
     
 const BasicForm = () => {
+  const dispatch = useDispatch();
+
   const { formData, updateFormData, errors } = useForm();
   const currentYear = new Date().getFullYear();
   const years = [];
@@ -13,11 +18,18 @@ const BasicForm = () => {
   for (let year = 1980; year <= currentYear; year++) {
     years.push(year);
   }
+  
+ useEffect(() => {
+  dispatch(setName(formData.basic.propertyName));
+  dispatch(setRating(formData.basic.rating));
+  dispatch(setImageUrl(formData.basic.imageUrl));
+}, [formData.basic.propertyName, formData.basic.rating, formData.basic.imageUrl, dispatch]);
 
   return (
 
     <div className="basic-form-box">
       <h3 className="section-title">Basic Information</h3>
+
 
       <div className="hotel-homestay">
         <label

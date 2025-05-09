@@ -25,8 +25,13 @@ export default function NavBar() {
   }
 
   const goToTravellerPage = () => {
-    navigate("/travelagent")
+  if (!currentUser) {
+    openLoginModal()
+    return
   }
+  navigate("/travelagent")
+}
+
 
   const toggleUserDropdown = () => {
     setUserDropdownOpen(!userDropdownOpen)

@@ -6,6 +6,7 @@ import flightReducer from '../features/slice/flightSlice'
 import hotelReducer from '../features/slice/hotelSlice'
 import homeStayReducer from '../features/slice/homeStaySlice'
 import authReducer from '../features/slice/authSlice'
+import propertyReducer from '../features/slice/propertySlice'
 import activeReducer from '../features/slice/activeCardSlice'
 import { authApi } from '../features/api/authApi';
 import { bookApi } from '../features/api/bookApi';
@@ -22,6 +23,7 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer, 
     active: activeReducer,
     [bookApi.reducerPath] : bookApi.reducer,
+    property: propertyReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

@@ -1,9 +1,14 @@
 // Location.js
 import React from "react";
+import { useDispatch } from "react-redux";
+import { setLocation, setAttraction, setPrice } from "../../features/slice/propertySlice";
+
 import "./Location.css";
 
 import { useForm } from "../../context/FormContext";
 const Location = () => {
+  const dispatch = useDispatch();
+
   const { formData, updateFormData, errors } = useForm();
 
   return (
@@ -31,7 +36,9 @@ const Location = () => {
             placeholder="e.g kaski"
             value={formData.location.district}
             onChange={(e) =>
-              updateFormData("location", "district", e.target.value)
+              {updateFormData("location", "district", e.target.value);
+              dispatch(setLocation(e.target.value));
+              }
             }
           />
           {errors.location?.district && (
@@ -45,7 +52,9 @@ const Location = () => {
             placeholder="e.g phewa lake"
             value={formData.location.attraction}
             onChange={(e) =>
-              updateFormData("location", "attraction", e.target.value)
+              {updateFormData("location", "attraction", e.target.value)
+                  dispatch(setAttraction(e.target.value));
+              }
             }
           />
           {errors.location?.attraction && (
@@ -116,7 +125,9 @@ const Location = () => {
             placeholder="$100"
             value={formData.location.pricingStart}
             onChange={(e) =>
-              updateFormData("location", "pricingStart", e.target.value)
+             { updateFormData("location", "pricingStart", e.target.value)
+                 dispatch(setPrice(e.target.value));
+             }
             }
           />
           {errors.location?.pricingStart && (

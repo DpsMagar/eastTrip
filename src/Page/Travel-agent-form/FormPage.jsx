@@ -6,29 +6,51 @@ import BasicForm from "../../Components/T-BasicForm/BasicForm"
 import AmenitiesForm from "../../Components/T-AmenitiesForm/AmenitiesForm"
 import Location from "../../Components/T-LocationForm/Location"
 import { useForm } from "../../context/FormContext"
+import { useSelector } from 'react-redux'
+
 
 const FormPage = () => {
+  const property = useSelector((state) => state.property);
+
   const [activeTab, setActiveTab] = useState("Basic")
   const tabs = ["Basic", "Amenities", "Location"]
   const { formData, validateSection } = useForm()
 
   const handleNext = () => {
-    const currentIndex = tabs.indexOf(activeTab)
-    const isValid = validateSection(activeTab.toLowerCase())
-    
-    if (isValid && currentIndex < tabs.length - 1) {
-      setActiveTab(tabs[currentIndex + 1])
-    }
+  const currentIndex = tabs.indexOf(activeTab)
+
+  // Skip validation for "Amenities" tab
+  if (activeTab === "Amenities" && currentIndex < tabs.length - 1) {
+    setActiveTab(tabs[currentIndex + 1])
+    return
   }
+
+  const isValid = validateSection(activeTab.toLowerCase())
+  if (isValid && currentIndex < tabs.length - 1) {
+    setActiveTab(tabs[currentIndex + 1])
+  }
+}
+
 
   const handleBack = () => {
-    const currentIndex = tabs.indexOf(activeTab)
-    if (currentIndex > 0) {
-      setActiveTab(tabs[currentIndex - 1])
-    }
+  const currentIndex = tabs.indexOf(activeTab)
+
+  // Skip validation when going back from "Location" to "Amenities"
+  if (activeTab === "Location" && tabs[currentIndex - 1] === "Amenities") {
+    setActiveTab("Amenities")
+    return
   }
 
+  // Just go back (no validation needed when going back)
+  if (currentIndex > 0) {
+    setActiveTab(tabs[currentIndex - 1])
+  }
+}
+
+
   const handleSubmit = async () => {
+    console.log("Current Homestay Data:", property);
+
     // Validate the current tab first
     const isValid = validateSection(activeTab.toLowerCase())
     
