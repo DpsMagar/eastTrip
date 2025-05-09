@@ -5,6 +5,7 @@ import { FiEdit } from "react-icons/fi";
 import { CiSearch } from "react-icons/ci";
 import CustomProfile from "../../Assest/profile.jpg";
 import { MdRealEstateAgent } from "react-icons/md";
+import SATDashBoard from '../../Page/SA-travel-DashBoard/SATDashBoard';
 
 const SATravelAgents = () => {
   const initialUsers = [
@@ -37,7 +38,9 @@ const SATravelAgents = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
-  const [fadingUserId, setFadingUserId] = useState(null); // Fade out logic
+  const [fadingUserId, setFadingUserId] = useState(null);
+  const [showDashboard, setShowDashboard] = useState(false);
+  const [selectedAgent, setSelectedAgent] = useState(null);
 
   const usersPerPage = 3;
 
@@ -67,14 +70,14 @@ const SATravelAgents = () => {
   const showingTo = Math.min(startIndex + usersPerPage, filteredUsers.length);
 
   const handleDeleteUser = (id) => {
-    setFadingUserId(id); // Trigger fade out
+    setFadingUserId(id);
     setShowConfirm(false);
 
     setTimeout(() => {
       const updatedUsers = users.filter(user => user.id !== id);
       setUsers(updatedUsers);
       setDeleteSuccess(true);
-      setFadingUserId(null); // Clear fade user after deletion
+      setFadingUserId(null);
 
       if (paginatedUsers.length === 1 && currentPage > 1) {
         setCurrentPage(currentPage - 1);
@@ -83,7 +86,12 @@ const SATravelAgents = () => {
       setTimeout(() => {
         setDeleteSuccess(false);
       }, 2000);
-    }, 300); // Match fade-out transition time
+    }, 300);
+  };
+
+  const handleRowClick = (user) => {
+    setSelectedAgent(user);
+    setShowDashboard(true);
   };
 
   return (
@@ -131,6 +139,7 @@ const SATravelAgents = () => {
               <div
                 className={`table-row ${fadingUserId === user.id ? 'fade-out' : ''}`}
                 key={user.id}
+                onClick={() => handleRowClick(user)}
               >
                 <div className="user-cell">
                   <img src={user.profile} alt="User" className='user-profile' />
@@ -140,10 +149,10 @@ const SATravelAgents = () => {
                   <span className='user-email'>{user.properties}</span>
                 </div>
                 <div className="action-cell">
-                  
                   <button
                     className='delete-btn'
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setSelectedUserId(user.id);
                       setShowConfirm(true);
                     }}
@@ -214,6 +223,21 @@ const SATravelAgents = () => {
       {/* Delete Success Popup */}
       {deleteSuccess && (
         <div className="success-popup">Agent deleted successfully!</div>
+      )}
+
+      {/* Dashboard Popup */}
+      {showDashboard && (
+        <div className="popup-overlay" onClick={() => setShowDashboard(false)}>
+          <div className="dashboard-popup-container" onClick={(e) => e.stopPropagation()}>
+            <button 
+              className="popup-close-button" 
+              onClick={() => setShowDashboard(false)}
+            >
+              ×
+            </button>
+            <SATDashBoard agent={selectedAgent} />
+          </div>
+        </div>
       )}
     </div>
   );

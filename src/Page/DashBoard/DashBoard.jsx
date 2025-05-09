@@ -12,6 +12,21 @@ import redeem from "../../Assest/redeem.png"
 
 export default function DashBoard() {
   const [activeTab, setActiveTab] = useState("profile")
+  const [showToast, setShowToast] = useState(false)
+  const [rewards, setRewards] = useState([
+    {
+      id: 1,
+      TitleImage: "https://media.app.nepalguidetrekking.com/uploads/media/BlogImages/Rara-Lake-View.jpg",
+      Title: "Rara Lake visit",
+      RewardCost: 10000
+    },
+    {
+      id: 2,
+      TitleImage: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Estadio_Santiago_Bernabéu_Madrid.jpg",
+      Title: "Santiago Bernabéu visit",
+      RewardCost: 30000
+    }
+  ])
 
   const profile = {
     ProfileImage: "https://pbs.twimg.com/media/CBOD2lJVAAAAg6b.jpg",
@@ -48,21 +63,6 @@ export default function DashBoard() {
     },
   ]
 
-  const Reward = [
-    {
-      id: 1,
-      TitleImage: "https://media.app.nepalguidetrekking.com/uploads/media/BlogImages/Rara-Lake-View.jpg",
-      Title: "Rara Lake visit",
-      RewardCost: 10000
-    },
-    {
-      id: 2,
-      TitleImage: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Estadio_Santiago_Bernabéu_Madrid.jpg",
-      Title: "Santiago Bernabéu visit",
-      RewardCost: 30000
-    }
-  ]
-
   const getProfileImage = () => {
     if (profile.ProfileImage && profile.ProfileImage.trim() !== "") {
       return profile.ProfileImage
@@ -70,8 +70,14 @@ export default function DashBoard() {
     return "/placeholder.svg?height=100&width=100"
   }
 
+  const handleRedeem = (rewardId) => {
+    setRewards(rewards.filter(reward => reward.id !== rewardId))
+    setShowToast(true)
+    setTimeout(() => setShowToast(false), 3000)
+  }
+
   return (
-    <div className="profile-container">
+    <div className="oprofile-container">
       <div className="profile-sidebar">
         <div className="profile-avatar">
           <img src={getProfileImage()} alt="Profile" className="avatar-img" />
@@ -127,15 +133,25 @@ export default function DashBoard() {
         {activeTab === "Redeem Points" && (
           <div className="rewards-container">
             <h2 className="rewards-title">Redeem Your points</h2>
-            <div className="Reward-box">
-            {Reward.map((rewardItem) => (
-              <RewardBox key={rewardItem.id} Reward={rewardItem} />
-            ))}
-            </div>
 
+            <div className="Reward-box">
+              {rewards.map((rewardItem) => (
+                <RewardBox 
+                  key={rewardItem.id} 
+                  Reward={rewardItem} 
+                  onRedeem={handleRedeem}
+                />
+              ))}
+            </div>
           </div>
         )}
       </div>
+
+      {showToast && (
+        <div className="success-toast">
+          Reward redeemed successfully!
+        </div>
+      )}
     </div>
   )
 }

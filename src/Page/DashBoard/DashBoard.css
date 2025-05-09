@@ -1,4 +1,4 @@
-.profile-container {
+.oprofile-container {
   display: flex;
   max-width: 1200px;
   margin: 2rem auto;
@@ -126,25 +126,27 @@
   
   overflow-y: auto;
 }
-.rewards-container {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.oprofile-container .rewards-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
   padding: 24px 32px;
 }
 
-.rewards-title {
+.oprofile-container .rewards-title {
   font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 24px;
   color: #333;
 }
 
-.Reward-box {
+.oprofile-container .Reward-box {
   display: flex;
   flex-direction: column;
-  gap: 2px; /* Maintains your gap between items */
+  gap: 14px;
 }
+
+
 @media (max-width: 768px) {
   .profile-container {
     flex-direction: column;
@@ -192,5 +194,29 @@
 
   .Reward-box {
     gap: 16px;
+  }
+}
+
+.success-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #28a745;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  z-index: 2000;
+  animation: slideDown 0.5s ease, fadeOut 0.5s ease 1.5s forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

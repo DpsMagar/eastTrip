@@ -6,7 +6,8 @@ import "./TBoxCard.css";
 import SADescriptionPage from "../../Page/SA-DescriptionPage/SADescriptionPage";
 import { IoClose } from "react-icons/io5";
 import { CiStar } from "react-icons/ci";
-
+import EditFormPage from "../../Page/Travel-agent-formEdit/EditFormPage";
+import { FormProvider } from "../../context/FormContext"
 
 const TBoxCard = () => {
   const initialProperties = [
@@ -106,6 +107,18 @@ const TBoxCard = () => {
   const [fadeOutId, setFadeOutId] = useState(null);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [showDescription, setShowDescription] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [propertyToEdit, setPropertyToEdit] = useState(null);
+
+  const handleEditClick = (property) => {
+    setPropertyToEdit(property);
+    setShowEditForm(true);
+  };
+
+  const closeEditForm = () => {
+    setShowEditForm(false);
+    setPropertyToEdit(null);
+  };
 
   const cities = ["Kathmandu", "Lalitpur", "Bhaktapur", "Pokhara", "Chitwan", "Lumbini", "Nagarkot", "Bandipur", "Gosaikunda", "Rara"];
   const PropertyTypes = ["Hotel", "Homestay"];
@@ -303,7 +316,9 @@ const TBoxCard = () => {
   
 
   <div className="bottom-button">
-    <button className="t-hotels-edit-btn">
+    <button className="t-hotels-edit-btn"
+    onClick={() => handleEditClick(property)}
+    >
       Edit
     </button>
   </div>
@@ -387,6 +402,34 @@ const TBoxCard = () => {
           </div>
         </div>
       )}
+      {showEditForm && propertyToEdit && (
+  <div className="popup-overlay" onClick={closeEditForm}>
+    <div className="edit-popup-container" onClick={(e) => e.stopPropagation()}>
+      <FormProvider>
+        <EditFormPage 
+          propertyData={propertyToEdit} 
+          onClose={closeEditForm}
+          onSave={(updatedData) => {
+            // Handle the updated data
+            const updatedProperties = properties.map(p => 
+              p.id === propertyToEdit.id ? { 
+                ...p, 
+                name: updatedData.basic.propertyName,
+                PropertyType: updatedData.basic.stayType,
+                Rating: parseInt(updatedData.basic.rating),
+                // Update other fields as needed
+              } : p
+            );
+            setProperties(updatedProperties);
+            closeEditForm();
+          }}
+        />
+      </FormProvider>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 };

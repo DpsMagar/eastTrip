@@ -4,16 +4,15 @@ import { useState } from "react"
 import ProfileInfo from "../../Components/SA-PlayerDashboard/SAProfileInfo"
 import RecentBookings from "../../Components/SA-PlayerDashboard/SARecentBookings"
 import NonProfile from "../../Assest/nonprofile.png"
-
+import Properties from "../../Components/PlayerDashboard/Properties"
 import "./DashBoard.css"
 import Trophy from '../../Assest/trophy.png'
 import profile1 from "../../Assest/profile.png"
 import booking from "../../Assest/booking.png"
 import { RiHotelFill } from "react-icons/ri";
+import dumby from "../../Assest/hotelimage.png"
 
-
-
-export default function SADashBoard() {
+export default function SATDashBoard() {
   const [activeTab, setActiveTab] = useState("profile")
 
   const profile = {
@@ -51,13 +50,78 @@ export default function SADashBoard() {
     },
   ]
 
- 
+  const initialProperties = [
+    { 
+      id: 1, 
+      ImgUrl: dumby, 
+      name: "Hotel Everest", 
+      PropertyType: "Hotel", 
+      Rating: 4,
+      Location: "Kathmandu"
+    },
+    { 
+      id: 2, 
+      ImgUrl: dumby, 
+      name: "Hotel Annapurna", 
+      PropertyType: "Hotel", 
+      Rating: 5,
+      Location: "Lalitpur"
+    },
+    { 
+      id: 3, 
+      ImgUrl: dumby, 
+      name: "Hotel Pokhara", 
+      PropertyType: "Hotel", 
+      Rating: 3,
+      Location: "Pokhara"
+    },
+    { 
+      id: 4, 
+      ImgUrl: dumby, 
+      name: "Hotel Bhaktapur", 
+      PropertyType: "Hotel", 
+      Rating: 4,
+      Location: "Bhaktapur"
+    },
+    { 
+      id: 5, 
+      ImgUrl: dumby, 
+      name: "Hotel Chitwan", 
+      PropertyType: "Hotel", 
+      Rating: 5,
+      Location: "Chitwan"
+    },
+    { 
+      id: 6, 
+      ImgUrl: dumby, 
+      name: "Hotel Lumbini", 
+      PropertyType: "Hotel", 
+      Rating: 4,
+      Location: "Lumbini"
+    },
+    { 
+      id: 7, 
+      ImgUrl: dumby, 
+      name: "Hotel Janakpur", 
+      PropertyType: "Hotel", 
+      Rating: 3,
+      Location: "Janakpur"
+    },
+    { 
+      id: 8, 
+      ImgUrl: dumby, 
+      name: "Hotel Biratnagar", 
+      PropertyType: "Hotel", 
+      Rating: 4,
+      Location: "Biratnagar"
+    },
+  ];
 
   const getProfileImage = () => {
     if (profile.ProfileImage && profile.ProfileImage.trim() !== "") {
       return profile.ProfileImage
     }
-    return {NonProfile}
+    return NonProfile.src
   }
 
   return (
@@ -69,7 +133,7 @@ export default function SADashBoard() {
           <p className="profile-email">{profile.Email}</p>
           <div className="rewardpoint">
             <div className="logo">
-              <img src={Trophy} alt="Trophy" />
+            <img src={Trophy} alt="Trophy" />
             </div>
             <div className="rewardpoint-text-container">
               <h3 className="rewardpoint-text">Reward Points</h3>
@@ -84,7 +148,7 @@ export default function SADashBoard() {
             onClick={() => setActiveTab("profile")}
           >
             <div className="logo-nav">
-              <img src={profile1} alt="Profile" />
+            <img src={profile1} alt="Profile" />
             </div>
             My Profile
           </button>
@@ -94,17 +158,16 @@ export default function SADashBoard() {
             onClick={() => setActiveTab("bookings")}
           >
             <div className="logo-nav">
-              <img src={booking} alt="Booking" />
+            <img src={booking} alt="Booking" />
             </div>
             My Bookings
           </button>
 
           <button
-            className={`nav-item ${activeTab === "Properties" ? "active" : ""}`}
-            onClick={() => setActiveTab("Properties")}
+            className={`nav-item ${activeTab === "properties" ? "active" : ""}`}
+            onClick={() => setActiveTab("properties")}
           >
             <div className="logo-nav">
-             
               <RiHotelFill alt="Properties" />
             </div>
             Properties
@@ -115,15 +178,10 @@ export default function SADashBoard() {
       <div className="profile-content">
         {activeTab === "profile" && <ProfileInfo profile={profile} />}
         {activeTab === "bookings" && <RecentBookings bookings={recentBookings} />}
-        {activeTab === "Properties" && (
+        {activeTab === "properties" && (
           <div className="properties-container">
-            <h2 className="properties-title">Redeem Your points</h2>
-            <div className="properties-box">
-            {/* {Reward.map((rewardItem) => (
-              <RewardBox key={rewardItem.id} Reward={rewardItem} />
-            ))} */}
-            </div>
-
+            <h2 className="properties-title">Properties</h2>
+            <Properties initialProperties={initialProperties} />
           </div>
         )}
       </div>

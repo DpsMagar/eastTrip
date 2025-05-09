@@ -22,6 +22,7 @@ import EsewaPayment from "./Page/payment/EsewaPayment"
 import PaymentSuccess from "./Page/payment/PaymentSuccess"
 import PaymentFailure from "./Page/payment/PaymentFailure"
 import SADescriptionPage from "./Page/SA-DescriptionPage/SADescriptionPage"
+
 function App() {
   return (
     <div className="Main">
@@ -63,7 +64,12 @@ function App() {
             </Route>
 
             {/* Super Admin Routes (without Layout) */}
-            <Route path="/superadmin" element={<SALogin />} />
+            <Route path="/superadmin" element={
+              <FormProvider> 
+              <SALogin />
+              </FormProvider> 
+              } />
+
             <Route path="/superadminhomepage" element={<SAHomePage />} />
             <Route path="/SuperAdmin/pending/descriptionpage" element={<SADescriptionPage />} />
           </Routes>
