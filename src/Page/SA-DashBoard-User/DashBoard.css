@@ -1,4 +1,4 @@
-.oprofile-container {
+.profile-container {
   display: flex;
   max-width: 1200px;
   margin: 2rem auto;
@@ -53,7 +53,7 @@
   padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
-  gap: 1.4rem;
+  gap: 1rem;
   width: 80%;
   justify-content: flex-start;
   border: 2px solid black;
@@ -126,27 +126,25 @@
   
   overflow-y: auto;
 }
-.oprofile-container .rewards-container {
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
+.rewards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   padding: 24px 32px;
 }
 
-.oprofile-container .rewards-title {
+.rewards-title {
   font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
   color: #333;
 }
 
-.oprofile-container .Reward-box {
+.Reward-box {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 2px; /* Maintains your gap between items */
 }
-
-
 @media (max-width: 768px) {
   .profile-container {
     flex-direction: column;
@@ -194,29 +192,5 @@
 
   .Reward-box {
     gap: 16px;
-  }
-}
-
-.success-toast {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #28a745;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  z-index: 2000;
-  animation: slideDown 0.5s ease, fadeOut 0.5s ease 1.5s forwards;
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
   }
 }

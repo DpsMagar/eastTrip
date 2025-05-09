@@ -1,32 +1,19 @@
 "use client"
 
 import { useState } from "react"
-import ProfileInfo from "../../Components/PlayerDashboard/ProfileInfo"
-import RecentBookings from "../../Components/PlayerDashboard/RecentBookings"
-import RewardBox from "../../Components/PlayerDashboard/RewardBox"
+import ProfileInfo from "../../Components/SA-PlayerDashboard/SAProfileInfo"
+import RecentBookings from "../../Components/SA-PlayerDashboard/SARecentBookings"
+import NonProfile from "../../Assest/nonprofile.png"
+import Properties from "../../Components/PlayerDashboard/Properties"
 import "./DashBoard.css"
 import Trophy from '../../Assest/trophy.png'
 import profile1 from "../../Assest/profile.png"
 import booking from "../../Assest/booking.png"
-import redeem from "../../Assest/redeem.png"
+import { RiHotelFill } from "react-icons/ri";
+import dumby from "../../Assest/hotelimage.png"
 
-export default function DashBoard() {
+export default function SATDashBoard() {
   const [activeTab, setActiveTab] = useState("profile")
-  const [showToast, setShowToast] = useState(false)
-  const [rewards, setRewards] = useState([
-    {
-      id: 1,
-      TitleImage: "https://media.app.nepalguidetrekking.com/uploads/media/BlogImages/Rara-Lake-View.jpg",
-      Title: "Rara Lake visit",
-      RewardCost: 10000
-    },
-    {
-      id: 2,
-      TitleImage: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Estadio_Santiago_Bernabéu_Madrid.jpg",
-      Title: "Santiago Bernabéu visit",
-      RewardCost: 30000
-    }
-  ])
 
   const profile = {
     ProfileImage: "https://pbs.twimg.com/media/CBOD2lJVAAAAg6b.jpg",
@@ -63,21 +50,82 @@ export default function DashBoard() {
     },
   ]
 
+  const initialProperties = [
+    { 
+      id: 1, 
+      ImgUrl: dumby, 
+      name: "Hotel Everest", 
+      PropertyType: "Hotel", 
+      Rating: 4,
+      Location: "Kathmandu"
+    },
+    { 
+      id: 2, 
+      ImgUrl: dumby, 
+      name: "Hotel Annapurna", 
+      PropertyType: "Hotel", 
+      Rating: 5,
+      Location: "Lalitpur"
+    },
+    { 
+      id: 3, 
+      ImgUrl: dumby, 
+      name: "Hotel Pokhara", 
+      PropertyType: "Hotel", 
+      Rating: 3,
+      Location: "Pokhara"
+    },
+    { 
+      id: 4, 
+      ImgUrl: dumby, 
+      name: "Hotel Bhaktapur", 
+      PropertyType: "Hotel", 
+      Rating: 4,
+      Location: "Bhaktapur"
+    },
+    { 
+      id: 5, 
+      ImgUrl: dumby, 
+      name: "Hotel Chitwan", 
+      PropertyType: "Hotel", 
+      Rating: 5,
+      Location: "Chitwan"
+    },
+    { 
+      id: 6, 
+      ImgUrl: dumby, 
+      name: "Hotel Lumbini", 
+      PropertyType: "Hotel", 
+      Rating: 4,
+      Location: "Lumbini"
+    },
+    { 
+      id: 7, 
+      ImgUrl: dumby, 
+      name: "Hotel Janakpur", 
+      PropertyType: "Hotel", 
+      Rating: 3,
+      Location: "Janakpur"
+    },
+    { 
+      id: 8, 
+      ImgUrl: dumby, 
+      name: "Hotel Biratnagar", 
+      PropertyType: "Hotel", 
+      Rating: 4,
+      Location: "Biratnagar"
+    },
+  ];
+
   const getProfileImage = () => {
     if (profile.ProfileImage && profile.ProfileImage.trim() !== "") {
       return profile.ProfileImage
     }
-    return "/placeholder.svg?height=100&width=100"
-  }
-
-  const handleRedeem = (rewardId) => {
-    setRewards(rewards.filter(reward => reward.id !== rewardId))
-    setShowToast(true)
-    setTimeout(() => setShowToast(false), 3000)
+    return NonProfile.src
   }
 
   return (
-    <div className="oprofile-container">
+    <div className="profile-container">
       <div className="profile-sidebar">
         <div className="profile-avatar">
           <img src={getProfileImage()} alt="Profile" className="avatar-img" />
@@ -85,7 +133,7 @@ export default function DashBoard() {
           <p className="profile-email">{profile.Email}</p>
           <div className="rewardpoint">
             <div className="logo">
-              <img src={Trophy} alt="Trophy" />
+            <img src={Trophy} alt="Trophy" />
             </div>
             <div className="rewardpoint-text-container">
               <h3 className="rewardpoint-text">Reward Points</h3>
@@ -100,7 +148,7 @@ export default function DashBoard() {
             onClick={() => setActiveTab("profile")}
           >
             <div className="logo-nav">
-              <img src={profile1} alt="Profile" />
+            <img src={profile1} alt="Profile" />
             </div>
             My Profile
           </button>
@@ -110,19 +158,19 @@ export default function DashBoard() {
             onClick={() => setActiveTab("bookings")}
           >
             <div className="logo-nav">
-              <img src={booking} alt="Booking" />
+            <img src={booking} alt="Booking" />
             </div>
             My Bookings
           </button>
 
           <button
-            className={`nav-item ${activeTab === "Redeem Points" ? "active" : ""}`}
-            onClick={() => setActiveTab("Redeem Points")}
+            className={`nav-item ${activeTab === "properties" ? "active" : ""}`}
+            onClick={() => setActiveTab("properties")}
           >
             <div className="logo-nav">
-              <img src={redeem} alt="Redeem Points" />
+              <RiHotelFill alt="Properties" />
             </div>
-            Redeem Points
+            Properties
           </button>
         </div>
       </div>
@@ -130,28 +178,13 @@ export default function DashBoard() {
       <div className="profile-content">
         {activeTab === "profile" && <ProfileInfo profile={profile} />}
         {activeTab === "bookings" && <RecentBookings bookings={recentBookings} />}
-        {activeTab === "Redeem Points" && (
-          <div className="rewards-container">
-            <h2 className="rewards-title">Redeem Your points</h2>
-
-            <div className="Reward-box">
-              {rewards.map((rewardItem) => (
-                <RewardBox 
-                  key={rewardItem.id} 
-                  Reward={rewardItem} 
-                  onRedeem={handleRedeem}
-                />
-              ))}
-            </div>
+        {activeTab === "properties" && (
+          <div className="properties-container">
+            <h2 className="properties-title">Properties</h2>
+            <Properties initialProperties={initialProperties} />
           </div>
         )}
       </div>
-
-      {showToast && (
-        <div className="success-toast">
-          Reward redeemed successfully!
-        </div>
-      )}
     </div>
   )
 }

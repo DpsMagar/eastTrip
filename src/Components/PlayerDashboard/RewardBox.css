@@ -1,74 +1,153 @@
 /* Container */
 .reward-box-container {
-    width: 100%;
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 0 20px;
-    font-family: Arial, sans-serif;
+  width: 100%;
+  /* Remove the large margin that was causing spacing issues */
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Reward box */
+.reward-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  width: 100%;
+  transition: transform 0.2s ease;
+  margin-bottom: 0; /* Ensure no bottom margin */
+}
+
+.reward-box:hover {
+  transform: scale(1.02);
+}
+
+.reward-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-right: 20px;
+}
+
+.reward-title {
+  flex: 1;
+  font-size: 20px;
+  font-weight: 500;
+  color: #222;
+}
+
+.reward-cost {
+  display: flex;
+  align-items: center;
+  background-color: #f1f1f1;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #cc5500;
+}
+
+.trophy-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 8px;
+}
+
+/* Popup Styles */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+  animation: popupFadeIn 0.3s ease;
+}
+
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
   }
-  
-  /* Header */
-  .reward-box-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 30px;
-    justify-content: center;
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
-  
-  .reward-box-title {
-    font-size: 26px;
-    font-weight: bold;
-    margin-left: 10px;
-    color: #333;
-  }
-  
-  /* Reward box (FULL width) */
-  .reward-box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 24px;
-    border: 1px solid #eee;
-    border-radius: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    background-color: white;
-    width: 100%;
-    transition: transform 0.2s ease;
-  }
-  
-  .reward-box:hover {
-    transform: scale(1.02);
-  }
-  
-  .reward-image {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 12px;
-    margin-right: 20px;
-  }
-  
-  .reward-title {
-    flex: 1;
-    font-size: 20px;
-    font-weight: 500;
-    color: #222;
-  }
-  
-  .reward-cost {
-    display: flex;
-    align-items: center;
-    background-color: #f1f1f1;
-    padding: 8px 14px;
-    border-radius: 12px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #cc5500;
-  }
-  
-  .trophy-icon {
-    width: 20px;
-    height: 20px;
-    margin-left: 8px;
-  }
-  
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #888;
+}
+
+.popup-text {
+  margin: 20px 0;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.popup-btn {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.popup-btn.yes {
+  background: #ff5e2e;
+  color: white;
+}
+
+.popup-btn.yes:hover {
+  background: #e04b1b;
+}
+
+.popup-btn.no {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.popup-btn.no:hover {
+  background: #e0e0e0;
+}
+
+/* Add cursor pointer to make it clear the box is clickable */
+.reward-box {
+  cursor: pointer;
+}

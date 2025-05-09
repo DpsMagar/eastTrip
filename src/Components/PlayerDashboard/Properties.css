@@ -1,0 +1,116 @@
+.properties-box {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .sa-hotels-card {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: opacity 0.5s ease;
+    background-color: #fff;
+  }
+  
+  .sa-hotels-card.fade-out {
+    opacity: 0.3;
+  }
+  
+  .sa-hotels-card-left {
+    flex: 0 0 150px;
+  }
+  
+  .sa-hotels-card-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .sa-hotels-card-middle {
+    padding: 16px;
+    flex: 1;
+  }
+  
+  .sa-hotels-property-name {
+    margin: 0 0 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .property-details-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .property-detail-column {
+    flex: 1 1 120px;
+  }
+  
+  .detail-label {
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 4px;
+  }
+  
+  .detail-value {
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .stars-row {
+    display: flex;
+    gap: 2px;
+  }
+  
+  .star-icon {
+    font-size: 16px;
+    color: #ddd;
+  }
+  
+  .star-icon.filled {
+    color: #f4c150;
+  }
+  
+  .bottom-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  
+  .pagination {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .sa-hotels-pagination-btn {
+    padding: 6px 12px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .sa-hotels-pagination-btn:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .sa-hotels-pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .sa-hotels-pagination-btn.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  

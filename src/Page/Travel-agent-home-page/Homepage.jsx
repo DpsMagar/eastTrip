@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import building from '../../Assest/building.png';
 import './home.css'; 
+import TBoxCard from '../../Components/T-boxcard/TBoxCard';
 
 export const Homepage = () => {
   const navigate = useNavigate();

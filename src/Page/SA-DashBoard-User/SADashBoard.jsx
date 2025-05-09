@@ -1,32 +1,18 @@
 "use client"
 
 import { useState } from "react"
-import ProfileInfo from "../../Components/PlayerDashboard/ProfileInfo"
-import RecentBookings from "../../Components/PlayerDashboard/RecentBookings"
-import RewardBox from "../../Components/PlayerDashboard/RewardBox"
+import ProfileInfo from "../../Components/SA-PlayerDashboard/SAProfileInfo"
+import RecentBookings from "../../Components/SA-PlayerDashboard/SARecentBookings"
+import NonProfile from "../../Assest/nonprofile.png"
+
 import "./DashBoard.css"
 import Trophy from '../../Assest/trophy.png'
 import profile1 from "../../Assest/profile.png"
 import booking from "../../Assest/booking.png"
-import redeem from "../../Assest/redeem.png"
 
-export default function DashBoard() {
+
+export default function SADashBoard() {
   const [activeTab, setActiveTab] = useState("profile")
-  const [showToast, setShowToast] = useState(false)
-  const [rewards, setRewards] = useState([
-    {
-      id: 1,
-      TitleImage: "https://media.app.nepalguidetrekking.com/uploads/media/BlogImages/Rara-Lake-View.jpg",
-      Title: "Rara Lake visit",
-      RewardCost: 10000
-    },
-    {
-      id: 2,
-      TitleImage: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Estadio_Santiago_Bernabéu_Madrid.jpg",
-      Title: "Santiago Bernabéu visit",
-      RewardCost: 30000
-    }
-  ])
 
   const profile = {
     ProfileImage: "https://pbs.twimg.com/media/CBOD2lJVAAAAg6b.jpg",
@@ -63,21 +49,17 @@ export default function DashBoard() {
     },
   ]
 
+ 
+
   const getProfileImage = () => {
     if (profile.ProfileImage && profile.ProfileImage.trim() !== "") {
       return profile.ProfileImage
     }
-    return "/placeholder.svg?height=100&width=100"
-  }
-
-  const handleRedeem = (rewardId) => {
-    setRewards(rewards.filter(reward => reward.id !== rewardId))
-    setShowToast(true)
-    setTimeout(() => setShowToast(false), 3000)
+    return {NonProfile}
   }
 
   return (
-    <div className="oprofile-container">
+    <div className="profile-container">
       <div className="profile-sidebar">
         <div className="profile-avatar">
           <img src={getProfileImage()} alt="Profile" className="avatar-img" />
@@ -102,7 +84,7 @@ export default function DashBoard() {
             <div className="logo-nav">
               <img src={profile1} alt="Profile" />
             </div>
-            My Profile
+            Profile
           </button>
 
           <button
@@ -112,46 +94,18 @@ export default function DashBoard() {
             <div className="logo-nav">
               <img src={booking} alt="Booking" />
             </div>
-            My Bookings
+            Bookings
           </button>
 
-          <button
-            className={`nav-item ${activeTab === "Redeem Points" ? "active" : ""}`}
-            onClick={() => setActiveTab("Redeem Points")}
-          >
-            <div className="logo-nav">
-              <img src={redeem} alt="Redeem Points" />
-            </div>
-            Redeem Points
-          </button>
+
         </div>
       </div>
 
       <div className="profile-content">
         {activeTab === "profile" && <ProfileInfo profile={profile} />}
         {activeTab === "bookings" && <RecentBookings bookings={recentBookings} />}
-        {activeTab === "Redeem Points" && (
-          <div className="rewards-container">
-            <h2 className="rewards-title">Redeem Your points</h2>
 
-            <div className="Reward-box">
-              {rewards.map((rewardItem) => (
-                <RewardBox 
-                  key={rewardItem.id} 
-                  Reward={rewardItem} 
-                  onRedeem={handleRedeem}
-                />
-              ))}
-            </div>
-          </div>
-        )}
       </div>
-
-      {showToast && (
-        <div className="success-toast">
-          Reward redeemed successfully!
-        </div>
-      )}
     </div>
   )
 }
