@@ -49,21 +49,55 @@ const FormPage = () => {
 
 
   const handleSubmit = async () => {
-    console.log("Current Homestay Data:", property);
+  const isValid = validateSection(activeTab.toLowerCase());
+  if (!isValid) return;
 
-    // Validate the current tab first
-    const isValid = validateSection(activeTab.toLowerCase())
-    
-    if (isValid) {
-      try {
-        console.log("Submitting form data:", formData)       
-        alert('Form submitted successfully!')
-      } catch (error) {
-        console.error('Submission error:', error)
-        alert('Failed to submit form. Please try again.')
-      }
-    }
+  const { typeOfProperty, generalInfo, features, locationDetails } = property;
+
+  const payload = {
+    name: generalInfo.name,
+    location: locationDetails.location,
+    attraction: locationDetails.attraction,
+    price: locationDetails.price,
+    rating: parseFloat(generalInfo.rating), // Ensure it's a number
+    extraInfo: features.extraInfo,
+    imageUrl: generalInfo.imageUrl,
+    featureIds: features.featureIds || [],
+    roomFeatureIds: features.roomFeatureIds || []
+  };
+
+  let url = "";
+
+  if (typeOfProperty === 1) {
+    url = "http://localhost:8080/add/hotel";
+  } else if (typeOfProperty === 2) {
+    url = "http://localhost:8080/add/homestay";
+  } else {
+    alert("Invalid property type.");
+    return;
   }
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to submit: ${response.statusText}`);
+    }
+
+    alert("Form submitted successfully!");
+  } catch (error) {
+    console.error("Submission error:", error);
+    alert("Failed to submit form. Please try again.");
+  }
+};
+
+
 
   const renderTabContent = () => {
     switch (activeTab) {

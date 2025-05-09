@@ -13,7 +13,7 @@ const hotelFeatures = [
   { id: 15, label: 'Mountain View Rooms' },
   { id: 20, label: 'Nepali Folk Music & Dance Shows' },
   { id: 24, label: 'Sunrise & Sunset Viewing Points' },
-  { id: 28, label: 'Traditional Thakali & Newari Cuisine' },
+  { id: 29, label: 'Lake view room' },
   { id: 34, label: 'Homestay Cooking Classes' },
   { id: 11, label: 'River Rafting Packages' },
   { id: 23, label: 'Ayurvedic Spa & Wellness' },
@@ -127,22 +127,22 @@ const AmenitiesSection = ({ title, options, selected, onChange }) => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
       {options.map((option) => (
         <label
-          key={option.id}
+           key={option.id}
           style={{
             display: 'flex',
             alignItems: 'center',
-            backgroundColor: selected.includes(option.label) ? '#dbeafe' : '#f9fafb',
+            backgroundColor: selected.includes(option.id) ? '#dbeafe' : '#f9fafb',
             padding: '0.5rem 1rem',
             borderRadius: '9999px',
             cursor: 'pointer',
             transition: 'background-color 0.2s ease',
-            fontWeight: selected.includes(option.label) ? '600' : '400',
+            fontWeight: selected.includes(option.id) ? '600' : '400',
           }}
         >
           <input
             type="checkbox"
-            checked={selected.includes(option.label)}
-            onChange={() => onChange(option.label)}
+            checked={selected.includes(option.id)}
+            onChange={() => onChange(option.id)}
             style={{ marginRight: '0.5rem' }}
           />
           {option.label}

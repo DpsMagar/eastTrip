@@ -5,7 +5,7 @@ import HotelImage from "../../Assest/Hotel.png";
 import HomestayImage from "../../Assest/homestay.png";
 import { useForm } from "../../context/FormContext";
 import { useDispatch } from "react-redux";
-import { setName, setRating, setImageUrl } from "../../features/slice/propertySlice";
+import { setName, setRating, setImageUrl, setTypeOfProperty } from "../../features/slice/propertySlice";
 
     
 const BasicForm = () => {
@@ -43,7 +43,8 @@ const BasicForm = () => {
             name="stayType"
             value="Hotel"
             checked={formData.basic.stayType === "Hotel"}
-            onChange={(e) => updateFormData("basic", "stayType", e.target.value)}
+            onChange={(e) => {updateFormData("basic", "stayType", e.target.value);
+            dispatch(setTypeOfProperty(1))}}
           />
         </label>
 
@@ -58,7 +59,8 @@ const BasicForm = () => {
             name="stayType"
             value="Homestay"
             checked={formData.basic.stayType === "Homestay"}
-            onChange={(e) => updateFormData("basic", "stayType", e.target.value)}
+            onChange={(e) => {updateFormData("basic", "stayType", e.target.value);
+            dispatch(setTypeOfProperty(2))}}
           />
         </label>
       </div>

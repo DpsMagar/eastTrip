@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  typeOfProperty:1,
   generalInfo: {
     name: 'HomeStay Butwal',
     rating: 4,
@@ -69,6 +70,9 @@ const propertySlice = createSlice({
     setPrice: (state, action) => {
       state.locationDetails.price = action.payload;
     },
+    setTypeOfProperty: (state, action)=>{
+      state.typeOfProperty= action.payload;
+    }
   }
 });
 
@@ -89,6 +93,7 @@ export const {
   setAttraction, 
   setLocation,
   setPrice,
+  setTypeOfProperty,
 } = propertySlice.actions;
 
 export default propertySlice.reducer;
