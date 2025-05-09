@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./booking.css";
 import Rating from "./Rating";
-
+import logo from "../../Assest/logo-color.png"
 export default function RecentBookings({ bookings }) {
   const [showRating, setShowRating] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
@@ -77,7 +77,7 @@ export default function RecentBookings({ bookings }) {
         <body>
           <div class="ticket-container">
             <div class="ticket-header">
-              <img src="../../Assest/logo-color.png" alt="GhumGham Logo" />
+              <img src={logo}>
               <div class="ticket-title">E-Ticket</div>
             
             </div>
