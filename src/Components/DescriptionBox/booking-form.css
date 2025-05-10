@@ -184,7 +184,7 @@
   text-align: center;
 }
 
-.book-now-btn {
+.book-now-button {
   background-color: #ff5722;
   color: white;
   border: none;
@@ -196,6 +196,7 @@
   width: 100%;
   transition: background-color 0.2s;
   margin-bottom: 15px;
+
 }
 
 .book-now-btn:hover {

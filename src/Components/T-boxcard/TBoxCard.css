@@ -443,6 +443,37 @@
   color: #004499;
 }
 
+
+.colorchange {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+
+.condition-in-review {
+  background-color: #FFF3E0; 
+  color: #E65100; 
+  border: 1px solid #FFB74D;
+  width: fit-content;
+}
+
+.condition-hot {
+  background-color: #E8F5E9; 
+  color: #2E7D32;
+  border: 1px solid #81C784;
+  width: fit-content;
+}
+
+.condition-slow {
+  background-color: #F3E5F5;
+  color: #6A1B9A;
+  border: 1px solid #BA68C8;
+  width: fit-content;
+}
 /* Animation for popups */
 @keyframes fadeIn {
   from { opacity: 0; }

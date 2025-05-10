@@ -17,7 +17,9 @@ const TBoxCard = () => {
       name: "Hotel Everest", 
       PropertyType: "Hotel", 
       Rating: 4,
-      Location: "Kathmandu"
+      Condition:"In review",
+      Location: "Kathmandu",
+      
     },
     { 
       id: 2, 
@@ -25,7 +27,8 @@ const TBoxCard = () => {
       name: "Hotel Annapurna", 
       PropertyType: "Hotel", 
       Rating: 5,
-      Location: "Lalitpur"
+      Location: "Lalitpur",
+      Condition:"Hot"
     },
   ];
 
@@ -68,7 +71,20 @@ const TBoxCard = () => {
     setShowConfirm(true);
     setDeleteId(id);
   };
+  const getConditionClass = (condition) => {
+    const normalized = condition ? condition.toLowerCase().trim() : '';
+    
+    if (normalized.includes('hot')) {
+      return 'condition-hot';
+    } else if (normalized.includes('Slow')) {
+      return 'condition-slow';
+    } else if (normalized.includes('In Review')) {
+      return 'condition-in-review';
 
+    } else { 
+      return 'condition-in-review';
+    }
+  };
   const handleDeleteProperty = () => {
     setFadeOutId(deleteId);
     setShowConfirm(false);
@@ -160,6 +176,7 @@ const TBoxCard = () => {
                   <p className="detail-label">Location</p>
                   <p className="detail-value">{property.Location}</p>
                 </div>
+
                 <div className="property-detail-column">
                   <p className="detail-label">Rating</p>
                   <div className="stars-row">
@@ -171,6 +188,12 @@ const TBoxCard = () => {
                         ★
                       </span>
                     ))}
+                  </div>
+                </div>
+                <div className="property-detail-column">
+                  <p className="detail-label">Condition</p>
+                  <div className={`colorchange ${getConditionClass(property.Condition)}`}>
+                  <p className="detail-value">{property.Condition}</p>
                   </div>
                 </div>
               </div>
