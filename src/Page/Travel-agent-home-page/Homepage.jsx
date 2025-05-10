@@ -1,17 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import building from '../../Assest/building.png';
 import './home.css'; 
 import TBoxCard from '../../Components/T-boxcard/TBoxCard';
 import TBookingCard from '../../Components/T-bookingList/TBookingCard';
 
+
 export const Homepage = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('properties'); // 'properties' or 'bookings'
-
+  const [activeTab, setActiveTab] = useState('properties');
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const handleLogoClick = () => {
     navigate("/travelagentform");
   };
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/user-properties/user/5');
+        if (!response.ok) throw new Error('Failed to fetch properties');
+        const data = await response.json();
+        setProperties(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProperties();
+  }, []);
 
   return (
     <div className="mainbox-travel-agent">
