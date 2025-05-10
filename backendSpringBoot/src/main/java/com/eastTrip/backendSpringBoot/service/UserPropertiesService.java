@@ -73,7 +73,8 @@ public class UserPropertiesService {
                 hotel.getPrice(),
                 hotel.getExtraInfo(),
                 hotel.getImageUrl(),
-                type
+                type,
+                false
 
         );
     }
@@ -94,7 +95,8 @@ public class UserPropertiesService {
                 homestay.getPrice(),
                 homestay.getExtraInfo(),
                 homestay.getImageUrl(),
-                type
+                type,
+                false
         );
     }
 

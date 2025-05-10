@@ -1,6 +1,10 @@
 package com.eastTrip.backendSpringBoot.dto;
 
+import lombok.Data;
+
 import java.util.List;
+
+@Data
 
 public class UserPropertiesSearchResultsDTO {
     private Long hotelId;

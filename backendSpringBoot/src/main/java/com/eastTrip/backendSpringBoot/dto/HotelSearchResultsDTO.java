@@ -23,6 +23,7 @@ public class HotelSearchResultsDTO {
     private String extraInfo;
     private String imageUrl;
     private Integer propertyType;
+    private boolean isListed;
 
 
 }
