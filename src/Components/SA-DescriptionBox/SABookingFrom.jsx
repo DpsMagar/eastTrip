@@ -2,59 +2,53 @@
 
 import { useState } from "react"
 import "./booking-form.css"
+import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa"
 
 const SABookingFrom = ({ hotelInfo }) => {
-  // Fallback dummy data if hotelInfo is not provided or incomplete
+  
   const fallbackHotelInfo = {
     price: 7500,
     rewardPoints: 1200,
-    extraInfo: "20% off for early bookings!"
+    extraInfo: "20% off for early bookings!",
+    totalRooms: 42,
+    totalBookings: 1284,
+    totalReviews: 356,
+    averageRating: 4.2
   }
 
   const validHotelInfo = {
     price: hotelInfo?.price ?? fallbackHotelInfo.price,
     rewardPoints: hotelInfo?.rewardPoints ?? fallbackHotelInfo.rewardPoints,
-    extraInfo: hotelInfo?.extraInfo ?? fallbackHotelInfo.extraInfo
+    extraInfo: hotelInfo?.extraInfo ?? fallbackHotelInfo.extraInfo,
+    totalRooms: hotelInfo?.totalRooms ?? fallbackHotelInfo.totalRooms,
+    totalBookings: hotelInfo?.totalBookings ?? fallbackHotelInfo.totalBookings,
+    totalReviews: hotelInfo?.totalReviews ?? fallbackHotelInfo.totalReviews,
+    averageRating: hotelInfo?.averageRating ?? fallbackHotelInfo.averageRating
   }
 
-  // Local state management (replaces Redux)
-  const [checkInDate, setCheckInDate] = useState(new Date().toISOString().split("T")[0])
-  const [checkOutDate, setCheckOutDate] = useState(() => {
-    const tomorrow = new Date()
-    tomorrow.setDate(tomorrow.getDate() + 1)
-    return tomorrow.toISOString().split("T")[0]
-  })
-  const [adults, setAdults] = useState(1)
-  const [children, setChildren] = useState(0)
-  const [rooms, setRooms] = useState(1)
+  // Render star rating
+  const renderStars = (rating) => {
+    const stars = []
+    const fullStars = Math.floor(rating)
+    const hasHalfStar = rating % 1 >= 0.5
+
+    for (let i = 1; i <= 5; i++) {
+      if (i <= fullStars) {
+        stars.push(<FaStar key={i} className="star filled" />)
+      } else if (i === fullStars + 1 && hasHalfStar) {
+        stars.push(<FaStarHalfAlt key={i} className="star half" />)
+      } else {
+        stars.push(<FaRegStar key={i} className="star" />)
+      }
+    }
+
+    return stars
+  }
 
   const basePrice = validHotelInfo.price
   const rewardPoints = validHotelInfo.rewardPoints
   const taxesAndFees = Math.round(basePrice * 0.16)
   const totalPrice = basePrice + taxesAndFees
-
-  const handleIncrement = (setter, value, max = 10) => {
-    if (value < max) setter(value + 1)
-  }
-
-  const handleDecrement = (setter, value, min = 0) => {
-    if (value > min) setter(value - 1)
-  }
-
-  const handleBookNow = (action) => {
-    const bookingData = {
-      name: hotelInfo?.name || "Unknown Property",
-      checkInDate,
-      checkOutDate,
-      numberOfGuests: adults + children,
-      numberOfRooms: rooms,
-      totalPrice,
-      action // "approve" or "reject"
-    }
-    console.log("Booking action:", action, bookingData)
-    // Here you would typically handle the booking action
-    // For frontend-only, we just log it
-  }
 
   return (
     <div className="sa-booking-form">
@@ -82,6 +76,28 @@ const SABookingFrom = ({ hotelInfo }) => {
         </div>
       </div>
 
+      {/* Hotel Stats Section */}
+      <div className="sa-hotel-stats">
+        <div className="stat-item">
+          <span className="stat-label">Total Rooms</span>
+          <span className="stat-value">{validHotelInfo.totalRooms}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">Total Bookings</span>
+          <span className="stat-value">{validHotelInfo.totalBookings.toLocaleString()}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">Total Reviews</span>
+          <span className="stat-value">{validHotelInfo.totalReviews.toLocaleString()}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">Average Rating</span>
+          <div className="rating-display">
+            {renderStars(validHotelInfo.averageRating)}
+            <span className="rating-text">{validHotelInfo.averageRating.toFixed(1)}</span>
+          </div>
+        </div>
+      </div>
 
     </div>
   )

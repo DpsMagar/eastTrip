@@ -37,6 +37,14 @@ const DescriptionPage = () => {
           comment:
             "Great location and beautiful rooms. The breakfast buffet was excellent. Only minor issue was the slow check-in process.",
         },
+        {
+          name: "Akainu",
+          avatar: "https://randomuser.me/api/portraits/men/22.jpg",
+          rating: 4,
+          date: "1 week ago",
+          comment:
+            "Great location and beautiful rooms. The breakfast buffet was excellent. Only minor issue was the slow check-in process.",
+        },
       ],
     }
   

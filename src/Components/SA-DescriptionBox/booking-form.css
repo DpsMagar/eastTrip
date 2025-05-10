@@ -107,3 +107,61 @@
     max-width: 100%;
   }
 }
+/* Add these styles to your existing booking-form.css */
+
+.sa-hotel-stats {
+  margin: 20px 0;
+  padding: 15px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.rating-display {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.star {
+  color: #ffc107;
+  font-size: 14px;
+}
+
+.star.filled {
+  color: #ffc107;
+}
+
+.star.half {
+  color: #ffc107;
+}
+
+.rating-text {
+  font-weight: 500;
+  margin-left: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .sa-hotel-stats {
+    grid-template-columns: 1fr;
+  }
+}

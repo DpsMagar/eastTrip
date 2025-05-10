@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import building from '../../Assest/building.png';
 import './home.css'; 
 import TBoxCard from '../../Components/T-boxcard/TBoxCard';
+import TBookingCard from '../../Components/T-bookingList/TBookingCard';
 
 export const Homepage = () => {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('properties'); // 'properties' or 'bookings'
 
   const handleLogoClick = () => {
     navigate("/travelagentform");
@@ -25,13 +27,32 @@ export const Homepage = () => {
               </div>
             </div>
             <div className="heading-box">
-              <h2>My Properties Dashboard</h2>
-              <p>Manage your active and in-progress properties</p>
-            </div>
+  <div className="header-upper">
+    <h2>My Properties Dashboard</h2>
+    <p>Manage your active and in-progress properties</p>
+  </div>
+
+  <div className="headingbottom">
+    <button 
+      className={`button ${activeTab === 'properties' ? 'active' : ''}`} 
+      onClick={() => setActiveTab('properties')}
+    >
+      Active Properties
+    </button>
+    <button 
+      className={`button ${activeTab === 'bookings' ? 'active' : ''}`}
+      onClick={() => setActiveTab('bookings')}
+    >
+      Latest Booking
+    </button>
+  </div>
+</div>
+
+
           </div>
 
-          <div className="auth-actions">
 
+          <div className="auth-actions">
             <button 
               className="add-property-btn" 
               onClick={handleLogoClick}
@@ -43,8 +64,18 @@ export const Homepage = () => {
 
         <hr />
         <div className="properties-section">
-          <h4>Your active properties:</h4>
-          <TBoxCard />
+          {activeTab === 'properties' && (
+            <div className="activeproperties">
+              <h4>Your active properties:</h4>
+              <TBoxCard />
+            </div>
+          )}
+          
+          {activeTab === 'bookings' && (
+            <div className="booking">
+              <TBookingCard/>
+            </div>
+          )}
         </div>
       </div>
     </div>
