@@ -6,6 +6,7 @@ import com.eastTrip.backendSpringBoot.repository.HomeStayRepository;
 import com.eastTrip.backendSpringBoot.repository.HotelRepository;
 import com.eastTrip.backendSpringBoot.repository.UserPropertiesRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,8 +116,9 @@ public class UserPropertiesService {
                 }).orElseThrow(() -> new RuntimeException("Property not found"));
     }
 
-    public void delete(Long id) {
-        repository.deleteById(id);
+    @Transactional
+    public void delete(Integer id) {
+        repository.deleteByPropertyId((id));
     }
 
 }
