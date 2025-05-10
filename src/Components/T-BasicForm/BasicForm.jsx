@@ -6,6 +6,7 @@ import HomestayImage from "../../Assest/homestay.png";
 import { useForm } from "../../context/FormContext";
 import { useDispatch } from "react-redux";
 import { setName, setRating, setImageUrl, setTypeOfProperty } from "../../features/slice/propertySlice";
+import ImageUpload from "../../ImageUpload";
 
     
 const BasicForm = () => {
@@ -22,8 +23,8 @@ const BasicForm = () => {
  useEffect(() => {
   dispatch(setName(formData.basic.propertyName));
   dispatch(setRating(formData.basic.rating));
-  dispatch(setImageUrl(formData.basic.imageUrl));
-}, [formData.basic.propertyName, formData.basic.rating, formData.basic.imageUrl, dispatch]);
+  // dispatch(setImageUrl(formData.basic.imageUrl));
+}, [formData.basic.propertyName, formData.basic.rating, dispatch]);
 
   return (
 
@@ -167,20 +168,7 @@ const BasicForm = () => {
           )}
         </div>
 
-        <div className="form-group">
-          <label>Image</label>
-          <input
-            type="url"
-            placeholder="Enter Image Url"
-            value={formData.basic.imageUrl}
-            onChange={(e) =>
-              updateFormData("basic", "imageUrl", e.target.value)
-            }
-          />
-          {errors.basic?.imageUrl && (
-            <p className="error-message">{errors.basic.imageUrl}</p>
-          )}
-        </div>
+        <ImageUpload updateFormData={updateFormData}/>
       </div>
     </div>
   );
