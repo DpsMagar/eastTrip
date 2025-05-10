@@ -2,7 +2,7 @@ import DescriptionBox from "../../Components/DescriptionBox/DescriptionBox"
 import "./DescriptionPage.css"
 import { useSearchParams } from "react-router-dom";
 
-const DescriptionPage = () => {
+const   DescriptionPage = () => {
   const [searchParams] = useSearchParams();
   const hotelName = searchParams.get("hotelName");
     var dumby = "https://upload.wikimedia.org/wikipedia/commons/0/0e/Estadio_Santiago_Bernabéu_Madrid.jpg"
