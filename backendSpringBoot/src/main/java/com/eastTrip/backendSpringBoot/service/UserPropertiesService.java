@@ -43,11 +43,11 @@ public class UserPropertiesService {
 
             if (type == 1) { // Hotel
                 hotelRepository.findById(propertyId).ifPresent(hotel -> {
-                    result.add(mapHotelToDTO(hotel));
+                    result.add(mapHotelToDTO(hotel,type));
                 });
             } else if (type == 2) { // Homestay
                 homeStayRepository.findById(Math.toIntExact(propertyId)).ifPresent(homestay -> {
-                    result.add(mapHomestayToDTO(homestay));
+                    result.add(mapHomestayToDTO(homestay, type));
                 });
             }
         }
@@ -55,7 +55,7 @@ public class UserPropertiesService {
         return result;
     }
 
-    private HotelSearchResultsDTO mapHotelToDTO(Hotel hotel) {
+    private HotelSearchResultsDTO mapHotelToDTO(Hotel hotel, int type) {
         return new HotelSearchResultsDTO(
                 Long.valueOf(hotel.getId()),
                 hotel.getName(),
@@ -72,11 +72,13 @@ public class UserPropertiesService {
                         .collect(Collectors.toList()),// assuming List<String>
                 hotel.getPrice(),
                 hotel.getExtraInfo(),
-                hotel.getImageUrl()
+                hotel.getImageUrl(),
+                type
+
         );
     }
 
-    private HotelSearchResultsDTO mapHomestayToDTO(HomeStay homestay) {
+    private HotelSearchResultsDTO mapHomestayToDTO(HomeStay homestay, int type) {
         return new HotelSearchResultsDTO(
                 Long.valueOf(homestay.getId()),
                 homestay.getName(),
@@ -91,7 +93,8 @@ public class UserPropertiesService {
                         .collect(Collectors.toList()), // assuming List<String>
                 homestay.getPrice(),
                 homestay.getExtraInfo(),
-                homestay.getImageUrl()
+                homestay.getImageUrl(),
+                type
         );
     }
 

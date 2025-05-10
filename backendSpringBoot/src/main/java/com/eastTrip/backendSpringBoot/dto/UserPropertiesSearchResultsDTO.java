@@ -1,17 +1,8 @@
 package com.eastTrip.backendSpringBoot.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.List;
-import java.util.Set;
 
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class HotelSearchResultsDTO {
+public class UserPropertiesSearchResultsDTO {
     private Long hotelId;
     private String hotelName;
     private String hotelLocation;
@@ -23,6 +14,4 @@ public class HotelSearchResultsDTO {
     private String extraInfo;
     private String imageUrl;
     private Integer propertyType;
-
-
 }
