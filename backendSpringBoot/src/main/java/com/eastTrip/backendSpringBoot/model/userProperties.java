@@ -19,4 +19,6 @@ public class userProperties {
     private Integer propertyId;
     private Integer propertyType;
     private boolean isListed;
+
+
 }

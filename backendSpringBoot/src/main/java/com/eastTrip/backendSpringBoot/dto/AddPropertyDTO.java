@@ -7,6 +7,7 @@ import java.util.List;
 @Data
 public class AddPropertyDTO {
 
+    private Integer userId;
     private String name;
     private String location;
     private String attraction;

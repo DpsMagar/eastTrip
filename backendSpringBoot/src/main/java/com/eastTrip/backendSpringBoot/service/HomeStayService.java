@@ -4,9 +4,11 @@ import com.eastTrip.backendSpringBoot.dto.AddPropertyDTO;
 import com.eastTrip.backendSpringBoot.model.HomeStay;
 import com.eastTrip.backendSpringBoot.model.HomeStayFeatures;
 import com.eastTrip.backendSpringBoot.model.HomeStayRooms;
+import com.eastTrip.backendSpringBoot.model.userProperties;
 import com.eastTrip.backendSpringBoot.repository.HomeStayRepository;
 import com.eastTrip.backendSpringBoot.repository.HomeStayRoomsRepository;
 import com.eastTrip.backendSpringBoot.repository.HomeStayServicesRepository;
+import com.eastTrip.backendSpringBoot.repository.UserPropertiesRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +18,14 @@ public class HomeStayService {
     private final HomeStayRepository homeStayRepository;
     private final HomeStayRoomsRepository homeStayRoomsRepository;
     private final HomeStayServicesRepository homeStayServicesRepository;
+    private final UserPropertiesRepository userPropertiesRepository;
 
-    public HomeStayService(HomeStayRepository homeStayRepository, HomeStayRoomsRepository homeStayRoomsRepository, HomeStayServicesRepository homeStayServicesRepository) {
+
+    public HomeStayService(HomeStayRepository homeStayRepository, HomeStayRoomsRepository homeStayRoomsRepository, HomeStayServicesRepository homeStayServicesRepository, UserPropertiesRepository userPropertiesRepository) {
         this.homeStayRepository = homeStayRepository;
         this.homeStayRoomsRepository = homeStayRoomsRepository;
         this.homeStayServicesRepository = homeStayServicesRepository;
+        this.userPropertiesRepository = userPropertiesRepository;
     }
 
     public HomeStay addHomeStay(AddPropertyDTO addHomeStayDTO) {
@@ -39,6 +44,13 @@ public class HomeStayService {
         homeStay.setRoomFeatures(rooms);
         homeStay.setServices(features);
 
-        return homeStayRepository.save(homeStay);
+        HomeStay response= homeStayRepository.save(homeStay);
+        userProperties properties = new userProperties();
+        properties.setPropertyType(2);
+        properties.setUserId(addHomeStayDTO.getUserId());
+        properties.setPropertyId(Math.toIntExact(homeStay.getId()));
+
+        userPropertiesRepository.save(properties);
+        return response;
     }
 }
