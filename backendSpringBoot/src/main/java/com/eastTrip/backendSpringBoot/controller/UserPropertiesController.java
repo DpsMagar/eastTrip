@@ -1,10 +1,10 @@
 package com.eastTrip.backendSpringBoot.controller;
 
+import com.eastTrip.backendSpringBoot.dto.HotelSearchResultsDTO;
 import com.eastTrip.backendSpringBoot.model.userProperties;
 import com.eastTrip.backendSpringBoot.service.UserPropertiesService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -30,7 +30,7 @@ public class UserPropertiesController {
     }
 
     @GetMapping("/user/{userId}")
-    public List<userProperties> getByUserId(@PathVariable Integer userId) {
+    public List<HotelSearchResultsDTO> getByUserId(@PathVariable Integer userId) {
         return service.getByUserId(userId);
     }
 

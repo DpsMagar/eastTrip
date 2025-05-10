@@ -1,0 +1,67 @@
+package com.eastTrip.backendSpringBoot.service;
+
+import com.eastTrip.backendSpringBoot.dto.HotelSearchResultsDTO;
+import com.eastTrip.backendSpringBoot.model.userProperties;
+import com.eastTrip.backendSpringBoot.repository.HomeStayRepository;
+import com.eastTrip.backendSpringBoot.repository.HotelRepository;
+import com.eastTrip.backendSpringBoot.repository.UserPropertiesRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UserPropertiesService {
+
+    private final UserPropertiesRepository repository;
+    private final HotelRepository hotelRepository;
+    private final HomeStayRepository homeStayRepository;
+
+    public UserPropertiesService(UserPropertiesRepository repository, HotelRepository hotelRepository, HomeStayRepository homeStayRepository) {
+        this.repository = repository;
+        this.hotelRepository = hotelRepository;
+        this.homeStayRepository = homeStayRepository;
+    }
+
+    public List<userProperties> getAll() {
+        return repository.findAll();
+    }
+
+    public Optional<userProperties> getById(Long id) {
+        return repository.findById(id);
+    }
+
+    public List<HotelSearchResultsDTO> getByUserId(Integer userId) {
+
+        List<userProperties> userProperties = repository.findByUserId(userId);
+
+        List<HotelSearchResultsDTO> hotelSearchResultsDTOList = new ArrayList<>();
+        for (userProperties u : userProperties) {
+            if (u.getPropertyType().equals(1)) {
+                for (int propertyId: userProperties.)
+            }
+        }
+        return hotelSearchResultsDTOList;
+    }
+
+    public userProperties create(userProperties property) {
+        return repository.save(property);
+    }
+
+    public userProperties update(Long id, userProperties updated) {
+        return repository.findById(id)
+                .map(existing -> {
+                    existing.setUserId(updated.getUserId());
+                    existing.setPropertyId(updated.getPropertyId());
+                    existing.setPropertyType(updated.getPropertyType());
+                    existing.setListed(updated.isListed());
+                    return repository.save(existing);
+                }).orElseThrow(() -> new RuntimeException("Property not found"));
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
+}
