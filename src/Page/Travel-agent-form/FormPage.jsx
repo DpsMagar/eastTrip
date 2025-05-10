@@ -15,9 +15,11 @@ const FormPage = () => {
   const [activeTab, setActiveTab] = useState("Basic")
   const tabs = ["Basic", "Amenities", "Location"]
   const { formData, validateSection } = useForm()
+  const userId= sessionStorage.getItem("userId")
 
   const handleNext = () => {
   const currentIndex = tabs.indexOf(activeTab)
+
 
   // Skip validation for "Amenities" tab
   if (activeTab === "Amenities" && currentIndex < tabs.length - 1) {
@@ -63,7 +65,9 @@ const FormPage = () => {
     extraInfo: features.extraInfo,
     imageUrl: generalInfo.imageUrl,
     featureIds: features.featureIds || [],
-    roomFeatureIds: features.roomFeatureIds || []
+    roomFeatureIds: features.roomFeatureIds || [],
+    userId:userId,
+
   };
 
   let url = "";
@@ -90,7 +94,10 @@ const FormPage = () => {
       throw new Error(`Failed to submit: ${response.statusText}`);
     }
 
-    alert("Form submitted successfully!");
+   console.log("form submitted successfully",payload);
+   console.log(response);
+   
+   
   } catch (error) {
     console.error("Submission error:", error);
     alert("Failed to submit form. Please try again.");
