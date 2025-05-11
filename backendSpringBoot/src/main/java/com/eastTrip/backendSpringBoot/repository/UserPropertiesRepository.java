@@ -20,9 +20,7 @@ public interface UserPropertiesRepository extends JpaRepository<UserProperties, 
             "GROUP BY u.id, u.fullName, u.email")
     List<UserWithPropertyCount> findUsersWithPropertyCounts();
 
-
     void deleteByUserId(Long userId);
-
 
     List<UserProperties> findByListedTrue();
 }
