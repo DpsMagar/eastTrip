@@ -4,7 +4,8 @@ import com.eastTrip.backendSpringBoot.dto.AddPropertyDTO;
 import com.eastTrip.backendSpringBoot.model.HomeStay;
 import com.eastTrip.backendSpringBoot.model.HomeStayFeatures;
 import com.eastTrip.backendSpringBoot.model.HomeStayRooms;
-import com.eastTrip.backendSpringBoot.model.userProperties;
+import com.eastTrip.backendSpringBoot.model.UserProperties;
+import com.eastTrip.backendSpringBoot.model.UserProperties;
 import com.eastTrip.backendSpringBoot.repository.HomeStayRepository;
 import com.eastTrip.backendSpringBoot.repository.HomeStayRoomsRepository;
 import com.eastTrip.backendSpringBoot.repository.HomeStayServicesRepository;
@@ -18,14 +19,14 @@ public class HomeStayService {
     private final HomeStayRepository homeStayRepository;
     private final HomeStayRoomsRepository homeStayRoomsRepository;
     private final HomeStayServicesRepository homeStayServicesRepository;
-    private final UserPropertiesRepository userPropertiesRepository;
+    private final UserPropertiesRepository UserPropertiesRepository;
 
 
-    public HomeStayService(HomeStayRepository homeStayRepository, HomeStayRoomsRepository homeStayRoomsRepository, HomeStayServicesRepository homeStayServicesRepository, UserPropertiesRepository userPropertiesRepository) {
+    public HomeStayService(HomeStayRepository homeStayRepository, HomeStayRoomsRepository homeStayRoomsRepository, HomeStayServicesRepository homeStayServicesRepository, UserPropertiesRepository UserPropertiesRepository) {
         this.homeStayRepository = homeStayRepository;
         this.homeStayRoomsRepository = homeStayRoomsRepository;
         this.homeStayServicesRepository = homeStayServicesRepository;
-        this.userPropertiesRepository = userPropertiesRepository;
+        this.UserPropertiesRepository = UserPropertiesRepository;
     }
 
     public HomeStay addHomeStay(AddPropertyDTO addHomeStayDTO) {
@@ -45,12 +46,12 @@ public class HomeStayService {
         homeStay.setServices(features);
 
         HomeStay response= homeStayRepository.save(homeStay);
-        userProperties properties = new userProperties();
+        UserProperties properties = new UserProperties();
         properties.setPropertyType(2);
-        properties.setUserId(addHomeStayDTO.getUserId());
+        properties.setUserId(Long.valueOf(addHomeStayDTO.getUserId()));
         properties.setPropertyId(Math.toIntExact(homeStay.getId()));
 
-        userPropertiesRepository.save(properties);
+        UserPropertiesRepository.save(properties);
         return response;
     }
 }

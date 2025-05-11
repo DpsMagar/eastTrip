@@ -29,19 +29,19 @@ public class UserPropertiesService {
         this.userRepository = userRepository;
     }
 
-    public List<userProperties> getAll() {
+    public List<UserProperties> getAll() {
         return repository.findAll();
     }
 
-    public Optional<userProperties> getById(Long id) {
+    public Optional<UserProperties> getById(Long id) {
         return repository.findById(id);
     }
 
     public List<HotelSearchResultsDTO> getByUserId(Integer userId) {
-        List<userProperties> userPropertiesList = repository.findByUserId(userId);
+        List<UserProperties> UserPropertiesList = repository.findByUserId(userId);
         List<HotelSearchResultsDTO> result = new ArrayList<>();
 
-        for (userProperties prop : userPropertiesList) {
+        for (UserProperties prop : UserPropertiesList) {
             int type = prop.getPropertyType();
             Long propertyId = Long.valueOf(prop.getPropertyId());
 
@@ -104,11 +104,11 @@ public class UserPropertiesService {
         );
     }
 
-    public userProperties create(userProperties property) {
+    public UserProperties create(UserProperties property) {
         return repository.save(property);
     }
 
-    public userProperties update(Long id, userProperties updated) {
+    public UserProperties update(Long id, UserProperties updated) {
         return repository.findById(id)
                 .map(existing -> {
                     existing.setUserId(updated.getUserId());
@@ -121,7 +121,7 @@ public class UserPropertiesService {
 
     @Transactional
     public void delete(Integer id) {
-        userProperties deletableProperty= new userProperties();
+        UserProperties deletableProperty= new UserProperties();
         Long propertyType = Long.valueOf(deletableProperty.getPropertyType());
 
         if(propertyType == 1) {
@@ -132,4 +132,8 @@ public class UserPropertiesService {
         repository.deleteByPropertyId((id));
     }
 
+    @Transactional
+    public void deleteUser(Long userID) {
+         repository.deleteByUserId(userID);
+    }
 }

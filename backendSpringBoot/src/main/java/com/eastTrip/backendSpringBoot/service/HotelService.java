@@ -4,7 +4,8 @@ import com.eastTrip.backendSpringBoot.dto.AddPropertyDTO;
 import com.eastTrip.backendSpringBoot.model.Hotel;
 import com.eastTrip.backendSpringBoot.model.HotelFeatures;
 import com.eastTrip.backendSpringBoot.model.HotelRooms;
-import com.eastTrip.backendSpringBoot.model.userProperties;
+import com.eastTrip.backendSpringBoot.model.UserProperties;
+import com.eastTrip.backendSpringBoot.model.UserProperties;
 import com.eastTrip.backendSpringBoot.repository.HotelFeaturesRepository;
 import com.eastTrip.backendSpringBoot.repository.HotelRepository;
 import com.eastTrip.backendSpringBoot.repository.HotelRoomsRepository;
@@ -19,15 +20,15 @@ public class HotelService {
     private final HotelRepository hotelRepository;
     private final HotelFeaturesRepository hotelFeaturesRepository;
     private final HotelRoomsRepository hotelRoomsRepository;
-    private final UserPropertiesRepository userPropertiesRepository;
+    private final UserPropertiesRepository UserPropertiesRepository;
 
     public HotelService(HotelRepository hotelRepository,
                         HotelFeaturesRepository hotelFeaturesRepository,
-                        HotelRoomsRepository hotelRoomsRepository, UserPropertiesService userPropertiesService, UserPropertiesRepository userPropertiesRepository) {
+                        HotelRoomsRepository hotelRoomsRepository, UserPropertiesService UserPropertiesService, UserPropertiesRepository UserPropertiesRepository) {
         this.hotelRepository = hotelRepository;
         this.hotelFeaturesRepository = hotelFeaturesRepository;
         this.hotelRoomsRepository = hotelRoomsRepository;
-        this.userPropertiesRepository = userPropertiesRepository;
+        this.UserPropertiesRepository = UserPropertiesRepository;
     }
 
     public Hotel addHotel(AddPropertyDTO dto) {
@@ -52,13 +53,13 @@ public class HotelService {
 
         Hotel response= hotelRepository.save(hotel);
 
-        userProperties properties = new userProperties();
+        UserProperties properties = new UserProperties();
         properties.setPropertyType(1);
-        properties.setUserId(dto.getUserId());
+        properties.setUserId(Long.valueOf(dto.getUserId()));
         properties.setPropertyId(Math.toIntExact(hotel.getId()));
 //        properties.set;
 
-        userPropertiesRepository.save(properties);
+        UserPropertiesRepository.save(properties);
         return response;
 
     }

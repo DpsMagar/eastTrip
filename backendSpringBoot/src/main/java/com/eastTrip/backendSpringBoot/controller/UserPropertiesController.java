@@ -1,7 +1,7 @@
 package com.eastTrip.backendSpringBoot.controller;
 
 import com.eastTrip.backendSpringBoot.dto.HotelSearchResultsDTO;
-import com.eastTrip.backendSpringBoot.model.userProperties;
+import com.eastTrip.backendSpringBoot.model.UserProperties;
 import com.eastTrip.backendSpringBoot.service.UserPropertiesService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +18,12 @@ public class UserPropertiesController {
     }
 
     @GetMapping
-    public List<userProperties> getAll() {
+    public List<UserProperties> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<userProperties> getById(@PathVariable Long id) {
+    public ResponseEntity<UserProperties> getById(@PathVariable Long id) {
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -35,12 +35,12 @@ public class UserPropertiesController {
     }
 
     @PostMapping
-    public userProperties create(@RequestBody userProperties property) {
+    public UserProperties create(@RequestBody UserProperties property) {
         return service.create(property);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<userProperties> update(@PathVariable Long id, @RequestBody userProperties updated) {
+    public ResponseEntity<UserProperties> update(@PathVariable Long id, @RequestBody UserProperties updated) {
         try {
             return ResponseEntity.ok(service.update(id, updated));
         } catch (RuntimeException e) {
@@ -51,6 +51,11 @@ public class UserPropertiesController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(Math.toIntExact(id));
+        return ResponseEntity.noContent().build();
+    }
+    @DeleteMapping("/user/{userID}")
+    public ResponseEntity<Void> deleteByUserId(@PathVariable Long userID) {
+        service.deleteUser(userID);
         return ResponseEntity.noContent().build();
     }
 }

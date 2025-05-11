@@ -8,13 +8,13 @@ import lombok.Data;
 
 @Entity
 @Data
-public class userProperties {
+public class UserProperties {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    private Integer userId;
+    private Long userId;
 
     private Integer propertyId;
     private Integer propertyType;

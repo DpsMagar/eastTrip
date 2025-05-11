@@ -2,6 +2,7 @@ package com.eastTrip.backendSpringBoot.controller;
 
 import com.eastTrip.backendSpringBoot.dto.UserDTO;
 import com.eastTrip.backendSpringBoot.dto.UserListResponseDTO;
+import com.eastTrip.backendSpringBoot.dto.UserWithPropertyCount;
 import com.eastTrip.backendSpringBoot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,12 @@ public class UserController {
     @GetMapping("/all-with-count")
     public ResponseEntity<UserListResponseDTO> getAllUsersWithCount() {
         return ResponseEntity.ok(userService.getAllUsersWithCount());
+    }
+
+    @GetMapping("/with-properties")
+    public ResponseEntity<List<UserWithPropertyCount>> getUsersWithProperties() {
+        List<UserWithPropertyCount> users = userService.getUsersWithPropertyCounts();
+        return ResponseEntity.ok(users);
     }
 
 }
