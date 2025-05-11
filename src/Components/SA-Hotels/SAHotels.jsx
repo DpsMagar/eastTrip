@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
 import dumby from "../../Assest/hotelimage.png";
 import "./SAHotels.css";
 import SADescriptionPage from "../../Page/SA-DescriptionPage/SADescriptionPage";
 import { IoClose } from "react-icons/io5";
+import axios from "axios";
 
 const SAHotels = () => {
   const initialProperties = [
@@ -21,20 +22,7 @@ const SAHotels = () => {
       price: 5000,
       amenities: ["Restaurant", "24/7 Room Service", "Conference Room"],
       images: [dumby, dumby, dumby, dumby]
-    },
-    { 
-      id: 2, 
-      ImgUrl: dumby, 
-      name: "Homestay in Pokhara", 
-      PropertyType: "Homestay", 
-      Owner: "Jane Smith", 
-      Location: "Pokhara",
-      description: "Cozy homestay with local cuisine",
-      rating: 4.0,
-      features: ["Free Breakfast", "Local Tours"],
-      price: 2800,
-      amenities: ["Shared Kitchen", "Garden"],
-    },
+    }
 
    
   ];
@@ -80,10 +68,13 @@ const SAHotels = () => {
   };
 
   const handleDeleteProperty = () => {
+    axios
+          .delete(`http://localhost:8080/api/user-properties/${deleteId}`)
     setFadeOutId(deleteId);
     setShowConfirm(false);
 
     setTimeout(() => {
+
       const updatedProperties = properties.filter(property => property.id !== deleteId);
       setProperties(updatedProperties);
 
@@ -152,6 +143,28 @@ const SAHotels = () => {
     setShowDescription(false);
     setSelectedProperty(null);
   };
+
+   useEffect(() => {
+      axios
+        .get("http://localhost:8080/api/user-properties/all")
+        .then((response) => {
+          const formatted = response.data.map((item) => ({
+            id: item.hotelId,
+            ImgUrl: item.imageUrl || dumby,
+            name: item.hotelName,
+            PropertyType: item.propertyType === 1 ? "Hotel" : "Homestay",
+            Rating: item.rating,
+            Condition: "In review", // Default or replace with actual field if available
+            Location: item.hotelLocation,
+            type:item.propertyType,
+  
+          }));
+          setProperties(formatted);
+        })
+        .catch((error) => {
+          console.error("Error fetching properties:", error);
+        });
+    }, []);
 
   return (
     <div className="sa-hotels">
@@ -308,8 +321,10 @@ const SAHotels = () => {
               <IoClose />
             </button>
             <SADescriptionPage 
-              hotelInfo={mapToHotelInfo(selectedProperty)} 
-              onClose={closeDescriptionPopup}
+              // hotelInfo={mapToHotelInfo(selectedProperty)} 
+                            requiredVals={[selectedProperty.type, selectedProperty.id]}
+              
+              // onClose={closeDescriptionPopup}
             />
           </div>
         </div>

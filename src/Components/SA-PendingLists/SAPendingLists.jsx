@@ -1,111 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import dumby from "../../Assest/hotelimage.png";
 import "./SAPendingLists.css";
 import SADescriptionPage from "../../Page/SA-DescriptionPage/SADescriptionPage";
 import { IoClose } from "react-icons/io5";
+import axios from "axios";
 
 const SAPendingLists = () => {
-  const initialProperties = [
-    { 
-      id: 1, 
-      ImgUrl: dumby, 
-      name: "Hotel Everest", 
-      PropertyType: "Hotel", 
-      Owner: "John Doe", 
-      Location: "Kathmandu", 
-      aprrovalStatus: "Pending",
-      description: "Nestled in the heart of Kathmandu, Hotel Everest offers a blend of modern comfort and traditional Nepalese charm.",
-      rating: 4,
-      features: ["Private Bathroom", "Aesthetic Lighting", "Free WiFi", "Mountain View"],
-      images: [dumby, dumby, dumby, dumby],
-      price: 4500,
-      amenities: ["Swimming Pool", "Restaurant", "Spa"]
-    },
-    { 
-      id: 2, 
-      ImgUrl: dumby, 
-      name: "Hotel Annapurna", 
-      PropertyType: "Hotel", 
-      Owner: "Jane Smith", 
-      Location: "Lalitpur", 
-      aprrovalStatus: "Pending",
-      description: "Luxury hotel with panoramic views of the Annapurna mountain range.",
-      rating: 5,
-      features: ["Private Balcony", "Minibar", "Room Service"],
-      images: [dumby, dumby, dumby, dumby],
-      price: 6800,
-      amenities: ["Fitness Center", "Conference Room", "Bar"]
-    },
-    { 
-      id: 3, 
-      ImgUrl: dumby, 
-      name: "Homestay in Bhaktapur", 
-      PropertyType: "Homestay", 
-      Owner: "Sita Rai", 
-      Location: "Bhaktapur", 
-      aprrovalStatus: "Pending",
-      description: "Experience the rich culture of Bhaktapur in this cozy homestay.",
-      rating: 4.5,
-      features: ["Shared Kitchen", "Local Cuisine"],
-      images: [dumby, dumby, dumby, dumby],
-      price: 2000,
-      amenities: ["Cultural Tours", "Cooking Classes"]
-    },
-    { 
-      id: 4, 
-      ImgUrl: dumby, 
-      name: "Pokhara Lakeside Retreat", 
-      PropertyType: "Homestay", 
-      Owner: "Ram Thapa", 
-      Location: "Pokhara", 
-      aprrovalStatus: "Pending",
-      description: "Relax by the lakeside in this beautiful homestay.",
-      rating: 4.8,
-      features: ["Lake View", "Private Garden"],
-      images: [dumby, dumby, dumby, dumby],
-      price: 3500,
-      amenities: ["Kayaking", "Yoga Classes"]
-    },
-    { 
-      id: 5, 
-      ImgUrl: dumby, 
-      name: "Chitwan Jungle Lodge", 
-      PropertyType: "Hotel", 
-      Owner: "Hari Gurung", 
-      Location: "Chitwan", 
-      aprrovalStatus: "Pending",
-      description: "Explore the wildlife of Chitwan National Park from this lodge.",
-      rating: 4.2,
-      features: ["Safari Tours", "Nature Walks"],
-      images: [dumby, dumby, dumby, dumby],
-      price: 4000,
-      amenities: ["Wildlife Tours", "Bird Watching"]
-    },
-    { 
-      id: 6, 
-      ImgUrl: dumby, 
-      name: "Lumbini Heritage Hotel", 
-      PropertyType: "Hotel", 
-      Owner: "Gita Koirala", 
-      Location: "Lumbini", 
-      aprrovalStatus: "Pending",
-      description: "Stay close to the birthplace of Buddha in this heritage hotel.",
-      rating: 4.7,
-      features: ["Cultural Tours", "Meditation Rooms"],
-      images: [dumby, dumby, dumby, dumby],
-      price: 5000,
-      amenities: ["Spa Services", "Guided Tours"]
-    },
-  ];
-
-  const [properties, setProperties] = useState(initialProperties);
-  const cities = ["Kathmandu", "Lalitpur", "Bhaktapur", "Pokhara", "Chitwan", "Lumbini", "Nagarkot", "Bandipur", "Gosaikunda", "Rara"];
-  const PropertyTypes = ["Hotel", "Homestay"];
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [cityFilter, setCityFilter] = useState("");
-  const [typeFilter, setTypeFilter] = useState("");
+  const [properties, setProperties] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showConfirm, setShowConfirm] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
@@ -117,16 +19,30 @@ const SAPendingLists = () => {
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [showDescription, setShowDescription] = useState(false);
 
-  const filteredProperties = properties.filter((property) =>
-    property.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (cityFilter ? property.Location === cityFilter : true) &&
-    (typeFilter ? property.PropertyType === typeFilter : true) &&
-    property.aprrovalStatus === "Pending"
-  );
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/user-properties/pending")
+      .then((response) => {
+        const formatted = response.data.map((item) => ({
+          id: item.hotelId,
+          ImgUrl: item.imageUrl || dumby,
+          name: item.hotelName,
+          PropertyType: item.propertyType === 1 ? "Hotel" : "Homestay",
+          Rating: item.rating,
+          Condition: "In review",
+          Location: item.hotelLocation,
+          type: item.propertyType,
+        }));
+        setProperties(formatted);
+      })
+      .catch((error) => {
+        console.error("Error fetching properties:", error);
+      });
+  }, []);
 
   const propertiesPerPage = 2;
-  const totalPages = Math.ceil(filteredProperties.length / propertiesPerPage);
-  const paginatedProperties = filteredProperties.slice(
+  const totalPages = Math.ceil(properties.length / propertiesPerPage);
+  const paginatedProperties = properties.slice(
     (currentPage - 1) * propertiesPerPage,
     currentPage * propertiesPerPage
   );
@@ -136,7 +52,7 @@ const SAPendingLists = () => {
   let groupEnd = Math.min(groupStart + groupSize - 1, totalPages);
 
   let showingFrom = (currentPage - 1) * propertiesPerPage + 1;
-  let showingTo = Math.min(currentPage * propertiesPerPage, filteredProperties.length);
+  let showingTo = Math.min(currentPage * propertiesPerPage, properties.length);
 
   const confirmAction = (id, type) => {
     setShowConfirm(true);
@@ -166,14 +82,7 @@ const SAPendingLists = () => {
         setApproveSuccess(true);
       }
 
-      const filteredAfterAction = properties.filter((property) =>
-        property.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (cityFilter ? property.Location === cityFilter : true) &&
-        (typeFilter ? property.PropertyType === typeFilter : true) &&
-        property.aprrovalStatus === "Pending"
-      );
-
-      const totalPagesAfterAction = Math.ceil(filteredAfterAction.length / propertiesPerPage);
+      const totalPagesAfterAction = Math.ceil(properties.length / propertiesPerPage);
 
       if (currentPage > totalPagesAfterAction && totalPagesAfterAction > 0) {
         setCurrentPage(totalPagesAfterAction);
@@ -240,49 +149,6 @@ const SAPendingLists = () => {
         <p>Add or Remove property listings</p>
       </div>
 
-      <div className="sa-pending-search">
-        <div className="sa-pending-search-section">
-          <CiSearch className="sa-pending-search-icon" />
-          <input
-            type="text"
-            placeholder="Search by name or location"
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              setCurrentPage(1);
-            }}
-          />
-        </div>
-
-        <select 
-          className="sa-pending-search-select" 
-          value={typeFilter} 
-          onChange={(e) => {
-            setTypeFilter(e.target.value);
-            setCurrentPage(1);
-          }}
-        >
-          <option value="">All Types</option>
-          {PropertyTypes.map((type) => (
-            <option key={type} value={type}>{type}</option>
-          ))}
-        </select>
-
-        <select 
-          className="sa-pending-search-select" 
-          value={cityFilter} 
-          onChange={(e) => {
-            setCityFilter(e.target.value);
-            setCurrentPage(1);
-          }}
-        >
-          <option value="">All Locations</option>
-          {cities.map((city) => (
-            <option key={city} value={city}>{city}</option>
-          ))}
-        </select>
-      </div>
-
       {paginatedProperties.length > 0 ? (
         paginatedProperties.map((property) => (
           <div 
@@ -332,12 +198,12 @@ const SAPendingLists = () => {
           </div>
         ))
       ) : (
-        <div className="no-results">No pending properties found matching your criteria</div>
+        <div className="no-results">No pending properties found</div>
       )}
 
       <div className="bottom-section">
         <div>
-          Showing {filteredProperties.length > 0 ? `${showingFrom} to ${showingTo}` : 0} of {filteredProperties.length} Results
+          Showing {properties.length > 0 ? `${showingFrom} to ${showingTo}` : 0} of {properties.length} Results
         </div>
         <div className="pagination">
           <button
@@ -375,7 +241,6 @@ const SAPendingLists = () => {
         </div>
       </div>
 
-      {/* Confirm Popup */}
       {showConfirm && (
         <div className="popup-overlay" onClick={() => setShowConfirm(false)}>
           <div className="popup-box" onClick={(e) => e.stopPropagation()}>
@@ -398,7 +263,6 @@ const SAPendingLists = () => {
         </div>
       )}
 
-      {/* Success Popups */}
       {deleteSuccess && (
         <div className="success-popup-reject">Property rejected successfully!</div>
       )}
@@ -406,20 +270,21 @@ const SAPendingLists = () => {
         <div className="success-popup approve">Property approved successfully!</div>
       )}
 
-      {/* Description Popup */}
       {showDescription && selectedProperty && (
-  <div className="popup-overlay" onClick={closeDescriptionPopup}>
-    <div className="description-popup-container" onClick={(e) => e.stopPropagation()}>
-      <button className="popup-close-button" onClick={closeDescriptionPopup}>
-        <IoClose />
-      </button>
-      <SADescriptionPage 
-        hotelInfo={mapToHotelInfo(selectedProperty)} 
-        onClose={closeDescriptionPopup}
-      />
-    </div>
-  </div>
-)}
+        <div className="popup-overlay" onClick={closeDescriptionPopup}>
+          <div className="description-popup-container" onClick={(e) => e.stopPropagation()}>
+            <button className="popup-close-button" onClick={closeDescriptionPopup}>
+              <IoClose />
+            </button>
+            <SADescriptionPage 
+              // hotelInfo={mapToHotelInfo(selectedProperty)} 
+                            requiredVals={[selectedProperty.type, selectedProperty.id]}
+              
+              // onClose={closeDescriptionPopup}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
