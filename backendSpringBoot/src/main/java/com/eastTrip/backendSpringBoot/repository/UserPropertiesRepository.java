@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface UserPropertiesRepository extends JpaRepository<UserProperties, Long> {
-    List<UserProperties>  findByUserId(Integer userId);
+    List<UserProperties>  findByUserId(Long userId);
 
     void deleteByPropertyId(Integer propertyId);
 
@@ -22,4 +22,7 @@ public interface UserPropertiesRepository extends JpaRepository<UserProperties, 
 
 
     void deleteByUserId(Long userId);
+
+
+    List<UserProperties> findByListedTrue();
 }

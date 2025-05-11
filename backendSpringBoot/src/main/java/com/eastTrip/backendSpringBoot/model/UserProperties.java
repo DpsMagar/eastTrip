@@ -18,7 +18,8 @@ public class UserProperties {
 
     private Integer propertyId;
     private Integer propertyType;
-    private boolean isListed;
+
+    private boolean listed=false;
 
 
 }

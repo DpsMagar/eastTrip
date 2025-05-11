@@ -50,12 +50,17 @@ public class UserPropertiesController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.delete(Math.toIntExact(id));
+        service.delete(id);
         return ResponseEntity.noContent().build();
     }
     @DeleteMapping("/user/{userID}")
     public ResponseEntity<Void> deleteByUserId(@PathVariable Long userID) {
         service.deleteUser(userID);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/all")
+    public List<HotelSearchResultsDTO> getAllHotels() {
+        return service.getAllProperties();
     }
 }

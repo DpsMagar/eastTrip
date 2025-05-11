@@ -38,14 +38,14 @@ public class UserPropertiesService {
     }
 
     public List<HotelSearchResultsDTO> getByUserId(Integer userId) {
-        List<UserProperties> UserPropertiesList = repository.findByUserId(userId);
+        List<UserProperties> UserPropertiesList = repository.findByUserId(Long.valueOf(userId));
         List<HotelSearchResultsDTO> result = new ArrayList<>();
 
         for (UserProperties prop : UserPropertiesList) {
             int type = prop.getPropertyType();
             Long propertyId = Long.valueOf(prop.getPropertyId());
 
-            if (type == 1) { // Hotel
+            if (type == 1) { 
                 hotelRepository.findById(propertyId).ifPresent(hotel -> {
                     result.add(mapHotelToDTO(hotel,type));
                 });
@@ -120,20 +120,50 @@ public class UserPropertiesService {
     }
 
     @Transactional
-    public void delete(Integer id) {
-        UserProperties deletableProperty= new UserProperties();
-        Long propertyType = Long.valueOf(deletableProperty.getPropertyType());
+    public void delete(Long id) { // Use Long to match model's ID type
+        repository.findById(id).ifPresent(prop -> {
+            Integer type = prop.getPropertyType();
+            Integer propertyId = prop.getPropertyId();
 
-        if(propertyType == 1) {
-            hotelRepository.deleteById(Math.toIntExact(propertyType));
-        }else {
-            homeStayRepository.deleteById(Math.toIntExact(propertyType));
-        }
-        repository.deleteByPropertyId((id));
+            if (type == 1) {
+                // Delete Hotel (ID is Long)
+                hotelRepository.deleteById((int) propertyId.longValue());
+            } else if (type == 2) {
+                // Delete Homestay (ID is Integer)
+                homeStayRepository.deleteById(propertyId);
+            }
+            // Delete the UserProperties entry
+            repository.delete(prop);
+        });
     }
 
     @Transactional
     public void deleteUser(Long userID) {
          repository.deleteByUserId(userID);
+    }
+
+    public List<HotelSearchResultsDTO> getAllProperties() {
+        // Fetch all UserProperties entries where isListed = true
+        List<UserProperties> listedProperties = repository.findByListedTrue();
+        List<HotelSearchResultsDTO> result = new ArrayList<>();
+
+        for (UserProperties prop : listedProperties) {
+            Integer type = prop.getPropertyType(); // Use Integer to match model
+            Integer propertyId = prop.getPropertyId(); // Use Integer from model
+
+            if (type == 1) {
+                // Convert propertyId (Integer) to Long for Hotel
+                hotelRepository.findById(propertyId.longValue()).ifPresent(hotel -> {
+                    result.add(mapHotelToDTO(hotel, type));
+                });
+            } else if (type == 2) {
+                // Directly use Integer for HomeStay
+                homeStayRepository.findById(propertyId).ifPresent(homestay -> {
+                    result.add(mapHomestayToDTO(homestay, type));
+                });
+            }
+        }
+
+        return result;
     }
 }

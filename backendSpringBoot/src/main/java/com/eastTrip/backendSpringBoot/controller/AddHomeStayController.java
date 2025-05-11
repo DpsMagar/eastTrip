@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/add/homestay")
 public class AddHomeStayController {
-    private HomeStayService homeStayService;
+    private final HomeStayService homeStayService;
 
     public AddHomeStayController(HomeStayService homeStayService) {
         this.homeStayService = homeStayService;
