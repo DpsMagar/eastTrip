@@ -13,6 +13,7 @@ import {
   FaTachometerAlt, FaUsers, FaUserTie, FaHotel, FaHome, FaClipboardList
 } from 'react-icons/fa';
 import image from "../../Assest/profile.jpg"
+import TBookingCardSA from '../../Components/T-bookingList/TBookingCardSA';
 
 const SAHomePage = () => {
   const [activeTab, setActiveTab] = useState('Dashboard');
@@ -27,7 +28,7 @@ const SAHomePage = () => {
       case 'Properties': return <SAHotels />;
      
       case 'Pending lists': return <SAPendingLists />;
-      case 'Booking': return <TBookingCard />
+      case 'Booking': return <TBookingCardSA />
       default: return <SADashBoard />;
     }
   };
