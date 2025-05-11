@@ -1,61 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import './SATravelAgents.css';
 import { FaTrash } from "react-icons/fa";
-import { FiEdit } from "react-icons/fi";
 import { CiSearch } from "react-icons/ci";
-import CustomProfile from "../../Assest/profile.jpg";
 import { MdRealEstateAgent } from "react-icons/md";
 import SATDashBoard from '../../Page/SA-travel-DashBoard/SATDashBoard';
+import axios from 'axios';
+import CustomProfile from "../../Assest/profile.png";
 
 const SATravelAgents = () => {
-  const initialUsers = [
-    { id: 1, profile: CustomProfile, name: "Sarah Wilson", properties: 3 },
-    { id: 2, profile: CustomProfile, name: "John Doe", properties: 5 },
-    { id: 3, profile: CustomProfile, name: "Jane Smith", properties: 2 },
-    { id: 4, profile: CustomProfile, name: "Michael Brown", properties: 4 },
-    { id: 5, profile: CustomProfile, name: "Emily Davis", properties: 1 },
-    { id: 6, profile: CustomProfile, name: "David Johnson", properties: 3 },
-    { id: 7, profile: CustomProfile, name: "Emma Wilson", properties: 2 },
-    { id: 8, profile: CustomProfile, name: "James Taylor", properties: 4 },
-    { id: 9, profile: CustomProfile, name: "Olivia Martinez", properties: 5 },
-    { id: 10, profile: CustomProfile, name: "Liam Anderson", properties: 3 },
-    { id: 11, profile: CustomProfile, name: "Sophia Thomas", properties: 2 },
-    { id: 12, profile: CustomProfile, name: "Benjamin Jackson", properties: 4 },
-    { id: 13, profile: CustomProfile, name: "Ava White", properties: 1 },
-    { id: 14, profile: CustomProfile, name: "Lucas Harris", properties: 3 },
-    { id: 15, profile: CustomProfile, name: "Mia Clark", properties: 2 },
-    { id: 16, profile: CustomProfile, name: "Ethan Lewis", properties: 4 },
-    { id: 17, profile: CustomProfile, name: "Charlotte Walker", properties: 5 },
-    { id: 18, profile: CustomProfile, name: "Alexander Hall", properties: 3 },
-    { id: 19, profile: CustomProfile, name: "Amelia Allen", properties: 2 },
-    { id: 20, profile: CustomProfile, name: "William Young", properties: 4 },
-  ];
-
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredUsers, setFilteredUsers] = useState(initialUsers);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [fadingUserId, setFadingUserId] = useState(null);
   const [showDashboard, setShowDashboard] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [flag, setFlag] = useState(false); 
 
-  const usersPerPage = 3;
+  const usersPerPage = 10;
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/users/with-properties');
+        setUsers(response.data || []);
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch users", error);
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, [flag]);
 
   useEffect(() => {
     const filtered = users.filter(user =>
-      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.properties.toString().includes(searchQuery)
+      user.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (user.properties && user.properties.toString().includes(searchQuery))
     );
+
     setFilteredUsers(filtered);
 
     const totalPages = Math.ceil(filtered.length / usersPerPage);
     if (currentPage > totalPages && totalPages > 0) {
       setCurrentPage(totalPages);
     }
-  }, [users, searchQuery, currentPage, usersPerPage]);
+  }, [users, searchQuery, currentPage]);
 
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
   const startIndex = (currentPage - 1) * usersPerPage;
@@ -69,7 +64,8 @@ const SATravelAgents = () => {
   const showingFrom = startIndex + 1;
   const showingTo = Math.min(startIndex + usersPerPage, filteredUsers.length);
 
-  const handleDeleteUser = (id) => {
+  const handleDeleteUser = async (id) => {
+    await axios.delete(`http://localhost:8080/api/user-properties/user/${id}`);
     setFadingUserId(id);
     setShowConfirm(false);
 
@@ -83,9 +79,7 @@ const SATravelAgents = () => {
         setCurrentPage(currentPage - 1);
       }
 
-      setTimeout(() => {
-        setDeleteSuccess(false);
-      }, 2000);
+      setTimeout(() => setDeleteSuccess(false), 2000);
     }, 300);
   };
 
@@ -134,7 +128,9 @@ const SATravelAgents = () => {
             <div className="action-table-cell">Actions</div>
           </div>
 
-          {paginatedUsers.length > 0 ? (
+          {loading ? (
+            <div className="loading">Loading agents...</div>
+          ) : paginatedUsers.length > 0 ? (
             paginatedUsers.map((user) => (
               <div
                 className={`table-row ${fadingUserId === user.id ? 'fade-out' : ''}`}
@@ -142,11 +138,11 @@ const SATravelAgents = () => {
                 onClick={() => handleRowClick(user)}
               >
                 <div className="user-cell">
-                  <img src={user.profile} alt="User" className='user-profile' />
-                  <span className='user-name'>{user.name}</span>
+                  <img src={CustomProfile} alt="User" className='user-profile' />
+                  <span className='user-name'>{user.fullName}</span>
                 </div>
                 <div className="email-cell">
-                  <span className='user-email'>{user.properties}</span>
+                  <span className='user-email'>{user.count}</span>
                 </div>
                 <div className="action-cell">
                   <button
@@ -172,9 +168,7 @@ const SATravelAgents = () => {
             </div>
             <div className="pagination">
               <button
-                onClick={() => {
-                  if (groupStart > 1) setCurrentPage(groupStart - 1);
-                }}
+                onClick={() => groupStart > 1 && setCurrentPage(groupStart - 1)}
                 disabled={groupStart === 1}
               >
                 Previous
@@ -194,9 +188,7 @@ const SATravelAgents = () => {
               })}
 
               <button
-                onClick={() => {
-                  if (groupEnd < totalPages) setCurrentPage(groupEnd + 1);
-                }}
+                onClick={() => groupEnd < totalPages && setCurrentPage(groupEnd + 1)}
                 disabled={groupEnd === totalPages}
               >
                 Next
@@ -229,8 +221,8 @@ const SATravelAgents = () => {
       {showDashboard && (
         <div className="popup-overlay" onClick={() => setShowDashboard(false)}>
           <div className="dashboard-popup-container" onClick={(e) => e.stopPropagation()}>
-            <button 
-              className="popup-close-button" 
+            <button
+              className="popup-close-button"
               onClick={() => setShowDashboard(false)}
             >
               ×
