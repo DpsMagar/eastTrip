@@ -166,4 +166,29 @@ public class UserPropertiesService {
 
         return result;
     }
+
+    public List<HotelSearchResultsDTO> getPendingProperties() {
+        // Fetch all UserProperties entries where isListed = true
+        List<UserProperties> listedProperties = repository.findByListedFalse();
+        List<HotelSearchResultsDTO> result = new ArrayList<>();
+
+        for (UserProperties prop : listedProperties) {
+            Integer type = prop.getPropertyType(); // Use Integer to match model
+            Integer propertyId = prop.getPropertyId(); // Use Integer from model
+
+            if (type == 1) {
+                // Convert propertyId (Integer) to Long for Hotel
+                hotelRepository.findById(propertyId.longValue()).ifPresent(hotel -> {
+                    result.add(mapHotelToDTO(hotel, type));
+                });
+            } else if (type == 2) {
+                // Directly use Integer for HomeStay
+                homeStayRepository.findById(propertyId).ifPresent(homestay -> {
+                    result.add(mapHomestayToDTO(homestay, type));
+                });
+            }
+        }
+
+        return result;
+    }
 }

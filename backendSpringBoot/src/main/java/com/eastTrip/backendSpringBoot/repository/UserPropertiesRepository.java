@@ -23,4 +23,6 @@ public interface UserPropertiesRepository extends JpaRepository<UserProperties, 
     void deleteByUserId(Long userId);
 
     List<UserProperties> findByListedTrue();
+
+    List<UserProperties> findByListedFalse();
 }
