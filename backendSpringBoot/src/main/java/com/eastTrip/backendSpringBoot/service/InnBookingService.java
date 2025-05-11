@@ -8,15 +8,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class InnBookingService {
 
-    private final InnBookingRepository bookingRepo;
-    private final UserRepository userRepo;
-    private final HotelRepository hotelRepo;
-    private final HotelRoomsRepository roomRepo;
+
+    private final UserRepository userRepository;
+    private final InnBookingRepository innBookingRepository;
 
     public InnBookingResponseDTO createBooking(InnBookingRequestDTO dto) {
         try {
@@ -30,7 +31,7 @@ public class InnBookingService {
 
 
 
-            User user = userRepo.findById(dto.getUserId())
+            User user = userRepository.findById(dto.getUserId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + dto.getUserId()));
 
             LocalDate checkIn;
@@ -49,7 +50,7 @@ public class InnBookingService {
 
             int totalPrice = dto.getTotalPrice() * days;
 
-            InnBooking existingBooking = bookingRepo.findByUserIdAndInnIdAndInnType(
+            InnBooking existingBooking = innBookingRepository.findByUserIdAndInnIdAndInnType(
                     dto.getUserId(), dto.getInnId(), dto.getInnType());
 
             InnBooking booking;
@@ -63,7 +64,7 @@ public class InnBookingService {
                 existingBooking.setName(dto.getName());
                 existingBooking.setNumberOfRooms(Math.toIntExact(dto.getNumberOfRooms()));
 
-                booking = bookingRepo.save(existingBooking);
+                booking = innBookingRepository.save(existingBooking);
             } else {
                 // Create new booking
                 InnBooking newBooking = new InnBooking();
@@ -78,7 +79,7 @@ public class InnBookingService {
                 newBooking.setInnId(dto.getInnId());
                 newBooking.setNumberOfRooms(Math.toIntExact(dto.getNumberOfRooms()));
 
-                booking = bookingRepo.save(newBooking);
+                booking = innBookingRepository.save(newBooking);
             }
 
             return InnBookingResponseDTO.builder()
@@ -100,6 +101,25 @@ public class InnBookingService {
             // Catch-all for unexpected errors
             throw new RuntimeException("Failed to process booking request", e);
         }
+    }
+
+
+    public List<InnBookingResponseDTO> getBookingsByUserId(Long userId) {
+        List<InnBooking> bookings = innBookingRepository.findByUser_Id((userId));
+
+        return bookings.stream()
+                .map(booking -> InnBookingResponseDTO.builder()
+                        .name(booking.getName())
+                        .userId(booking.getUser().getId())
+                        .innId(booking.getInnId())
+                        .numberOfRooms((long) booking.getNumberOfRooms())
+                        .checkInDate(booking.getCheckInDate().toString())
+                        .checkOutDate(booking.getCheckOutDate().toString())
+                        .numberOfGuests(booking.getNumberOfGuests())
+                        .totalPrice(booking.getTotalPrice())
+                        .innType(booking.getInnType())
+                        .build())
+                .collect(Collectors.toList());
     }
 
 

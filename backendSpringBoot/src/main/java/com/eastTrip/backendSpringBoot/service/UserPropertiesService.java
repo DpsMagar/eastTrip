@@ -5,6 +5,7 @@ import com.eastTrip.backendSpringBoot.model.*;
 import com.eastTrip.backendSpringBoot.repository.HomeStayRepository;
 import com.eastTrip.backendSpringBoot.repository.HotelRepository;
 import com.eastTrip.backendSpringBoot.repository.UserPropertiesRepository;
+import com.eastTrip.backendSpringBoot.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +20,13 @@ public class UserPropertiesService {
     private final UserPropertiesRepository repository;
     private final HotelRepository hotelRepository;
     private final HomeStayRepository homeStayRepository;
+    private final UserRepository userRepository;
 
-    public UserPropertiesService(UserPropertiesRepository repository, HotelRepository hotelRepository, HomeStayRepository homeStayRepository) {
+    public UserPropertiesService(UserPropertiesRepository repository, HotelRepository hotelRepository, HomeStayRepository homeStayRepository, UserRepository userRepository) {
         this.repository = repository;
         this.hotelRepository = hotelRepository;
         this.homeStayRepository = homeStayRepository;
+        this.userRepository = userRepository;
     }
 
     public List<userProperties> getAll() {
@@ -89,10 +92,10 @@ public class UserPropertiesService {
                 Integer.parseInt(homestay.getRating()),
                 homestay.getRoomFeatures().stream()
                         .map(HomeStayRooms::getRoomFeature)
-                        .collect(Collectors.toList()), // assuming List<String>
+                        .collect(Collectors.toList()),
                 homestay.getServices().stream()
                         .map(HomeStayFeatures::getServices)
-                        .collect(Collectors.toList()), // assuming List<String>
+                        .collect(Collectors.toList()),
                 homestay.getPrice(),
                 homestay.getExtraInfo(),
                 homestay.getImageUrl(),
@@ -118,6 +121,14 @@ public class UserPropertiesService {
 
     @Transactional
     public void delete(Integer id) {
+        userProperties deletableProperty= new userProperties();
+        Long propertyType = Long.valueOf(deletableProperty.getPropertyType());
+
+        if(propertyType == 1) {
+            hotelRepository.deleteById(Math.toIntExact(propertyType));
+        }else {
+            homeStayRepository.deleteById(Math.toIntExact(propertyType));
+        }
         repository.deleteByPropertyId((id));
     }
 
