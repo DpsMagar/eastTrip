@@ -25,4 +25,8 @@ public interface UserPropertiesRepository extends JpaRepository<UserProperties, 
     List<UserProperties> findByListedTrue();
 
     List<UserProperties> findByListedFalse();
+
+    @Query("SELECT COUNT(p) FROM UserProperties p")
+    Long countAllProperties();
+
 }
