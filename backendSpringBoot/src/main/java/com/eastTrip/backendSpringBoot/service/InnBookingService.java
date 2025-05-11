@@ -123,4 +123,22 @@ public class InnBookingService {
     }
 
 
+    public List<InnBookingResponseDTO> getAllBookings() {
+        List<InnBooking> bookings = innBookingRepository.findAll();
+
+        return bookings.stream()
+                .map(booking -> InnBookingResponseDTO.builder()
+                        .name(booking.getName())
+                        .userId(booking.getUser().getId())
+                        .innId(booking.getInnId())
+                        .numberOfRooms((long) booking.getNumberOfRooms())
+                        .checkInDate(booking.getCheckInDate().toString())
+                        .checkOutDate(booking.getCheckOutDate().toString())
+                        .numberOfGuests(booking.getNumberOfGuests())
+                        .totalPrice(booking.getTotalPrice())
+                        .innType(booking.getInnType())
+                        .build())
+                .collect(Collectors.toList());
+
+    }
 }

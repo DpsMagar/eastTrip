@@ -21,9 +21,6 @@ public class InnBookingController {
     public ResponseEntity<InnBookingResponseDTO> createBooking(
             @RequestBody InnBookingRequestDTO request
     ) {
-//        System.out.println("============================================================");
-//        System.out.println(request);
-//        System.out.println("============================================================");
 
         InnBookingResponseDTO response = innBookingService.createBooking(request);
         return ResponseEntity.ok(response);
@@ -35,6 +32,10 @@ public class InnBookingController {
     ) {
         List<InnBookingResponseDTO> bookings = innBookingService.getBookingsByUserId(userId);
         return ResponseEntity.ok(bookings);
+    }
+    @GetMapping("/all-bookings")
+    public ResponseEntity<List<InnBookingResponseDTO>> getAllBookings() {
+        return ResponseEntity.ok(innBookingService.getAllBookings());
     }
 
 }
