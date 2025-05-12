@@ -12,32 +12,6 @@ function Box({ hotel, index }) {
   console.log("Box");
   console.log(hotel.hotelName);
   
-  
-  
-  
-  // Default props for when properties are missing
-  // const defaultHotel = {
-  //   name: "Hotel Name",
-  //   formerName: "",
-  //   stars: 4,
-  //   location: "Location",
-  //   walkTime: "",
-  //   metroInfo: "",
-  //   roomType: "Standard Room",
-  //   bedType: "Double Bed",
-  //   viewType: "",
-  //   homeStayFeatures: ["Wifi", "Parking"],
-  //   topSelling: false,
-  //   bookings: 0,
-  //   offers: "Special offer",
-  //   price: 50,
-  //   taxes: 10,
-  //   rating: 4.0,
-  //   ratingText: "Good",
-  //   reviews: 100,
-  //   image: "/placeholder.svg?height=400&width=600",
-  //   thumbnails: [],
-  // }
 
   // Merge with defaults to prevent errors from missing properties
   // const hotel = { ...defaultHotel, ...hotel }
@@ -53,6 +27,16 @@ function Box({ hotel, index }) {
     navigate("/description?hotelName=" + hotel.hotelName)
   }
 
+const ratingtext = (() => {
+  switch (hotel.rating) {
+    case 1: return "Bad";
+    case 2: return "Good";
+    case 3: return "Very Good";
+    case 4: return "Excellent";
+    case 5: return "Outstanding";
+    default: return "No Rating";
+  }
+})();
   return (
     <div className="hotel-card" onClick={handleLogoClick}>
       <div className="hotel-card-container">
@@ -110,7 +94,7 @@ function Box({ hotel, index }) {
         {/* Right section - Price and booking */}
         <div className="hotel-price-section">
           <div className="rating-badge">
-            {hotel.ratingText} {hotel.rating}
+            {ratingtext} {hotel.rating}
             <div className="reviews-count">({hotel.reviews} Ratings)</div>
           </div>
 

@@ -49,6 +49,8 @@ const SAMPLE_FORM_DATA = {
 }
 
 const EditFormPage = ({ propertyData, onClose, onSave }) => {
+  const [showSuccess, setShowSuccess] = useState(false);
+const [showError, setShowError] = useState(false);
   const [activeTab, setActiveTab] = useState("Basic");
   const tabs = ["Basic", "Amenities", "Location"];
   const [isInitialized, setIsInitialized] = useState(false);
@@ -114,6 +116,7 @@ const EditFormPage = ({ propertyData, onClose, onSave }) => {
       if (onSave) {
         // If we have an onSave prop, use that
         onSave(formData);
+        setShowSuccess(true);
       } else {
         // Otherwise use the default behavior
         console.log("Form data to be submitted:", formData);

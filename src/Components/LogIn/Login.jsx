@@ -182,12 +182,7 @@ export default function Login({ onClose, switchToSignup }) {
               </div>
 
               <div className="terms-checkbox">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  checked={rememberMe}
-                  onChange={() => setRememberMe(!rememberMe)}
-                />
+
                 <label htmlFor="terms">
                   By signing in or creating an account, you agree to GhumGhamNepal's{" "}
                   <a href="/privacy-policy" className="terms-link">

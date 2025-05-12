@@ -60,7 +60,7 @@ const TBoxCard = () => {
   setTimeout(() => {
     // Send the DELETE request to the backend
     axios
-      .delete(`http://localhost:8080/api/user-properties/${deleteId}`)
+      .delete(`https://easttrip.onrender.com/api/user-properties/${deleteId}`)
       .then(() => {
         // After successful deletion, remove the property from the list in the state
         const updatedProperties = properties.filter(property => property.id !== deleteId);
@@ -89,7 +89,7 @@ const TBoxCard = () => {
 
    useEffect(() => {
     axios
-      .get("http://localhost:8080/api/user-properties/user/5")
+      .get("https://easttrip.onrender.com/api/user-properties/user/5")
       .then((response) => {
         const formatted = response.data.map((item) => ({
           id: item.hotelId,

@@ -73,9 +73,9 @@ const FormPage = () => {
   let url = "";
 
   if (typeOfProperty === 1) {
-    url = "http://localhost:8080/add/hotel";
+    url = "https://easttrip.onrender.com/add/hotel";
   } else if (typeOfProperty === 2) {
-    url = "http://localhost:8080/add/homestay";
+    url = "https://easttrip.onrender.com/add/homestay";
   } else {
     alert("Invalid property type.");
     return;

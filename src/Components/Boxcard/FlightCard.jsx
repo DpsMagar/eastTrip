@@ -1,9 +1,13 @@
 "use client"
 import "./flight-card.css"
+import PlaneDetail from "./PlaneDetail"
+import { useState } from "react"
 
 const FlightCard = () => {
+  const [showPlaneDetail, setShowPlaneDetail] = useState(false)
+  
   const flight = {
-    fightlogo: "https://upload.wikimedia.org/wikipedia/en/thumb/8/85/Buddha_Air_Logo.svg/1200px-Buddha_Air_Logo.svg.png",
+    fightlogo: "https://www.buddhaair.com/images/buddhaair.png",
     airway: "Buddha Air",
     flightNumber: "U4 123",
     departure: "08:00",
@@ -13,7 +17,8 @@ const FlightCard = () => {
     arrival: "09:10",
     to: "Pokhara",
     tocode: "PKR",
-    price: "7500"
+    price: "7500",
+    SeatNumber: "A3",
   }
 
   return (
@@ -81,12 +86,24 @@ const FlightCard = () => {
           href="#"
           onClick={(e) => {
             e.preventDefault()
-            // Placeholder for future functionality
+            setShowPlaneDetail(true)
           }}
         >
           View Flight Details
         </a>
       </div>
+
+      {/* Plane Detail Popup */}
+      {showPlaneDetail && (
+        <div className="plane-detail-modal">
+          <div className="modal-overlay" onClick={() => setShowPlaneDetail(false)}></div>
+          <PlaneDetail 
+            SeatNumber={flight.SeatNumber}
+            flightLogo={flight.fightlogo}
+            onClose={() => setShowPlaneDetail(false)}
+          />
+        </div>
+      )}
     </div>
   )
 }
