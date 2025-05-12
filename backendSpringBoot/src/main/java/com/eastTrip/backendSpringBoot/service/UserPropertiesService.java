@@ -61,7 +61,7 @@ public class UserPropertiesService {
 
     private HotelSearchResultsDTO mapHotelToDTO(Hotel hotel, int type) {
         return new HotelSearchResultsDTO(
-                Long.valueOf(hotel.getId()),
+                hotel.getId(),
                 hotel.getName(),
                 hotel.getLocation(),
                 hotel.getAttraction(),

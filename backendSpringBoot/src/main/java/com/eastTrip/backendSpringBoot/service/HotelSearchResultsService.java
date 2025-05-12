@@ -2,11 +2,9 @@ package com.eastTrip.backendSpringBoot.service;
 
 import com.eastTrip.backendSpringBoot.dto.HotelSearchResultsDTO;
 import com.eastTrip.backendSpringBoot.dto.ListHotelNamesDTO;
-import com.eastTrip.backendSpringBoot.model.HomeStay;
-import com.eastTrip.backendSpringBoot.model.Hotel;
-import com.eastTrip.backendSpringBoot.model.HotelFeatures;
-import com.eastTrip.backendSpringBoot.model.HotelRooms;
+import com.eastTrip.backendSpringBoot.model.*;
 import com.eastTrip.backendSpringBoot.repository.HotelRepository;
+import com.eastTrip.backendSpringBoot.repository.HotelReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +19,7 @@ import java.util.stream.Collectors;
 public class HotelSearchResultsService {
 
     private final HotelRepository hotelRepository;
+    private final HotelReviewRepository hotelReviewRepository;
 
     @Transactional
     public List<HotelSearchResultsDTO> getAllHotelSearchList(String location) {

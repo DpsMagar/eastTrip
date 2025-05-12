@@ -25,5 +25,7 @@ public class HotelSearchResultsDTO {
     private Integer propertyType;
     private boolean isListed;
 
+//    private List<String> comment;
+
 
 }
