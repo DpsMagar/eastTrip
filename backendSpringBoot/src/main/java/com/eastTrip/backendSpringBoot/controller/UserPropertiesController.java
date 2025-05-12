@@ -63,6 +63,7 @@ public class UserPropertiesController {
     public List<HotelSearchResultsDTO> getAllHotels() {
         return service.getAllProperties();
     }
+
     @GetMapping("/pending")
     public List<HotelSearchResultsDTO> getPendingProperties() {
         return service.getPendingProperties();

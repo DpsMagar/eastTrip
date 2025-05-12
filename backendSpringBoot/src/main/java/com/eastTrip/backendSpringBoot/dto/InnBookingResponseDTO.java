@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class InnBookingResponseDTO {
+    private Long colsId;
     private String name;
     private Long userId;
     private int innId;

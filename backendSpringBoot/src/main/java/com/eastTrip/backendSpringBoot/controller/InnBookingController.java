@@ -38,4 +38,10 @@ public class InnBookingController {
         return ResponseEntity.ok(innBookingService.getAllBookings());
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBooking(@PathVariable Long id) {
+        innBookingService.deleteBooking(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

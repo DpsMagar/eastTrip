@@ -137,8 +137,13 @@ public class InnBookingService {
                         .numberOfGuests(booking.getNumberOfGuests())
                         .totalPrice(booking.getTotalPrice())
                         .innType(booking.getInnType())
+                        .colsId(booking.getId())
                         .build())
                 .collect(Collectors.toList());
 
+    }
+
+    public void deleteBooking(Long id) {
+        innBookingRepository.deleteById(id);
     }
 }
