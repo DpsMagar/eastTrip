@@ -1,14 +1,17 @@
 package com.eastTrip.backendSpringBoot.service;
 
 
+import com.eastTrip.backendSpringBoot.dto.HotelReviewRequest;
 import com.eastTrip.backendSpringBoot.model.Hotel;
 import com.eastTrip.backendSpringBoot.model.HotelReview;
 import com.eastTrip.backendSpringBoot.model.User;
 import com.eastTrip.backendSpringBoot.repository.HotelRepository;
 import com.eastTrip.backendSpringBoot.repository.HotelReviewRepository;
 import com.eastTrip.backendSpringBoot.repository.UserRepository;
+import com.eastTrip.backendSpringBoot.util.TimespanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,7 +40,20 @@ public class HotelReviewService {
         return reviewRepo.save(review);
     }
 
-    public List<HotelReview> getReviewsForHotel(Long hotelId) {
-        return reviewRepo.findByHotelId(hotelId);
+    public List<HotelReviewRequest> getReviewsForHotel(Long hotelId) {
+
+        List<HotelReview> hotelReview = reviewRepo.findByHotelId(hotelId);
+
+        List<HotelReviewRequest> hotelReviewRequest = new ArrayList<>();
+        for (HotelReview review : hotelReview) {
+            HotelReviewRequest request = new HotelReviewRequest();
+            request.setHotelId(review.getHotel().getId());
+            request.setUserId(review.getUser().getId());
+            request.setRating(review.getRating());
+            request.setComment(review.getComment());
+            request.setTimeSpan(TimespanUtils.getTimeSpan(review.getCreatedAt()));
+            hotelReviewRequest.add(request);
+        }
+        return hotelReviewRequest;
     }
 }

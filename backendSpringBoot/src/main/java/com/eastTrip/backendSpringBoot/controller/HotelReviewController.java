@@ -26,7 +26,7 @@ public class HotelReviewController {
 
 
     @GetMapping("/{hotelId}")
-    public List<HotelReview> getReviews(@PathVariable Long hotelId) {
+    public List<HotelReviewRequest> getReviews(@PathVariable Long hotelId) {
         return reviewService.getReviewsForHotel(hotelId);
     }
 }
