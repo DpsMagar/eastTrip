@@ -91,7 +91,7 @@ public class UserPropertiesService {
                 homestay.getAttraction(),
                 Integer.parseInt(homestay.getRating()),
                 homestay.getRoomFeatures().stream()
-                        .map(HomeStayRooms::getRoomFeature)
+                        .map(HomeStayRooms::getRoomFeatures)
                         .collect(Collectors.toList()),
                 homestay.getServices().stream()
                         .map(HomeStayFeatures::getServices)

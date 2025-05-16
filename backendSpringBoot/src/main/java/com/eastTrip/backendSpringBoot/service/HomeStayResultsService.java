@@ -64,7 +64,7 @@ public class HomeStayResultsService {
 
     private List<String> mapRoomFeatures(List<HomeStayRooms> roomFeatures) {
         return roomFeatures.stream()
-                .map(HomeStayRooms::getRoomFeature)
+                .map(HomeStayRooms::getRoomFeatures)
                 .collect(Collectors.toList());
     }
     public List<ListHotelNamesDTO> getListOfHomeStayNames() {

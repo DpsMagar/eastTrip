@@ -16,7 +16,7 @@ public class HomeStayRooms {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String roomFeature;
+    private String roomFeatures;
 
     @ManyToMany(mappedBy = "roomFeatures")
     @JsonIgnore
