@@ -6,7 +6,7 @@ import NoProfile from "../../Assest/nonprofile.png";
 import axios from 'axios';
 
 const initialUsers = [
-  { id: 1, ImgUrl: NoProfile, name: "Sarah Wilson", email: "dumby@gmail.com", property: "Hotel Pool", location: "Kathmandu", checkIn: "2023-05-10", checkOut: "2023-05-15", amount: "$450", status: "Active" },
+  { id: 1, ImgUrl: NoProfile, name: "Sarah Wilson", email: "dumby@gmail.com", property: "Hotel Pool", location: "Kathmandu", checkIn: "2023-05-10", checkOut: "2023-05-15", amount: "$450", status: "Active", colsId:21 },
 ];
 
 
@@ -28,30 +28,41 @@ const TBookingCardSA = () => {
 
   const userID= sessionStorage.getItem("userId");
 
-    useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(`http://localhost:8080/api/inn-bookings/all-bookings`); // Replace with your actual endpoint
-        const bookings = response.data;
+     useEffect(() => {
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`http://localhost:8080/api/inn-bookings/all-bookings`);
+      const bookings = response.data;
+      console.log(response.data);
+      
 
-        // Optional fallback for missing images
-        const usersWithImages = bookings.map(user => ({
-          ...user,
-          ImgUrl: user.ImgUrl || NoProfile,
-        }));
+      const usersWithTransformedFields = bookings.map((booking, index) => ({
+        id: index + 1,
+        ImgUrl: NoProfile,
+        name: booking.name || "Guest User",
+        email: "guest@example.com", // Fallback or fetch from user if available
+        property: booking.name,
+        location: "N/A", // Add location if available in backend
+        checkIn: booking.checkInDate,
+        checkOut: booking.checkOutDate,
+        amount: `₹${booking.totalPrice}`,
+        status: "Active" ,// Or derive based on date logic
+        colsId: booking.colsId,
+      }));
 
-        setUsers(usersWithImages);
-        setFilteredUsers(usersWithImages);
-      } catch (err) {
-        setError("Failed to fetch booking data.");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-     fetchUsers();
-  }, []);
+      setUsers(usersWithTransformedFields);
+      setFilteredUsers(usersWithTransformedFields);
+    } catch (err) {
+      setError("Failed to fetch booking data.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchUsers();
+}, []);
 
  useEffect(() => {
   const filtered = users.filter(user =>
@@ -68,6 +79,8 @@ const TBookingCardSA = () => {
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
   const startIndex = (currentPage - 1) * usersPerPage;
   const paginatedUsers = filteredUsers.slice(startIndex, startIndex + usersPerPage);
+  // console.log(paginatedUsers);
+  
 
   const groupSize = 3;
   const currentGroup = Math.floor((currentPage - 1) / groupSize);
@@ -77,7 +90,14 @@ const TBookingCardSA = () => {
   const showingFrom = startIndex + 1;
   const showingTo = Math.min(startIndex + usersPerPage, filteredUsers.length);
 
-  const handleDeleteUser = (id) => {
+  const handleDeleteUser = async (id) => {
+    console.log(id);
+    
+
+    await axios.delete(`http://localhost:8080/api/inn-bookings/${id}`)
+    .then( (response)=>
+      console.log(response)
+    )
     setFadingUserId(id);
     setShowConfirm(false);
 
@@ -123,6 +143,8 @@ const TBookingCardSA = () => {
     
   //   return <span className={`status-badge ${statusClass}`}>{status}</span>;
   // };
+  // console.log(user);
+  
 
   return (
     <div className='t-booking'>
@@ -170,6 +192,7 @@ const TBookingCardSA = () => {
 
           {paginatedUsers.length > 0 ? (
             paginatedUsers.map((user) => (
+              
               <div
                 className={`table-row ${fadingUserId === user.id ? 'fade-out' : ''}`}
                 key={user.id}
@@ -184,18 +207,18 @@ const TBookingCardSA = () => {
                 </div>
                 <div className="property-cell">
                   <div className="property-name">{user.property}</div>
-                  <div className="location">{user.location}</div>
+                  {/* <div className="location">{user.location}</div> */}
                 </div>
                 <div className="checkin-cell">{user.checkIn}</div>
                 <div className="checkout-cell">{user.checkOut}</div>
                 <div className="amount-cell">{user.amount}</div>
-                {/* <div className="status-cell">{renderStatus(user.status)}</div> */}
+                <div className="status-cell">{(user.status)}</div>
                 <div className="action-cell">
                   <button
                     className='delete-btn'
                     onClick={(e) => {
                       e.stopPropagation();
-                      setSelectedUserId(user.id);
+                      setSelectedUserId(user.colsId);
                       setShowConfirm(true);
                     }}
                   >

@@ -23,6 +23,8 @@ const SAPendingLists = () => {
     axios
       .get("http://localhost:8080/api/user-properties/pending")
       .then((response) => {
+        console.log(response.data);
+        
         const formatted = response.data.map((item) => ({
           id: item.hotelId,
           ImgUrl: item.imageUrl || dumby,
@@ -33,6 +35,8 @@ const SAPendingLists = () => {
           Location: item.hotelLocation,
           type: item.propertyType,
         }));
+        // console.log(formatted);
+        
         setProperties(formatted);
       })
       .catch((error) => {

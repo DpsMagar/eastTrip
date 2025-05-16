@@ -7,10 +7,13 @@ import AmenitiesForm from "../../Components/T-AmenitiesForm/AmenitiesForm"
 import Location from "../../Components/T-LocationForm/Location"
 import { useForm } from "../../context/FormContext"
 import { useSelector } from 'react-redux'
+import { useNavigate } from "react-router-dom"
+
 
 
 const FormPage = () => {
   const property = useSelector((state) => state.property);
+  const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState("Basic")
   const tabs = ["Basic", "Amenities", "Location"]
@@ -96,6 +99,7 @@ const FormPage = () => {
 
    console.log("form submitted successfully",payload);
    console.log(response);
+   navigate('/travelagent')
    
    
   } catch (error) {

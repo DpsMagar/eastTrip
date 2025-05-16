@@ -34,7 +34,7 @@ const TBoxCard = () => {
     setPropertyToEdit(null);
   };
 
-  const propertiesPerPage = 2;
+  const propertiesPerPage = 3;
   const totalPages = Math.ceil(properties.length / propertiesPerPage);
   const paginatedProperties = properties.slice(
     (currentPage - 1) * propertiesPerPage,
@@ -90,14 +90,17 @@ const TBoxCard = () => {
    useEffect(() => {
     axios
       .get("https://easttrip.onrender.com/api/user-properties/user/5")
+      
       .then((response) => {
+        console.log(response);
+        
         const formatted = response.data.map((item) => ({
           id: item.hotelId,
           ImgUrl: item.imageUrl || dumby,
           name: item.hotelName,
           PropertyType: item.propertyType === 1 ? "Hotel" : "Homestay",
           Rating: item.rating,
-          Condition: "In review", // Default or replace with actual field if available
+          Condition: "In review",
           Location: item.hotelLocation,
           type:item.propertyType,
 

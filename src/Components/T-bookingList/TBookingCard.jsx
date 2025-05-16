@@ -29,29 +29,40 @@ const TBookingCard = () => {
   const userID= sessionStorage.getItem("userId");
 
     useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(`http://localhost:8080/api/inn-bookings/user/${userID}`); // Replace with your actual endpoint
-        const bookings = response.data;
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`http://localhost:8080/api/inn-bookings/user/${userID}`);
+      const bookings = response.data;
+      console.log(response.data);
+      
 
-        // Optional fallback for missing images
-        const usersWithImages = bookings.map(user => ({
-          ...user,
-          ImgUrl: user.ImgUrl || NoProfile,
-        }));
+      const usersWithTransformedFields = bookings.map((booking, index) => ({
+        id: index + 1,
+        ImgUrl: NoProfile,
+        name: booking.name || "Guest User",
+        email: "guest@example.com", // Fallback or fetch from user if available
+        property: booking.name,
+        location: "N/A", // Add location if available in backend
+        checkIn: booking.checkInDate,
+        checkOut: booking.checkOutDate,
+        amount: `₹${booking.totalPrice}`,
+        status: "Active" // Or derive based on date logic
+      }));
 
-        setUsers(usersWithImages);
-        setFilteredUsers(usersWithImages);
-      } catch (err) {
-        setError("Failed to fetch booking data.");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-     fetchUsers();
-  }, []);
+      setUsers(usersWithTransformedFields);
+      setFilteredUsers(usersWithTransformedFields);
+    } catch (err) {
+      setError("Failed to fetch booking data.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchUsers();
+}, []);
+
 
  useEffect(() => {
   const filtered = users.filter(user =>
@@ -184,12 +195,12 @@ const TBookingCard = () => {
                 </div>
                 <div className="property-cell">
                   <div className="property-name">{user.property}</div>
-                  <div className="location">{user.location}</div>
+                  {/* <div className="location">{user.location}</div> */}
                 </div>
                 <div className="checkin-cell">{user.checkIn}</div>
                 <div className="checkout-cell">{user.checkOut}</div>
                 <div className="amount-cell">{user.amount}</div>
-                {/* <div className="status-cell">{renderStatus(user.status)}</div> */}
+                <div className="status-cell">{user.status}</div> 
                 <div className="action-cell">
                   <button
                     className='delete-btn'
