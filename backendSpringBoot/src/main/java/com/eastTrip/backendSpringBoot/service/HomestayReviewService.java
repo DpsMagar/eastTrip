@@ -1,14 +1,19 @@
 package com.eastTrip.backendSpringBoot.service;
 
 
+import com.eastTrip.backendSpringBoot.dto.HomestayReviewRequestDTO;
+import com.eastTrip.backendSpringBoot.dto.HotelReviewRequestDTO;
 import com.eastTrip.backendSpringBoot.model.HomeStay;
 import com.eastTrip.backendSpringBoot.model.HomestayReview;
+import com.eastTrip.backendSpringBoot.model.HotelReview;
 import com.eastTrip.backendSpringBoot.model.User;
 import com.eastTrip.backendSpringBoot.repository.HomeStayRepository;
 import com.eastTrip.backendSpringBoot.repository.HomestayReviewRepository;
 import com.eastTrip.backendSpringBoot.repository.UserRepository;
+import com.eastTrip.backendSpringBoot.util.TimespanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,7 +42,21 @@ public class HomestayReviewService {
         return reviewRepo.save(review);
     }
 
-    public List<HomestayReview> getReviewsForHomestay(Long homestayId) {
-        return reviewRepo.findByHomestayId(homestayId);
-    }
+    public List<HomestayReviewRequestDTO> getReviewsForHomestay(Long homestayId) {
+
+        List<HomestayReview> homestayReview = reviewRepo.findByHomestayId(homestayId);
+
+        List<HomestayReviewRequestDTO> homestayReviewRequest = new ArrayList<>();
+
+        for (HomestayReview review : homestayReview) {
+            HomestayReviewRequestDTO request = new HomestayReviewRequestDTO();
+            request.setHomestayId((long) review.getHomestay().getId());
+            request.setUserId(review.getUser().getId());
+            request.setRating(review.getRating());
+            request.setComment(review.getComment());
+            request.setTimeSpan(TimespanUtils.getTimeSpan(review.getCreatedAt()));
+            request.setName(review.getUser().getFullName());
+            homestayReviewRequest.add(request);
+        }
+        return homestayReviewRequest;    }
 }

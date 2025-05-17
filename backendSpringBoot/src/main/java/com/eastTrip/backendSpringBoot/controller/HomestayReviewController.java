@@ -1,7 +1,7 @@
 package com.eastTrip.backendSpringBoot.controller;
 
 
-import com.eastTrip.backendSpringBoot.dto.HomestayReviewRequest;
+import com.eastTrip.backendSpringBoot.dto.HomestayReviewRequestDTO;
 import com.eastTrip.backendSpringBoot.model.HomestayReview;
 import com.eastTrip.backendSpringBoot.service.HomestayReviewService;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class HomestayReviewController {
     }
 
     @PostMapping
-    public HomestayReview addReview(@RequestBody HomestayReviewRequest request) {
+    public HomestayReview addReview(@RequestBody HomestayReviewRequestDTO request) {
         return reviewService.createReview(
                 request.homestayId, request.userId, request.rating, request.comment
         );
@@ -27,7 +27,7 @@ public class HomestayReviewController {
 
 
     @GetMapping("/{homestayId}")
-    public List<HomestayReview> getReviews(@PathVariable Long homestayId) {
+    public List<HomestayReviewRequestDTO> getReviews(@PathVariable Long homestayId) {
         return reviewService.getReviewsForHomestay(homestayId);
     }
 }

@@ -1,7 +1,7 @@
 package com.eastTrip.backendSpringBoot.service;
 
 
-import com.eastTrip.backendSpringBoot.dto.HotelReviewRequest;
+import com.eastTrip.backendSpringBoot.dto.HotelReviewRequestDTO;
 import com.eastTrip.backendSpringBoot.model.Hotel;
 import com.eastTrip.backendSpringBoot.model.HotelReview;
 import com.eastTrip.backendSpringBoot.model.User;
@@ -40,13 +40,13 @@ public class HotelReviewService {
         return reviewRepo.save(review);
     }
 
-    public List<HotelReviewRequest> getReviewsForHotel(Long hotelId) {
+    public List<HotelReviewRequestDTO> getReviewsForHotel(Long hotelId) {
 
         List<HotelReview> hotelReview = reviewRepo.findByHotelId(hotelId);
 
-        List<HotelReviewRequest> hotelReviewRequest = new ArrayList<>();
+        List<HotelReviewRequestDTO> hotelReviewRequest = new ArrayList<>();
         for (HotelReview review : hotelReview) {
-            HotelReviewRequest request = new HotelReviewRequest();
+            HotelReviewRequestDTO request = new HotelReviewRequestDTO();
             request.setHotelId(review.getHotel().getId());
             request.setUserId(review.getUser().getId());
             request.setRating(review.getRating());

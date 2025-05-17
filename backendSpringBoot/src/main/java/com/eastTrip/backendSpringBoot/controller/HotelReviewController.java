@@ -1,6 +1,6 @@
 package com.eastTrip.backendSpringBoot.controller;
 
-import com.eastTrip.backendSpringBoot.dto.HotelReviewRequest;
+import com.eastTrip.backendSpringBoot.dto.HotelReviewRequestDTO;
 import com.eastTrip.backendSpringBoot.model.HotelReview;
 import com.eastTrip.backendSpringBoot.service.HotelReviewService;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ public class HotelReviewController {
     }
 
     @PostMapping
-    public HotelReview addReview(@RequestBody HotelReviewRequest request) {
+    public HotelReview addReview(@RequestBody HotelReviewRequestDTO request) {
         return reviewService.createReview(
                 request.hotelId, request.userId, request.rating, request.comment
         );
@@ -26,7 +26,7 @@ public class HotelReviewController {
 
 
     @GetMapping("/{hotelId}")
-    public List<HotelReviewRequest> getReviews(@PathVariable Long hotelId) {
+    public List<HotelReviewRequestDTO> getReviews(@PathVariable Long hotelId) {
         return reviewService.getReviewsForHotel(hotelId);
     }
 }
