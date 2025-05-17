@@ -235,14 +235,7 @@ export default function SignUp({ onClose, switchToLogin }) {
               </div>
 
               <div className="signup__terms">
-                <input
-                  type="checkbox"
-                  id="agree-terms"
-                  className="signup__checkbox"
-                  checked={agreeTerms}
-                  onChange={() => setAgreeTerms(!agreeTerms)}
-                  required
-                />
+
                 <label htmlFor="agree-terms" className="signup__terms-label">
                   By creating an account, you agree to GhumGhamNepal's{" "}
                   <a href="/privacy-policy" className="signup__terms-link">

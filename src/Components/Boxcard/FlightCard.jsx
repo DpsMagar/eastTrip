@@ -5,6 +5,7 @@ import { useState } from "react"
 
 const FlightCard = () => {
   const [showPlaneDetail, setShowPlaneDetail] = useState(false)
+  const [showBillDetail, setShowBillDetail] = useState(false)
   
   const flight = {
     fightlogo: "https://www.buddhaair.com/images/buddhaair.png",
@@ -76,7 +77,12 @@ const FlightCard = () => {
       <div className="flight-card-right">
         <div className="price-container">
           <h3 className="price">NRs {flight.price}</h3>
-          <button className="book-now-btn">BOOK NOW</button>
+          <button className="book-now-btn"
+          onClick={(e) =>{
+            e.preventDefault()
+            setShowBillDetail(true)
+          }}
+          >BOOK NOW</button>
         </div>
       </div>
 
@@ -95,6 +101,17 @@ const FlightCard = () => {
 
       {/* Plane Detail Popup */}
       {showPlaneDetail && (
+        <div className="plane-detail-modal">
+          <div className="modal-overlay" onClick={() => setShowPlaneDetail(false)}></div>
+          <PlaneDetail 
+            SeatNumber={flight.SeatNumber}
+            flightLogo={flight.fightlogo}
+            onClose={() => setShowPlaneDetail(false)}
+          />
+        </div>
+      )}
+
+        {showBillDetail && (
         <div className="plane-detail-modal">
           <div className="modal-overlay" onClick={() => setShowPlaneDetail(false)}></div>
           <PlaneDetail 
