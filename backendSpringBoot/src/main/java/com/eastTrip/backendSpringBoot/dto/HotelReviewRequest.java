@@ -9,4 +9,5 @@ public class HotelReviewRequest {
     public int rating;
     public String comment;
     public String timeSpan;
+    public String name;
 }

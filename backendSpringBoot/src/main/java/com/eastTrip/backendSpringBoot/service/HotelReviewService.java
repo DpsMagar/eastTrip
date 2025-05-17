@@ -52,6 +52,7 @@ public class HotelReviewService {
             request.setRating(review.getRating());
             request.setComment(review.getComment());
             request.setTimeSpan(TimespanUtils.getTimeSpan(review.getCreatedAt()));
+            request.setName(review.getUser().getFullName());
             hotelReviewRequest.add(request);
         }
         return hotelReviewRequest;

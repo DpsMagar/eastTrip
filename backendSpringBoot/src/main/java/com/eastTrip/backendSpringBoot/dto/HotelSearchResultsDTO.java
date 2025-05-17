@@ -24,8 +24,6 @@ public class HotelSearchResultsDTO {
     private String imageUrl;
     private Integer propertyType;
     private boolean isListed;
-
-//    private List<String> comment;
-
+//    private List<HotelReviewRequest> reviews;
 
 }

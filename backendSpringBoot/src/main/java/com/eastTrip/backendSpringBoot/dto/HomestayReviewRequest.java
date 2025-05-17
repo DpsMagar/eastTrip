@@ -8,4 +8,5 @@ public class HomestayReviewRequest {
     public Long userId;
     public int rating;
     public String comment;
+    public String timeSpan;
 }
