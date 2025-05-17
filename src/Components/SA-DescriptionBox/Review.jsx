@@ -58,7 +58,7 @@ const Review = ({ reviews }) => {
                       {review.avatar ? (
                         <img src={review.avatar || "/placeholder.svg"} alt={review.name} />
                       ) : (
-                        <div className="avatar-placeholder">{review.name.charAt(0)}</div>
+                        <div className="avatar-placeholder">{review.name}</div>
                       )}
                     </div>
                     <div className="reviewer-details">
@@ -66,7 +66,7 @@ const Review = ({ reviews }) => {
                       <div className="review-stars">{renderStars(review.rating)}</div>
                     </div>
                   </div>
-                  <div className="review-date">{review.date}</div>
+                  <div className="review-date">{review.timeSpan}</div>
                 </div>
                 <div className="review-content">{review.comment}</div>
               </div>

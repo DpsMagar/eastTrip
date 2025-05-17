@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Star } from "lucide-react"
 import BookingForm from "./BookingFrom"
 import Reviews from "./Review"
@@ -8,8 +8,12 @@ import "./descriptionBox.css"
 import { useSelector } from "react-redux"
 import { useGetHotelInfoQuery } from "../../features/api/hotelApi"
 import { useGetHomeStayInfoQuery } from "../../features/api/homeStayApi"
+import axios from "axios"
 
 const DescriptionBox = ({ hotelInfo }) => {
+
+  const [reviews, setReviews] = useState([]);
+  const [error, setError] = useState("");
 
   const activeItemIndex= useSelector((state)=> state.active.activeItemIndex);
   const activeItemType= useSelector((state)=> state.active.activeTypeIndex );
@@ -24,9 +28,34 @@ const DescriptionBox = ({ hotelInfo }) => {
   const {data:infoHotel}= useGetHotelInfoQuery(activeItemIndex, {skip: !isHotel});
   const {data:infoHomeStay}= useGetHomeStayInfoQuery(activeItemIndex, {skip: !isHomeStay});
 
+  
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        let url = "";
+        if (isHotel) {
+          url = `http://localhost:8080/api/hotel-reviews/${activeItemIndex}`;
+        } else {
+          url = `http://localhost:8080/api/homestay-reviews/${activeItemIndex}`;
+        }
+
+        const response = await axios.get(url);
+        setReviews(response.data);
+        // console.log(response.data);
+        
+      } catch (err) {
+        console.error("Failed to fetch reviews:", err);
+        setError("Failed to fetch reviews");
+      }
+    };
+
+    fetchReviews();
+  }, [isHotel, activeItemIndex, isHomeStay]);
+
 const info = infoHotel || infoHomeStay
 
-  console.log(info);
+  // console.log(info);
 
   const [mainImage, setMainImage] = useState(hotelInfo["Main-Image"] || "/placeholder.svg")
 
@@ -109,7 +138,7 @@ const info = infoHotel || infoHomeStay
       </div>
 
       {/* Reviews Section */}
-      <Reviews reviews={hotelInfo.reviews || []} />
+      <Reviews reviews={ reviews || []} />
     </div>
   )
 }

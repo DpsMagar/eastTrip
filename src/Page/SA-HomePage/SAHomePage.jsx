@@ -51,7 +51,6 @@ const SAHomePage = () => {
           )}
         </div>
       </div>
-
       <div className="main">
         <div className="sidebar">
           <ul>

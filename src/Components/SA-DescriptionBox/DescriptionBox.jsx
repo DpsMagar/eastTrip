@@ -27,25 +27,39 @@ const DescriptionBox = ({ hotelInfo }) => {
     if (typeof entityId !== "number") return;
 
     let url = "";
+    let reviewUrl="";
+
     if (type === 1) {
       url = `http://localhost:8080/results/hotels/hotel?hotelId=${entityId}`;
+      reviewUrl= `http://localhost:8080/api/hotel-reviews/${entityId}`;
     } else if (type === 2) {
       url = `http://localhost:8080/results/homeStay/homeStay?homeStayId=${entityId}`;
+      reviewUrl= `http://localhost:8080/api/homestay-reviews/${entityId}`;
     } else {
       return;
     }
 
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) throw new Error(`Status: ${res.status}`);
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Fetched accommodation data:", data);
-        setAccommodationData(data);
-        setMainImage(data.imageUrl || "/placeholder.svg");
-      })
-      .catch(console.error);
+      Promise.all([
+    fetch(url).then((res) => {
+      if (!res.ok) throw new Error(`Accommodation fetch failed: ${res.status}`);
+      return res.json();
+    }),
+    fetch(reviewUrl).then((res) => {
+      if (!res.ok) throw new Error(`Reviews fetch failed: ${res.status}`);
+      return res.json();
+    }),
+  ])
+    .then(([accommodation, reviews]) => {
+      console.log("Accommodation:", accommodation);
+      console.log("Reviews:", reviews);
+      setAccommodationData({
+        ...accommodation,
+        reviews: reviews || [],
+      });
+      setMainImage(accommodation.imageUrl || "/placeholder.svg");
+    })
+    .catch(console.error);
+
   }, [hotelInfo?.requiredVals]);
 
   if (!accommodationData) return <div>Loading accommodation info...</div>;

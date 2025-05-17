@@ -7,6 +7,7 @@ import TBookingCard from '../../Components/T-bookingList/TBookingCard';
 
 
 export const Homepage = () => {
+  const userID= sessionStorage.getItem('userId');
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('properties');
   const [properties, setProperties] = useState([]);
@@ -18,7 +19,9 @@ export const Homepage = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/user-properties/user/5');
+        const response = await fetch(`http://localhost:8080/api/user-properties/user/${userID}`);
+        console.log("user Id is,", userID);
+        
         if (!response.ok) throw new Error('Failed to fetch properties');
         const data = await response.json();
         setProperties(data);

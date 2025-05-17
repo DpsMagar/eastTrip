@@ -1,10 +1,14 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Star } from "lucide-react"
 import "./reviews.css"
+import axios from "axios"
+import profile from "../../Assest/profile.png"
 
 const Review = ({ reviews }) => {
   const [currentPage, setCurrentPage] = useState(1)
-  const reviewsPerPage = 2
+  const reviewsPerPage = 3
+
+  
 
   // Calculate total pages
   const totalPages = Math.ceil(reviews.length / reviewsPerPage)
@@ -55,18 +59,14 @@ const Review = ({ reviews }) => {
                 <div className="review-header">
                   <div className="reviewer-info">
                     <div className="reviewer-avatar">
-                      {review.avatar ? (
-                        <img src={review.avatar || "/placeholder.svg"} alt={review.name} />
-                      ) : (
-                        <div className="avatar-placeholder">{review.name.charAt(0)}</div>
-                      )}
+                        <img src={profile} alt="profile" />
                     </div>
                     <div className="reviewer-details">
                       <div className="reviewer-name">{review.name}</div>
                       <div className="review-stars">{renderStars(review.rating)}</div>
                     </div>
                   </div>
-                  <div className="review-date">{review.date}</div>
+                  <div className="review-date">{review.timeSpan}</div>
                 </div>
                 <div className="review-content">{review.comment}</div>
               </div>
