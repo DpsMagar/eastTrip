@@ -1,12 +1,13 @@
 "use client"
 import "./flight-card.css"
 import PlaneDetail from "./PlaneDetail"
+import Bill from "./Bill"
 import { useState } from "react"
 
 const FlightCard = () => {
   const [showPlaneDetail, setShowPlaneDetail] = useState(false)
   const [showBillDetail, setShowBillDetail] = useState(false)
-  
+
   const flight = {
     fightlogo: "https://www.buddhaair.com/images/buddhaair.png",
     airway: "Buddha Air",
@@ -21,6 +22,11 @@ const FlightCard = () => {
     price: "7500",
     SeatNumber: "A3",
   }
+
+  const handleOverlayClick = () => {
+    setShowPlaneDetail(false);
+    setShowBillDetail(false);
+  };
 
   return (
     <div className="flight-card">
@@ -46,14 +52,12 @@ const FlightCard = () => {
       {/* Center Section: Times & Duration */}
       <div className="flight-card-center">
         <div className="flight-time-container">
-          {/* Departure */}
           <div className="departure-info">
             <h3 className="time">{flight.departure}</h3>
             <p className="city">{flight.from}</p>
             <p className="airport-code">{flight.fromcode}</p>
           </div>
 
-          {/* Duration */}
           <div className="flight-duration">
             <div className="duration-line">
               <div className="dot"></div>
@@ -64,7 +68,6 @@ const FlightCard = () => {
             <p className="stop-info">Non stop</p>
           </div>
 
-          {/* Arrival */}
           <div className="arrival-info">
             <h3 className="time">{flight.arrival}</h3>
             <p className="city">{flight.to}</p>
@@ -77,12 +80,15 @@ const FlightCard = () => {
       <div className="flight-card-right">
         <div className="price-container">
           <h3 className="price">NRs {flight.price}</h3>
-          <button className="book-now-btn"
-          onClick={(e) =>{
-            e.preventDefault()
-            setShowBillDetail(true)
-          }}
-          >BOOK NOW</button>
+          <button
+            className="book-now-btn"
+            onClick={(e) => {
+              e.preventDefault()
+              setShowBillDetail(true)
+            }}
+          >
+            BOOK NOW
+          </button>
         </div>
       </div>
 
@@ -102,8 +108,8 @@ const FlightCard = () => {
       {/* Plane Detail Popup */}
       {showPlaneDetail && (
         <div className="plane-detail-modal">
-          <div className="modal-overlay" onClick={() => setShowPlaneDetail(false)}></div>
-          <PlaneDetail 
+          <div className="modal-overlay" onClick={handleOverlayClick}></div>
+          <PlaneDetail
             SeatNumber={flight.SeatNumber}
             flightLogo={flight.fightlogo}
             onClose={() => setShowPlaneDetail(false)}
@@ -111,13 +117,15 @@ const FlightCard = () => {
         </div>
       )}
 
-        {showBillDetail && (
+      {/* Bill Detail Popup */}
+      {showBillDetail && (
         <div className="plane-detail-modal">
-          <div className="modal-overlay" onClick={() => setShowPlaneDetail(false)}></div>
-          <PlaneDetail 
+          <div className="modal-overlay" onClick={handleOverlayClick}></div>
+          <Bill
             SeatNumber={flight.SeatNumber}
             flightLogo={flight.fightlogo}
-            onClose={() => setShowPlaneDetail(false)}
+            price={flight.price}
+            onClose={() => setShowBillDetail(false)}
           />
         </div>
       )}

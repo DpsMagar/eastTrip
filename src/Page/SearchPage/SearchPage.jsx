@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Search from '../../Components/Search2/TwoSearch'
 import "./SearchPage.css"
 import Result2 from '../../Components/ResultBox/Result2'
+import PlaneResult from '../../Components/ResultBox/PlaneResult'
 import Result3 from '../../Components/ResultBox/Result3'
 import FlightCard from '../../Components/Boxcard/FlightCard'
 
@@ -20,7 +21,7 @@ const SearchPage = () => {
     // eslint-disable-next-line default-case
     switch (resultType) {
       case 'flights':
-        return <FlightCard/>;
+        return <PlaneResult/>;
       case 'hotels':
         return <Result2/>;
       case 'homeStays':

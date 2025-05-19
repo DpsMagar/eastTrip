@@ -85,6 +85,26 @@ export default function PlaneResult() {
         availableSeats: 45,
         totalSeats: 90,
       },
+      {
+        id: 4,
+        fightlogo: "https://www.summitair.com.np/images/logo.png",
+        airway: "Siuuuu",
+        flightNumber: "SM123",
+        to: "Lukla",
+        from: "Kathmandu",
+        tocode: "LUA",
+        fromcode: "KTM",
+        toairport: "Tenzing-Hillary Airport",
+        fromairport: "Tribhuvan International Airport",
+        flightDuration: "35 minutes",
+        departure: "7:15 AM",
+        arrival: "7:50 AM",
+        price: 6500,
+        class: "Economy",
+        availableSeats: 45,
+        totalSeats: 90,
+
+      }
     ],
   }
 

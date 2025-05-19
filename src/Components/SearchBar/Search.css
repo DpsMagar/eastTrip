@@ -210,7 +210,7 @@
   z-index: 1000;
 }
 
-.popup {
+.search-wrapper .popup {
   background-color: white;
   padding: 20px;
   border-radius: 16px;

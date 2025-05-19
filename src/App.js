@@ -17,6 +17,7 @@ import TSignUp from './Components/T-SignUp/TSignUp';
 import ForgetPassword from './Components/T-ForgetPassword/ForgetPassword';
 import SALogin from "./Page/SA-LoginPage/SALogin"
 import SAHomePage from "./Page/SA-HomePage/SAHomePage"
+import Bill from "./Components/Boxcard/Bill"
 
 import EsewaPayment from "./Page/payment/EsewaPayment"
 import PaymentSuccess from "./Page/payment/PaymentSuccess"
@@ -72,6 +73,7 @@ function App() {
 
             <Route path="/superadminhomepage" element={<SAHomePage />} />
             <Route path="/SuperAdmin/pending/descriptionpage" element={<SADescriptionPage />} />
+            <Route path="/check" element={<Bill/>} />
           </Routes>
         </Router>
       </AuthProvider>
