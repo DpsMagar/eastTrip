@@ -4,7 +4,7 @@ import building from '../../Assest/building.png';
 import './home.css'; 
 import TBoxCard from '../../Components/T-boxcard/TBoxCard';
 import TBookingCard from '../../Components/T-bookingList/TBookingCard';
-
+import { FaHotel } from "react-icons/fa6"
 
 export const Homepage = () => {
   const userID= sessionStorage.getItem('userId');
@@ -39,15 +39,16 @@ export const Homepage = () => {
     <div className="mainbox-travel-agent">
       <div className="content-box">
         <div className="section-header">
-          <div className="section-left">
-            <div className="logo">
+                      {/* <div className="logo">
               <div className="card">
                 <div className="icon">
-                  <img src={building} alt="My Properties Icon" />
+                  <FaHotel className="hotel-icon" />
                 </div>
                 <h3>My Properties</h3>
               </div>
-            </div>
+            </div> */}
+          <div className="section-left">
+
             <div className="heading-box">
   <div className="header-upper">
     <h2>My Properties Dashboard</h2>

@@ -12,7 +12,7 @@
   align-items: center;
 }
 
-.close-btn {
+.rating-modal .close-btn {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -26,7 +26,7 @@
   justify-content: center;
 }
 
-.rating-title {
+.rating-modal .rating-title {
   font-size: 24px;
   font-weight: 600;
   color: #1a202c;
@@ -34,19 +34,19 @@
   text-align: center;
 }
 
-.rating-subtitle {
+.rating-modal .rating-subtitle {
   font-size: 16px;
   color: #4a5568;
   margin: 0 0 24px 0;
   text-align: center;
 }
 
-.hotel-image-container {
+.rating-modal .hotel-image-container {
   width: 100%;
   margin-bottom: 24px;
 }
 
-.hotel-image {
+.rating-modal .hotel-image {
   width: 100%;
   height: 200px;
   object-fit: cover;
@@ -67,24 +67,24 @@
   margin: 0 0 12px 0;
 }
 
-.stars {
+.rating-modal .stars {
   display: flex;
   justify-content: center;
   gap: 8px;
 }
 
-.star {
+.rating-modal .star {
   font-size: 32px;
   cursor: pointer;
   color: #e2e8f0;
   transition: color 0.2s ease;
 }
 
-.star.filled {
+.rating-modal .star.filled {
   color: #f97f4c;
 }
 
-.review-textarea {
+.rating-modal .review-textarea {
   width: 100%;
   height: 120px;
   padding: 12px;
@@ -96,7 +96,7 @@
   box-sizing: border-box;
 }
 
-.submit-btn {
+.rating-modal .submit-btn {
   background-color: #f97f4c;
   color: white;
   border: none;
@@ -110,11 +110,11 @@
   transition: background-color 0.2s ease;
 }
 
-.submit-btn:hover {
+.rating-modal .submit-btn:hover {
   background-color: #e86c39;
 }
 
-.error-text {
+.rating-modal .error-text {
   color: #e53e3e;
   font-size: 14px;
   text-align: center;
