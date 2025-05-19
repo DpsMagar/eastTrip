@@ -1,8 +1,10 @@
 package com.eastTrip.backendSpringBoot.controller;
 
+import com.eastTrip.backendSpringBoot.dto.ProfileDTO;
 import com.eastTrip.backendSpringBoot.dto.UserDTO;
 import com.eastTrip.backendSpringBoot.dto.UserListResponseDTO;
 import com.eastTrip.backendSpringBoot.dto.UserWithPropertyCount;
+import com.eastTrip.backendSpringBoot.service.UserProfileService;
 import com.eastTrip.backendSpringBoot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,14 @@ import java.util.List;
 public class UserController {
 
     @Autowired
+    private final UserProfileService profileService;
+
+    @Autowired
     private UserService userService;
+
+    public UserController(UserProfileService profileService) {
+        this.profileService = profileService;
+    }
 
     // Get all users
     @GetMapping
@@ -49,6 +58,22 @@ public class UserController {
     public ResponseEntity<List<UserWithPropertyCount>> getUsersWithProperties() {
         List<UserWithPropertyCount> users = userService.getUsersWithPropertyCounts();
         return ResponseEntity.ok(users);
+    }
+    @GetMapping("/id/{id}")
+    public ResponseEntity<ProfileDTO> getProfileById(@PathVariable Long id) {
+        ProfileDTO dto = profileService.getUserProfileById(id);
+        if (dto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(dto);
+    }
+    @PutMapping("/id/{id}")
+    public ResponseEntity<String> updateProfileById(@PathVariable Long id, @RequestBody ProfileDTO dto) {
+        boolean updated = profileService.updateUserProfileById(id, dto);
+        if (!updated) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok("Profile updated successfully");
     }
 
 }

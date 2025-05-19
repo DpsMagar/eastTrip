@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -33,6 +34,17 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    private int phoneNumber;
+    private String address;
+    private String country;
+    private String city;
+    private String gender;
+    private LocalDate dateOfBirth;
+    private String profileImage;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserPoints userPoints;
 
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Bookings> bookings;
