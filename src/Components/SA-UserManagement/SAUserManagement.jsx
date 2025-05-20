@@ -8,15 +8,12 @@ import SADashBoard from '../../Page/SA-DashBoard-User/SADashBoard';
 import { IoClose } from "react-icons/io5";
 import axios from 'axios';
 
-
-
 const SAUserManagement = () => {
-   const [user, setUsers] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [filteredUsers, setFilteredUsers] = useState(user);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
@@ -26,30 +23,26 @@ const SAUserManagement = () => {
   const [count, setCount] = useState(0);
   const [flag, setFlag] = useState(1);
 
- 
-
   const usersPerPage = 10;
 
   useEffect(() => {
-  const fetchUsers = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/api/users/all-with-count'); 
-      console.log(response.data.users);
-      
-      setUsers(response.data.users);
-      setCount(response.data.totalCount)
-      setLoading(false);
-    } catch (error) {
-      console.error("Failed to fetch users", error);
-      setLoading(false);
-    }
-  };
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/users/all-with-count'); 
+        setUsers(response.data.users);
+        setCount(response.data.totalCount);
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch users", error);
+        setLoading(false);
+      }
+    };
 
-  fetchUsers();
-}, [flag]);
+    fetchUsers();
+  }, [flag]);
 
   useEffect(() => {
-    const filtered = user.filter(user =>
+    const filtered = users.filter(user =>
       user.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -59,7 +52,7 @@ const SAUserManagement = () => {
     if (currentPage > totalPages && totalPages > 0) {
       setCurrentPage(totalPages);
     }
-  }, [user, searchQuery, currentPage, usersPerPage]);
+  }, [users, searchQuery, currentPage]);
 
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
   const startIndex = (currentPage - 1) * usersPerPage;
@@ -74,26 +67,19 @@ const SAUserManagement = () => {
   const showingTo = Math.min(startIndex + usersPerPage, filteredUsers.length);
 
   const handleDeleteUser = async (id) => {
-    await axios.delete(`http://localhost:8080/api/users/${id}`);
-    setFlag(flag+1)
-    setFadingUserId(id);
-    setShowConfirm(false);
-
-    setTimeout(() => {
-      
-      const updatedUsers = user.filter(user => user.id !== id);
-      setUsers(updatedUsers);
-      setDeleteSuccess(true);
-      setFadingUserId(null);
-
-      if (paginatedUsers.length === 1 && currentPage > 1) {
-        setCurrentPage(currentPage - 1);
-      }
-
+    try {
+      await axios.delete(`http://localhost:8080/api/users/${id}`);
+      setFlag(prev => prev + 1);
+      setFadingUserId(id);
+      setShowConfirm(false);
       setTimeout(() => {
-        setDeleteSuccess(false);
-      }, 2000);
-    }, 300);
+        setDeleteSuccess(true);
+        setFadingUserId(null);
+        setTimeout(() => setDeleteSuccess(false), 2000);
+      }, 300);
+    } catch (error) {
+      console.error("Delete failed", error);
+    }
   };
 
   const handleUserClick = (user) => {
@@ -106,39 +92,31 @@ const SAUserManagement = () => {
     setSelectedUser(null);
   };
 
-  const mapToProfileData = (user) => {
-    return {
-      ProfileImage: CustomProfile,
-      Firstname: user.fullName.split(' ')[0],
-      Lastname: user.fullName.split(' ')[1] || '',
-      Email: user.email,
-      Phone: user.phone || '1234567890',
-      Address: user.address,
-      country: user.country,
-      district: user.district,
-      gender: user.gender,
-      martialStatus: user.maritalStatus,
-      DateOfBirth: user.dateOfBirth,
-      "passport no": "1111111",
-      "Issuing place": "usa",
-      "expiry date": "01/01/2030",
-      rewardpoint: user.rewardPoints || 0,
-    };
-  };
+  const mapToProfileData = (user) => ({
+    ProfileImage: CustomProfile,
+    Firstname: user.fullName.split(' ')[0],
+    Lastname: user.fullName.split(' ')[1] || '',
+    Email: user.email,
+    Phone: user.phone || '1234567890',
+    Address: user.address,
+    country: user.country,
+    district: user.district,
+    gender: user.gender,
+    martialStatus: user.maritalStatus,
+    DateOfBirth: user.dateOfBirth,
+    "passport no": "1111111",
+    "Issuing place": "usa",
+    "expiry date": "01/01/2030",
+    rewardpoint: user.rewardPoints || 0,
+  });
 
-  const mapToRecentBookings = (user) => {
-    
-    return [
-      {
-        id: `B${Math.floor(100000 + Math.random() * 900000)}`,
-        type: "Hotel",
-        destination: "Sample Hotel",
-        date: new Date().toLocaleDateString(),
-        status: "Completed",
-      },
-      
-    ];
-  };
+  const mapToRecentBookings = () => ([{
+    id: `B${Math.floor(100000 + Math.random() * 900000)}`,
+    type: "Hotel",
+    destination: "Sample Hotel",
+    date: new Date().toLocaleDateString(),
+    status: "Completed",
+  }]);
 
   return (
     <div className='sa-UserManagement'>
@@ -218,31 +196,22 @@ const SAUserManagement = () => {
             </div>
             <div className="pagination">
               <button
-                onClick={() => {
-                  if (groupStart > 1) setCurrentPage(groupStart - 1);
-                }}
+                onClick={() => groupStart > 1 && setCurrentPage(groupStart - 1)}
                 disabled={groupStart === 1}
               >
                 Previous
               </button>
-
-              {[...Array(groupEnd - groupStart + 1)].map((_, i) => {
-                const page = groupStart + i;
-                return (
-                  <button
-                    key={page}
-                    className={currentPage === page ? 'active' : ''}
-                    onClick={() => setCurrentPage(page)}
-                  >
-                    {page}
-                  </button>
-                );
-              })}
-
+              {[...Array(groupEnd - groupStart + 1)].map((_, i) => (
+                <button
+                  key={groupStart + i}
+                  className={currentPage === groupStart + i ? 'active' : ''}
+                  onClick={() => setCurrentPage(groupStart + i)}
+                >
+                  {groupStart + i}
+                </button>
+              ))}
               <button
-                onClick={() => {
-                  if (groupEnd < totalPages) setCurrentPage(groupEnd + 1);
-                }}
+                onClick={() => groupEnd < totalPages && setCurrentPage(groupEnd + 1)}
                 disabled={groupEnd === totalPages}
               >
                 Next
@@ -252,7 +221,6 @@ const SAUserManagement = () => {
         </div>
       </div>
 
-      {/* Confirm Popup */}
       {showConfirm && (
         <div className="popup-overlay" onClick={() => setShowConfirm(false)}>
           <div className="popup-box" onClick={(e) => e.stopPropagation()}>
@@ -266,21 +234,19 @@ const SAUserManagement = () => {
         </div>
       )}
 
-      {/* Delete Success Popup */}
       {deleteSuccess && (
         <div className="success-popup">User deleted successfully!</div>
       )}
 
-      {/* Dashboard Popup */}
       {showDashboard && selectedUser && (
         <div className="popup-overlay" onClick={closeDashboardPopup}>
           <div className="dashboard-popup-container" onClick={(e) => e.stopPropagation()}>
             <button className="popup-close-button" onClick={closeDashboardPopup}>
               <IoClose />
             </button>
-            <SADashBoard 
+            <SADashBoard
               profile={mapToProfileData(selectedUser)}
-              recentBookings={mapToRecentBookings(selectedUser)}
+              recentBookings={mapToRecentBookings()}
             />
           </div>
         </div>
