@@ -9,6 +9,7 @@ import { useSelector } from "react-redux"
 import { useGetHotelInfoQuery } from "../../features/api/hotelApi"
 import { useGetHomeStayInfoQuery } from "../../features/api/homeStayApi"
 import axios from "axios"
+import LoadingDots from "../LoadingDots"
 
 const DescriptionBox = ({ hotelInfo }) => {
 
@@ -67,7 +68,7 @@ const info = infoHotel || infoHomeStay
     return stars
   } 
   if (!info) {
-    return <div>Loading accommodation info...</div>
+    return <div className="loading"><LoadingDots/></div>
   }
 
   return (
