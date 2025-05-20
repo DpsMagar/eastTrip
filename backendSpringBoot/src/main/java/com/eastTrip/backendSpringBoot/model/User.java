@@ -35,7 +35,8 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    private int phoneNumber;
+    private Integer phoneNumber;
+
     private String address;
     private String country;
     private String city;
