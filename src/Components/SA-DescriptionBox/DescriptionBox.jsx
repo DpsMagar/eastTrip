@@ -30,11 +30,11 @@ const DescriptionBox = ({ hotelInfo }) => {
     let reviewUrl="";
 
     if (type === 1) {
-      url = `http://localhost:8080/results/hotels/hotel?hotelId=${entityId}`;
-      reviewUrl= `http://localhost:8080/api/hotel-reviews/${entityId}`;
+      url = `https://easttrip.onrender.com/results/hotels/hotel?hotelId=${entityId}`;
+      reviewUrl= `https://easttrip.onrender.com/api/hotel-reviews/${entityId}`;
     } else if (type === 2) {
-      url = `http://localhost:8080/results/homeStay/homeStay?homeStayId=${entityId}`;
-      reviewUrl= `http://localhost:8080/api/homestay-reviews/${entityId}`;
+      url = `https://easttrip.onrender.com/results/homeStay/homeStay?homeStayId=${entityId}`;
+      reviewUrl= `https://easttrip.onrender.com/api/homestay-reviews/${entityId}`;
     } else {
       return;
     }

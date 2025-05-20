@@ -19,7 +19,7 @@ export const Homepage = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/user-properties/user/${userID}`);
+        const response = await fetch(`https://easttrip.onrender.com/api/user-properties/user/${userID}`);
         console.log("user Id is,", userID);
         
         if (!response.ok) throw new Error('Failed to fetch properties');

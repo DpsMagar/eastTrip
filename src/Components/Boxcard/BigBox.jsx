@@ -66,7 +66,7 @@ function HotelTabs() {
             ratingValue: 4.6,
             ratingText: "Excellent",
             reviews: 923,
-            image: "https://assets.hyatt.com/content/dam/hyatt/hyattdam/images/2022/05/31/0504/KATHM-P0421-Pool-Daytime-View.jpg/KATHM-P0421-Pool-Daytime-View.4x3.jpg",
+            imageUrl: "https://assets.hyatt.com/content/dam/hyatt/hyattdam/images/2022/05/31/0504/KATHM-P0421-Pool-Daytime-View.jpg/KATHM-P0421-Pool-Daytime-View.4x3.jpg",
         },
         {
             hotelId: 4,
@@ -86,7 +86,7 @@ function HotelTabs() {
             ratingValue: 4.8,
             ratingText: "Exceptional",
             reviews: 345,
-            image: "https://lh3.googleusercontent.com/p/AF1QipOxmTP1OHxnPEH4amW3bXxganTERXoJGP57hjB7=s1360-w1360-h1020-rw",
+            imageUrl: "https://lh3.googleusercontent.com/p/AF1QipOxmTP1OHxnPEH4amW3bXxganTERXoJGP57hjB7=s1360-w1360-h1020-rw",
         }
     ]
     
@@ -109,7 +109,7 @@ function HotelTabs() {
             ratingValue: 4.9,
             ratingText: "Very Good",
             reviews: 150,
-            image: "https://lh3.googleusercontent.com/p/AF1QipPWjEUjjDSn0kzqehnripOCY1ZF8W8-JS-6lPcS=s1360-w1360-h1020-rw",
+            imageUrl: "https://lh3.googleusercontent.com/p/AF1QipPWjEUjjDSn0kzqehnripOCY1ZF8W8-JS-6lPcS=s1360-w1360-h1020-rw",
         },
         {
             hotelId: 2,
@@ -129,7 +129,7 @@ function HotelTabs() {
             ratingValue: 3.8,
             ratingText: "Exceptional",
             reviews: 210,
-            image: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/4e/9a/9a/the-mansion.jpg?w=1200&h=-1&s=1"
+            iimageUrl: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/4e/9a/9a/the-mansion.jpg?w=1200&h=-1&s=1"
         },
         {
             hotelId: 3,
@@ -149,7 +149,7 @@ function HotelTabs() {
             ratingValue: 4.8,
             ratingText: "Excellent",
             reviews: 175,
-            image: "https://lh3.googleusercontent.com/p/AF1QipMzy-g-mbUcrDLkYNyi9jV4zwOU6FfaIzKR2hA=s1360-w1360-h1020-rw"
+            imageUrl: "https://lh3.googleusercontent.com/p/AF1QipMzy-g-mbUcrDLkYNyi9jV4zwOU6FfaIzKR2hA=s1360-w1360-h1020-rw"
         },
         {
             hotelId: 4,
@@ -169,7 +169,7 @@ function HotelTabs() {
             ratingValue: 4.9,
             ratingText: "Exceptional",
             reviews: 195,
-            image: "https://lh3.googleusercontent.com/p/AF1QipMKSPyqTIHtxp78ojXhpFlnQgdrKD7AFO1EH77r=s1360-w1360-h1020-rw"
+            imageUrl: "https://www.hotelscombined.com/himg/2f/e5/a2/expediav2-16496932-85526ae8_z-384813.jpg"
         },
     ]
 

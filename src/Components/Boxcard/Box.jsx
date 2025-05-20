@@ -43,7 +43,7 @@ const ratingtext = (() => {
         {/* Left side - Images */}
         <div className="hotel-image-section">
           <div className="hotel-main-image">
-            <img src={hotel.imageUrl || "/placeholder.svg"} alt={hotel.hotelName} />
+            <img src={hotel.imageUrl || "https://lh3.googleusercontent.com/p/AF1QipMzy-g-mbUcrDLkYNyi9jV4zwOU6FfaIzKR2hA=s1360-w1360-h1020-rw"} alt={hotel.hotelName} />
           </div>
 
         </div>

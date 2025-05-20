@@ -19,6 +19,42 @@ const BasicForm = () => {
   for (let year = 1980; year <= currentYear; year++) {
     years.push(year);
   }
+
+  const validateBasicForm = (basicData) => {
+  const newErrors = {};
+
+  if (!basicData.stayType) {
+    newErrors.stayType = "Please select a property type.";
+  }
+
+  if (!basicData.propertyName.trim()) {
+    newErrors.propertyName = "Property name is required.";
+  }
+
+  if (!basicData.rating || isNaN(basicData.rating) || basicData.rating < 1 || basicData.rating > 5) {
+    newErrors.rating = "Enter a valid star rating between 1 and 5.";
+  }
+
+  if (!basicData.builtYear) {
+    newErrors.builtYear = "Select the built year.";
+  }
+
+  if (!basicData.startedYear) {
+    newErrors.startedYear = "Select the year bookings started.";
+  }
+
+  if (!basicData.email || !/^\S+@\S+\.\S+$/.test(basicData.email)) {
+    newErrors.email = "Enter a valid email.";
+  }
+
+  if (!basicData.mobile || !/^[0-9]{10}$/.test(basicData.mobile)) {
+    newErrors.mobile = "Enter a valid 10-digit mobile number.";
+  }
+
+  return newErrors;
+};
+
+  
   
  useEffect(() => {
   dispatch(setName(formData.basic.propertyName));

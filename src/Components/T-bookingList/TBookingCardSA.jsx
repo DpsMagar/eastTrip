@@ -32,7 +32,7 @@ const TBookingCardSA = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:8080/api/inn-bookings/all-bookings`);
+      const response = await axios.get(`https://easttrip.onrender.com/api/inn-bookings/all-bookings`);
       const bookings = response.data;
       console.log(response.data);
       
@@ -94,7 +94,7 @@ const TBookingCardSA = () => {
     console.log(id);
     
 
-    await axios.delete(`http://localhost:8080/api/inn-bookings/${id}`)
+    await axios.delete(`https://easttrip.onrender.com/api/inn-bookings/${id}`)
     .then( (response)=>
       console.log(response)
     )

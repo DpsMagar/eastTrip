@@ -15,7 +15,7 @@ const SADashBoard = () => {
   useEffect(() => {
   const fetchStats = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/stats");
+      const res = await fetch("https://easttrip.onrender.com/api/stats");
       const data = await res.json();
       setStats(data);
       console.log(data);

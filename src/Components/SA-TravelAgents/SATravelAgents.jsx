@@ -26,7 +26,7 @@ const SATravelAgents = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/users/with-properties');
+        const response = await axios.get('https://easttrip.onrender.com/api/users/with-properties');
         setUsers(response.data || []);
         setLoading(false);
       } catch (error) {

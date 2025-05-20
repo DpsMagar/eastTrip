@@ -32,7 +32,7 @@ const TBookingCard = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:8080/api/inn-bookings/user/${userID}`);
+      const response = await axios.get(`https://easttrip.onrender.com/api/inn-bookings/user/${userID}`);
       const bookings = response.data;
       console.log(response.data);
       

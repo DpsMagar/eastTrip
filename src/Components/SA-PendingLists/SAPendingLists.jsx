@@ -21,7 +21,7 @@ const SAPendingLists = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/user-properties/pending")
+      .get("https://easttrip.onrender.com/api/user-properties/pending")
       .then((response) => {
         console.log(response.data);
         

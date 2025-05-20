@@ -69,7 +69,7 @@ const SAHotels = () => {
 
   const handleDeleteProperty = () => {
     axios
-          .delete(`http://localhost:8080/api/user-properties/${deleteId}`)
+          .delete(`https://easttrip.onrender.com/api/user-properties/${deleteId}`)
     setFadeOutId(deleteId);
     setShowConfirm(false);
 
@@ -146,7 +146,7 @@ const SAHotels = () => {
 
    useEffect(() => {
       axios
-        .get("http://localhost:8080/api/user-properties/all")
+        .get("https://easttrip.onrender.com/api/user-properties/all")
         .then((response) => {
           const formatted = response.data.map((item) => ({
             id: item.hotelId,

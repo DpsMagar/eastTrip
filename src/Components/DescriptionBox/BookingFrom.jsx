@@ -130,6 +130,7 @@ const BookingForm = ({ hotelInfo }) => {
       try {
         const response = await axios.post(
           "http://localhost:8080/api/payment/prepare",
+          
           {
             amount,
             taxAmount,

@@ -33,7 +33,7 @@ const SAUserManagement = () => {
   useEffect(() => {
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/users/all-with-count'); 
+      const response = await axios.get('https://easttrip.onrender.com/api/users/all-with-count'); 
       console.log(response.data.users);
       
       setUsers(response.data.users);
@@ -74,7 +74,7 @@ const SAUserManagement = () => {
   const showingTo = Math.min(startIndex + usersPerPage, filteredUsers.length);
 
   const handleDeleteUser = async (id) => {
-    await axios.delete(`http://localhost:8080/api/users/${id}`);
+    await axios.delete(`https://easttrip.onrender.com/api/users/${id}`);
     setFlag(flag+1)
     setFadingUserId(id);
     setShowConfirm(false);
