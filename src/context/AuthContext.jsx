@@ -15,15 +15,24 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const signIn = async (user) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        setCurrentUser(user);
-        sessionStorage.setItem("currentUser", JSON.stringify(user)); // Persist user
-        resolve();
-      }, 500);
-    });
-  };
+const signIn = async (user) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const email = user.email;
+      let username = email.substring(0, email.indexOf('@')); // get before '@'
+      
+      // Capitalize first letter
+      username = username.charAt(0).toUpperCase() + username.slice(1);
+
+      setCurrentUser(username);
+      sessionStorage.setItem("currentUser", JSON.stringify(username));
+      
+      resolve();
+    }, 500);
+  });
+};
+
+
 
   const signOut = async () => {
     return new Promise((resolve) => {

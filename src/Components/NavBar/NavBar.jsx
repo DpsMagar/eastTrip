@@ -77,7 +77,7 @@ export default function NavBar() {
             <button className="gh-nav-btn"onClick={goToTravellerPage}>List your Property</button>
             
             <div className="gh-user-section" onClick={toggleUserDropdown}>
-              <span className="gh-greeting">Hi, {currentUser?.name || "Traveller"}</span>
+              <span className="gh-greeting">Hi, {currentUser || "Traveller"}</span>
               <div className="gh-avatar">
                 <img src={image || currentUser?.image} alt="Profile" />
               </div>
