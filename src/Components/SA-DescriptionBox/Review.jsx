@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Star } from "lucide-react"
 import "./reviews.css"
+import profile from "../../Assest/profile.png"
 
 const Review = ({ reviews }) => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -55,11 +56,7 @@ const Review = ({ reviews }) => {
                 <div className="review-header">
                   <div className="reviewer-info">
                     <div className="reviewer-avatar">
-                      {review.avatar ? (
-                        <img src={review.avatar || "/placeholder.svg"} alt={review.name} />
-                      ) : (
-                        <div className="avatar-placeholder">{review.name}</div>
-                      )}
+                        <img src={profile} alt={review.name} />
                     </div>
                     <div className="reviewer-details">
                       <div className="reviewer-name">{review.name}</div>
