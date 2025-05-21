@@ -13,6 +13,8 @@ export default function Login({ onClose, switchToSignup }) {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showFailedToast, setShowFailedToast] = useState(false);
   const { signIn } = useAuth();
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -25,14 +27,27 @@ export default function Login({ onClose, switchToSignup }) {
       }
     };
 
-
-
-    // Add event listener to handle clicks outside the modal
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
+
+  useEffect(() => {
+    let timer;
+    if (showSuccessToast) {
+      timer = setTimeout(() => setShowSuccessToast(false), 2000);
+    }
+    return () => clearTimeout(timer);
+  }, [showSuccessToast]);
+
+  useEffect(() => {
+    let timer;
+    if (showFailedToast) {
+      timer = setTimeout(() => setShowFailedToast(false), 2000);
+    }
+    return () => clearTimeout(timer);
+  }, [showFailedToast]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,13 +58,15 @@ export default function Login({ onClose, switchToSignup }) {
       console.log(response);
 
       dispatch(setToken(response));
-
-      // ✅ Update AuthContext's currentUser
-      await signIn(response.user || { email }); // use response.user or fallback to email
-
-      onClose();
+      await signIn(response.user || { email });
+      
+      setShowSuccessToast(true);
+      setTimeout(() => {
+        onClose();
+      }, 2500); 
     } catch (err) {
       setError("Failed to sign in. Please check your credentials.");
+      setShowFailedToast(true);
     }
   };
 
@@ -58,17 +75,25 @@ export default function Login({ onClose, switchToSignup }) {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="login-modal" ref={modalRef}>
-        <button className="close-button" onClick={onClose}>
-          ×
-        </button>
+    <>
+      {showSuccessToast && (
+        <div className="success-popup">Login Successfully!</div>
+      )}
+      {showFailedToast && (
+        <div className="failed-popup">Failed to login</div>
+      )}
 
-        <div className="login-container">
-          <div className="login-card">
-            <h1 className="login-title">Login Now</h1>
+      <div className="modal-overlay">
+        <div className="login-modal" ref={modalRef}>
+          <button className="close-button" onClick={onClose}>
+            ×
+          </button>
 
-            {error && <div className="error-message">{error}</div>}
+          <div className="login-container">
+            <div className="login-card">
+              <h1 className="login-title">Login Now</h1>
+
+              {error && <div className="error-message">{error}</div>}
 
             <form onSubmit={handleSubmit}>
               <div className="form-group">
@@ -195,9 +220,28 @@ export default function Login({ onClose, switchToSignup }) {
                 </label>
               </div>
             </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <style jsx>{`
+         .modal-overlay .success-popup {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: #4CAF50;
+          color: white;
+          padding: 12px 24px;
+          border-radius: 4px;
+          font-size: 14px;
+          z-index: 1001;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+          animation: slideIn 0.3s ease-out forwards, fadeOut 0.5s ease 1.5s forwards;
+        }
+      `}</style>
+
+    </>
   );
 }
+
+

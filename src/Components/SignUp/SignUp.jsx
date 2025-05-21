@@ -9,7 +9,6 @@ import eyeshown from '../../Assest/eyeshown.png';
 import eyeoff from '../../Assest/eyeoff.png';
 
 export default function SignUp({ onClose, switchToLogin }) {
-
   const dispatch = useDispatch();
   const [register, { isLoading, loginError }] = useRegisterMutation();
 
@@ -20,6 +19,8 @@ export default function SignUp({ onClose, switchToLogin }) {
   const [error, setError] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showSuccessToast, setShowSuccessToast] = useState(false)
+  const [showFailedToast, setShowFailedToast] = useState(false)
 
   const modalRef = useRef(null)
 
@@ -37,12 +38,31 @@ export default function SignUp({ onClose, switchToLogin }) {
     }
   }, [onClose])
 
+  // Auto-hide success toast
+  useEffect(() => {
+    let timer;
+    if (showSuccessToast) {
+      timer = setTimeout(() => setShowSuccessToast(false), 9000);
+    }
+    return () => clearTimeout(timer);
+  }, [showSuccessToast]);
+
+  // Auto-hide failed toast
+  useEffect(() => {
+    let timer;
+    if (showFailedToast) {
+      timer = setTimeout(() => setShowFailedToast(false), 2000);
+    }
+    return () => clearTimeout(timer);
+  }, [showFailedToast]);
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError("")
 
     if (password !== confirmPassword) {
       setError("Passwords do not match")
+      setShowFailedToast(true)
       return
     }
 
@@ -58,11 +78,12 @@ export default function SignUp({ onClose, switchToLogin }) {
       console.log(response);
       dispatch(setToken(response));
       
-      onClose()
+      setShowSuccessToast(true)
+      switchToLogin() // Switch to login immediately on success
     } catch (err) {
       console.log(err);
-      
       setError("Failed to create an account. Please try again.")
+      setShowFailedToast(true)
     }
   }
 
@@ -74,18 +95,27 @@ export default function SignUp({ onClose, switchToLogin }) {
     setShowConfirmPassword(!showConfirmPassword)
   }
 
+
   return (
-    <div className="signup__wrapper">
-      <div className="signup__overlay">
-        <div className="signup__modal" ref={modalRef}>
-          <button className="signup__close-btn" onClick={onClose}>
-            ×
-          </button>
+    <>
+      {showSuccessToast && (
+        <div className="success-popup">Account Created Successfully!</div>
+      )}
+      {showFailedToast && (
+        <div className="failed-popup">{error || "Failed to create account"}</div>
+      )}
 
-          <div className="signup__content">
-            <h1 className="signup__title">Sign Up Now</h1>
+      <div className="signup__wrapper">
+        <div className="signup__overlay">
+          <div className="signup__modal" ref={modalRef}>
+            <button className="signup__close-btn" onClick={onClose}>
+              ×
+            </button>
 
-            {error && <div className="signup__error">{error}</div>}
+            <div className="signup__content">
+              <h1 className="signup__title">Sign Up Now</h1>
+
+              {error && <div className="signup__error">{error}</div>}
 
             <form onSubmit={handleSubmit} className="signup__form">
               <div className="signup__form-group">
@@ -223,9 +253,14 @@ export default function SignUp({ onClose, switchToLogin }) {
                 </p>
               </div>
             </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+
+    </>
   )
 }
+
+

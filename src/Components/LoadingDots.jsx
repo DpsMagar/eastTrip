@@ -2,35 +2,46 @@
 
 export default function LoadingDots() {
   return (
-    <div className="loading">
-      Loading accommodation info...
-      <div className="dots">
-        <span className="dot"></span>
-        <span className="dot"></span>
-        <span className="dot"></span>
+    <div className="container">
+      <div className="loading">
+        Loading accommodation info...
+        <div className="dots">
+          <span className="dot"></span>
+          <span className="dot"></span>
+          <span className="dot"></span>
+        </div>
       </div>
       <style jsx>{`
+        .container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 80vh; 
+        }
+        
         .loading {
           display: flex;
+          flex-direction: column;
           align-items: center;
           justify-content: center;
           background-color: #f5f5f5;
-          padding: 16px;
-          border-radius: 4px;
+          padding: 24px;
+          border-radius: 8px;
           font-family: sans-serif;
           color: #333;
-          font-weight:400
+          font-size: 40px; 
+          font-weight: 400;
         }
         
         .dots {
           display: inline-flex;
-          margin-left: 8px;
+          margin-top: 16px; 
         }
         
         .dot {
-          width: 40px;
-          height: 40px;
-          margin: 0 3px;
+          width: 30px; 
+          height: 30px;
+          margin: 0 6px;
           border-radius: 50%;
           background-color: #ff7e45;
           animation: bounce 1.4s infinite ease-in-out;
