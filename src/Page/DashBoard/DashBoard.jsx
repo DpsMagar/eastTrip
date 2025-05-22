@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ProfileInfo from "../../Components/PlayerDashboard/ProfileInfo"
 import RecentBookings from "../../Components/PlayerDashboard/RecentBookings"
 import RewardBox from "../../Components/PlayerDashboard/RewardBox"
@@ -9,9 +9,19 @@ import Trophy from '../../Assest/trophy.png'
 import profile1 from "../../Assest/profile.png"
 import booking from "../../Assest/booking.png"
 import redeem from "../../Assest/redeem.png"
+import axios from "axios"
 
 export default function DashBoard() {
-  const [activeTab, setActiveTab] = useState("profile")
+const userId= sessionStorage.getItem('userId');
+const[userInfo, setUserInfo]= useState([])
+  useEffect(()=>{
+    axios
+    .get(`http://localhost:8080/api/users/id/${userId}`)
+    .then((response)=>{
+      setUserInfo(response.data)
+    })
+  },[userId])
+  const [activeTab, setActiveTab] = useState("bookings")
   const [showToast, setShowToast] = useState(false)
   const [rewards, setRewards] = useState([
     {
@@ -81,21 +91,21 @@ export default function DashBoard() {
       <div className="profile-sidebar">
         <div className="profile-avatar">
           <img src={getProfileImage()} alt="Profile" className="avatar-img" />
-          <h3 className="profile-name">{profile.Firstname} {profile.Lastname}</h3>
-          <p className="profile-email">{profile.Email}</p>
+          <h3 className="profile-name">{userInfo.fullName}</h3>
+          <p className="profile-email">{userInfo.email}</p>
           <div className="rewardpoint">
             <div className="logo">
               <img src={Trophy} alt="Trophy" />
             </div>
             <div className="rewardpoint-text-container">
               <h3 className="rewardpoint-text">Reward Points</h3>
-              <p className="rewardpoint-value">{profile.rewardpoint}</p>
+              <p className="rewardpoint-value">{userInfo.rewardPoints}</p>
             </div>
           </div>
         </div>
 
         <div className="profile-navigation">
-          <button
+          {/* <button
             className={`nav-item ${activeTab === "profile" ? "active" : ""}`}
             onClick={() => setActiveTab("profile")}
           >
@@ -103,7 +113,7 @@ export default function DashBoard() {
               <img src={profile1} alt="Profile" />
             </div>
             My Profile
-          </button>
+          </button> */}
 
           <button
             className={`nav-item ${activeTab === "bookings" ? "active" : ""}`}

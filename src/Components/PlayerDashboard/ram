@@ -1,0 +1,313 @@
+"use client"
+import { useState, useEffect } from "react"
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+import "./info.css"
+
+export default function ProfileInfo({ userId }) {
+  const [userData, setUserData] = useState(null)
+  const [isEditing, setIsEditing] = useState(false)
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    address: "",
+    country: "",
+    gender: "",
+    dateOfBirth: null,
+    profileImage: "/placeholder.svg"
+  })
+  const [errors, setErrors] = useState({})
+  const [notification, setNotification] = useState({ show: false, message: "", type: "" })
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/api/users/id/${userId}`)
+        if (!response.ok) throw new Error("Failed to fetch user data")
+        const data = await response.json()
+        
+        setUserData(data)
+        setFormData({
+          fullName: data.fullName || "",
+          email: data.email || "",
+          phone: data.phone || "",
+          address: data.address || "",
+          country: data.country || "",
+          gender: data.gender || "",
+          dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth) : null,
+          profileImage: data.profileImage || "/placeholder.svg"
+        })
+      } catch (error) {
+        console.error("Error fetching user data:", error)
+        showNotification("Failed to load user data", "error")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchUserData()
+  }, [userId])
+
+  const showNotification = (message, type) => {
+    setNotification({ show: true, message, type })
+    setTimeout(() => setNotification({ show: false, message: "", type: "" }), 3000)
+  }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: "" }))
+  }
+
+  const handleDateChange = (date) => {
+    setFormData(prev => ({ ...prev, dateOfBirth: date }))
+    if (errors.dateOfBirth) setErrors(prev => ({ ...prev, dateOfBirth: "" }))
+  }
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    if (!file.type.startsWith("image/")) {
+      showNotification("Please select an image file", "error")
+      return
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      showNotification("Image size should be less than 2MB", "error")
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      setFormData(prev => ({ ...prev, profileImage: reader.result }))
+    }
+    reader.readAsDataURL(file)
+  }
+
+  const validateForm = () => {
+    const newErrors = {}
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const phoneRegex = /^[0-9]{10,15}$/
+
+    if (!formData.fullName.trim()) newErrors.fullName = "Full name is required"
+    if (!emailRegex.test(formData.email)) newErrors.email = "Invalid email address"
+    if (!phoneRegex.test(formData.phone)) newErrors.phone = "Invalid phone number"
+    if (!formData.dateOfBirth) newErrors.dateOfBirth = "Date of birth is required"
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!validateForm()) return
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/users/id/${userId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          dateOfBirth: formData.dateOfBirth?.toISOString(),
+          profileImage: formData.profileImage.startsWith("data:image") ? null : formData.profileImage
+        })
+      })
+
+      if (!response.ok) throw new Error("Failed to update profile")
+
+      const updatedData = await response.json()
+      setUserData(updatedData)
+      setIsEditing(false)
+      showNotification("Profile updated successfully!", "success")
+    } catch (error) {
+      console.error("Update error:", error)
+      showNotification(error.message || "Failed to update profile", "error")
+    }
+  }
+
+  if (loading) return <div className="loading">Loading...</div>
+
+  return (
+    <div className="profile-container">
+      {notification.show && (
+        <div className={`notification ${notification.type}`}>
+          {notification.message}
+        </div>
+      )}
+
+      <div className="profile-header">
+        <h2>User Profile</h2>
+        {!isEditing && (
+          <button className="edit-button" onClick={() => setIsEditing(true)}>
+            Edit Profile
+          </button>
+        )}
+      </div>
+
+      {isEditing ? (
+        <form className="profile-form" onSubmit={handleSubmit}>
+          <div className="image-section">
+            <div className="image-preview">
+              <img 
+                src={formData.profileImage} 
+                alt="Profile preview" 
+                className="profile-image"
+              />
+            </div>
+            <label className="image-upload">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+              Change Photo
+            </label>
+          </div>
+
+          <div className="form-section">
+            <div className="form-row">
+              <div className="form-group">
+                <label>Full Name</label>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  className={errors.fullName ? "error" : ""}
+                />
+                {errors.fullName && <span className="error-message">{errors.fullName}</span>}
+              </div>
+
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className={errors.email ? "error" : ""}
+                />
+                {errors.email && <span className="error-message">{errors.email}</span>}
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Phone</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className={errors.phone ? "error" : ""}
+                />
+                {errors.phone && <span className="error-message">{errors.phone}</span>}
+              </div>
+
+              <div className="form-group">
+                <label>Date of Birth</label>
+                <DatePicker
+                  selected={formData.dateOfBirth}
+                  onChange={handleDateChange}
+                  dateFormat="dd/MM/yyyy"
+                  maxDate={new Date(new Date().setFullYear(new Date().getFullYear() - 16))}
+                  showYearDropdown
+                  className={`date-picker ${errors.dateOfBirth ? "error" : ""}`}
+                  placeholderText="DD/MM/YYYY"
+                />
+                {errors.dateOfBirth && <span className="error-message">{errors.dateOfBirth}</span>}
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Country</label>
+                <input
+                  type="text"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+
+            <div className="form-group gender-group">
+              <label>Gender</label>
+              <div className="gender-options">
+                {["male", "female", "other"].map((gender) => (
+                  <label key={gender}>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value={gender}
+                      checked={formData.gender === gender}
+                      onChange={handleInputChange}
+                    />
+                    {gender.charAt(0).toUpperCase() + gender.slice(1)}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="form-actions">
+              <button type="button" className="cancel-button" onClick={() => setIsEditing(false)}>
+                Cancel
+              </button>
+              <button type="submit" className="save-button">
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </form>
+      ) : (
+        <div className="profile-view">
+          <div className="image-section">
+            <img 
+              src={userData.profileImage || "/placeholder.svg"} 
+              alt="Profile" 
+              className="profile-image"
+            />
+          </div>
+
+          <div className="details-section">
+            <DetailItem label="Full Name" value={userData.fullName} />
+            <DetailItem label="Email" value={userData.email} />
+            <DetailItem label="Phone" value={userData.phone} />
+            <DetailItem label="Address" value={userData.address} />
+            <DetailItem label="Country" value={userData.country} />
+            <DetailItem label="Gender" value={userData.gender} />
+            <DetailItem 
+              label="Date of Birth" 
+              value={userData.dateOfBirth 
+                ? new Date(userData.dateOfBirth).toLocaleDateString() 
+                : "Not provided"
+              }
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function DetailItem({ label, value }) {
+  return (
+    <div className="detail-item">
+      <span className="detail-label">{label}:</span>
+      <span className="detail-value">{value || "Not provided"}</span>
+    </div>
+  )
+}

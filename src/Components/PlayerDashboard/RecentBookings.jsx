@@ -1,8 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./booking.css";
 import Rating from "./Rating";
 import logo from "../../Assest/logo-color.png"
+import axios from "axios";
 export default function RecentBookings({ bookings }) {
+  const userId= sessionStorage.getItem('userId')
+
+ const [booking, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/inn-bookings/user/${userId}`);
+        setBookings(response.data);
+        console.log("------------------");
+        console.log(response.data);
+        
+        
+      } catch (err) {
+        setError("Failed to fetch bookings");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBookings();
+  }, []);
+
   const [showRating, setShowRating] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
 
