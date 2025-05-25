@@ -100,16 +100,30 @@ const BookingForm = ({ hotelInfo }) => {
     dispatch(setGlobalRooms(rooms));
   }, [adults, children, rooms]);
 
-  const handleBookNow = async () => {
-
-     if (!userID) {
+const handleBookNow = async () => {
+  if (!userID) {
     setIsLoginModalOpen(true);
-    return; 
+    return;
   }
 
-    setIsLoading(true);
-    setError(null);
+  setIsLoading(true);
+  setError(null);
 
+  try {
+    const amount = hotelInfo.price;
+    const taxAmount = 0;
+
+    const response = await axios.post(
+      "http://localhost:8080/api/payment/prepare",
+      {
+        amount,
+        taxAmount,
+      }
+    );
+
+    const paymentData = response.data;
+
+    // Save bookingDTO to sessionStorage
     const bookDTO = {
       name: hotelInfo.name,
       userId: userID,
@@ -121,53 +135,34 @@ const BookingForm = ({ hotelInfo }) => {
       innType,
       totalPrice: hotelInfo.price,
     };
+    sessionStorage.setItem("pendingBooking", JSON.stringify(bookDTO));
 
-    try {
-      const amount = hotelInfo.price;
-      // const taxAmount = Math.round(hotelInfo.price * 0.16);
-      const taxAmount = 0;
+    // Add redirect URLs
+    paymentData.successUrl = "http://localhost:3000/payment-success";
+    paymentData.failureUrl = "http://localhost:3000/payment-failure";
 
-      try {
-        const response = await axios.post(
-          "http://localhost:8080/api/payment/prepare",
-          {
-            amount,
-            taxAmount,
-          }
-        );
+    // Create and submit eSewa payment form
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
 
-        const paymentData = response.data;
+    Object.entries(paymentData).forEach(([key, value]) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = key;
+      input.value = value;
+      form.appendChild(input);
+    });
 
-        const form = document.createElement("form");
-        form.method = "POST";
-        form.action = "https://rc-epay.esewa.com.np/api/epay/main/v2/form";
+    document.body.appendChild(form);
+    form.submit();
+  } catch (err) {
+    console.error("Payment error:", err);
+    setError(err.response?.data?.error || "Payment initialization failed");
+    setIsLoading(false);
+  }
+};
 
-        Object.entries(paymentData).forEach(([key, value]) => {
-          const input = document.createElement("input");
-          input.type = "hidden";
-          input.name = key;
-          input.value = value;
-          form.appendChild(input);
-        });
-
-
-        document.body.appendChild(form);
-        form.submit();
-        const bookingResponse = await book(bookDTO).unwrap();
-      console.log("Booking successful:", bookingResponse);
-      } catch (err) {
-        console.error("Payment error:", err);
-        setError(
-          err.response?.data?.error || "Payment initialization failed"
-        );
-      }
-    } catch (error) {
-      console.error("Booking error:", error);
-      setError("Booking failed. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const openLoginModal = () => {
     setIsSignupModalOpen(false)

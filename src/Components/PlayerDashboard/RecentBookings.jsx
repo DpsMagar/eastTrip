@@ -3,8 +3,38 @@ import "./booking.css";
 import Rating from "./Rating";
 import logo from "../../Assest/logo-color.png"
 import axios from "axios";
-export default function RecentBookings({ bookings }) {
+import { Hotel } from "lucide-react";
+import { useBookNowMutation } from "../../features/api/bookApi";
+import { useNavigate } from "react-router-dom";
+
+export default function RecentBookings() {
   const userId= sessionStorage.getItem('userId')
+
+  const [bookNow] = useBookNowMutation();
+  // const navigate = useNavigate();
+  
+  useEffect(() => {
+    const book = async () => {
+      const storedData = sessionStorage.getItem("pendingBooking");
+      // if (!storedData) {
+      //   return navigate("/error");
+      // }
+
+      try {
+        const bookingDTO = JSON.parse(storedData);
+        const response = await bookNow(bookingDTO).unwrap();
+        console.log("Booking successful", response);
+
+        sessionStorage.removeItem("pendingBooking");
+        // navigate("/recent-bookings"); 
+      } catch (err) {
+        console.error("Booking failed after payment", err);
+        // navigate("/error");
+      }
+    };
+
+    book();
+  }, []);
 
  const [booking, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,8 +47,6 @@ export default function RecentBookings({ bookings }) {
         setBookings(response.data);
         console.log("------------------");
         console.log(response.data);
-        
-        
       } catch (err) {
         setError("Failed to fetch bookings");
         console.error(err);
@@ -171,20 +199,23 @@ export default function RecentBookings({ bookings }) {
       <h2 className="section-title">Recent Bookings</h2>
 
       <div className="bookings-list">
-        {bookings.map((booking) => (
-          <div key={booking.id} className="booking-card">
+        {booking.map((booking) => (
+          <div key={booking.colsId} className="booking-card">
             <div className="booking-info">
-              <h3 className="booking-destination">{booking.destination}</h3>
+              <h3 className="booking-destination">{booking.name}</h3>
               <p className="booking-type">
-                {booking.type} • {booking.date}
+                if(booking.innType==1){
+                  "Hotel • "     
+
+                }
               </p>
-              <p className="booking-id">Booking ID: {booking.id}</p>
+              <p className="booking-id">Booking ID: {booking.colsId}</p>
             </div>
 
             <div className="booking-status">
-              <span className={`status-badge ${booking.status.toLowerCase()}`}>
+              {/* <span className={`status-badge ${booking.status.toLowerCase()}`}>
                 {booking.status}
-              </span>
+              </span> */}
             </div>
 
             <div className="rate-it">
