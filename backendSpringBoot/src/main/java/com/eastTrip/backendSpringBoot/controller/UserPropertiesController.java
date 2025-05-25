@@ -1,6 +1,7 @@
 package com.eastTrip.backendSpringBoot.controller;
 
 import com.eastTrip.backendSpringBoot.dto.HotelSearchResultsDTO;
+import com.eastTrip.backendSpringBoot.dto.PendingListResultsDTO;
 import com.eastTrip.backendSpringBoot.model.UserProperties;
 import com.eastTrip.backendSpringBoot.service.UserPropertiesService;
 import org.springframework.http.ResponseEntity;
@@ -65,7 +66,7 @@ public class UserPropertiesController {
     }
 
     @GetMapping("/pending")
-    public List<HotelSearchResultsDTO> getPendingProperties() {
+    public List<PendingListResultsDTO> getPendingProperties() {
         return service.getPendingProperties();
     }
 }

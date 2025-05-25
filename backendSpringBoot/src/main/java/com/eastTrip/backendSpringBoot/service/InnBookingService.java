@@ -109,6 +109,7 @@ public class InnBookingService {
 
         return bookings.stream()
                 .map(booking -> InnBookingResponseDTO.builder()
+                        .colsId(booking.getId())
                         .name(booking.getName())
                         .userId(booking.getUser().getId())
                         .innId(booking.getInnId())

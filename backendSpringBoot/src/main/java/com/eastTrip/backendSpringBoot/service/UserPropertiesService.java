@@ -1,6 +1,7 @@
 package com.eastTrip.backendSpringBoot.service;
 
 import com.eastTrip.backendSpringBoot.dto.HotelSearchResultsDTO;
+import com.eastTrip.backendSpringBoot.dto.PendingListResultsDTO;
 import com.eastTrip.backendSpringBoot.model.*;
 import com.eastTrip.backendSpringBoot.repository.HomeStayRepository;
 import com.eastTrip.backendSpringBoot.repository.HotelRepository;
@@ -167,10 +168,10 @@ public class UserPropertiesService {
         return result;
     }
 
-    public List<HotelSearchResultsDTO> getPendingProperties() {
+    public List<PendingListResultsDTO> getPendingProperties() {
         // Fetch all UserProperties entries where isListed = true
         List<UserProperties> listedProperties = repository.findByListedFalse();
-        List<HotelSearchResultsDTO> result = new ArrayList<>();
+        List<PendingListResultsDTO> result = new ArrayList<>();
 
         for (UserProperties prop : listedProperties) {
             Integer type = prop.getPropertyType(); // Use Integer to match model
@@ -179,16 +180,62 @@ public class UserPropertiesService {
             if (type == 1) {
                 // Convert propertyId (Integer) to Long for Hotel
                 hotelRepository.findById(propertyId.longValue()).ifPresent(hotel -> {
-                    result.add(mapHotelToDTO(hotel, type));
+                    result.add(mapPendingHotelDTO(hotel, type));
                 });
             } else if (type == 2) {
                 // Directly use Integer for HomeStay
                 homeStayRepository.findById(propertyId).ifPresent(homestay -> {
-                    result.add(mapHomestayToDTO(homestay, type));
+                    result.add(mapPendingHomestayDTO(homestay, type));
                 });
             }
         }
 
         return result;
     }
+    private PendingListResultsDTO mapPendingHotelDTO(Hotel hotel, int type) {
+        return new PendingListResultsDTO(
+                hotel.getId(),
+                hotel.getName(),
+                hotel.getLocation(),
+                hotel.getAttraction(),
+                Integer.parseInt(hotel.getRating()),
+                hotel.getRoomFeatures()
+                        .stream()
+                        .map(HotelRooms::getRoomFeatures) // or getFeature() or similar
+                        .collect(Collectors.toList())
+                , // assuming List<String>
+                hotel.getServices()
+                        .stream().map(HotelFeatures::getServices)
+                        .collect(Collectors.toList()),// assuming List<String>
+                hotel.getPrice(),
+                hotel.getExtraInfo(),
+                hotel.getImageUrl(),
+                type,
+                false
+
+        );
+    }
+
+    private PendingListResultsDTO mapPendingHomestayDTO(HomeStay homestay, int type) {
+        return new PendingListResultsDTO(
+                Long.valueOf(homestay.getId()),
+                homestay.getName(),
+                homestay.getLocation(),
+                homestay.getAttraction(),
+                Integer.parseInt(homestay.getRating()),
+                homestay.getRoomFeatures().stream()
+                        .map(HomeStayRooms::getRoomFeatures)
+                        .collect(Collectors.toList()),
+                homestay.getServices().stream()
+                        .map(HomeStayFeatures::getServices)
+                        .collect(Collectors.toList()),
+                homestay.getPrice(),
+                homestay.getExtraInfo(),
+                homestay.getImageUrl(),
+                type,
+                false
+        );
+    }
 }
+
+

@@ -7,6 +7,7 @@ import com.eastTrip.backendSpringBoot.repository.UserPointsRepository;
 import com.eastTrip.backendSpringBoot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -40,6 +41,7 @@ public class UserProfileService {
         return dto;
     }
 
+    @Transactional
     public boolean updateUserProfileById(Long id, ProfileDTO dto) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isEmpty()) return false;

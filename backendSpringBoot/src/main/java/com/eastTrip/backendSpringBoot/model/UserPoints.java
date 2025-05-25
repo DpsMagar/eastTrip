@@ -16,6 +16,12 @@ public class UserPoints {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private int points;
+    private Integer points;
 
+    @PrePersist
+    public void prePersist() {
+        if (points == null) {
+            points= 1000;
+        }
+    }
 }
