@@ -16,4 +16,5 @@ public class InnBookingResponseDTO {
     private int numberOfGuests;
     private int totalPrice;
     private int innType;
+    private  boolean hasPaid;
 }

@@ -6,6 +6,8 @@ import com.eastTrip.backendSpringBoot.model.*;
 import com.eastTrip.backendSpringBoot.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +21,7 @@ public class InnBookingService {
     private final UserRepository userRepository;
     private final InnBookingRepository innBookingRepository;
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public InnBookingResponseDTO createBooking(InnBookingRequestDTO dto) {
         try {
             if (dto == null) {
@@ -63,6 +66,7 @@ public class InnBookingService {
                 existingBooking.setConfirmed(true);
                 existingBooking.setName(dto.getName());
                 existingBooking.setNumberOfRooms(Math.toIntExact(dto.getNumberOfRooms()));
+                existingBooking.setHasPaid(true);
 
                 booking = innBookingRepository.save(existingBooking);
             } else {
@@ -78,6 +82,7 @@ public class InnBookingService {
                 newBooking.setConfirmed(true);
                 newBooking.setInnId(dto.getInnId());
                 newBooking.setNumberOfRooms(Math.toIntExact(dto.getNumberOfRooms()));
+                newBooking.setHasPaid(true);
 
                 booking = innBookingRepository.save(newBooking);
             }
@@ -92,6 +97,8 @@ public class InnBookingService {
                     .innId(booking.getInnId())
                     .numberOfRooms((long) booking.getNumberOfRooms())
                     .innType(booking.getInnType())
+                    .hasPaid(booking.isHasPaid())
+
                     .build();
 
         } catch (IllegalArgumentException e) {
@@ -119,6 +126,7 @@ public class InnBookingService {
                         .numberOfGuests(booking.getNumberOfGuests())
                         .totalPrice(booking.getTotalPrice())
                         .innType(booking.getInnType())
+                        .hasPaid(booking.isHasPaid())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -139,6 +147,7 @@ public class InnBookingService {
                         .totalPrice(booking.getTotalPrice())
                         .innType(booking.getInnType())
                         .colsId(booking.getId())
+                        .hasPaid(booking.isHasPaid())
                         .build())
                 .collect(Collectors.toList());
 
