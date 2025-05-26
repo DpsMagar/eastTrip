@@ -10,7 +10,9 @@ export default function Result3() {
 
   const[homeStayData, setHomeStay]= useState([])
 
-  const {location}=  useSelector((state)=> state.homeStay)
+  // const {location}=  useSelector((state)=> state.homeStay)  const {location}=  useSelector((state)=> state.hotel)
+    const {location}=  useSelector((state)=> state.hotel)
+  
 
   const{data: homeStayInfo} = useGetHomeStayQuery({location})
   console.log(homeStayInfo);

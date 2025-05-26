@@ -10,6 +10,7 @@ import { setGlobalRooms, setGlobalGuests, setHotelCheckInDate, setHotelCheckOutD
 import { setTravellers as globalTraveller, setflightDate } from "../../features/slice/flightSlice"
 import { useGetHotelsAllQuery } from "../../features/api/hotelApi"
 import { useGetHomeStayAllQuery } from "../../features/api/homeStayApi"
+
 export default function TwoSearch() {
 
   const navigate= useNavigate()
@@ -342,7 +343,7 @@ const formatDateString = (dateStr) => {
           </div>
 
           {/* Search Button */}
-          <button className="search-button" onClick={handleSearch}>Search</button>
+          <button className="search-button" onClick={handleHotel}>Search</button>
         </div>
       )}
 
@@ -377,7 +378,7 @@ const formatDateString = (dateStr) => {
           </div>
 
           {/* Search Button */}
-          <button className="search-button" onClick={handleSearch}>Search</button>
+          <button className="search-button" onClick={handleHomeStay}>Search</button>
         </div>
       )}
 

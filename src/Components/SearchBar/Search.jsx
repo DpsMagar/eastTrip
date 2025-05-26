@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { useGetAirportsAllQuery } from "../../features/api/flightApi"
 import { useGetHotelsAllQuery } from "../../features/api/hotelApi"
 import { useGetHomeStayAllQuery } from "../../features/api/homeStayApi"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { setFromFlightLocation,setToFlightLocation , setTo, setDayOfWeek, setTravellers as globalTraveller, setflightDate} from "../../features/slice/flightSlice"
 import { setHotelLocation, setHotelCheckInDate, setHotelCheckOutDate } from "../../features/slice/hotelSlice"
 import {  setGlobalGuests , setGlobalRooms } from "../../features/slice/hotelSlice"
@@ -17,269 +17,207 @@ import { IoHomeOutline } from "react-icons/io5";
 import { IoSwapVerticalOutline } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 
+
 export default function TravelBooking() {
+
+
+
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const[airports, setAirports]= useState([])
   const[hotelzz, setHotelzzz]= useState([])
   const[homeStayzz, setHomeStayzz]= useState([])
 
+
+
   const {data:airport} = useGetAirportsAllQuery()
-  const {data: hotel} = useGetHotelsAllQuery()
-  const {data: homeStay} = useGetHomeStayAllQuery()
+  console.log(airport);
+  
 
   useEffect(() => {
-    if (airport) setAirports(airport);
-    if (hotel) setHotelzzz(hotel);
-    if (homeStay) setHomeStayzz(homeStay);
-  }, [airport, hotel, homeStay]);
+    if (airport) {
+      setAirports(airport);
+    }
+  }, [airport]);
 
+  const{data: hotel}= useGetHotelsAllQuery()
+  useEffect(() => {
+    if (hotel) {
+      setHotelzzz(hotel);
+    }
+  }, [hotel]);
+  
+
+  const{data: homeStay}= useGetHomeStayAllQuery()
+
+  useEffect(() => {
+    if (homeStay) {
+      setHomeStayzz(homeStay);
+    }
+  }, [homeStay]);
+  
   const months1 = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-
-    const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
   
   const days1 = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   
-  const today = new Date();
-  const formattedToday = `${today.getDate()} ${months1[today.getMonth()].substring(0, 3)} ${today.getFullYear()}`;
-  const todayDay = days1[today.getDay()];
+  
+   
+    const today = new Date();
+    const formattedToday = `${today.getDate()} ${months1[today.getMonth()].substring(0, 3)} ${today.getFullYear()}`;
+    const todayDay = days1[today.getDay()];
 
   
-  const loadInitialState = () => {
-    const savedSearch = localStorage.getItem('travelSearch');
-    if (savedSearch) {
-      const parsed = JSON.parse(savedSearch);
-      return {
-        activeTab: parsed.activeTab || "hotels",
-        flight: parsed.flight || {
-          fromLocation: "Kathmandu",
-          fromAirport: "Tribhuvan International Airport",
-          toLocation: "Pokhara",
-          toAirport: "Pokhara International Airport",
-          tripType: "One Way",
-          departureDate: formattedToday,
-          departureDay: todayDay,
-          returnDate: "",
-          returnDay: "",
-          travellers: 1
-        },
-        hotel: parsed.hotel || {
-          location: "Kathmandu",
-          checkInDate: formattedToday,
-          checkInDay: todayDay,
-          checkOutDate: `${today.getDate() + 1} ${months1[today.getMonth()].substring(0, 3)} ${today.getFullYear()}`,
-          checkOutDay: days1[(today.getDay() + 1) % 7],
-          rooms: 1,
-          guests: 2
-        },
-        homeStay: parsed.homeStay || {
-          location: "Kathmandu",
-          checkInDate: formattedToday,
-          checkInDay: todayDay,
-          checkOutDate: `${today.getDate() + 1} ${months1[today.getMonth()].substring(0, 3)} ${today.getFullYear()}`,
-          checkOutDay: days1[(today.getDay() + 1) % 7],
-          rooms: 1,
-          guests: 2
-        }
-      };
-    }
-    return {
-      activeTab: "hotels",
-      flight: {
-        fromLocation: "Kathmandu",
-        fromAirport: "Tribhuvan International Airport",
-        toLocation: "Pokhara",
-        toAirport: "Pokhara International Airport",
-        tripType: "One Way",
-        departureDate: formattedToday,
-        departureDay: todayDay,
-        returnDate: "",
-        returnDay: "",
-        travellers: 1
-      },
-      hotel: {
-        location: "Kathmandu",
-        checkInDate: formattedToday,
-        checkInDay: todayDay,
-        checkOutDate: `${today.getDate() + 1} ${months1[today.getMonth()].substring(0, 3)} ${today.getFullYear()}`,
-        checkOutDay: days1[(today.getDay() + 1) % 7],
-        rooms: 1,
-        guests: 2
-      },
-      homeStay: {
-        location: "Kathmandu",
-        checkInDate: formattedToday,
-        checkInDay: todayDay,
-        checkOutDate: `${today.getDate() + 1} ${months1[today.getMonth()].substring(0, 3)} ${today.getFullYear()}`,
-        checkOutDay: days1[(today.getDay() + 1) % 7],
-        rooms: 1,
-        guests: 2
-      }
-    };
-  };
 
-  const initialState = loadInitialState();
 
-  const [activeTab, setActiveTab] = useState(initialState.activeTab);
-  const [activePopup, setActivePopup] = useState(null);
+  const navigate = useNavigate()
+
+
   
+  const [activeTab, setActiveTab] = useState("hotels")
+  const [activePopup, setActivePopup] = useState(null)
+  const [tripType, setTripType] = useState("One Way")
+
   // Flight state
-  const [tripType, setTripType] = useState(initialState.flight.tripType);
-  const [fromLocation, setFromLocation] = useState(initialState.flight.fromLocation);
-  const [fromAirport, setFromAirport] = useState(initialState.flight.fromAirport);
-  const [toLocation, setToLocation] = useState(initialState.flight.toLocation);
-  const [toAirport, setToAirport] = useState(initialState.flight.toAirport);
-  const [departureDate, setDepartureDate] = useState(initialState.flight.departureDate);
-  const [departureDay, setDepartureDay] = useState(initialState.flight.departureDay);
-  const [returnDate, setReturnDate] = useState(initialState.flight.returnDate);
-  const [returnDay, setReturnDay] = useState(initialState.flight.returnDay);
-  const [travellers, setTravellers] = useState(initialState.flight.travellers);
+  const [fromLocation, setFromLocation] = useState("Kathmandu")
+  const [fromAirport, setFromAirport] = useState("Tribhuvan International Airport")
+  const [toLocation, setToLocation] = useState("Pokhara")
+  const [toAirport, setToAirport] = useState("Pokhara International Airport")
+  const [departureDate, setDepartureDate] = useState(formattedToday)
+  const [departureDay, setDepartureDay] = useState(todayDay)
+  const [returnDate, setReturnDate] = useState("")
+  const [returnDay, setReturnDay] = useState("")
+  const [travellers, setTravellers] = useState(1)
   const [fromSearch, setFromSearch] = useState("");
   const [toSearch, setToSearch] = useState("");
   const [hotelSearch, setHotelSearch] = useState("");
   const [homeStaySearch, setHomeStaySearch] = useState("");
   
+   const { location: selectedLocations, rooms: selectedRooms, guests: selectedGuests, hotelCheckInDate:checkIn, hotelCheckOutDate: checkOut} = useSelector((state) => state.hotel);
   // Hotel state
-  const [location, setLocation] = useState(initialState.hotel.location);
-  const [checkInDate, setCheckInDate] = useState(initialState.hotel.checkInDate);
-  const [checkInDay, setCheckInDay] = useState(initialState.hotel.checkInDay);
-  const [checkOutDate, setCheckOutDate] = useState(initialState.hotel.checkOutDate);
-  const [checkOutDay, setCheckOutDay] = useState(initialState.hotel.checkOutDay);
-  const [rooms, setRooms] = useState(initialState.hotel.rooms);
-  const [guests, setGuests] = useState(initialState.hotel.guests);
+  // const [location, setLocation] = useState("Kathmandu")
+  const [location, setLocation] = useState(selectedLocations?.trim() || "Kathmandu");
+
+  const [checkInDate, setCheckInDate] = useState(formattedToday);
+  const [checkInDay, setCheckInDay] = useState(todayDay);
+  const [checkOutDate, setCheckOutDate] = useState(
+   
+    `${today.getDate() + 1} ${months1[today.getMonth()].substring(0, 3)} ${today.getFullYear()}`
+  );
+  const [checkOutDay, setCheckOutDay] = useState(days1[(today.getDay() + 1) % 7]);
+  const [rooms, setRooms] = useState(1)
+  const [guests, setGuests] = useState(2)
 
   // Calendar state
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ]
 
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+
+ 
   const locationsHotel = hotel ? Array.from(new Set(hotel.map((hotelItem) => hotelItem.hotelCity))) : [];
-  const locationsHomeStay = homeStay ? Array.from(new Set(homeStay.map((hotelItem) => hotelItem.hotelCity))) : [];
 
-  // Save state to localStorage whenever it changes
-  useEffect(() => {
-    const searchData = {
-      activeTab,
-      flight: {
-        fromLocation,
-        fromAirport,
-        toLocation,
-        toAirport,
-        tripType,
-        departureDate,
-        departureDay,
-        returnDate,
-        returnDay,
-        travellers
-      },
-      hotel: {
-        location,
-        checkInDate,
-        checkInDay,
-        checkOutDate,
-        checkOutDay,
-        rooms,
-        guests
-      },
-      homeStay: {
-        location,
-        checkInDate,
-        checkInDay,
-        checkOutDate,
-        checkOutDay,
-        rooms,
-        guests
-      }
-    };
-    localStorage.setItem('travelSearch', JSON.stringify(searchData));
-  }, [
-    activeTab,
-    fromLocation, fromAirport, toLocation, toAirport, tripType,
-    departureDate, departureDay, returnDate, returnDay, travellers,
-    location, checkInDate, checkInDay, checkOutDate, checkOutDay, rooms, guests
-  ]);
+  const locationsHomeStay = homeStay ? Array.from(new Set(homeStay.map((hotelItem) => hotelItem.hotelCity))) : [];
 
   const handleLocationSelect = (airport, type) => {
     if (type === "from") {
-      setFromLocation(airport.airportLocation);
-      setFromAirport(airport.airportName);
-      dispatch(setFromFlightLocation(airport.airportLocation));
+      setFromLocation(airport.airportLocation)
+      setFromAirport(airport.airportName)
     } else if (type === "to") {
-      setToLocation(airport.airportLocation);
-      setToAirport(airport.airportName);
-      dispatch(setToFlightLocation(airport.airportLocation));
+      setToLocation(airport.airportLocation)
+      setToAirport(airport.airportName)
     } else if (type === "hotel") {
-      setLocation(airport);
-      dispatch(setHotelLocation(airport));
-    } else if (type === "homeStay") {
-      setLocation(airport);
-      dispatch(setHomeStayLocation(airport));
+      setLocation(airport)
+      console.log(airport);
+      
     }
-    setActivePopup(null);
-  };
+    setActivePopup(null)
+  }
 
   const handleSwapLocations = () => {
-    const tempLocation = fromLocation;
-    const tempAirport = fromAirport;
-    setFromLocation(toLocation);
-    setFromAirport(toAirport);
-    setToLocation(tempLocation);
-    setToAirport(tempAirport);
-  };
+    const tempLocation = fromLocation
+    const tempAirport = fromAirport
+    setFromLocation(toLocation)
+    setFromAirport(toAirport)
+    setToLocation(tempLocation)
+    setToAirport(tempAirport)
+  }
 
   const handleTripTypeChange = (type) => {
-    setTripType(type);
+    setTripType(type)
     if (type === "One Way") {
-      setReturnDate("");
-      setReturnDay("");
+      setReturnDate("")
+      setReturnDay("")
     }
-  };
+  }
 
   const handleTravellerChange = (operation) => {
     if (operation === "add" && travellers < 9) {
-      setTravellers(travellers + 1);
+      setTravellers(travellers + 1)
     } else if (operation === "subtract" && travellers > 1) {
-      setTravellers(travellers - 1);
+      setTravellers(travellers - 1)
     }
-  };
+  }
 
   const handleRoomsChange = (operation) => {
     if (operation === "add" && rooms < 5) {
-      setRooms(rooms + 1);
+      setRooms(rooms + 1)
     } else if (operation === "subtract" && rooms > 1) {
-      setRooms(rooms - 1);
+      setRooms(rooms - 1)
     }
-  };
+  }
 
   const handleGuestsChange = (operation) => {
     if (operation === "add" && guests < 10) {
-      setGuests(guests + 1);
+      setGuests(guests + 1)
     } else if (operation === "subtract" && guests > 1) {
-      setGuests(guests - 1);
+      setGuests(guests - 1)
     }
-  };
+  }
 
   const generateCalendarDays = (month, year) => {
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const calendarDays = [];
+    const firstDay = new Date(year, month, 1).getDay()
+    const daysInMonth = new Date(year, month + 1, 0).getDate()
+    const calendarDays = []
+
 
     for (let i = 0; i < firstDay; i++) {
-      calendarDays.push(null);
+      calendarDays.push(null)
     }
+
 
     for (let i = 1; i <= daysInMonth; i++) {
-      calendarDays.push(i);
+      calendarDays.push(i)
     }
 
-    return calendarDays;
-  };
+    return calendarDays
+  }
 
   const handleDateSelect = (day, month, year, type) => {
     const selectedDate = new Date(year, month, day);
@@ -314,37 +252,41 @@ export default function TravelBooking() {
 
   const handlePrevMonth = () => {
     if (currentMonth === 0) {
-      setCurrentMonth(11);
-      setCurrentYear(currentYear - 1);
+      setCurrentMonth(11)
+      setCurrentYear(currentYear - 1)
     } else {
-      setCurrentMonth(currentMonth - 1);
+      setCurrentMonth(currentMonth - 1)
     }
-  };
+  }
 
   const handleNextMonth = () => {
     if (currentMonth === 11) {
-      setCurrentMonth(0);
-      setCurrentYear(currentYear + 1);
+      setCurrentMonth(0)
+      setCurrentYear(currentYear + 1)
     } else {
-      setCurrentMonth(currentMonth + 1);
+      setCurrentMonth(currentMonth + 1)
     }
-  };
+  }
 
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-  };
-
+  
   const handleLogoClick = () => {
-    dispatch(globalTraveller(travellers));
-    dispatch(setGlobalRooms(rooms));
-    dispatch(setGlobalGuests(guests));
-    dispatch(setflightDate(departureDate));
-    dispatch(setHotelCheckInDate(checkInDate));
-    dispatch(setHotelCheckOutDate(checkOutDate));
+    dispatch(globalTraveller(travellers))
+    dispatch(setGlobalRooms(rooms))
+    dispatch(setGlobalGuests(guests))
+    dispatch(setflightDate(departureDate))
+    dispatch(setHotelCheckInDate(checkInDate))
+    dispatch(setHotelCheckOutDate(checkOutDate))
+
     navigate("/search");
+
   };
 
-  // Rest of your JSX remains the same
+  // localStorage.setItem('active', 'hotels');
+  useEffect(()=>{
+      localStorage.setItem('active', 'hotels');
+
+  },[])
+
   return (
     <div className="search-wrapper">
       <div className="search-container">
@@ -698,7 +640,7 @@ export default function TravelBooking() {
                 &lt;
               </button>
               <div className="calendar-title">
-                {months1[currentMonth]} {currentYear}
+                {months[currentMonth]} {currentYear}
               </div>
               <button className="calendar-nav" onClick={handleNextMonth}>
                 &gt;
@@ -716,7 +658,7 @@ export default function TravelBooking() {
 
               {generateCalendarDays(currentMonth, currentYear).map((day, index) => {
                 const dateStr = day
-                  ? `${day} ${months1[currentMonth].substring(0, 3)} ${currentYear}`
+                  ? `${day} ${months[currentMonth].substring(0, 3)} ${currentYear}`
                   : "";
 
                 const isSelected =
@@ -885,5 +827,5 @@ export default function TravelBooking() {
         </div>
       )}
     </div>
-  );
+  )
 }

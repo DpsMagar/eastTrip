@@ -1,31 +1,37 @@
-import React, { useEffect, useState } from 'react'
-import Search from '../../Components/Search2/TwoSearch'
-import "./SearchPage.css"
-import Result2 from '../../Components/ResultBox/Result2'
-import PlaneResult from '../../Components/ResultBox/PlaneResult'
-import Result3 from '../../Components/ResultBox/Result3'
-import FlightCard from '../../Components/Boxcard/FlightCard'
+import React, { useEffect, useState } from 'react';
+import Search from '../../Components/Search2/TwoSearch';
+import './SearchPage.css';
+import Result2 from '../../Components/ResultBox/Result2';
+import PlaneResult from '../../Components/ResultBox/PlaneResult';
+import Result3 from '../../Components/ResultBox/Result3';
 
 const SearchPage = () => {
-  const [resultType, setResultType] = useState(null);
+  const [resultType, setResultType] = useState(() => {
+    return localStorage.getItem('active') || 'flights'; // Set default to 'flights'
+  });
 
   useEffect(() => {
-    const storedValue = localStorage.getItem('active'); 
-    
-    if (storedValue) {
-      setResultType(storedValue);
-    }
+    const handleStorageChange = () => {
+      const storedValue = localStorage.getItem('active');
+      if (storedValue) {
+        setResultType(storedValue);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
   const renderResultContainer = () => {
-    // eslint-disable-next-line default-case
     switch (resultType) {
       case 'flights':
-        return <PlaneResult/>;
+        return <PlaneResult />;
       case 'hotels':
-        return <Result2/>;
+        return <Result2 />;
       case 'homeStays':
-        return <Result3/>;
+        return <Result3 />;
+      default:
+        return <div>No results found. Please update your search.</div>;
     }
   };
 
@@ -37,6 +43,6 @@ const SearchPage = () => {
       </div>
     </section>
   );
-}
+};
 
 export default SearchPage;
