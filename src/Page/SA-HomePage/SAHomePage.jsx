@@ -12,7 +12,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 import {
   FaTachometerAlt, FaUsers, FaUserTie, FaHotel, FaHome, FaClipboardList
 } from 'react-icons/fa';
-import image from "../../Assest/profile.jpg"
+import image from "../../Assest/nonprofile.png"
 import TBookingCardSA from '../../Components/T-bookingList/TBookingCardSA';
 
 const SAHomePage = () => {
@@ -34,13 +34,13 @@ const SAHomePage = () => {
   };
 
   const handleSignOut = () => {
-    navigate('/homepage');
+    navigate('/home');
   };
 
   return (
     <div className="admin-container">
       <div className="navbar">
-        <div className="logo">GhumGham</div>
+        <div className="logo" onClick={handleSignOut} style={{ cursor: 'pointer' }}>GhumGham</div>
         <div className="profile-section" onClick={() => setDropdownVisible(!dropdownVisible)}>
           <span>Admin</span>
           <img src={image} alt="admin" className="profile-pic" />
