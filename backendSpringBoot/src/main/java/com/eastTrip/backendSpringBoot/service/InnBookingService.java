@@ -125,6 +125,10 @@ public class InnBookingService {
 
     public List<InnBookingResponseDTO> getBookingsByUserId(Long userId) {
         List<InnBooking> bookings = innBookingRepository.findByUser_Id(userId);
+        User user = userRepository.findById(userId).orElseThrow();
+        UserPoints userPoints = userPointsRepository.findByUser(user);
+
+        int points = (userPoints != null) ? userPoints.getPoints() : 0;
 
         return bookings.stream()
                 .map(booking -> InnBookingResponseDTO.builder()
@@ -139,6 +143,7 @@ public class InnBookingService {
                         .totalPrice(booking.getTotalPrice())
                         .innType(booking.getInnType())
                         .hasPaid(booking.isHasPaid())
+                        .points(points)
                         .build())
                 .collect(Collectors.toList());
     }

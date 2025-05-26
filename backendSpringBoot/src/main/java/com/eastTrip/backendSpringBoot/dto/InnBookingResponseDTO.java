@@ -17,4 +17,5 @@ public class InnBookingResponseDTO {
     private int totalPrice;
     private int innType;
     private  boolean hasPaid;
+    private int points;
 }
