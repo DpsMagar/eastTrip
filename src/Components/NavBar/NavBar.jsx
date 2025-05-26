@@ -14,7 +14,7 @@ export default function NavBar() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false)
   const [userDropdownOpen, setUserDropdownOpen] = useState(false)
-
+  const [showSignOutToast, setShowSignOutToast] = useState(false);
   const handleLogoClick = () => {
     navigate("/home")
   }
@@ -22,6 +22,12 @@ export default function NavBar() {
   const handleSignOut = () => {
     signOut()
     navigate("/home")
+
+    setShowSignOutToast(true);
+
+    setTimeout(() => {
+    setShowSignOutToast(false);
+  }, 7000);
   }
 
   const goToTravellerPage = () => {
@@ -54,6 +60,9 @@ export default function NavBar() {
 
   return (
     <div className="gh-navbar-container">
+      {showSignOutToast && (
+  <div className="signout">Signed out successfully</div>
+)}
       <header className="gh-navbar">
         <div className="gh-logo-section" onClick={handleLogoClick}>
           
