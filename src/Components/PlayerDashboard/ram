@@ -1,313 +1,699 @@
 "use client"
+
 import { useState, useEffect } from "react"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-import "./info.css"
+import "./TwoSearch.css"
+import { ArrowLeftRight, ChevronDown, X } from "lucide-react"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { setHotelLocation } from "../../features/slice/hotelSlice"
+import { setGlobalRooms, setGlobalGuests, setHotelCheckInDate, setHotelCheckOutDate } from "../../features/slice/hotelSlice"
+import { setTravellers as globalTraveller, setflightDate } from "../../features/slice/flightSlice"
+import { useGetHotelsAllQuery } from "../../features/api/hotelApi"
+import { useGetHomeStayAllQuery } from "../../features/api/homeStayApi"
 
-export default function ProfileInfo({ userId }) {
-  const [userData, setUserData] = useState(null)
-  const [isEditing, setIsEditing] = useState(false)
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    address: "",
-    country: "",
-    gender: "",
-    dateOfBirth: null,
-    profileImage: "/placeholder.svg"
-  })
-  const [errors, setErrors] = useState({})
-  const [notification, setNotification] = useState({ show: false, message: "", type: "" })
-  const [loading, setLoading] = useState(true)
+export default function TwoSearch() {
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch(`http://localhost:8080/api/users/id/${userId}`)
-        if (!response.ok) throw new Error("Failed to fetch user data")
-        const data = await response.json()
-        
-        setUserData(data)
-        setFormData({
-          fullName: data.fullName || "",
-          email: data.email || "",
-          phone: data.phone || "",
-          address: data.address || "",
-          country: data.country || "",
-          gender: data.gender || "",
-          dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth) : null,
-          profileImage: data.profileImage || "/placeholder.svg"
-        })
-      } catch (error) {
-        console.error("Error fetching user data:", error)
-        showNotification("Failed to load user data", "error")
-      } finally {
-        setLoading(false)
+  const navigate= useNavigate()
+  const dispatch= useDispatch()
+
+  const{data: hotel}= useGetHotelsAllQuery()
+    
+    const{data: homeStay}= useGetHomeStayAllQuery()
+
+    const locationsHotel = hotel ? Array.from(new Set(hotel.map((hotelItem) => hotelItem.hotelCity))) : [];
+    // console.log(locationsHotel);
+    
+
+  const locationsHomeStay = homeStay ? Array.from(new Set(homeStay.map((hotelItem) => hotelItem.hotelCity))) : [];
+
+
+   const { from, to, dayOfWeek, travellers, flightDate,fromLocationFlight, toLocationFlight } = useSelector((state) => state.flight);
+  //  console.log("hiiii");
+   
+  //  console.log(flightDate,"kjhkjh");
+   
+   const { location: selectedLocations, rooms: selectedRooms, guests: selectedGuests, hotelCheckInDate:checkIn, hotelCheckOutDate: checkOut} = useSelector((state) => state.hotel);
+  //  console.log(selectedRooms,"rooms");
+  //  console.log(selectedGuests,"guests");
+// console.log(checkIn);a[is
+  
+
+
+
+
+  const presentTab=  localStorage.getItem('active')
+  const [activeTab, setActiveTab] = useState(presentTab)
+  const [activePopup, setActivePopup] = useState(null)
+
+  // Flights state
+  const [tripType, setTripType] = useState("One Way")
+  const [fromLocation, setFromLocation] = useState(fromLocationFlight)
+  const [toLocation, setToLocation] = useState(toLocationFlight)
+  const [departDate, setDepartDate] = useState(flightDate)
+  const [returnDate, setReturnDate] = useState("Select here")
+
+  // Hotels state
+  const [location, setLocation] = useState(selectedLocations)
+  const [checkInDate, setCheckInDate] = useState(checkIn)
+  const [checkOutDate, setCheckOutDate] = useState(checkOut)
+  const [rooms, setRooms] = useState(selectedRooms)
+  const [guests, setGuests] = useState(selectedGuests)
+
+  // Calendar state
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth())
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
+
+  const [fromSearch, setFromSearch] = useState("");
+  const [toSearch, setToSearch] = useState("");
+  const [hotelSearch, setHotelSearch] = useState("");
+  const [homeStaySearch, setHomeStaySearch] = useState("");
+
+  const locations = [
+    { name: "Kathmandu", info: "Tribhuvan International Airport" },
+    { name: "Pokhara", info: "Pokhara International Airport" },
+    { name: "Lumbini", info: "Lumbini Airport" },
+    { name: "Biratnagar", info: "Biratnagar Airport" },
+    { name: "Nepalgunj", info: "Nepalgunj Airport" },
+  ]
+
+const isPastDate = (day, month, year) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const selectedDate = new Date(year, month, day);
+  return selectedDate < today;
+};
+
+const formatDateString = (dateStr) => {
+  if (!dateStr) return null;
+  const [day, month, year] = dateStr.split(' ');
+  const monthIndex = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].indexOf(month);
+  return new Date(year, monthIndex, parseInt(day));
+};
+  const handleSwapLocations = () => {
+    const temp = fromLocation
+    setFromLocation(toLocation)
+    setToLocation(temp)
+  }
+
+  const handleTripTypeChange = (type) => {
+    setTripType(type)
+    setActivePopup(null)
+  }
+
+  const handleLocationSelect = (loc, type) => {
+    if (type === "from") {
+      setFromLocation(loc)
+    } else if (type === "to") {
+      setToLocation(loc)
+    } else {
+      setLocation(loc)
+    }
+    setActivePopup(null)
+  }
+
+  const handleDateSelect = (date, type) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const selectedDate = formatDateString(date);
+    
+    // Prevent selecting past dates for departure/check-in
+    if ((type === "depart" || type === "checkIn") && selectedDate < today) {
+      return; // Don't proceed with selection
+    }
+    
+    // For return date, must be after departure date
+    if (type === "return" && departDate !== "Select here") {
+      const departDateObj = formatDateString(departDate);
+      if (selectedDate < departDateObj) {
+        return;
       }
     }
-
-    fetchUserData()
-  }, [userId])
-
-  const showNotification = (message, type) => {
-    setNotification({ show: true, message, type })
-    setTimeout(() => setNotification({ show: false, message: "", type: "" }), 3000)
-  }
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-    if (errors[name]) setErrors(prev => ({ ...prev, [name]: "" }))
-  }
-
-  const handleDateChange = (date) => {
-    setFormData(prev => ({ ...prev, dateOfBirth: date }))
-    if (errors.dateOfBirth) setErrors(prev => ({ ...prev, dateOfBirth: "" }))
-  }
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-
-    if (!file.type.startsWith("image/")) {
-      showNotification("Please select an image file", "error")
-      return
+    
+    // For check-out date, must be after check-in date
+    if (type === "checkOut" && checkInDate) {
+      const checkInDateObj = formatDateString(checkInDate);
+      if (selectedDate < checkInDateObj) {
+        return;
+      }
     }
-
-    if (file.size > 2 * 1024 * 1024) {
-      showNotification("Image size should be less than 2MB", "error")
-      return
+  
+    if (type === "depart") {
+      setDepartDate(date);
+    } else if (type === "return") {
+      setReturnDate(date);
+    } else if (type === "checkIn") {
+      setCheckInDate(date);
+    } else if (type === "checkOut") {
+      setCheckOutDate(date);
     }
+    
+    setActivePopup(null);
+  };
 
-    const reader = new FileReader()
-    reader.onload = () => {
-      setFormData(prev => ({ ...prev, profileImage: reader.result }))
-    }
-    reader.readAsDataURL(file)
-  }
 
-  const validateForm = () => {
-    const newErrors = {}
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    const phoneRegex = /^[0-9]{10,15}$/
-
-    if (!formData.fullName.trim()) newErrors.fullName = "Full name is required"
-    if (!emailRegex.test(formData.email)) newErrors.email = "Invalid email address"
-    if (!phoneRegex.test(formData.phone)) newErrors.phone = "Invalid phone number"
-    if (!formData.dateOfBirth) newErrors.dateOfBirth = "Date of birth is required"
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (!validateForm()) return
-
-    try {
-      const response = await fetch(`http://localhost:8080/api/users/id/${userId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          dateOfBirth: formData.dateOfBirth?.toISOString(),
-          profileImage: formData.profileImage.startsWith("data:image") ? null : formData.profileImage
-        })
-      })
-
-      if (!response.ok) throw new Error("Failed to update profile")
-
-      const updatedData = await response.json()
-      setUserData(updatedData)
-      setIsEditing(false)
-      showNotification("Profile updated successfully!", "success")
-    } catch (error) {
-      console.error("Update error:", error)
-      showNotification(error.message || "Failed to update profile", "error")
+  const handleRoomsGuestsChange = (operation) => {
+    if (operation === "addRoom" && rooms < 5) {
+      setRooms(rooms + 1)
+    } else if (operation === "subtractRoom" && rooms > 1) {
+      setRooms(rooms - 1)
+    } else if (operation === "addGuest" && guests < 10) {
+      setGuests(guests + 1)
+    } else if (operation === "subtractGuest" && guests > 1) {
+      setGuests(guests - 1)
     }
   }
 
-  if (loading) return <div className="loading">Loading...</div>
+  const generateCalendarDays = () => {
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay()
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate()
+
+    const days = []
+
+    // Add empty cells for days before the first day of the month
+    for (let i = 0; i < firstDay; i++) {
+      days.push(null)
+    }
+
+    // Add days of the month
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push(i)
+    }
+
+    return days
+  }
+
+  const handlePrevMonth = () => {
+    if (currentMonth === 0) {
+      setCurrentMonth(11)
+      setCurrentYear(currentYear - 1)
+    } else {
+      setCurrentMonth(currentMonth - 1)
+    }
+  }
+
+  const handleNextMonth = () => {
+    if (currentMonth === 11) {
+      setCurrentMonth(0)
+      setCurrentYear(currentYear + 1)
+    } else {
+      setCurrentMonth(currentMonth + 1)
+    }
+  }
+
+  const formatDate = (day) => {
+    if (!day) return ""
+    const date = new Date(currentYear, currentMonth, day)
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    return `${day} ${monthNames[currentMonth]} ${currentYear}`
+  }
+
+  const handleSearch=()=>{
+    console.log("Search triggered for tab:", activeTab);
+    dispatch(setHotelLocation(location))
+    // dispatch(globalTraveller(travellers))
+    dispatch(setGlobalRooms(rooms))
+    dispatch(setGlobalGuests(guests))
+    dispatch(setflightDate(departDate))
+    dispatch(setHotelCheckInDate(checkInDate))
+    dispatch(setHotelCheckOutDate(checkOutDate))
+    navigate("/search")
+  }
+  const handleHotel=()=>{
+    console.log("Search triggered for tab:", activeTab);
+    dispatch(setHotelLocation(location))
+    // dispatch(globalTraveller(travellers))
+    dispatch(setGlobalRooms(rooms))
+    dispatch(setGlobalGuests(guests))
+    dispatch(setHotelCheckInDate(checkInDate))
+    dispatch(setHotelCheckOutDate(checkOutDate))
+    navigate("/search")
+  }
+  const handleHomeStay=()=>{
+    console.log("Search triggered for tab:", activeTab);
+    dispatch(setHotelLocation(location))
+    // dispatch(globalTraveller(travellers))
+    dispatch(setGlobalRooms(rooms))
+    dispatch(setGlobalGuests(guests))
+    dispatch(setHotelCheckInDate(checkInDate))
+    dispatch(setHotelCheckOutDate(checkOutDate))
+    navigate("/search")
+  }
 
   return (
-    <div className="profile-container">
-      {notification.show && (
-        <div className={`notification ${notification.type}`}>
-          {notification.message}
-        </div>
-      )}
-
-      <div className="profile-header">
-        <h2>User Profile</h2>
-        {!isEditing && (
-          <button className="edit-button" onClick={() => setIsEditing(true)}>
-            Edit Profile
-          </button>
-        )}
+    <div className="travel-search">
+      {/* Tabs */}
+      <div className="tabs">
+        <button className={`tab ${activeTab === "flights" ? "active" : ""}`} onClick={() => {setActiveTab("flights");
+         handleSearch()}}>
+          Flights
+        </button>
+        <button className={`tab ${activeTab === "hotels" ? "active" : ""}`} onClick={() => {setActiveTab("hotels");
+        handleSearch()}}>
+          Hotel
+        </button>
+        <button
+          className={`tab ${activeTab === "homeStays" ? "active" : ""}`}
+          onClick={() => {setActiveTab("homeStays");
+          handleSearch()}}
+        >
+          HomeStays
+        </button>
       </div>
 
-      {isEditing ? (
-        <form className="profile-form" onSubmit={handleSubmit}>
-          <div className="image-section">
-            <div className="image-preview">
-              <img 
-                src={formData.profileImage} 
-                alt="Profile preview" 
-                className="profile-image"
-              />
-            </div>
-            <label className="image-upload">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-              />
-              Change Photo
-            </label>
-          </div>
-
-          <div className="form-section">
-            <div className="form-row">
-              <div className="form-group">
-                <label>Full Name</label>
-                <input
-                  type="text"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  className={errors.fullName ? "error" : ""}
-                />
-                {errors.fullName && <span className="error-message">{errors.fullName}</span>}
-              </div>
-
-              <div className="form-group">
-                <label>Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className={errors.email ? "error" : ""}
-                />
-                {errors.email && <span className="error-message">{errors.email}</span>}
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label>Phone</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className={errors.phone ? "error" : ""}
-                />
-                {errors.phone && <span className="error-message">{errors.phone}</span>}
-              </div>
-
-              <div className="form-group">
-                <label>Date of Birth</label>
-                <DatePicker
-                  selected={formData.dateOfBirth}
-                  onChange={handleDateChange}
-                  dateFormat="dd/MM/yyyy"
-                  maxDate={new Date(new Date().setFullYear(new Date().getFullYear() - 16))}
-                  showYearDropdown
-                  className={`date-picker ${errors.dateOfBirth ? "error" : ""}`}
-                  placeholderText="DD/MM/YYYY"
-                />
-                {errors.dateOfBirth && <span className="error-message">{errors.dateOfBirth}</span>}
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label>Address</label>
-                <input
-                  type="text"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Country</label>
-                <input
-                  type="text"
-                  name="country"
-                  value={formData.country}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>
-
-            <div className="form-group gender-group">
-              <label>Gender</label>
-              <div className="gender-options">
-                {["male", "female", "other"].map((gender) => (
-                  <label key={gender}>
-                    <input
-                      type="radio"
-                      name="gender"
-                      value={gender}
-                      checked={formData.gender === gender}
-                      onChange={handleInputChange}
-                    />
-                    {gender.charAt(0).toUpperCase() + gender.slice(1)}
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div className="form-actions">
-              <button type="button" className="cancel-button" onClick={() => setIsEditing(false)}>
-                Cancel
-              </button>
-              <button type="submit" className="save-button">
-                Save Changes
-              </button>
+      {/* Flights Search Form */}
+      {activeTab === "flights" && (
+        <div className="search-form">
+          {/* Trip Type */}
+          <div className="field" onClick={() => setActivePopup("tripType")}>
+            <div className="field-label">Trip Type</div>
+            <div className="field-value">
+              {tripType}
+              <ChevronDown size={16} />
             </div>
           </div>
-        </form>
-      ) : (
-        <div className="profile-view">
-          <div className="image-section">
-            <img 
-              src={userData.profileImage || "/placeholder.svg"} 
-              alt="Profile" 
-              className="profile-image"
-            />
+
+          {/* From */}
+          <div className="field" onClick={() => setActivePopup("from")}>
+            <div className="field-label">From</div>
+            <div className="field-value">{fromLocation}</div>
           </div>
 
-          <div className="details-section">
-            <DetailItem label="Full Name" value={userData.fullName} />
-            <DetailItem label="Email" value={userData.email} />
-            <DetailItem label="Phone" value={userData.phone} />
-            <DetailItem label="Address" value={userData.address} />
-            <DetailItem label="Country" value={userData.country} />
-            <DetailItem label="Gender" value={userData.gender} />
-            <DetailItem 
-              label="Date of Birth" 
-              value={userData.dateOfBirth 
-                ? new Date(userData.dateOfBirth).toLocaleDateString() 
-                : "Not provided"
-              }
-            />
+          {/* Swap Button */}
+          <button className="swap-button" onClick={handleSwapLocations}>
+            <ArrowLeftRight size={16} />
+          </button>
+
+          {/* To */}
+          <div className="field" onClick={() => setActivePopup("to")}>
+            <div className="field-label">To</div>
+            <div className="field-value">{toLocation}</div>
+          </div>
+
+          {/* Depart Time */}
+          <div className="field" onClick={() => setActivePopup("depart")}>
+            <div className="field-label">Depart Time</div>
+            <div className="field-value">{departDate}</div>
+          </div>
+
+          {/* Return */}
+          <div
+            className={`field ${tripType === "One Way" ? "disabled" : ""}`}
+            onClick={() => tripType !== "One Way" && setActivePopup("return")}
+          >
+            <div className="field-label">Return</div>
+            <div className="field-value">{returnDate}</div>
+          </div>
+
+          {/* Search Button */}
+          <button className="search-button" onClick={handleSearch}>Search</button>
+        </div>
+      )}
+
+      {/* Hotels Search Form */}
+      {(activeTab === "hotels") && (
+        <div className="search-form">
+          {/* Location */}
+          <div className="field" onClick={() => setActivePopup("Hotellocation")}>
+            <div className="field-label">City, Hotel Name or Location</div>
+            <div className="field-value">{location}</div>
+          </div>
+
+          {/* Check In */}
+          <div className="field" onClick={() => setActivePopup("checkIn")}>
+            <div className="field-label">Check In</div>
+            <div className="field-value">{checkInDate}</div>
+            <div className="field-subtext">Saturday</div>
+          </div>
+
+          {/* Check Out */}
+          <div className="field" onClick={() => setActivePopup("checkOut")}>
+            <div className="field-label">Check Out</div>
+            <div className="field-value">{checkOutDate}</div>
+            <div className="field-subtext">Sunday</div>
+          </div>
+
+          {/* Rooms & Guests */}
+          <div className="field" onClick={() => setActivePopup("roomsGuests")}>
+            <div className="field-label">Rooms & Guests</div>
+            <div className="field-value">
+              {rooms} Room & {guests} Guests
+            </div>
+          </div>
+
+          {/* Search Button */}
+          <button className="search-button" onClick={handleHotel}>Search</button>
+        </div>
+      )}
+
+      {(activeTab === "homeStays") && (
+        <div className="search-form">
+          {/* Location */}
+          <div className="field" onClick={() => setActivePopup("HomeStaylocation")}>
+            <div className="field-label">City, homeStay Name or Location</div>
+            <div className="field-value">{location}</div>
+          </div>
+
+          {/* Check In */}
+          <div className="field" onClick={() => setActivePopup("checkIn")}>
+            <div className="field-label">Check In</div>
+            <div className="field-value">{checkInDate}</div>
+            <div className="field-subtext">Saturday</div>
+          </div>
+
+          {/* Check Out */}
+          <div className="field" onClick={() => setActivePopup("checkOut")}>
+            <div className="field-label">Check Out</div>
+            <div className="field-value">{checkOutDate}</div>
+            <div className="field-subtext">Sunday</div>
+          </div>
+
+          {/* Rooms & Guests */}
+          <div className="field" onClick={() => setActivePopup("roomsGuests")}>
+            <div className="field-label">Rooms & Guests</div>
+            <div className="field-value">
+              {rooms} Room & {guests} Guests
+            </div>
+          </div>
+
+          {/* Search Button */}
+          <button className="search-button" onClick={handleHomeStay}>Search</button>
+        </div>
+      )}
+
+      {/* Popups */}
+      {activePopup && (
+        <div className="popup-overlay" onClick={() => setActivePopup(null)}>
+          <div className="popup" onClick={(e) => e.stopPropagation()}>
+            {/* Trip Type Popup */}
+            {activePopup === "tripType" && (
+              <>
+                <div className="popup-header">
+                  <h3>Select Trip Type</h3>
+                  <button className="close-button" onClick={() => setActivePopup(null)}>
+                    <X size={16} />
+                  </button>
+                </div>
+                <div className="popup-content">
+                  <div className="option-list">
+                    <div
+                      className={`option ${tripType === "One Way" ? "selected" : ""}`}
+                      onClick={() => handleTripTypeChange("One Way")}
+                    >
+                      <div className="radio-button">
+                        <div className="radio-inner"></div>
+                      </div>
+                      <span>One Way</span>
+                    </div>
+                    <div
+                      className={`option ${tripType === "Round Trip" ? "selected" : ""}`}
+                      onClick={() => handleTripTypeChange("Round Trip")}
+                    >
+                      <div className="radio-button">
+                        <div className="radio-inner"></div>
+                      </div>
+                      <span>Round Trip</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* Location Popup */}
+{(activePopup === "from" || activePopup === "to") && (
+  <>
+    <div className="popup-header">
+      <h3>
+        {activePopup === "from"
+          ? "Select Departure City"
+          : "Select Destination City"}
+      </h3>
+      <button className="close-button" onClick={() => setActivePopup(null)}>
+        <X size={16} />
+      </button>
+    </div>
+    <div className="popup-content">
+      <div className="search-input">
+        <input 
+          type="text" 
+          placeholder="Search for a city" 
+          value={activePopup === "from" ? fromSearch : toSearch}
+          onChange={(e) => 
+            activePopup === "from" 
+              ? setFromSearch(e.target.value) 
+              : setToSearch(e.target.value)
+          }
+        />
+      </div>
+      <div className="location-list">
+        {locations
+          .filter(loc => 
+            loc.name.toLowerCase().includes(
+              (activePopup === "from" ? fromSearch : toSearch).toLowerCase()
+            )
+          )
+          .map((loc, index) => (
+            <div
+              key={index}
+              className="location-item"
+              onClick={() => {
+                handleLocationSelect(loc.name, activePopup);
+                activePopup === "from" 
+                  ? setFromSearch("") 
+                  : setToSearch("");
+              }}
+            >
+              <div className="location-name">{loc.name}</div>
+              <div className="location-info">{loc.info}</div>
+            </div>
+          ))}
+      </div>
+    </div>
+  </>
+)}
+
+{(activePopup === "Hotellocation") && (
+  <>
+    <div className="popup-header">
+      <h3>Select Hotel Location</h3>
+      <button className="close-button" onClick={() => setActivePopup(null)}>
+        <X size={16} />
+      </button>
+    </div>
+    <div className="popup-content">
+      <div className="search-input">
+        <input 
+          type="text" 
+          placeholder="Search for a city or hotel" 
+          value={hotelSearch}
+          onChange={(e) => setHotelSearch(e.target.value)}
+        />
+      </div>
+      <div className="location-list">
+        {locationsHotel
+          .filter(loc => 
+            loc.toLowerCase().includes(hotelSearch.toLowerCase())
+          )
+          .map((loc, index) => (
+            <div
+              key={index}
+              className="location-item"
+              onClick={() => {
+                handleLocationSelect(loc, activePopup);
+                setHotelSearch("");
+              }}
+            >
+              <div className="location-name">{loc}</div>
+              <div className="location-info">{loc}, Nepal</div>
+            </div>
+          ))}
+      </div>
+    </div>
+  </>
+)}
+
+{(activePopup === "HomeStaylocation") && (
+  <>
+    <div className="popup-header">
+      <h3>Select HomeStay Location</h3>
+      <button className="close-button" onClick={() => setActivePopup(null)}>
+        <X size={16} />
+      </button>
+    </div>
+    <div className="popup-content">
+      <div className="search-input">
+        <input 
+          type="text" 
+          placeholder="Search for a city or homestay" 
+          value={homeStaySearch}
+          onChange={(e) => setHomeStaySearch(e.target.value)}
+        />
+      </div>
+      <div className="location-list">
+        {locationsHomeStay
+          .filter(loc => 
+            loc.toLowerCase().includes(homeStaySearch.toLowerCase())
+          )
+          .map((loc, index) => (
+            <div
+              key={index}
+              className="location-item"
+              onClick={() => {
+                handleLocationSelect(loc, activePopup);
+                setHomeStaySearch("");
+              }}
+            >
+              <div className="location-name">{loc}</div>
+              <div className="location-info">{loc}</div>
+            </div>
+          ))}
+      </div>
+    </div>
+  </>
+)}
+
+{(activePopup === "depart" ||
+  activePopup === "return" ||
+  activePopup === "checkIn" ||
+  activePopup === "checkOut") && (
+  <>
+    <div className="popup-header">
+      <h3>
+        {activePopup === "depart"
+          ? "Select Departure Date"
+          : activePopup === "return"
+            ? "Select Return Date"
+            : activePopup === "checkIn"
+              ? "Select Check In Date"
+              : "Select Check Out Date"}
+      </h3>
+      <button className="close-button" onClick={() => setActivePopup(null)}>
+        <X size={16} />
+      </button>
+    </div>
+    <div className="popup-content1">
+      <div className="calendar">
+        <div className="calendar-header">
+          <button className="calendar-nav" onClick={handlePrevMonth}>
+            &lt;
+          </button>
+          <div className="calendar-title">
+            {["January", "February", "March", "April", "May", "June", 
+              "July", "August", "September", "October", "November", "December"][currentMonth]} {currentYear}
+          </div>
+          <button className="calendar-nav" onClick={handleNextMonth}>
+            &gt;
+          </button>
+        </div>
+        <div className="calendar-days">
+          <div className="weekday">Su</div>
+          <div className="weekday">Mo</div>
+          <div className="weekday">Tu</div>
+          <div className="weekday">We</div>
+          <div className="weekday">Th</div>
+          <div className="weekday">Fr</div>
+          <div className="weekday">Sa</div>
+
+          {generateCalendarDays().map((day, index) => {
+            const formattedCurrentDate = formatDate(day);
+            const isSelected = 
+              (activePopup === "depart" && departDate === formattedCurrentDate) ||
+              (activePopup === "return" && returnDate === formattedCurrentDate) ||
+              (activePopup === "checkIn" && checkInDate === formattedCurrentDate) ||
+              (activePopup === "checkOut" && checkOutDate === formattedCurrentDate);
+
+            const isDisabled = 
+              !day ? true : // Empty cells are always disabled
+              (activePopup === "depart" || activePopup === "checkIn") ? 
+                isPastDate(day, currentMonth, currentYear) :
+              activePopup === "return" ?
+                formatDateString(departDate) && 
+                new Date(currentYear, currentMonth, day) < formatDateString(departDate) :
+              activePopup === "checkOut" ?
+                formatDateString(checkInDate) && 
+                new Date(currentYear, currentMonth, day) < formatDateString(checkInDate) :
+              false;
+
+            return (
+              <div
+                key={index}
+                className={`calendar-day ${!day ? "empty" : ""} ${isSelected ? "selected" : ""} ${isDisabled ? "disabled" : ""}`}
+                onClick={() => !isDisabled && day && handleDateSelect(formattedCurrentDate, activePopup)}
+              >
+                {day}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </>
+)}
+
+            {/* Rooms & Guests Popup */}
+            {activePopup === "roomsGuests" && (
+              <>
+                <div className="popup-header">
+                  <h3>Select Rooms & Guests</h3>
+                  <button className="close-button" onClick={() => setActivePopup(null)}>
+                    <X size={16} />
+                  </button>
+                </div>
+                <div className="popup-content">
+                  <div className="counter-section">
+                    <div className="counter-label">Rooms</div>
+                    <div className="counter-controls">
+                      <button
+                        className="counter-button"
+                        onClick={() => handleRoomsGuestsChange("subtractRoom")}
+                        disabled={rooms <= 1}
+                      >
+                        -
+                      </button>
+                      <span className="counter-value">{rooms}</span>
+                      <button
+                        className="counter-button"
+                        onClick={() => handleRoomsGuestsChange("addRoom")}
+                        disabled={rooms >= 5}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="counter-section">
+                    <div className="counter-label">Guests</div>
+                    <div className="counter-controls">
+                      <button
+                        className="counter-button"
+                        onClick={() => handleRoomsGuestsChange("subtractGuest")}
+                        disabled={guests <= 1}
+                      >
+                        -
+                      </button>
+                      <span className="counter-value">{guests}</span>
+                      <button
+                        className="counter-button"
+                        onClick={() => handleRoomsGuestsChange("addGuest")}
+                        disabled={guests >= 10}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="popup-info">Maximum 5 rooms and 10 guests allowed</div>
+
+                  <button className="apply-button" onClick={() => setActivePopup(null)}>
+                    Apply
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
-    </div>
-  )
-}
-
-function DetailItem({ label, value }) {
-  return (
-    <div className="detail-item">
-      <span className="detail-label">{label}:</span>
-      <span className="detail-value">{value || "Not provided"}</span>
     </div>
   )
 }

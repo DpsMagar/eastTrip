@@ -209,55 +209,79 @@ const formatDateString = (dateStr) => {
     return `${day} ${monthNames[currentMonth]} ${currentYear}`
   }
 
-  const handleSearch=()=>{
-    console.log("Search triggered for tab:", activeTab);
-    dispatch(setHotelLocation(location))
-    // dispatch(globalTraveller(travellers))
-    dispatch(setGlobalRooms(rooms))
-    dispatch(setGlobalGuests(guests))
-    dispatch(setflightDate(departDate))
-    dispatch(setHotelCheckInDate(checkInDate))
-    dispatch(setHotelCheckOutDate(checkOutDate))
-    navigate("/search")
+   const handleTabChange = (tab) => {
+    setActiveTab(tab)
+    localStorage.setItem('active', tab)
   }
-  const handleHotel=()=>{
-    console.log("Search triggered for tab:", activeTab);
-    dispatch(setHotelLocation(location))
-    // dispatch(globalTraveller(travellers))
-    dispatch(setGlobalRooms(rooms))
-    dispatch(setGlobalGuests(guests))
-    dispatch(setHotelCheckInDate(checkInDate))
-    dispatch(setHotelCheckOutDate(checkOutDate))
-    navigate("/search")
+
+  const handleSearch = () => {
+    switch (activeTab) {
+      case "flights":
+        dispatch(setflightDate(departDate))
+        dispatch(globalTraveller(travellers))
+        // Add other flight-related dispatches as needed
+navigate("/search", { 
+  state: { 
+    activeTab: activeTab 
   }
-  const handleHomeStay=()=>{
-    console.log("Search triggered for tab:", activeTab);
-    dispatch(setHotelLocation(location))
-    // dispatch(globalTraveller(travellers))
-    dispatch(setGlobalRooms(rooms))
-    dispatch(setGlobalGuests(guests))
-    dispatch(setHotelCheckInDate(checkInDate))
-    dispatch(setHotelCheckOutDate(checkOutDate))
-    navigate("/search")
+});        break
+      case "hotels":
+        dispatch(setHotelLocation(location))
+        dispatch(setGlobalRooms(rooms))
+        dispatch(setGlobalGuests(guests))
+        dispatch(setHotelCheckInDate(checkInDate))
+        dispatch(setHotelCheckOutDate(checkOutDate))
+navigate("/search", { 
+  state: { 
+    activeTab: activeTab 
   }
+});        break
+      case "homeStays":
+        dispatch(setHotelLocation(location))
+        dispatch(setGlobalRooms(rooms))
+        dispatch(setGlobalGuests(guests))
+        dispatch(setHotelCheckInDate(checkInDate))
+        dispatch(setHotelCheckOutDate(checkOutDate))
+navigate("/search", { 
+  state: { 
+    activeTab: activeTab 
+  }
+});        break
+      default:
+        break
+    }
+  }
+
 
   return (
     <div className="travel-search">
       {/* Tabs */}
       <div className="tabs">
-        <button className={`tab ${activeTab === "flights" ? "active" : ""}`} onClick={() => {setActiveTab("flights");
-         handleSearch()}}>
-          Flights
+       <button 
+  className={`tab ${activeTab === "flights" ? "active" : ""}`} 
+  onClick={() => {
+    setActiveTab("flights");
+    localStorage.setItem('active', 'flights');
+  }}
+>
+  Flights
         </button>
-        <button className={`tab ${activeTab === "hotels" ? "active" : ""}`} onClick={() => {setActiveTab("hotels");
-        handleSearch()}}>
+         <button
+          className={`tab ${activeTab === "hotels" ? "active" : ""}`}
+          onClick={() => {
+    setActiveTab("hotels");
+    localStorage.setItem('active', 'hotels');
+  }}
+>
           Hotel
         </button>
         <button
           className={`tab ${activeTab === "homeStays" ? "active" : ""}`}
-          onClick={() => {setActiveTab("homeStays");
-          handleSearch()}}
-        >
+          onClick={() => {
+    setActiveTab("homeStays");
+    localStorage.setItem('active', 'homeStays');
+  }}
+>
           HomeStays
         </button>
       </div>
@@ -307,8 +331,9 @@ const formatDateString = (dateStr) => {
           </div>
 
           {/* Search Button */}
-          <button className="search-button" onClick={handleSearch}>Search</button>
-        </div>
+ <button className="search-button" onClick={handleSearch}>
+            Search
+          </button>        </div>
       )}
 
       {/* Hotels Search Form */}
@@ -343,8 +368,9 @@ const formatDateString = (dateStr) => {
           </div>
 
           {/* Search Button */}
-          <button className="search-button" onClick={handleHotel}>Search</button>
-        </div>
+<button className="search-button" onClick={handleSearch}>
+            Search
+          </button>        </div>
       )}
 
       {(activeTab === "homeStays") && (
@@ -378,8 +404,9 @@ const formatDateString = (dateStr) => {
           </div>
 
           {/* Search Button */}
-          <button className="search-button" onClick={handleHomeStay}>Search</button>
-        </div>
+ <button className="search-button" onClick={handleSearch}>
+            Search
+          </button>        </div>
       )}
 
       {/* Popups */}

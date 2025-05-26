@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Search from '../../Components/Search2/TwoSearch';
 import './SearchPage.css';
 import Result2 from '../../Components/ResultBox/Result2';
@@ -6,21 +7,19 @@ import PlaneResult from '../../Components/ResultBox/PlaneResult';
 import Result3 from '../../Components/ResultBox/Result3';
 
 const SearchPage = () => {
-  const [resultType, setResultType] = useState(() => {
-    return localStorage.getItem('active') || 'flights'; // Set default to 'flights'
-  });
+  const location = useLocation();
+  // Get active tab from navigation state first, then localStorage
+  const [resultType, setResultType] = useState(
+    location.state?.activeTab || localStorage.getItem('active') || 'flights'
+  );
 
+  // Update when navigation state changes
   useEffect(() => {
-    const handleStorageChange = () => {
-      const storedValue = localStorage.getItem('active');
-      if (storedValue) {
-        setResultType(storedValue);
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
+    if (location.state?.activeTab) {
+      setResultType(location.state.activeTab);
+      localStorage.setItem('active', location.state.activeTab);
+    }
+  }, [location.state]);
 
   const renderResultContainer = () => {
     switch (resultType) {
@@ -41,7 +40,7 @@ const SearchPage = () => {
         <Search />
         {renderResultContainer()}
       </div>
-    </section>
+    </section>  
   );
 };
 
