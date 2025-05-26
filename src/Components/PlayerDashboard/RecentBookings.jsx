@@ -199,13 +199,13 @@ export default function RecentBookings() {
       <h2 className="section-title">Recent Bookings</h2>
 
       <div className="bookings-list">
-        {booking.map((booking) => (
+        {[...booking].reverse().map((booking) => (
           <div key={booking.colsId} className="booking-card">
             <div className="booking-info">
               <h3 className="booking-destination">{booking.name}</h3>
               <p className="booking-type">
-                {booking.innType === 1 ? "Hotel • " : "HomeStay •"}
-                {booking.checkOutDate}
+                {booking.innType === 1 ? "Hotel •  " : "HomeStay •  "}
+               {booking.checkInDate.slice(5)} - {booking.checkOutDate.slice(5)}
               </p>
               <p className="booking-id">Booking ID: {booking.colsId}</p>
             </div>
