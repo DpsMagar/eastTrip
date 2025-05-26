@@ -231,8 +231,10 @@ const handlePrintDetails = (booking) => {
             <Rating 
               onClose={closeRating} 
               hotelData={{
-                name: selectedBooking.destination,
-                image: selectedBooking.hotelImage || null
+                name: selectedBooking.name,
+                image: selectedBooking.hotelImage || null,
+                typeOfInn: selectedBooking.innType,
+                InnId:selectedBooking.innId
               }} 
             />
           </div>
