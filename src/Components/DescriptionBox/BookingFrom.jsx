@@ -228,7 +228,7 @@ const handleBookNow = async () => {
         <div className="price-row">
           <span className="reward-label">Reward Points</span>
           <span className="reward-value">
-            {RewardPoint.toLocaleString()}
+            {hotelInfo.price * 0.1}
           </span>
         </div>
       </div>

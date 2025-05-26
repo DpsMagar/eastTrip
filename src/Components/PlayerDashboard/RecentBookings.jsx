@@ -43,7 +43,7 @@ export default function RecentBookings() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get(`https://easttrip.onrender.com/api/inn-bookings/user/${userId}`);
+        const response = await axios.get(`http://localhost:8080/api/inn-bookings/user/${userId}`);
         setBookings(response.data);
         console.log("------------------");
         console.log(response.data);
