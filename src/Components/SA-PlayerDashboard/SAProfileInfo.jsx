@@ -69,24 +69,7 @@ export default function ProfileInfo({ profile }) {
       <h2 className="section-title">Profile</h2>
 
       <form onSubmit={handleSubmit}>
-        <div className="profile-image-upload">
-          <div className="image-preview">
-            <img src={previewImage || "/placeholder.svg"} alt="Profile Preview" className="preview-img" />
-          </div>
-          <div className="image-upload-controls">
-            <label htmlFor="profile-image" className="upload-btn">
-              Change Profile Picture
-            </label>
-            <input
-              type="file"
-              id="profile-image"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="file-input"
-            />
-            <p className="upload-hint">Recommended size: 200x200 pixels</p>
-          </div>
-        </div>
+
 
         <div className="form-row">
           <div className="form-group">
