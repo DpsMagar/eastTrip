@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ChevronDown, Minus, Plus } from "lucide-react";
 import "./booking-form.css";
 import { useDispatch, useSelector } from "react-redux";
+import { useRef } from "react";
 import {
   setGlobalGuests,
   setGlobalRooms,
@@ -23,7 +24,7 @@ const BookingForm = ({ hotelInfo }) => {
   const dispatch = useDispatch();
   const innType = useSelector((state) => state.active.activeTypeIndex);
   const userID = sessionStorage.getItem("userId");
-
+  const guestDropdownRef = useRef(null);
   const {
     hotelCheckInDate,
     hotelCheckOutDate,
@@ -81,9 +82,16 @@ const BookingForm = ({ hotelInfo }) => {
     }
   };
 
+  const getTodayDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+  };
   const getGuestSummary = () => {
     let summary = `${adults} Guest${adults !== 1 ? "s" : ""}`;
-    summary += ` · ${rooms} Room${rooms !== 1 ? "s" : ""}`;
+    summary += ` . ${rooms} Room${rooms !== 1 ? "s" : ""}`;
     return summary;
   };
 
@@ -95,10 +103,26 @@ const BookingForm = ({ hotelInfo }) => {
     dispatch(setHotelCheckOutDate(e.target.value));
   };
 
-  useEffect(() => {
-    dispatch(setGlobalGuests(adults + children));
-    dispatch(setGlobalRooms(rooms));
-  }, [adults, children, rooms]);
+useEffect(() => {
+  dispatch(setGlobalGuests(adults + children));
+  dispatch(setGlobalRooms(rooms));
+}, [adults, children, rooms]);
+
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (
+      guestDropdownRef.current &&
+      !guestDropdownRef.current.contains(event.target)
+    ) {
+      setIsGuestDropdownOpen(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
 
 const handleBookNow = async () => {
   if (!userID) {
@@ -109,6 +133,7 @@ const handleBookNow = async () => {
   setIsLoading(true);
   setError(null);
 
+  
   try {
     const amount = hotelInfo.price;
     const taxAmount = 0;
@@ -162,7 +187,6 @@ const handleBookNow = async () => {
     setIsLoading(false);
   }
 };
-
 
   const openLoginModal = () => {
     setIsSignupModalOpen(false)
@@ -219,6 +243,7 @@ const handleBookNow = async () => {
               className="date-input"
               value={checkInDate}
               onChange={handleCheckIn}
+              min={getTodayDate()}
             />
           </div>
         </div>
@@ -232,6 +257,7 @@ const handleBookNow = async () => {
               className="date-input"
               value={checkOutDate}
               onChange={handleCheckOut}
+              min={checkInDate}
             />
           </div>
         </div>
@@ -240,6 +266,7 @@ const handleBookNow = async () => {
           <label>Guests & Rooms</label>
           <div
             className="guest-dropdown"
+            ref={guestDropdownRef}
             onClick={() => setIsGuestDropdownOpen(!isGuestDropdownOpen)}
           >
             <span>{getGuestSummary()}</span>
