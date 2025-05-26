@@ -44,7 +44,7 @@ const SAPendingLists = () => {
       });
   }, []);
 
-  const propertiesPerPage = 6;
+  const propertiesPerPage = 2;
   const totalPages = Math.ceil(properties.length / propertiesPerPage);
   const paginatedProperties = properties.slice(
     (currentPage - 1) * propertiesPerPage,

@@ -82,7 +82,7 @@ const TBookingCardSA = () => {
   // console.log(paginatedUsers);
   
 
-  const groupSize = 3;
+  const groupSize = 6;
   const currentGroup = Math.floor((currentPage - 1) / groupSize);
   const groupStart = currentGroup * groupSize + 1;
   const groupEnd = Math.min(groupStart + groupSize - 1, totalPages);

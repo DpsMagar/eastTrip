@@ -21,7 +21,7 @@ const SATravelAgents = () => {
   const [loading, setLoading] = useState(true);
   const [flag, setFlag] = useState(false); 
 
-  const usersPerPage = 10;
+  const usersPerPage = 6;
 
   useEffect(() => {
     const fetchUsers = async () => {

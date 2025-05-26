@@ -28,7 +28,7 @@ const SAUserManagement = () => {
 
  
 
-  const usersPerPage = 10;
+  const usersPerPage = 6;
 
   useEffect(() => {
   const fetchUsers = async () => {
