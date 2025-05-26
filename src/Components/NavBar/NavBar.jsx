@@ -7,6 +7,7 @@ import Login from "../LogIn/Login"
 import SignUp from "../SignUp/SignUp"
 import "./NavBar.css"
 import image from "../../Assest/profile.jpg"
+import { IoMdClose } from "react-icons/io";
 
 export default function NavBar() {
   const navigate = useNavigate()
@@ -15,6 +16,8 @@ export default function NavBar() {
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false)
   const [userDropdownOpen, setUserDropdownOpen] = useState(false)
   const [showSignOutToast, setShowSignOutToast] = useState(false);
+  const [showConfirmSignOut, setShowConfirmSignOut] = useState(false);
+
   const handleLogoClick = () => {
     navigate("/home")
   }
@@ -95,7 +98,7 @@ export default function NavBar() {
                   <Link to="/profile" className="gh-dropdown-link">
                     Profile
                   </Link>
-                  <button onClick={handleSignOut} className="gh-dropdown-btn">
+                  <button onClick={() => setShowConfirmSignOut(true)} className="gh-dropdown-btn">
                     Sign Out
                   </button>
                 </div>
@@ -104,6 +107,29 @@ export default function NavBar() {
           </div>
         )}
       </header>
+
+      {showConfirmSignOut && (
+      <div className="N-modal-overlay">
+        <div className="N-signout-modal">
+          <button className="close-btn" onClick={() => setShowConfirmSignOut(false)}>
+            <IoMdClose size={20} />
+          </button>
+          <h3>Are you sure you want to sign out?</h3>
+          <div className="modal-actions">
+            <button className="no-btn" onClick={() => setShowConfirmSignOut(false)}>
+              No
+            </button>
+            <button className="yes-btn" onClick={() => {
+              handleSignOut();
+              setShowConfirmSignOut(false);
+            }}>
+              Yes
+            </button>
+
+          </div>
+        </div>
+      </div>
+      )}
 
       {isLoginModalOpen && <Login onClose={closeAllModals} switchToSignup={openSignupModal} />}
       {isSignupModalOpen && <SignUp onClose={closeAllModals} switchToLogin={openLoginModal} />}
