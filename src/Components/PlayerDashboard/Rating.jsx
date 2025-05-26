@@ -6,12 +6,14 @@ import { X } from "lucide-react"
 import hotel from "../../Assest/hotelimage.png"
 
 const Rating = ({ onClose, hotelData }) => {
-  const userId= sessionStorage.getItem('userId');
-  const iddd= hotelData.InnId;
+  const userId = sessionStorage.getItem('userId');
+  const iddd = hotelData.InnId;
   const [rating, setRating] = useState(0)
   const [hover, setHover] = useState(0)
   const [review, setReview] = useState("")
   const [error, setError] = useState("")
+  const [showSuccess, setShowSuccess] = useState(false)
+  const [showError, setShowError] = useState(false)
 
   const handleSubmit = async () => {
     if (rating === 0 || review.trim() === "") {
@@ -30,15 +32,13 @@ const Rating = ({ onClose, hotelData }) => {
 
     let url = ""
     console.log("User ID:", userId);
-console.log("Hotel Data:", hotelData);
-console.log("Inn ID:", iddd);
+    console.log("Hotel Data:", hotelData);
+    console.log("Inn ID:", iddd);
 
     if (hotelData.typeOfInn === 1) {
-      url = "http://localhost:8080/api/hotel-reviews"
-      // payload.hId = hotelData.innId
+      url = "https://easttrip.onrender.com/api/hotel-reviews"
     } else if (hotelData.typeOfInn === 2) {
-      url = "http://localhost:8080/api/homestay-reviews"
-      // payload.hId = hotelData.innId
+      url = "https://easttrip.onrender.com/api/homestay-reviews"
     } else {
       setError("Unknown property type.")
       return
@@ -57,13 +57,20 @@ console.log("Inn ID:", iddd);
         throw new Error("Failed to submit review.")
       }
 
-      alert(`Successfully submitted review for ${hotelData.name}`)
+      setShowSuccess(true)
       setRating(0)
       setReview("")
-      onClose()
+      
+      
+      setTimeout(() => {
+        setShowSuccess(false)
+        onClose()
+      }, 3000)
+
     } catch (err) {
       console.error(err)
-      setError("An error occurred while submitting your review.")
+      setShowError(true)
+      setTimeout(() => setShowError(false), 3000)
     }
   }
 
@@ -75,10 +82,6 @@ console.log("Inn ID:", iddd);
 
       <h1 className="rating-title">Write a Review</h1>
       <p className="rating-subtitle">Share your experience at {hotelData.name}</p>
-
-      {/* <div className="hotel-image-container">
-        <img src={hotelData.image || hotel} alt="Hotel" className="hotel-image" />
-      </div> */}
 
       <div className="rating-section">
         <h2>Your Rating</h2>
@@ -112,6 +115,18 @@ console.log("Inn ID:", iddd);
       <button className="submit-btn" onClick={handleSubmit}>
         Submit Review
       </button>
+
+      {showSuccess && (
+        <div className="success-popup">
+          Review submitted successfully!
+        </div>
+      )}
+
+      {showError && (
+        <div className="failed-popup">
+          Submission unsuccessful!
+        </div>
+      )}
     </div>
   )
 }
