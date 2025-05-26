@@ -156,3 +156,41 @@
     align-self: flex-start;
   }
 }
+.pagination-container1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+ .bookings-container .pagination-button{
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.pagination-button:hover {
+  background-color: #f97316;
+  border-color: #bbb;
+}
+
+.pagination-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  color: black;
+}
+
+.page-number-box {
+  padding: 8px 20px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  font-weight: regular;
+  color: #f97316;
+  border: 1px solid #ddd;
+}
