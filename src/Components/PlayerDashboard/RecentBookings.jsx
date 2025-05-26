@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./booking.css";
 import Rating from "./Rating";
-import logo from "../../Assest/logo-color.png"
+import logo from "../../Assest/logo-color.png";
 import axios from "axios";
 import { Hotel } from "lucide-react";
 import { useBookNowMutation } from "../../features/api/bookApi";
@@ -36,7 +36,7 @@ export default function RecentBookings() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get(`https://easttrip.onrender.com/api/inn-bookings/user/${userId}`);
+        const response = await axios.get(`http://localhost:8080/api/inn-bookings/user/${userId}`);
         setBookings(response.data);
       } catch (err) {
         setError("Failed to fetch bookings");
@@ -219,7 +219,7 @@ export default function RecentBookings() {
         ))}
       </div>
 
-      {booking.length > bookingsPerPage && (
+      {booking.length >= 4 && (
         <div className="pagination-container1">
           <button 
             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
