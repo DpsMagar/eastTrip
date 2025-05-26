@@ -204,17 +204,16 @@ export default function RecentBookings() {
             <div className="booking-info">
               <h3 className="booking-destination">{booking.name}</h3>
               <p className="booking-type">
-                if(booking.innType==1){
-                  "Hotel • "     
-                }
+                {booking.innType === 1 ? "Hotel • " : "HomeStay •"}
+                {booking.checkOutDate}
               </p>
               <p className="booking-id">Booking ID: {booking.colsId}</p>
             </div>
 
             <div className="booking-status">
-              {/* <span className={`status-badge ${booking.status.toLowerCase()}`}>
+              <span className={`status-badge ${booking.status.toLowerCase()}`}>
                 {booking.status}
-              </span> */}
+              </span>
             </div>
 
             <div className="rate-it">

@@ -21,6 +21,8 @@ const[userInfo, setUserInfo]= useState([])
       setUserInfo(response.data)
     })
   },[userId])
+  console.log("user infoooo", userInfo);
+  
   const [activeTab, setActiveTab] = useState("bookings")
   const [showToast, setShowToast] = useState(false)
   const [rewards, setRewards] = useState([
