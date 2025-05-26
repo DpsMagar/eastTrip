@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface UserPointsRepository extends JpaRepository<UserPoints, Integer> {
-    List<UserPoints> findByUser(User user);
+    UserPoints findByUser(User user);
+//    List<UserPoints> findByUser(User user);
 }

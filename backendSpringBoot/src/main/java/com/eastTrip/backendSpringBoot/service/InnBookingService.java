@@ -5,6 +5,7 @@ import com.eastTrip.backendSpringBoot.dto.InnBookingResponseDTO;
 import com.eastTrip.backendSpringBoot.model.*;
 import com.eastTrip.backendSpringBoot.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +18,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class InnBookingService {
 
-
     private final UserRepository userRepository;
     private final InnBookingRepository innBookingRepository;
+
+    private final UserPointsRepository userPointsRepository;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public InnBookingResponseDTO createBooking(InnBookingRequestDTO dto) {
@@ -31,8 +33,6 @@ public class InnBookingService {
             if (dto.getTotalPrice() <= 0 || dto.getNumberOfGuests() <= 0 || dto.getNumberOfRooms() <= 0) {
                 throw new IllegalArgumentException("Total price, number of guests, and number of rooms must be greater than 0");
             }
-
-
 
             User user = userRepository.findById(dto.getUserId())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + dto.getUserId()));
@@ -52,6 +52,7 @@ public class InnBookingService {
             }
 
             int totalPrice = dto.getTotalPrice() * days;
+            int earnedPoints = (int) (totalPrice * 0.1); // 10% reward points
 
             InnBooking existingBooking = innBookingRepository.findByUserIdAndInnIdAndInnType(
                     dto.getUserId(), dto.getInnId(), dto.getInnType());
@@ -87,6 +88,9 @@ public class InnBookingService {
                 booking = innBookingRepository.save(newBooking);
             }
 
+            // Update or insert user points
+            updateUserPoints(user, earnedPoints);
+
             return InnBookingResponseDTO.builder()
                     .name(booking.getName())
                     .checkInDate(booking.getCheckInDate().toString())
@@ -98,21 +102,29 @@ public class InnBookingService {
                     .numberOfRooms((long) booking.getNumberOfRooms())
                     .innType(booking.getInnType())
                     .hasPaid(booking.isHasPaid())
-
                     .build();
 
         } catch (IllegalArgumentException e) {
-            // You can log the error or rethrow to be handled by a global exception handler
             throw e;
         } catch (Exception e) {
-            // Catch-all for unexpected errors
             throw new RuntimeException("Failed to process booking request", e);
         }
     }
 
+    private void updateUserPoints(User user, int earnedPoints) {
+        UserPoints userPoints = userPointsRepository.findByUser(user);
+        if (userPoints != null) {
+            userPoints.setPoints(userPoints.getPoints() + earnedPoints);
+        } else {
+            userPoints = new UserPoints();
+            userPoints.setUser(user);
+            userPoints.setPoints(earnedPoints);
+        }
+        userPointsRepository.save(userPoints);
+    }
 
     public List<InnBookingResponseDTO> getBookingsByUserId(Long userId) {
-        List<InnBooking> bookings = innBookingRepository.findByUser_Id((userId));
+        List<InnBooking> bookings = innBookingRepository.findByUser_Id(userId);
 
         return bookings.stream()
                 .map(booking -> InnBookingResponseDTO.builder()
@@ -130,7 +142,6 @@ public class InnBookingService {
                         .build())
                 .collect(Collectors.toList());
     }
-
 
     public List<InnBookingResponseDTO> getAllBookings() {
         List<InnBooking> bookings = innBookingRepository.findAll();
@@ -150,7 +161,6 @@ public class InnBookingService {
                         .hasPaid(booking.isHasPaid())
                         .build())
                 .collect(Collectors.toList());
-
     }
 
     public void deleteBooking(Long id) {

@@ -25,10 +25,10 @@ public class UserPointsController {
         return userPointsService.getUserPointsById(id);
     }
 
-    @GetMapping("/user/{userId}")
-    public List<UserPoints> getPointsByUserId(@PathVariable int userId) {
-        return userPointsService.getPointsByUserId(userId);
-    }
+//    @GetMapping("/user/{userId}")
+//    public List<UserPoints> getPointsByUserId(@PathVariable int userId) {
+//        return userPointsService.getPointsByUserId(userId);
+//    }
 
     @PostMapping
     public UserPoints addUserPoints(@RequestParam int userId, @RequestParam int points) {

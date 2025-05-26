@@ -27,10 +27,10 @@ public class UserPointsService {
         return userPointsRepository.findById(id);
     }
 
-    public List<UserPoints> getPointsByUserId(int userId) {
-        Optional<User> user = userRepository.findById((long) userId);
-        return user.map(userPointsRepository::findByUser).orElseThrow(() -> new RuntimeException("User not found"));
-    }
+//    public List<UserPoints> getPointsByUserId(int userId) {
+//        Optional<User> user = userRepository.findById((long) userId);
+//        return user.map(userPointsRepository::findByUser).orElseThrow(() -> new RuntimeException("User not found"));
+//    }
 
     public UserPoints addUserPoints(int userId, int points) {
         User user = userRepository.findById((long) userId).orElseThrow(() -> new RuntimeException("User not found"));
