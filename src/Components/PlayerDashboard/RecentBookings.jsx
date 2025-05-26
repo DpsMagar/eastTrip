@@ -206,7 +206,6 @@ export default function RecentBookings() {
               <p className="booking-type">
                 if(booking.innType==1){
                   "Hotel • "     
-
                 }
               </p>
               <p className="booking-id">Booking ID: {booking.colsId}</p>
