@@ -21,7 +21,7 @@ public class HomestayReviewController {
     @PostMapping
     public HomestayReview addReview(@RequestBody HomestayReviewRequestDTO request) {
         return reviewService.createReview(
-                request.homestayId, request.userId, request.rating, request.comment
+                request.hId, request.userId, request.rating, request.comment
         );
     }
 

@@ -27,8 +27,8 @@ public class HotelReviewService {
         this.userRepo = userRepo;
     }
 
-    public HotelReview createReview(Long hotelId, Long userId, int rating, String comment) {
-        Hotel hotel = hotelRepo.findById(hotelId).orElseThrow();
+    public HotelReview createReview(Long hId, Long userId, int rating, String comment) {
+        Hotel hotel = hotelRepo.findById(hId).orElseThrow();
         User user = userRepo.findById(userId).orElseThrow();
 
         HotelReview review = new HotelReview();
@@ -47,7 +47,7 @@ public class HotelReviewService {
         List<HotelReviewRequestDTO> hotelReviewRequest = new ArrayList<>();
         for (HotelReview review : hotelReview) {
             HotelReviewRequestDTO request = new HotelReviewRequestDTO();
-            request.setHotelId(review.getHotel().getId());
+            request.setHId(review.getHotel().getId());
             request.setUserId(review.getUser().getId());
             request.setRating(review.getRating());
             request.setComment(review.getComment());

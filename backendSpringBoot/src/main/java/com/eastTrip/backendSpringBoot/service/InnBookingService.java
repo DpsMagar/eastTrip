@@ -52,7 +52,7 @@ public class InnBookingService {
             }
 
             int totalPrice = dto.getTotalPrice() * days;
-            int earnedPoints = (int) (totalPrice * 0.1); // 10% reward points
+            int earnedPoints = (int) (totalPrice * 0.1);
 
             InnBooking existingBooking = innBookingRepository.findByUserIdAndInnIdAndInnType(
                     dto.getUserId(), dto.getInnId(), dto.getInnType());

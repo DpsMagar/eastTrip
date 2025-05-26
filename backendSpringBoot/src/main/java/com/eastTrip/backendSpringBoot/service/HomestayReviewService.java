@@ -29,8 +29,8 @@ public class HomestayReviewService {
         this.userRepo = userRepo;
     }
 
-    public HomestayReview createReview(Long homestayId, Long userId, int rating, String comment) {
-        HomeStay homestay = homestayRepo.findById(Math.toIntExact(homestayId)).orElseThrow();
+    public HomestayReview createReview(Long hId, Long userId, int rating, String comment) {
+        HomeStay homestay = homestayRepo.findById(Math.toIntExact(hId)).orElseThrow();
         User user = userRepo.findById(userId).orElseThrow();
 
         HomestayReview review = new HomestayReview();
@@ -50,7 +50,7 @@ public class HomestayReviewService {
 
         for (HomestayReview review : homestayReview) {
             HomestayReviewRequestDTO request = new HomestayReviewRequestDTO();
-            request.setHomestayId((long) review.getHomestay().getId());
+            request.setHId((long) review.getHomestay().getId());
             request.setUserId(review.getUser().getId());
             request.setRating(review.getRating());
             request.setComment(review.getComment());

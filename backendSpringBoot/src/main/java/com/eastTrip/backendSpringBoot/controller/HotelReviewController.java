@@ -20,7 +20,7 @@ public class HotelReviewController {
     @PostMapping
     public HotelReview addReview(@RequestBody HotelReviewRequestDTO request) {
         return reviewService.createReview(
-                request.hotelId, request.userId, request.rating, request.comment
+                request.hId, request.userId, request.rating, request.comment
         );
     }
 
