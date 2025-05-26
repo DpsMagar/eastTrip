@@ -43,7 +43,7 @@ export default function RecentBookings() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/inn-bookings/user/${userId}`);
+        const response = await axios.get(`https://easttrip.onrender.com/api/inn-bookings/user/${userId}`);
         setBookings(response.data);
         console.log("------------------");
         console.log(response.data);
@@ -71,126 +71,114 @@ export default function RecentBookings() {
     setSelectedBooking(null);
   };
 
-  const handlePrintDetails = (booking) => {
-    const printWindow = window.open("", "_blank");
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Flight E-Ticket</title>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              padding: 40px;
-              background: #fff;
-              color: #000;
-            }
-            .ticket-container {
-              max-width: 800px;
-              margin: 0 auto;
-              border: 2px solid #0a6c4e;
-              padding: 30px;
-            }
-            .ticket-header {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              margin-bottom: 30px;
-            }
-            .ticket-header img {
-              height: 30px;
-            }
-            .ticket-title {
-              text-align: center;
-              color: green;
-              font-weight: bold;
-              font-size: 20px;
-              margin-top: 10px;
-            }
-            .section-title {
-              font-weight: bold;
-              margin: 25px 0 10px;
-              font-size: 16px;
-            }
-            table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-bottom: 15px;
-            }
-            td, th {
-              border: 1px solid #333;
-              padding: 8px 12px;
-              font-size: 14px;
-              text-align: left;
-            }
-            .report-time {
-              font-weight: bold;
-              color: #cc0000;
-              margin-top: 20px;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="ticket-container">
-            <div class="ticket-header">
-              <img src={logo}>
-              <div class="ticket-title">E-Ticket</div>
-            
-            </div>
-  
-            <p><strong>THIS ELECTRONIC TICKET</strong> is not transferable and must be presented at check-in. Please present ID card and all necessary travel documents.</p>
-  
-            <div class="section-title">Booking Details</div>
-            <table>
-              <tr>
-                <td><strong>PNR No:</strong></td><td>IH5PPB</td>
-                <td><strong>Refundable:</strong></td><td>No</td>
-              </tr>
-              <tr>
-                <td><strong>Passenger Name:</strong></td><td>John Doe</td>
-                <td><strong>Nationality:</strong></td><td>Nepalese</td>
-              </tr>
-              <tr>
-                <td><strong>Passenger Type:</strong></td><td>Adult</td>
-                <td><strong>Ticket No:</strong></td><td>GH123456</td>
-              </tr>
-              <tr>
-                <td><strong>Baggage:</strong></td><td>15 KG</td>
-                <td><strong>Status:</strong></td><td>${booking.status}</td>
-              </tr>
-            </table>
-  
-            <div class="section-title">Flight Details</div>
-            <table>
-              <tr>
-                <td><strong>Sector:</strong></td><td>${booking.from} - ${booking.destination}</td>
-                <td><strong>Flight No:</strong></td><td>GG123</td>
-              </tr>
-              <tr>
-                <td><strong>Flight Time:</strong></td><td>${booking.date}</td>
-                <td><strong>Class:</strong></td><td>E</td>
-              </tr>
-              <tr>
-                <td><strong>Flight Charge (NPR):</strong></td><td colspan="3">Rs ${booking.price || 'XXXX'}</td>
-              </tr>
-            </table>
-  
-            <div class="section-title">Transaction Details</div>
-            <table>
-              <tr>
-                <td><strong>Transaction ID:</strong></td><td>0TUP6YS</td>
-                <td><strong>Transaction Date:</strong></td><td>26-Feb-2025 08:10 NPT</td>
-                <td><strong>Total Amount:</strong></td><td>Rs ${booking.price || 'XXXX'}</td>
-              </tr>
-            </table>
-  
-            <p class="report-time">REPORTING TIME - 1 hour prior of flight time.</p>
+const handlePrintDetails = (booking) => {
+  const printWindow = window.open("", "_blank");
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>Booking E-Ticket</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background: #fff;
+            color: #000;
+          }
+          .ticket-container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid #0a6c4e;
+            padding: 30px;
+          }
+          .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+          }
+          .ticket-header img {
+            height: 30px;
+          }
+          .ticket-title {
+            text-align: center;
+            color: green;
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 10px;
+          }
+          .section-title {
+            font-weight: bold;
+            margin: 25px 0 10px;
+            font-size: 16px;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+          }
+          td, th {
+            border: 1px solid #333;
+            padding: 8px 12px;
+            font-size: 14px;
+            text-align: left;
+          }
+          .report-time {
+            font-weight: bold;
+            color: #cc0000;
+            margin-top: 20px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="ticket-container">
+          <div class="ticket-header">
+            <img src="${window.location.origin}/logo-color.png" alt="Logo">
+            <div class="ticket-title">Accommodation E-Ticket</div>
           </div>
-        </body>
-      </html>
-    `);
-    printWindow.document.close();
-    printWindow.print();
-  };
+
+          <p><strong>NOTE:</strong> This e-ticket must be presented during check-in along with valid ID.</p>
+
+          <div class="section-title">Booking Details</div>
+          <table>
+            <tr>
+              <td><strong>Booking ID:</strong></td><td>${booking.colsId}</td>
+              <td><strong>Status:</strong></td><td>${booking.status}</td>
+            </tr>
+            <tr>
+              <td><strong>Guest Name:</strong></td><td>${booking.name}</td>
+              <td><strong>Booking Type:</strong></td><td>${booking.innType === 1 ? "Hotel" : "Homestay"}</td>
+            </tr>
+            <tr>
+              <td><strong>Check-in Date:</strong></td><td>${booking.checkInDate}</td>
+              <td><strong>Check-out Date:</strong></td><td>${booking.checkOutDate}</td>
+            </tr>
+            <tr>
+              <td><strong>Guests:</strong></td><td>${booking.totalGuests || 'N/A'}</td>
+              <td><strong>Room Type:</strong></td><td>${booking.roomType || 'Standard'}</td>
+            </tr>
+          </table>
+
+          <div class="section-title">Payment Details</div>
+          <table>
+            <tr>
+              <td><strong>Payment Method:</strong></td><td>Online</td>
+              <td><strong>Total Amount:</strong></td><td>Rs ${booking.price || 'XXXX'}</td>
+            </tr>
+            <tr>
+              <td><strong>Transaction ID:</strong></td><td>${booking.transactionId || 'N/A'}</td>
+              <td><strong>Transaction Date:</strong></td><td>${booking.transactionDate || 'N/A'}</td>
+            </tr>
+          </table>
+
+          <p class="report-time">Check-in Time: Please arrive at least 30 minutes before your check-in time.</p>
+        </div>
+      </body>
+    </html>
+  `);
+  printWindow.document.close();
+  printWindow.print();
+};
+
   
   
 
@@ -217,7 +205,7 @@ export default function RecentBookings() {
             </div>
 
             <div className="rate-it">
-              {booking.status === "Completed" ? (
+              {booking.status === "completed" ? (
                 <button
                   className="rate-button"
                   onClick={() => handleRateClick(booking)}
