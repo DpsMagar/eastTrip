@@ -123,28 +123,38 @@ public class InnBookingService {
         userPointsRepository.save(userPoints);
     }
 
+
     public List<InnBookingResponseDTO> getBookingsByUserId(Long userId) {
         List<InnBooking> bookings = innBookingRepository.findByUser_Id(userId);
         User user = userRepository.findById(userId).orElseThrow();
         UserPoints userPoints = userPointsRepository.findByUser(user);
 
         int points = (userPoints != null) ? userPoints.getPoints() : 0;
+        LocalDate today = LocalDate.now();
 
         return bookings.stream()
-                .map(booking -> InnBookingResponseDTO.builder()
-                        .colsId(booking.getId())
-                        .name(booking.getName())
-                        .userId(booking.getUser().getId())
-                        .innId(booking.getInnId())
-                        .numberOfRooms((long) booking.getNumberOfRooms())
-                        .checkInDate(booking.getCheckInDate().toString())
-                        .checkOutDate(booking.getCheckOutDate().toString())
-                        .numberOfGuests(booking.getNumberOfGuests())
-                        .totalPrice(booking.getTotalPrice())
-                        .innType(booking.getInnType())
-                        .hasPaid(booking.isHasPaid())
-                        .points(points)
-                        .build())
+                .map(booking -> {
+                    LocalDate checkOutDate = booking.getCheckOutDate();
+                    // Add 1 day grace period
+                    LocalDate graceDate = checkOutDate.plusDays(1);
+                    String status = today.isAfter(graceDate) ? "completed" : "ongoing";
+
+                    return InnBookingResponseDTO.builder()
+                            .colsId(booking.getId())
+                            .name(booking.getName())
+                            .userId(booking.getUser().getId())
+                            .innId(booking.getInnId())
+                            .numberOfRooms((long) booking.getNumberOfRooms())
+                            .checkInDate(booking.getCheckInDate().toString())
+                            .checkOutDate(checkOutDate.toString())
+                            .numberOfGuests(booking.getNumberOfGuests())
+                            .totalPrice(booking.getTotalPrice())
+                            .innType(booking.getInnType())
+                            .hasPaid(booking.isHasPaid())
+                            .points(points)
+                            .status(status)
+                            .build();
+                })
                 .collect(Collectors.toList());
     }
 
