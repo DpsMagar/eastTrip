@@ -1,8 +1,11 @@
 "use client"
+import React, { useState } from "react"
 import "./Bill.css"
 import { IoClose } from "react-icons/io5"
 
 const Bill = (props) => {
+  const [bookingSuccess, setBookingSuccess] = useState(false)
+
   const {
     SeatNumber,
     onClose,
@@ -28,6 +31,18 @@ const Bill = (props) => {
 
   const handleBillClick = (e) => {
     e.stopPropagation()
+  }
+
+  if (bookingSuccess) {
+    return (
+      <div className="bill-box success-message">
+        <h2>✅ Booking Successful!</h2>
+        <p>Thank you for choosing {airway}. Have a safe flight!</p>
+        <button className="button" onClick={onClose}>
+          Close
+        </button>
+      </div>
+    )
   }
 
   return (
@@ -105,7 +120,9 @@ const Bill = (props) => {
         </div>
       </div>
 
-      <button className="button">Proceed</button>
+      <button className="button" onClick={() => setBookingSuccess(true)}>
+        Proceed
+      </button>
     </div>
   )
 }

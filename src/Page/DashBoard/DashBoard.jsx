@@ -37,7 +37,14 @@ const[userInfo, setUserInfo]= useState([])
       TitleImage: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Estadio_Santiago_Bernabéu_Madrid.jpg",
       Title: "Santiago Bernabéu visit",
       RewardCost: 10000
+    },
+    {
+      id: 3,
+      TitleImage: "https://media-cdn.tripadvisor.com/media/photo-c/1280x250/0c/5d/17/bd/muktinath-temple.jpg",
+      Title: "Mustang visit",
+      RewardCost: 9000
     }
+ 
   ])
 
   const profile = {

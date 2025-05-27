@@ -4,29 +4,14 @@ import PlaneDetail from "./PlaneDetail"
 import Bill from "./Bill"
 import { useState } from "react"
 
-const FlightCard = () => {
+const FlightCard = ({ flight }) => {
   const [showPlaneDetail, setShowPlaneDetail] = useState(false)
   const [showBillDetail, setShowBillDetail] = useState(false)
 
-  const flight = {
-    fightlogo: "https://www.buddhaair.com/images/buddhaair.png",
-    airway: "Buddha Air",
-    flightNumber: "U4 123",
-    departure: "08:00",
-    from: "Kathmandu",
-    fromcode: "KTM",
-    flightDuration: "1h 10m",
-    arrival: "09:10",
-    to: "Pokhara",
-    tocode: "PKR",
-    price: "7500",
-    SeatNumber: "A3",
-  }
-
   const handleOverlayClick = () => {
-    setShowPlaneDetail(false);
-    setShowBillDetail(false);
-  };
+    setShowPlaneDetail(false)
+    setShowBillDetail(false)
+  }
 
   return (
     <div className="flight-card">
@@ -93,7 +78,7 @@ const FlightCard = () => {
       </div>
 
       {/* Flight Details Link */}
-      <div className="flight-details-link">
+      {/* <div className="flight-details-link">
         <a
           href="#"
           onClick={(e) => {
@@ -103,27 +88,27 @@ const FlightCard = () => {
         >
           View Flight Details
         </a>
-      </div>
+      </div> */}
 
-      {/* Plane Detail Popup */}
+      {/* Plane Detail Modal */}
       {showPlaneDetail && (
         <div className="plane-detail-modal">
           <div className="modal-overlay" onClick={handleOverlayClick}></div>
           <PlaneDetail
-            SeatNumber={flight.SeatNumber}
-            flightLogo={flight.fightlogo}
+            SeatNumber={flight.SeatNumber || "N/A"}
+            flightLogo={flight.flightlogo}
             onClose={() => setShowPlaneDetail(false)}
           />
         </div>
       )}
 
-      {/* Bill Detail Popup */}
+      {/* Bill Modal */}
       {showBillDetail && (
         <div className="plane-detail-modal">
           <div className="modal-overlay" onClick={handleOverlayClick}></div>
           <Bill
-            SeatNumber={flight.SeatNumber}
-            flightLogo={flight.fightlogo}
+            SeatNumber={flight.SeatNumber || "N/A"}
+            flightLogo={flight.flightlogo}
             price={flight.price}
             onClose={() => setShowBillDetail(false)}
           />

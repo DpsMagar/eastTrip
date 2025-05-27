@@ -30,7 +30,7 @@ export default function PlaneResult() {
       },
       {
         id: 2,
-        fightlogo: "https://www.yetiairlines.com/images/yeti-logo.png",
+        fightlogo: "https://logowik.com/content/uploads/images/yeti-airlines9959.logowik.com.webp",
         airway: "Yeti Airlines",
         flightNumber: "YT456",
         to: "Chitwan",
@@ -49,7 +49,7 @@ export default function PlaneResult() {
       },
       {
         id: 3,
-        fightlogo: "https://www.shreeairlines.com/images/logo.png",
+        fightlogo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlRGuywerv-ApTeUOg19PQAGF0T9wEw-I3ww&s",
         airway: "Shree Airlines",
         flightNumber: "SA789",
         to: "Biratnagar",
@@ -68,7 +68,7 @@ export default function PlaneResult() {
       },
       {
         id: 4,
-        fightlogo: "https://www.summitair.com.np/images/logo.png",
+        fightlogo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwmxiyZCZu3PIweeiLnmODntybw6c0RXxelA&s",
         airway: "Summit Air",
         flightNumber: "SM123",
         to: "Lukla",
@@ -87,8 +87,8 @@ export default function PlaneResult() {
       },
       {
         id: 4,
-        fightlogo: "https://www.summitair.com.np/images/logo.png",
-        airway: "Siuuuu",
+        fightlogo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlRGuywerv-ApTeUOg19PQAGF0T9wEw-I3ww&s",
+        airway: "Shree Airlines",
         flightNumber: "SM123",
         to: "Lukla",
         from: "Kathmandu",
