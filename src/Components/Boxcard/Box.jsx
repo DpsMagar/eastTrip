@@ -10,7 +10,7 @@ function Box({ hotel, index }) {
   // console.log(hotel);
   // console.log(index);
   console.log("Box");
-  console.log(hotel.hotelName);
+  console.log(hotel);
   
 
   // Merge with defaults to prevent errors from missing properties
@@ -96,7 +96,7 @@ const ratingtext = (() => {
           <div className="rating-badge">
             {ratingtext} {hotel.rating}
             <div className="reviews-count">({hotel.reviews} Ratings)</div>
-          </div>
+          </div>  
 
           <div className="price-container">
             <div className="price">Rs {hotel.price}</div>
