@@ -18,10 +18,10 @@ public class UserPoints {
 
     private Integer points;
 
-    @PrePersist
-    public void prePersist() {
-        if (points == null) {
-            points= 1000;
-        }
-    }
+//    @PrePersist
+//    public void prePersist() {
+//        if (points == null) {
+//            points= 1000;
+//        }
+//    }
 }

@@ -3,6 +3,7 @@ package com.eastTrip.backendSpringBoot.controller;
 import com.eastTrip.backendSpringBoot.model.UserPoints;
 import com.eastTrip.backendSpringBoot.service.UserPointsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,5 +44,14 @@ public class UserPointsController {
     @DeleteMapping("/{id}")
     public void deleteUserPoints(@PathVariable int id) {
         userPointsService.deleteUserPoints(id);
+    }
+
+    @PostMapping("/redeem")
+    public ResponseEntity<UserPoints> redeemUserPoints(
+            @RequestParam Long userId,
+            @RequestParam int pointsToRedeem) {
+
+        UserPoints updatedUserPoints = userPointsService.redeemPoints(userId, pointsToRedeem);
+        return ResponseEntity.ok(updatedUserPoints);
     }
 }

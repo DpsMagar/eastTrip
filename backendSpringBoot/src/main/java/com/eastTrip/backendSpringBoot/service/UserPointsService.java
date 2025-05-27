@@ -6,6 +6,7 @@ import com.eastTrip.backendSpringBoot.repository.UserPointsRepository;
 import com.eastTrip.backendSpringBoot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,5 +50,20 @@ public class UserPointsService {
 
     public void deleteUserPoints(int id) {
         userPointsRepository.deleteById(id);
+    }
+
+    @Transactional
+    public UserPoints redeemPoints(Long userId, int pointsToRedeem) {
+        UserPoints userPoints = userPointsRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("UserPoints not found for userId: " + userId));
+
+        int currentPoints = userPoints.getPoints() == null ? 0 : userPoints.getPoints();
+
+        if (pointsToRedeem > currentPoints) {
+            throw new RuntimeException("Insufficient points. Current points: " + currentPoints);
+        }
+
+        userPoints.setPoints(currentPoints - pointsToRedeem);
+        return userPointsRepository.save(userPoints);
     }
 }
