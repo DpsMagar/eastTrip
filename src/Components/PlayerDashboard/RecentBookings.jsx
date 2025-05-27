@@ -36,7 +36,7 @@ export default function RecentBookings() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/inn-bookings/user/${userId}`);
+        const response = await axios.get(`https://easttrip.onrender.com/api/inn-bookings/user/${userId}`);
         setBookings(response.data);
       } catch (err) {
         setError("Failed to fetch bookings");
@@ -180,67 +180,77 @@ export default function RecentBookings() {
     <div className="bookings-container">
       <h2 className="section-title">Recent Bookings</h2>
 
-      <div className="bookings-list">
-        {currentBookings.map((booking) => (
-          <div key={booking.colsId} className="booking-card">
-            <div className="booking-info">
-              <h3 className="booking-destination">{booking.name}</h3>
-              <p className="booking-type">
-                {booking.innType === 1 ? "Hotel •  " : "HomeStay •  "}
-                {booking.checkInDate.slice(5)} - {booking.checkOutDate.slice(5)}
-              </p>
-              <p className="booking-id">Booking ID: {booking.colsId}</p>
-            </div>
-
-            <div className="booking-status">
-              <span className={`status-badge ${booking.status.toLowerCase()}`}>
-                {booking.status}
-              </span>
-            </div>
-
-            <div className="rate-it">
-              {booking.status === "completed" ? (
-                <button
-                  className="rate-button"
-                  onClick={() => handleRateClick(booking)}
-                >
-                  Rate It
-                </button>
-              ) : (
-                <button
-                  className="details-button"
-                  onClick={() => handlePrintDetails(booking)}
-                >
-                  View Details
-                </button>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {booking.length >= 4 && (
-        <div className="pagination-container1">
-          <button 
-            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
-            disabled={currentPage === 1}
-            className="pagination-button"
-          >
-            Previous
-          </button>
-          
-          <div className="page-number-box">
-            {currentPage}
-          </div>
-          
-          <button 
-            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
-            disabled={currentPage === totalPages}
-            className="pagination-button"
-          >
-            Next
-          </button>
+      {loading ? (
+        <div className="loading-message">Loading your bookings...</div>
+      ) : booking.length === 0 ? (
+        <div className="no-bookings-message">
+          No bookings yet. Your journey is just waiting to begin!
         </div>
+      ) : (
+        <>
+          <div className="bookings-list">
+            {currentBookings.map((booking) => (
+              <div key={booking.colsId} className="booking-card">
+                <div className="booking-info">
+                  <h3 className="booking-destination">{booking.name}</h3>
+                  <p className="booking-type">
+                    {booking.innType === 1 ? "Hotel •  " : "HomeStay •  "}
+                    {booking.checkInDate.slice(5)} - {booking.checkOutDate.slice(5)}
+                  </p>
+                  <p className="booking-id">Booking ID: {booking.colsId}</p>
+                </div>
+
+                <div className="booking-status">
+                  <span className={`status-badge ${booking.status.toLowerCase()}`}>
+                    {booking.status}
+                  </span>
+                </div>
+
+                <div className="rate-it">
+                  {booking.status === "completed" ? (
+                    <button
+                      className="rate-button"
+                      onClick={() => handleRateClick(booking)}
+                    >
+                      Rate It
+                    </button>
+                  ) : (
+                    <button
+                      className="details-button"
+                      onClick={() => handlePrintDetails(booking)}
+                    >
+                      View Details
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {booking.length >= 4 && (
+            <div className="pagination-container1">
+              <button 
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
+                disabled={currentPage === 1}
+                className="pagination-button"
+              >
+                Previous
+              </button>
+              
+              <div className="page-number-box">
+                {currentPage}
+              </div>
+              
+              <button 
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
+                disabled={currentPage === totalPages}
+                className="pagination-button"
+              >
+                Next
+              </button>
+            </div>
+          )}
+        </>
       )}
 
       {showRating && selectedBooking && (
