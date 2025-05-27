@@ -30,13 +30,13 @@ const[userInfo, setUserInfo]= useState([])
       id: 1,
       TitleImage: "https://media.app.nepalguidetrekking.com/uploads/media/BlogImages/Rara-Lake-View.jpg",
       Title: "Rara Lake visit",
-      RewardCost: 10000
+      RewardCost: 100
     },
     {
       id: 2,
       TitleImage: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Estadio_Santiago_Bernabéu_Madrid.jpg",
       Title: "Santiago Bernabéu visit",
-      RewardCost: 30000
+      RewardCost: 10000
     }
   ])
 
@@ -150,6 +150,7 @@ const[userInfo, setUserInfo]= useState([])
               {rewards.map((rewardItem) => (
                 <RewardBox 
                   key={rewardItem.id} 
+                  value={userInfo.rewardPoints}
                   Reward={rewardItem} 
                   onRedeem={handleRedeem}
                 />
