@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthContext"
 import Login from "../LogIn/Login"
 import SignUp from "../SignUp/SignUp"
 import "./NavBar.css"
-import image from "../../Assest/profile.jpg"
+import image from "../../Assest/nonprofile.png"
 import { IoMdClose } from "react-icons/io";
 
 export default function NavBar() {

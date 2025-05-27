@@ -6,7 +6,7 @@ import RecentBookings from "../../Components/PlayerDashboard/RecentBookings"
 import RewardBox from "../../Components/PlayerDashboard/RewardBox"
 import "./DashBoard.css"
 import Trophy from '../../Assest/trophy.png'
-import profile1 from "../../Assest/profile.png"
+import profile1 from "../../Assest/nonprofile.png"
 import booking from "../../Assest/booking.png"
 import redeem from "../../Assest/redeem.png"
 import axios from "axios"
@@ -41,7 +41,7 @@ const[userInfo, setUserInfo]= useState([])
   ])
 
   const profile = {
-    ProfileImage: "https://pbs.twimg.com/media/CBOD2lJVAAAAg6b.jpg",
+    ProfileImage: profile1,
     Firstname: "John",
     Lastname: "Doe",
     Email: "john.doe@gmail.com",
